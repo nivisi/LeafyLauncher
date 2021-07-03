@@ -1,0 +1,7 @@
+include: package:effective_dart/analysis_options.yaml
+
+linter:
+  rules:
+    await_only_futures: true
+    public_member_api_docs: false
+    type_annotate_public_apis: false
