@@ -37,7 +37,9 @@ class HomeController extends StatusControllerBase {
       '${AppRoutes.appPicker}/${UserSelectedAppType.left.stringify()}',
     );
 
-    _userApplicationsController.setApp(app, UserSelectedAppType.left);
+    if (app != null) {
+      _userApplicationsController.setApp(app, UserSelectedAppType.left);
+    }
   }
 
   Future onRightSwipe() async {
@@ -53,7 +55,9 @@ class HomeController extends StatusControllerBase {
       '${AppRoutes.appPicker}/${UserSelectedAppType.right.stringify()}',
     );
 
-    _userApplicationsController.setApp(app, UserSelectedAppType.right);
+    if (app != null) {
+      _userApplicationsController.setApp(app, UserSelectedAppType.right);
+    }
   }
 
   Future openSettings() async {
