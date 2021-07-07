@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../utils/gesture_processer.dart';
 import 'curved_background.dart';
@@ -28,6 +29,7 @@ class HomeGestureDetector extends StatefulWidget {
 
 class _HomeGestureDetectorState extends State<HomeGestureDetector>
     with TickerProviderStateMixin {
+  static const swipeControllerThreshold = .98;
   static const offsetMultipler = 50.0;
   static const swipeIconSize = 55.0;
   static const appStartingOffset = 50.0;
@@ -35,8 +37,6 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   late final AnimationController _leftController;
   late final AnimationController _rightController;
   late final AnimationController _childController;
-
-  final VelocityTracker _vt = VelocityTracker.withKind(PointerDeviceKind.touch);
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     );
   }
 
-  void _onHorizontalUpdate(DragUpdateDetails details) {
+  void _onHorizontalUpdate(DragUpdateDetails details) async {
     final direction = details.delta.dx > .0 ? Direction.right : Direction.left;
 
     final deltaX = details.delta.dx / 130.0;
@@ -93,6 +93,10 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
           val = 0.0;
         }
 
+        if (val >= swipeControllerThreshold && _rightController.value < .99) {
+          HapticFeedback.selectionClick();
+        }
+
         _rightController.value = val;
 
         break;
@@ -119,7 +123,12 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
           val = 0.0;
         }
 
+        if (val >= swipeControllerThreshold && _leftController.value < .99) {
+          HapticFeedback.selectionClick();
+        }
+
         _leftController.value = val;
+
         break;
       case Direction.up:
       case Direction.down:
@@ -142,12 +151,12 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   }
 
   void _onHorizontalDragEnd(DragEndDetails details) async {
-    if (_leftController.value == 1.0) {
+    if (_leftController.value >= swipeControllerThreshold) {
       widget.onLeftSwipe();
 
       _hideIcons();
       return;
-    } else if (_rightController.value == 1.0) {
+    } else if (_rightController.value >= swipeControllerThreshold) {
       widget.onRightSwipe();
 
       _hideIcons();
@@ -161,24 +170,8 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     if (visualVelocity.abs() > minFlingVelocity) {
       if (visualVelocity < 0.0) {
         widget.onLeftSwipe();
-
-        await _leftController.animateTo(
-          1.0,
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.easeOut,
-        );
-
-        await Future.delayed(const Duration(milliseconds: 500));
       } else {
         widget.onRightSwipe();
-
-        await _rightController.animateTo(
-          1.0,
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.easeOut,
-        );
-
-        await Future.delayed(const Duration(milliseconds: 500));
       }
     }
 
@@ -189,6 +182,12 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onHorizontalDragUpdate: _onHorizontalUpdate,
+          onHorizontalDragEnd: _onHorizontalDragEnd,
+          onLongPress: widget.onLongPress,
+        ),
         FadeTransition(
           opacity: _childController,
           child: widget.child,
@@ -264,12 +263,6 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
               ],
             );
           },
-        ),
-        GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onHorizontalDragUpdate: _onHorizontalUpdate,
-          onHorizontalDragEnd: _onHorizontalDragEnd,
-          onLongPress: widget.onLongPress,
         ),
       ],
     );

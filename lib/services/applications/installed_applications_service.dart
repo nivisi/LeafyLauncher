@@ -85,8 +85,10 @@ class InstalledApplicationsService with LogableMixin {
     }
   }
 
-  Future launch(Application app) {
-    return appChannel.invokeMethod(
+  Future launch(Application app) async {
+    HapticFeedback.selectionClick();
+
+    appChannel.invokeMethod(
       'launch',
       {
         'packageName': app.package,
