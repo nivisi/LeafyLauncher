@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../utils/gesture_processer.dart';
@@ -34,6 +35,8 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   late final AnimationController _leftController;
   late final AnimationController _rightController;
   late final AnimationController _childController;
+
+  final VelocityTracker _vt = VelocityTracker.withKind(PointerDeviceKind.touch);
 
   @override
   void initState() {
@@ -125,13 +128,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     }
   }
 
-  void _onHorizontalDragEnd(DragEndDetails details) {
-    if (_leftController.value == 1.0) {
-      widget.onLeftSwipe();
-    } else if (_rightController.value == 1.0) {
-      widget.onRightSwipe();
-    }
-
+  void _hideIcons() {
     _leftController.animateTo(
       .0,
       duration: const Duration(milliseconds: 250),
@@ -142,6 +139,50 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeOut,
     );
+  }
+
+  void _onHorizontalDragEnd(DragEndDetails details) async {
+    if (_leftController.value == 1.0) {
+      widget.onLeftSwipe();
+
+      _hideIcons();
+      return;
+    } else if (_rightController.value == 1.0) {
+      widget.onRightSwipe();
+
+      _hideIcons();
+      return;
+    }
+
+    final minFlingVelocity = 5.0;
+
+    final visualVelocity = details.velocity.pixelsPerSecond.dx / Get.width;
+
+    if (visualVelocity.abs() > minFlingVelocity) {
+      if (visualVelocity < 0.0) {
+        widget.onLeftSwipe();
+
+        await _leftController.animateTo(
+          1.0,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+        );
+
+        await Future.delayed(const Duration(milliseconds: 500));
+      } else {
+        widget.onRightSwipe();
+
+        await _rightController.animateTo(
+          1.0,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+        );
+
+        await Future.delayed(const Duration(milliseconds: 500));
+      }
+    }
+
+    _hideIcons();
   }
 
   @override
