@@ -4,10 +4,10 @@ import '../utils/gesture_processer.dart';
 
 class CurvePainter extends CustomPainter {
   static const firstXStop = 10.0;
-  static const secondXStop = 25.0;
-  static const thirdXStop = 70.0;
+  static const secondXStop = 35.0;
+  static const thirdXStop = 80.0;
 
-  static const firstYStop = .35;
+  static const firstYStop = .25;
   static const secondYStop = .43;
   static const thirdYStop = .45;
   static const fourthYStop = .5;

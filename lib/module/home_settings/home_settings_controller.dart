@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../../base/controller/status_controller_base.dart';
 import '../../services/applications/application.dart';
-import '../../services/applications/user_applications.dart';
+import '../../services/applications/user_applications_controller.dart';
 
 class HomeSettingsController extends StatusControllerBase {
   late final UserApplicationsController _userApplicationsController;

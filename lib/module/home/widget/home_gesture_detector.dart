@@ -27,8 +27,9 @@ class HomeGestureDetector extends StatefulWidget {
 
 class _HomeGestureDetectorState extends State<HomeGestureDetector>
     with TickerProviderStateMixin {
-  static const offsetMultipler = 45.0;
-  static const swipeIconSize = 40.0;
+  static const offsetMultipler = 50.0;
+  static const swipeIconSize = 55.0;
+  static const appStartingOffset = 50.0;
 
   late final AnimationController _leftController;
   late final AnimationController _rightController;
@@ -176,9 +177,12 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
                   ),
                 ),
                 Positioned(
-                  child: child!,
-                  left: val - 40.0,
+                  left: val - appStartingOffset,
                   top: (Get.size.height - swipeIconSize) / 2.0,
+                  child: Opacity(
+                    opacity: _rightController.value,
+                    child: child!,
+                  ),
                 ),
               ],
             );
@@ -209,9 +213,12 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
                   ),
                 ),
                 Positioned(
-                  child: child!,
-                  right: val - 40.0,
+                  right: val - appStartingOffset,
                   bottom: (Get.size.height - swipeIconSize) / 2.0,
+                  child: Opacity(
+                    opacity: _leftController.value,
+                    child: child!,
+                  ),
                 ),
               ],
             );

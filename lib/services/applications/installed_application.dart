@@ -5,6 +5,4 @@ class InstalledApplication extends Application {
     required String name,
     required String package,
   }) : super(name: name, package: package);
-
-  Future launch() async {}
 }

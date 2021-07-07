@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:get/get.dart';
 
 import '../../app_routes.dart';
@@ -86,6 +88,12 @@ class UserApplicationsController extends StatusControllerBase {
     }
   }
 
+  Uint8List? _leftAppIcon;
+  Uint8List? _rightAppIcon;
+
+  Uint8List? get leftAppIcon => _leftAppIcon;
+  Uint8List? get rightAppIcon => _rightAppIcon;
+
   Application? getApp(UserSelectedAppType type) {
     switch (type) {
       case UserSelectedAppType.first:
@@ -107,12 +115,22 @@ class UserApplicationsController extends StatusControllerBase {
 
   @override
   Future load() async {
-    _restore(_firstAppSetter, appFirstKey);
-    _restore(_secondAppSetter, appSecondKey);
-    _restore(_thirdAppSetter, appThirdKey);
-    _restore(_fourthAppSetter, appFourthKey);
-    _restore(_leftAppSetter, _appSwipeLeftKey);
-    _restore(_rightAppSetter, _appSwipeRightKey);
+    await _restore(_firstAppSetter, appFirstKey);
+    await _restore(_secondAppSetter, appSecondKey);
+    await _restore(_thirdAppSetter, appThirdKey);
+    await _restore(_fourthAppSetter, appFourthKey);
+    await _restore(_leftAppSetter, _appSwipeLeftKey);
+    await _restore(_rightAppSetter, _appSwipeRightKey);
+
+    if (swipeLeftApp != null) {
+      final icon = await _installedApplications.getAppIcon(swipeLeftApp!);
+      _leftAppIcon = icon;
+    }
+
+    if (swipeRightApp != null) {
+      final icon = await _installedApplications.getAppIcon(swipeRightApp!);
+      _rightAppIcon = icon;
+    }
   }
 
   Future _restore(_AppSetter setter, String key) async {
@@ -146,6 +164,14 @@ class UserApplicationsController extends StatusControllerBase {
 
   Future setApp(Application app, UserSelectedAppType type) async {
     await _setApp(app, type);
+
+    if (type == UserSelectedAppType.left) {
+      final icon = await _installedApplications.getAppIcon(app);
+      _leftAppIcon = icon;
+    } else if (type == UserSelectedAppType.right) {
+      final icon = await _installedApplications.getAppIcon(app);
+      _rightAppIcon = icon;
+    }
 
     update([getBuilderId(type)]);
 
@@ -182,5 +208,9 @@ class UserApplicationsController extends StatusControllerBase {
     }
 
     await setApp(application, type);
+  }
+
+  Future launchApp(Application application) {
+    return _installedApplications.launch(application);
   }
 }

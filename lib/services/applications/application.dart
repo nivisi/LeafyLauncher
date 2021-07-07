@@ -6,6 +6,4 @@ abstract class Application {
     required this.name,
     required this.package,
   });
-
-  Future launch();
 }

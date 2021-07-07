@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:flutter/services.dart';
 
 import '../../utils/log/logable_mixin.dart';
 import 'application.dart';
@@ -6,6 +10,10 @@ import 'installed_application.dart';
 import 'leafy_application.dart';
 
 class InstalledApplicationsService with LogableMixin {
+  static const appChannel = MethodChannel(
+    'com.nivisi.leafy_launcher/applicationChannel',
+  );
+
   static InstalledApplicationsService? _instance;
 
   InstalledApplicationsService._();
@@ -23,13 +31,23 @@ class InstalledApplicationsService with LogableMixin {
   Future _init() async {
     logger.i('Initializing installed applications ...');
 
-    _installedApps = [
-      const InstalledApplication(name: 'First App', package: '12'),
-      const InstalledApplication(name: 'Second App', package: '13'),
-      const InstalledApplication(name: 'Third App', package: '14'),
-      const InstalledApplication(name: 'Fourth App', package: '15'),
-      const InstalledApplication(name: 'Fifth App', package: '16'),
-    ];
+    await appChannel.invokeMethod('initApps');
+
+    final apps = await appChannel.invokeMethod('getApps');
+
+    final maps = apps as List;
+
+    final parsed = maps.map((item) {
+      final map = item as Map;
+
+      return InstalledApplication(name: map['name'], package: map['package']);
+    });
+
+    final parcedMap = parsed.toList();
+
+    parcedMap.sort((a, b) => a.name.compareTo(b.name));
+
+    _installedApps = parcedMap;
 
     logger.i('Initialized!');
 
@@ -54,14 +72,38 @@ class InstalledApplicationsService with LogableMixin {
 
     try {
       if (package.startsWith('leafy_app/')) {
-        return _leafyApps.firstWhere(
-          (app) => app.package == package,
-        );
+        final app = _leafyApps.where((app) => app.package == package);
+
+        return app.isEmpty ? null : app.first;
       }
 
-      return _installedApps.firstWhere((app) => app.package == package);
+      final app = _installedApps.where((app) => app.package == package);
+
+      return app.isEmpty ? null : app.first;
     } on Exception {
       return null;
     }
+  }
+
+  Future launch(Application app) {
+    return appChannel.invokeMethod(
+      'launch',
+      {
+        'packageName': app.package,
+      },
+    );
+  }
+
+  Future<Uint8List> getAppIcon(Application app) async {
+    final data = await appChannel.invokeMethod(
+      'getAppIcon',
+      {
+        'packageName': app.package,
+      },
+    );
+
+    final bytes = Base64Decoder().convert(data);
+
+    return bytes;
   }
 }

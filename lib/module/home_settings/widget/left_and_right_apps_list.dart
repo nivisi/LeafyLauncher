@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../resources/app_constants.dart';
-import '../../../services/applications/user_applications.dart';
+import '../../../services/applications/user_applications_controller.dart';
 import '../../../shared_widget/leafy_spacer.dart';
 import '../../../utils/enum/user_selected_app_type.dart';
 import '../../home/widget/user_app_button.dart';

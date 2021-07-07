@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:leafy_launcher/module/home/widget/horizontal_swipe_app_icon.dart';
+import 'package:leafy_launcher/utils/enum/user_selected_app_type.dart';
 
 import '../../base/page/status_page_base.dart';
 import '../../resources/theme/home_theme.dart';
@@ -18,15 +21,11 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
       onLeftSwipe: controller.onLeftSwipe,
       onRightSwipe: controller.onRightSwipe,
       onLongPress: controller.openSettings,
-      left: Icon(
-        Icons.settings,
-        color: Colors.white,
-        size: 30,
+      left: const HorizontalSwipeAppIcon(
+        appType: UserSelectedAppType.left,
       ),
-      right: Icon(
-        Icons.settings,
-        color: Colors.white,
-        size: 30,
+      right: const HorizontalSwipeAppIcon(
+        appType: UserSelectedAppType.right,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

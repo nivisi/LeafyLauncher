@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../services/applications/user_applications.dart';
+import '../../services/applications/user_applications_controller.dart';
 import 'startup_controller.dart';
 
 class StartupBinding implements Bindings {
