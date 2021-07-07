@@ -37,7 +37,7 @@ class HorizontalSwipeAppIcon
               ? const Icon(
                   Icons.settings,
                   color: Colors.white,
-                  size: 30,
+                  size: 40,
                 )
               : Image.memory(icon);
         },
