@@ -64,77 +64,55 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     );
   }
 
+  void _processChanges(
+    AnimationController controller,
+    AnimationController oppositeController,
+    double change,
+  ) {
+    change /= 130.0;
+
+    if (oppositeController.value > .0) {
+      var val = oppositeController.value - change;
+
+      if (val <= .0) {
+        val = .0;
+      }
+
+      oppositeController.value = val;
+
+      return;
+    }
+
+    var val = controller.value + change;
+
+    if (val >= 1.0) {
+      val = 1.0;
+    }
+
+    if (val < 0.0) {
+      val = 0.0;
+    }
+
+    if (val >= swipeControllerThreshold && controller.value < .99) {
+      HapticFeedback.selectionClick();
+    }
+
+    controller.value = val;
+  }
+
   void _onHorizontalUpdate(DragUpdateDetails details) async {
     final direction = details.delta.dx > .0 ? Direction.right : Direction.left;
 
-    final deltaX = details.delta.dx / 130.0;
+    final controller =
+        direction == Direction.right ? _rightController : _leftController;
 
-    switch (direction) {
-      case Direction.right:
-        if (_leftController.value > .0) {
-          var val = _leftController.value - deltaX;
+    final oppositeController =
+        direction == Direction.right ? _leftController : _rightController;
 
-          if (val <= .0) {
-            val = .0;
-          }
+    final change =
+        direction == Direction.right ? details.delta.dx : -details.delta.dx;
 
-          _leftController.value = val;
-
-          return;
-        }
-
-        var val = _rightController.value + deltaX;
-
-        if (val >= 1.0) {
-          val = 1.0;
-        }
-
-        if (val < 0.0) {
-          val = 0.0;
-        }
-
-        if (val >= swipeControllerThreshold && _rightController.value < .99) {
-          HapticFeedback.selectionClick();
-        }
-
-        _rightController.value = val;
-
-        break;
-      case Direction.left:
-        if (_rightController.value > .0) {
-          var val = _rightController.value + deltaX;
-
-          if (val <= .0) {
-            val = .0;
-          }
-
-          _rightController.value = val;
-
-          return;
-        }
-
-        var val = _leftController.value - deltaX;
-
-        if (val >= 1.0) {
-          val = 1.0;
-        }
-
-        if (val < 0.0) {
-          val = 0.0;
-        }
-
-        if (val >= swipeControllerThreshold && _leftController.value < .99) {
-          HapticFeedback.selectionClick();
-        }
-
-        _leftController.value = val;
-
-        break;
-      case Direction.up:
-      case Direction.down:
-        // Not Supported
-        break;
-    }
+    _processChanges(controller, oppositeController, change);
   }
 
   void _hideIcons() {
