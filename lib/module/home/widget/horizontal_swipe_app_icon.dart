@@ -24,7 +24,7 @@ class HorizontalSwipeAppIcon
     return Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: const BoxDecoration(shape: BoxShape.circle),
-      padding: const EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       child: GetBuilder<UserApplicationsController>(
         init: controller,
         id: controller.getBuilderId(appType),
