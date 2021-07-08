@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:leafy_launcher/module/home/widget/horizontal_swipe_app_icon.dart';
-import 'package:leafy_launcher/utils/enum/user_selected_app_type.dart';
 
 import '../../base/page/status_page_base.dart';
 import '../../resources/theme/home_theme.dart';
 import '../../resources/theme/leafy_theme.dart';
+import '../../utils/enum/user_selected_app_type.dart';
 import 'home_controller.dart';
 import 'widget/home_gesture_detector.dart';
+import 'widget/horizontal_swipe_app_icon.dart';
 import 'widget/user_apps_list.dart';
 
 class HomePage extends StatusPageBase<HomeController, HomeTheme> {

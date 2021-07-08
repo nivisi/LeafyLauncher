@@ -1,11 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:get/get.dart';
-import 'package:leafy_launcher/services/applications/installed_applications_service.dart';
 
 import '../../app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
+import '../../services/applications/installed_applications_service.dart';
 import '../../services/applications/user_applications_controller.dart';
+import '../../utils/enum/app_launch_transition.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 
 class HomeController extends StatusControllerBase {
@@ -28,6 +29,7 @@ class HomeController extends StatusControllerBase {
     if (_userApplicationsController.swipeLeftApp != null) {
       _installedApplicationsService.launch(
         _userApplicationsController.swipeLeftApp!,
+        transition: AppLaunchTransition.left,
       );
 
       return;
@@ -46,6 +48,7 @@ class HomeController extends StatusControllerBase {
     if (_userApplicationsController.swipeRightApp != null) {
       _installedApplicationsService.launch(
         _userApplicationsController.swipeRightApp!,
+        transition: AppLaunchTransition.right,
       );
 
       return;

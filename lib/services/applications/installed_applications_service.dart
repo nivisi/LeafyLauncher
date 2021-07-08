@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 
+import '../../utils/enum/app_launch_transition.dart';
 import '../../utils/log/logable_mixin.dart';
 import 'application.dart';
 import 'installed_application.dart';
@@ -85,13 +86,31 @@ class InstalledApplicationsService with LogableMixin {
     }
   }
 
-  Future launch(Application app) async {
+  Future launch(
+    Application app, {
+    AppLaunchTransition transition = AppLaunchTransition.fade,
+  }) async {
     HapticFeedback.selectionClick();
+
+    late final int transitionCode;
+
+    switch (transition) {
+      case AppLaunchTransition.fade:
+        transitionCode = 0;
+        break;
+      case AppLaunchTransition.left:
+        transitionCode = 1;
+        break;
+      case AppLaunchTransition.right:
+        transitionCode = 2;
+        break;
+    }
 
     appChannel.invokeMethod(
       'launch',
       {
         'packageName': app.package,
+        'transition': transitionCode,
       },
     );
   }
