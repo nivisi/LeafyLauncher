@@ -10,11 +10,19 @@ import 'application.dart';
 import 'installed_application.dart';
 import 'leafy_application.dart';
 
-class InstalledApplicationsService with LogableMixin {
-  static const appChannel = MethodChannel(
-    'com.nivisi.leafy_launcher/applicationChannel',
-  );
+const _appChannel = MethodChannel(
+  'com.nivisi.leafy_launcher/applicationChannel',
+);
 
+const _argumentPackageName = 'packageName';
+const _argumentTransition = 'transition';
+
+const _methodInitApps = 'initApps';
+const _methodGetApps = 'getApps';
+const _methodLaunch = 'launch';
+const _methodGetAppIcon = 'getAppIcon';
+
+class InstalledApplicationsService with LogableMixin {
   static InstalledApplicationsService? _instance;
 
   InstalledApplicationsService._();
@@ -32,9 +40,9 @@ class InstalledApplicationsService with LogableMixin {
   Future _init() async {
     logger.i('Initializing installed applications ...');
 
-    await appChannel.invokeMethod('initApps');
+    await _appChannel.invokeMethod(_methodInitApps);
 
-    final apps = await appChannel.invokeMethod('getApps');
+    final apps = await _appChannel.invokeMethod(_methodGetApps);
 
     final maps = apps as List;
 
@@ -106,20 +114,20 @@ class InstalledApplicationsService with LogableMixin {
         break;
     }
 
-    appChannel.invokeMethod(
-      'launch',
+    _appChannel.invokeMethod(
+      _methodLaunch,
       {
-        'packageName': app.package,
-        'transition': transitionCode,
+        _argumentPackageName: app.package,
+        _argumentTransition: transitionCode,
       },
     );
   }
 
   Future<Uint8List> getAppIcon(Application app) async {
-    final data = await appChannel.invokeMethod(
-      'getAppIcon',
+    final data = await _appChannel.invokeMethod(
+      _methodGetAppIcon,
       {
-        'packageName': app.package,
+        _argumentPackageName: app.package,
       },
     );
 
