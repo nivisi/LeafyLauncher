@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../base/page/status_page_base.dart';
 import '../../resources/app_constants.dart';
@@ -17,16 +18,41 @@ class AppPicker extends StatusPageBase<AppPickerController, HomeTheme> {
   Widget ready(BuildContext context, LeafyTheme theme) {
     return Column(
       children: [
-        Text('Select ${controller.type.stringify()}', style: theme.bodyText1),
+        Text(
+          'Select ${controller.type.stringify()}',
+          style: theme.bodyText1,
+        ),
+        TextField(
+          focusNode: controller.textFocusNode,
+          controller: controller.textEditingController,
+          style: theme.bodyText1,
+          autofocus: true,
+          autocorrect: false,
+        ),
         Expanded(
-          child: ListBuilder<Application>(
-            padding: EdgeInsets.all(kDefaultPadding * 2.0),
-            items: controller.apps,
-            separatorType: SeparatorType.space,
-            builder: (app) {
-              return AppPickerButton(
-                application: app,
-                onTapped: controller.onAppSelected,
+          child: GetBuilder<AppPickerController>(
+            id: AppPickerController.appListBuilderKey,
+            builder: (controller) {
+              if (controller.apps.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.all(kDefaultPadding * 4.0),
+                  child: Text(
+                    'Nothing found 🔍',
+                    style: theme.bodyText1,
+                  ),
+                );
+              }
+              return ListBuilder<Application>(
+                scrollController: controller.scrollController,
+                padding: const EdgeInsets.all(kDefaultPadding * 2.0),
+                items: controller.apps,
+                separatorType: SeparatorType.space,
+                builder: (app) {
+                  return AppPickerButton(
+                    application: app,
+                    onTapped: controller.onAppSelected,
+                  );
+                },
               );
             },
           ),

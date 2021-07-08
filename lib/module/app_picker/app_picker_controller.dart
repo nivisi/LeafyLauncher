@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../base/controller/status_controller_base.dart';
@@ -7,8 +8,14 @@ import '../../services/applications/user_applications_controller.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 
 class AppPickerController extends StatusControllerBase {
+  static const appListBuilderKey = "appListBuilderKey";
+
   late final InstalledApplicationsService _installedApplicationsService;
   late final UserApplicationsController _userApplicationsController;
+
+  late final TextEditingController textEditingController;
+  late final FocusNode textFocusNode;
+  late final ScrollController scrollController;
 
   late Iterable<Application> _apps;
 
@@ -26,9 +33,44 @@ class AppPickerController extends StatusControllerBase {
 
   @override
   Future load() {
+    textEditingController = TextEditingController();
+    textEditingController.addListener(_onTypedText);
+
+    scrollController = ScrollController();
+    scrollController.addListener(_onScrolled);
+
+    textFocusNode = FocusNode();
+
     _apps = _installedApplicationsService.installedApps;
 
     return super.load();
+  }
+
+  void _onTypedText() {
+    final value = textEditingController.text;
+
+    final searchApps = _installedApplicationsService.installedApps.where(
+      (item) => item.name.toLowerCase().contains(value.toLowerCase()),
+    );
+
+    _apps = searchApps;
+
+    update([appListBuilderKey]);
+  }
+
+  void _onScrolled() {
+    if (scrollController.position.pixels <= .0) {
+      if (!textFocusNode.hasFocus) {
+        print('requesting');
+        textFocusNode.requestFocus();
+      }
+
+      return;
+    }
+
+    if (textFocusNode.hasFocus) {
+      textFocusNode.unfocus();
+    }
   }
 
   Future reInit() async {
@@ -37,5 +79,12 @@ class AppPickerController extends StatusControllerBase {
 
   Future onAppSelected(Application app) async {
     Get.back(result: app);
+  }
+
+  @override
+  void onClose() {
+    textEditingController.dispose();
+
+    super.onClose();
   }
 }

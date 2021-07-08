@@ -12,6 +12,7 @@ class ListBuilder<T> extends StatelessWidget {
   final bool addBottomBarPadding;
   final EdgeInsets? padding;
   final double? spacing;
+  final ScrollController? scrollController;
 
   ListBuilder({
     required this.builder,
@@ -20,11 +21,13 @@ class ListBuilder<T> extends StatelessWidget {
     this.padding,
     this.addBottomBarPadding = true,
     this.spacing,
+    this.scrollController,
   });
   @override
   Widget build(BuildContext context) {
     if (separatorType != SeparatorType.none) {
       return ListView.separated(
+        controller: scrollController,
         padding: padding,
         physics: const BouncingScrollPhysics(),
         itemCount: items.length,
@@ -52,6 +55,7 @@ class ListBuilder<T> extends StatelessWidget {
     }
 
     return ListView.builder(
+      controller: scrollController,
       padding: padding,
       physics: const BouncingScrollPhysics(),
       itemCount: items.length,

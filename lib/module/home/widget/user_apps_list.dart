@@ -40,6 +40,7 @@ class UserAppsList extends GetView<UserApplicationsController> {
       padding: const EdgeInsets.all(kDefaultPadding * 4.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _getBuilderForApp(UserSelectedAppType.first),
