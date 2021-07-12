@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/services/device_vibration/device_vibration.dart';
 import '../utils/gesture_processer.dart';
 import 'curved_background.dart';
 
@@ -42,6 +43,8 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   static const swipeIconSize = 55.0;
   static const appStartingOffset = 50.0;
 
+  late final DeviceVibration _deviceVibration;
+
   late final AnimationController _leftController;
   late final AnimationController _rightController;
   late final AnimationController _topController;
@@ -51,6 +54,8 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   @override
   void initState() {
     super.initState();
+
+    _deviceVibration = Get.find<DeviceVibration>();
 
     _leftController = AnimationController(
       vsync: this,
@@ -86,6 +91,26 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     );
   }
 
+  Future _onTopSwipe() async {
+    _deviceVibration.weak();
+    widget.onTopSwipe();
+  }
+
+  Future _onLeftSwipe() async {
+    _deviceVibration.weak();
+    widget.onLeftSwipe();
+  }
+
+  Future _onRightSwipe() async {
+    widget.onRightSwipe();
+    _deviceVibration.weak();
+  }
+
+  Future _onBottomSwipe() async {
+    _deviceVibration.weak();
+    widget.onBottomSwipe();
+  }
+
   void _processChanges(
     AnimationController controller,
     AnimationController oppositeController,
@@ -116,7 +141,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     }
 
     if (val >= swipeControllerThreshold && controller.value < .99) {
-      HapticFeedback.selectionClick();
+      _deviceVibration.weak();
     }
 
     controller.value = val;
@@ -165,26 +190,27 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
 
   void _onHorizontalDragEnd(DragEndDetails details) async {
     if (_leftController.value >= swipeControllerThreshold) {
-      widget.onLeftSwipe();
+      _onLeftSwipe();
 
       _hideHorizontalIcons();
       return;
     } else if (_rightController.value >= swipeControllerThreshold) {
-      widget.onRightSwipe();
+      _onRightSwipe();
 
       _hideHorizontalIcons();
       return;
     }
 
-    final minFlingVelocity = 5.0;
+    final minFlingVelocity = 2500.0;
 
-    final visualVelocity = details.velocity.pixelsPerSecond.dx / Get.width;
+    final visualVelocity = details.velocity.pixelsPerSecond.dx;
+    print(visualVelocity);
 
     if (visualVelocity.abs() > minFlingVelocity) {
       if (visualVelocity < 0.0) {
-        widget.onLeftSwipe();
+        _onLeftSwipe();
       } else {
-        widget.onRightSwipe();
+        _onRightSwipe();
       }
     }
 
@@ -208,26 +234,26 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
 
   void _onVerticalDragEnd(DragEndDetails details) async {
     if (_topController.value >= swipeControllerThreshold) {
-      widget.onTopSwipe();
+      _onTopSwipe();
 
       _hideVerticalIcons();
       return;
     } else if (_bottomController.value >= swipeControllerThreshold) {
-      widget.onBottomSwipe();
+      _onBottomSwipe();
 
       _hideVerticalIcons();
       return;
     }
 
-    final minFlingVelocity = 5.0;
+    final minFlingVelocity = 2500.0;
 
-    final visualVelocity = details.velocity.pixelsPerSecond.dy / Get.height;
+    final visualVelocity = details.velocity.pixelsPerSecond.dy;
 
     if (visualVelocity.abs() > minFlingVelocity) {
       if (visualVelocity < 0.0) {
-        widget.onTopSwipe();
+        _onBottomSwipe();
       } else {
-        widget.onBottomSwipe();
+        _onTopSwipe();
       }
     }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/services/device_vibration/device_vibration.dart';
 import 'package:leafy_launcher/services/google_search/google_search.dart';
 
 import 'app_routes.dart';
@@ -29,6 +30,7 @@ class LeafyLauncher {
   /// Initialized must have dependecies.
   /// The app can start w/o them and they will be loaded soon.
   static Future initSecondaryDependencies() async {
+    Get.lazyPut(() => DeviceVibration(), fenix: true);
     await Get.putAsync(InstalledApplicationsService.init, permanent: true);
     Get.lazyPut(() => GoogleSearch(), fenix: true);
   }

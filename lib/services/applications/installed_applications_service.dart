@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import '../../utils/enum/app_launch_transition.dart';
 import '../../utils/log/logable_mixin.dart';
+import '../device_vibration/device_vibration.dart';
 import 'application.dart';
 import 'installed_application.dart';
 import 'leafy_application.dart';
@@ -24,6 +26,7 @@ const _methodGetAppIcon = 'getAppIcon';
 
 class InstalledApplicationsService with LogableMixin {
   static InstalledApplicationsService? _instance;
+  static late final DeviceVibration _deviceVibration;
 
   InstalledApplicationsService._();
 
@@ -39,6 +42,8 @@ class InstalledApplicationsService with LogableMixin {
 
   Future _init() async {
     logger.i('Initializing installed applications ...');
+
+    _deviceVibration = Get.find<DeviceVibration>();
 
     await _appChannel.invokeMethod(_methodInitApps);
 
@@ -98,7 +103,7 @@ class InstalledApplicationsService with LogableMixin {
     Application app, {
     AppLaunchTransition transition = AppLaunchTransition.fade,
   }) async {
-    HapticFeedback.selectionClick();
+    _deviceVibration.weak();
 
     late final int transitionCode;
 
