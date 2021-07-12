@@ -11,6 +11,9 @@ final _creatorMap = {HomeTheme: (child) => HomeTheme(child)};
 abstract class PageBase<TController extends GetxController,
     TTheme extends LeafyTheme> extends GetView<TController> {
   @protected
+  bool get resizeToAvoidBottomInset => true;
+
+  @protected
   bool get safeArea => true;
 
   const PageBase();
@@ -35,6 +38,7 @@ abstract class PageBase<TController extends GetxController,
           final theme = getTheme(context);
 
           Widget widget = Scaffold(
+            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
             backgroundColor: theme.backgroundColor,
             body: pageBody(context, theme),
           );

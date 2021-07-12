@@ -9,8 +9,12 @@ class HomeGestureDetector extends StatefulWidget {
   final Widget child;
   final Widget left;
   final Widget right;
+  final Widget top;
+  final Widget bottom;
   final VoidCallback onLeftSwipe;
   final VoidCallback onRightSwipe;
+  final VoidCallback onTopSwipe;
+  final VoidCallback onBottomSwipe;
   final VoidCallback onLongPress;
 
   HomeGestureDetector({
@@ -18,8 +22,12 @@ class HomeGestureDetector extends StatefulWidget {
     required this.child,
     required this.left,
     required this.right,
+    required this.top,
+    required this.bottom,
     required this.onLeftSwipe,
     required this.onRightSwipe,
+    required this.onTopSwipe,
+    required this.onBottomSwipe,
     required this.onLongPress,
   }) : super(key: key);
 
@@ -36,6 +44,8 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
 
   late final AnimationController _leftController;
   late final AnimationController _rightController;
+  late final AnimationController _topController;
+  late final AnimationController _bottomController;
   late final AnimationController _childController;
 
   @override
@@ -57,6 +67,18 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     )..addListener(() {
         _childController.value = 1.0 - _rightController.value / 1.3;
       });
+
+    _topController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 50),
+      value: 0.0,
+    );
+
+    _bottomController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 50),
+      value: 0.0,
+    );
 
     _childController = AnimationController(
       vsync: this,
@@ -115,7 +137,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     _processChanges(controller, oppositeController, change);
   }
 
-  void _hideIcons() {
+  void _hideHorizontalIcons() {
     _leftController.animateTo(
       .0,
       duration: const Duration(milliseconds: 250),
@@ -128,16 +150,29 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     );
   }
 
+  void _hideVerticalIcons() {
+    _topController.animateTo(
+      .0,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOut,
+    );
+    _bottomController.animateTo(
+      .0,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOut,
+    );
+  }
+
   void _onHorizontalDragEnd(DragEndDetails details) async {
     if (_leftController.value >= swipeControllerThreshold) {
       widget.onLeftSwipe();
 
-      _hideIcons();
+      _hideHorizontalIcons();
       return;
     } else if (_rightController.value >= swipeControllerThreshold) {
       widget.onRightSwipe();
 
-      _hideIcons();
+      _hideHorizontalIcons();
       return;
     }
 
@@ -153,7 +188,50 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       }
     }
 
-    _hideIcons();
+    _hideHorizontalIcons();
+  }
+
+  void _onVerticalUpdate(DragUpdateDetails details) async {
+    final direction = details.delta.dy > .0 ? Direction.down : Direction.up;
+
+    final controller =
+        direction == Direction.down ? _topController : _bottomController;
+
+    final oppositeController =
+        direction == Direction.down ? _bottomController : _topController;
+
+    final change =
+        direction == Direction.down ? details.delta.dy : -details.delta.dy;
+
+    _processChanges(controller, oppositeController, change);
+  }
+
+  void _onVerticalDragEnd(DragEndDetails details) async {
+    if (_topController.value >= swipeControllerThreshold) {
+      widget.onTopSwipe();
+
+      _hideVerticalIcons();
+      return;
+    } else if (_bottomController.value >= swipeControllerThreshold) {
+      widget.onBottomSwipe();
+
+      _hideVerticalIcons();
+      return;
+    }
+
+    final minFlingVelocity = 5.0;
+
+    final visualVelocity = details.velocity.pixelsPerSecond.dy / Get.height;
+
+    if (visualVelocity.abs() > minFlingVelocity) {
+      if (visualVelocity < 0.0) {
+        widget.onTopSwipe();
+      } else {
+        widget.onBottomSwipe();
+      }
+    }
+
+    _hideVerticalIcons();
   }
 
   @override
@@ -164,6 +242,8 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
           behavior: HitTestBehavior.translucent,
           onHorizontalDragUpdate: _onHorizontalUpdate,
           onHorizontalDragEnd: _onHorizontalDragEnd,
+          onVerticalDragUpdate: _onVerticalUpdate,
+          onVerticalDragEnd: _onVerticalDragEnd,
           onLongPress: widget.onLongPress,
         ),
         FadeTransition(
@@ -235,6 +315,52 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
                   bottom: (Get.size.height - swipeIconSize) / 2.0,
                   child: Opacity(
                     opacity: _leftController.value,
+                    child: child!,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        AnimatedBuilder(
+          animation: _topController,
+          child: SizedBox(
+            width: swipeIconSize,
+            height: swipeIconSize,
+            child: Center(child: widget.top),
+          ),
+          builder: (context, child) {
+            var val = _topController.value * offsetMultipler + 5.0;
+            return Stack(
+              children: [
+                Positioned(
+                  top: val,
+                  left: (Get.size.width - swipeIconSize) / 2.0,
+                  child: Opacity(
+                    opacity: _topController.value,
+                    child: child!,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        AnimatedBuilder(
+          animation: _bottomController,
+          child: SizedBox(
+            width: swipeIconSize,
+            height: swipeIconSize,
+            child: Center(child: widget.bottom),
+          ),
+          builder: (context, child) {
+            var val = _bottomController.value * offsetMultipler + 5.0;
+            return Stack(
+              children: [
+                Positioned(
+                  bottom: val - appStartingOffset,
+                  left: (Get.size.width - swipeIconSize) / 2.0,
+                  child: Opacity(
+                    opacity: _bottomController.value,
                     child: child!,
                   ),
                 ),

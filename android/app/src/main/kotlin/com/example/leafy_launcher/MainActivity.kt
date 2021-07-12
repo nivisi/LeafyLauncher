@@ -1,25 +1,78 @@
 package com.example.leafy_launcher
 
 import android.app.ActivityOptions
+import android.app.SearchManager
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ResolveInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Base64
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-
-import android.util.Base64;
-
-import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayOutputStream
 
 class MainActivity: FlutterActivity() {
     private lateinit var _appMaps: List<Map<String, String>>
 
+    override fun onResume() {
+        super.onResume()
+
+        overridePendingTransition(R.anim.app_launch_fade, R.anim.app_launch_fade)
+
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, Companion.commonChannel).setMethodCallHandler {
+            call, result ->
+            when (call.method) {
+                Companion.launchGoogleSearchInput -> {
+                   val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+                    val globalSearchActivity: ComponentName? = searchManager.globalSearchActivity
+                    if (globalSearchActivity == null) {
+                        result.error("no activity", "la", "1")
+                        return@setMethodCallHandler
+                    }
+                    val intent = Intent(SearchManager.INTENT_ACTION_GLOBAL_SEARCH)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.component = globalSearchActivity
+                    val appSearchData = Bundle()
+                    appSearchData.putString("source", packageName)
+
+                    intent.putExtra(SearchManager.APP_DATA, appSearchData)
+                    intent.putExtra(SearchManager.QUERY, "")
+                    intent.putExtra(SearchManager.EXTRA_SELECT_QUERY, true)
+                    try {
+                        context.startActivity(intent)
+                        result.success(null)
+                    } catch (ex: ActivityNotFoundException) {
+                        result.error("no activity", "lala", "1")
+                    }
+
+                }
+                Companion.launchSearch -> {
+                   val arg = call.argument<String>(Companion.argumentLaunchQuery);
+
+                   val intent = Intent(Intent.ACTION_WEB_SEARCH)
+                   intent.putExtra(SearchManager.QUERY, arg)
+                   startActivity(intent)
+                   
+                   result.success(null)
+
+                }
+                else -> result.notImplemented()
+
+            }
+        }
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, Companion.applicationChannel).setMethodCallHandler {
             call, result ->
@@ -115,6 +168,7 @@ class MainActivity: FlutterActivity() {
         }
 
         val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, anim, 0)
+
         context.startActivity(intent, options.toBundle())
 
         result.success(true)
@@ -144,13 +198,17 @@ class MainActivity: FlutterActivity() {
     }
 
     companion object {
+        private const val commonChannel = "com.nivisi.leafy_launcher/common";
         private const val applicationChannel = "com.nivisi.leafy_launcher/applicationChannel";
         private const val initApps = "initApps";
         private const val getApps = "getApps";
         private const val launch = "launch";
         private const val getAppIcon = "getAppIcon";
+        private const val launchSearch = "launchSearch";
+        private const val launchGoogleSearchInput = "launchGoogleSearchInput";
 
         private const val argumentPackageName = "packageName";
         private const val argumentTransition = "transition";
+        private const val argumentLaunchQuery = "launchQuery";
     }
 }
