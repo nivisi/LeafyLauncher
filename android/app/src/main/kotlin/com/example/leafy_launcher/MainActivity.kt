@@ -25,7 +25,7 @@ class MainActivity: FlutterActivity() {
     override fun onResume() {
         super.onResume()
 
-        overridePendingTransition(R.anim.app_launch_fade, R.anim.app_launch_fade)
+        overridePendingTransition(R.anim.app_launch_fade_long, R.anim.app_launch_fade_long)
 
     }
 
