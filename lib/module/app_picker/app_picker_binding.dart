@@ -8,12 +8,24 @@ class AppPickerBinding implements Bindings {
   void dependencies() {
     final typeStr = Get.parameters['type'];
 
-    if (typeStr == null) {
-      throw Exception('Type was not provided');
+    UserSelectedAppType? type;
+
+    if (typeStr != null) {
+      type = userSelectedAppTypeFromString(typeStr);
     }
 
-    final type = userSelectedAppTypeFromString(typeStr);
+    final selectOnFirstMatchStr =
+        Get.parameters[AppPickerController.selectOnFirstMatchParameter];
 
-    Get.put<AppPickerController>(AppPickerController(type));
+    var selectOnFirstMatch = false;
+
+    if (selectOnFirstMatchStr != null) {
+      selectOnFirstMatch = selectOnFirstMatchStr.toLowerCase() == 'true';
+    }
+
+    Get.put<AppPickerController>(AppPickerController(
+      type: type,
+      selectOnFirstMatch: selectOnFirstMatch,
+    ));
   }
 }

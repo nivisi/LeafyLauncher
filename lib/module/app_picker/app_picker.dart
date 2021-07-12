@@ -16,10 +16,14 @@ class AppPicker extends StatusPageBase<AppPickerController, HomeTheme> {
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
+    final title = controller.type == null
+        ? 'Launch'
+        : 'Select ${controller.type!.stringify()}';
+
     return Column(
       children: [
         Text(
-          'Select ${controller.type.stringify()}',
+          title,
           style: theme.bodyText1,
         ),
         TextField(

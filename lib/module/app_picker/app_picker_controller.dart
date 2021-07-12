@@ -8,6 +8,7 @@ import '../../services/applications/user_applications_controller.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 
 class AppPickerController extends StatusControllerBase {
+  static const selectOnFirstMatchParameter = 'selectOnFirstMatch';
   static const appListBuilderKey = "appListBuilderKey";
 
   late final InstalledApplicationsService _installedApplicationsService;
@@ -21,9 +22,13 @@ class AppPickerController extends StatusControllerBase {
 
   Iterable<Application> get apps => _apps;
 
-  final UserSelectedAppType type;
+  final UserSelectedAppType? type;
+  final bool selectOnFirstMatch;
 
-  AppPickerController(this.type);
+  AppPickerController({
+    this.selectOnFirstMatch = false,
+    this.type,
+  });
 
   @override
   Future resolveDependencies() async {
@@ -52,6 +57,11 @@ class AppPickerController extends StatusControllerBase {
     final searchApps = _installedApplicationsService.installedApps.where(
       (item) => item.name.toLowerCase().contains(value.toLowerCase()),
     );
+
+    if (selectOnFirstMatch && searchApps.length == 1) {
+      onAppSelected(searchApps.first);
+      return;
+    }
 
     _apps = searchApps;
 

@@ -2,18 +2,17 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/services/google_search/google_search.dart';
 import 'package:rate_limiter/rate_limiter.dart';
 
 import '../../app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
 import '../../services/applications/installed_applications_service.dart';
 import '../../services/applications/user_applications_controller.dart';
+import '../../services/google_search/google_search.dart';
 import '../../utils/enum/app_launch_transition.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 
 class HomeController extends StatusControllerBase {
-  static const webViewBuilderKey = 'webViewBuilder';
   static const suggestionsBuilderKey = 'suggestionsBuilder';
 
   late final UserApplicationsController _userApplicationsController;
@@ -25,12 +24,8 @@ class HomeController extends StatusControllerBase {
 
   final RxList<String> _searchSuggestions = <String>[].obs;
 
-  bool _isWebviewDisplayed = false;
-
   Uint8List? get leftAppIcon => _userApplicationsController.leftAppIcon;
   Uint8List? get rightAppIcon => _userApplicationsController.rightAppIcon;
-
-  bool get isWebviewDisplayed => _isWebviewDisplayed;
 
   Iterable<String> get searchSuggestions => _searchSuggestions;
 
@@ -88,8 +83,8 @@ class HomeController extends StatusControllerBase {
       return;
     }
 
-    final app = await Get.toNamed(
-      '${AppRoutes.appPicker}/${UserSelectedAppType.left.stringify()}',
+    final app = await AppRoutes.toAppPicker(
+      type: UserSelectedAppType.left,
     );
 
     if (app != null) {
@@ -107,8 +102,8 @@ class HomeController extends StatusControllerBase {
       return;
     }
 
-    final app = await Get.toNamed(
-      '${AppRoutes.appPicker}/${UserSelectedAppType.right.stringify()}',
+    final app = await AppRoutes.toAppPicker(
+      type: UserSelectedAppType.right,
     );
 
     if (app != null) {
@@ -120,29 +115,15 @@ class HomeController extends StatusControllerBase {
     await Get.toNamed(AppRoutes.settings);
   }
 
-  void onBottomSwipe() {}
+  Future onBottomSwipe() async {
+    final app = await AppRoutes.toAppPicker(returnOnFirstMatch: true);
+
+    if (app != null) {
+      _installedApplicationsService.launch(app);
+    }
+  }
 
   void onTopSwipe() {
     _googleSearch.openGoogleInput();
-    // _isWebviewDisplayed = true;
-
-    // update([webViewBuilderKey]);
-
-    // searchFocusNode.requestFocus();
-  }
-
-  void closeWeb() {
-    _isWebviewDisplayed = false;
-
-    searchEditingController.clear();
-
-    // https://suggestqueries.google.com/complete/search?client=chrome&q=YOURQUERY&callback=callback
-
-    update([webViewBuilderKey]);
-  }
-
-  void launchSearch(String query) {
-    closeWeb();
-    _googleSearch.launchSearchAndroid(query);
   }
 }

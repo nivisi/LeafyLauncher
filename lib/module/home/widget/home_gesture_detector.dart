@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/services/device_vibration/device_vibration.dart';
+
+import '../../../services/device_vibration/device_vibration.dart';
 import '../utils/gesture_processer.dart';
 import 'curved_background.dart';
 

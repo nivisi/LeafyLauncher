@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:leafy_launcher/resources/app_constants.dart';
 
+import '../../../../resources/app_constants.dart';
 import '../../../../resources/theme/home_theme.dart';
 import '../../../../resources/theme/leafy_theme.dart';
 import '../../../../shared_widget/list/list_builder.dart';

@@ -2,10 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:leafy_launcher/utils/log/logable_mixin.dart';
-
-/// This is the way!
-const kLala = 5;
+import '../../utils/log/logable_mixin.dart';
 
 class GoogleSearch with LogableMixin {
   static const _channel = MethodChannel('com.nivisi.leafy_launcher/common');
