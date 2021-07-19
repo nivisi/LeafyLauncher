@@ -1,6 +1,6 @@
-library text_highlightning_button;
-
 import 'package:flutter/material.dart';
+
+import '../resources/app_constants.dart';
 
 class TouchableTextButton extends StatefulWidget {
   final String text;
@@ -43,29 +43,44 @@ class _TouchableTextButtonState extends State<TouchableTextButton>
     ).animate(_animationController);
   }
 
+  Future _animateForward() => _animationController.animateTo(
+        1.0,
+        duration: kButtonPressForwardAnimationDuration,
+      );
+
+  Future _animateBackward() => _animationController.animateTo(
+        0.0,
+        duration: kButtonPressReverseAnimationDuration,
+      );
+
+  Future _onTapDown(_) {
+    return _animateForward();
+  }
+
+  Future _onTapCancel() {
+    return _animateBackward();
+  }
+
+  Future _onTap() {
+    widget.onTap?.call();
+
+    return _animateForward().then((_) => _animateBackward);
+  }
+
   @override
   Widget build(BuildContext context) {
     final hasTapHandler = widget.onTap != null || widget.onLongPress != null;
+
     return GestureDetector(
-      onTapDown: hasTapHandler
-          ? (_) {
-              _animationController.forward();
-            }
-          : null,
-      onTapCancel: hasTapHandler ? _animationController.reverse : null,
-      onTap: hasTapHandler
-          ? () {
-              widget.onTap?.call();
-              _animationController
-                  .forward()
-                  .then((value) => _animationController.reverse());
-            }
-          : null,
+      onTapDown: hasTapHandler ? _onTapDown : null,
+      onTapCancel: hasTapHandler ? _onTapCancel : null,
+      onTap: hasTapHandler ? _onTap : null,
       onLongPress: widget.onLongPress,
       child: AnimatedBuilder(
         animation: _colorTween,
         builder: (_, child) {
-          final style = widget.style ?? TextStyle();
+          final style = widget.style ?? const TextStyle();
+
           return Text(
             widget.text,
             style: style.copyWith(color: _colorTween.value),
