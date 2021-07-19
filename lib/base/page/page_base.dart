@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../resources/theme/home_theme.dart';
 import '../../resources/theme/leafy_theme.dart';
-
-typedef ThemeCreator<S extends LeafyTheme> = S Function({Widget child});
-
-final _creatorMap = {HomeTheme: (child) => HomeTheme(child)};
 
 abstract class PageBase<TController extends GetxController,
     TTheme extends LeafyTheme> extends GetView<TController> {
@@ -30,26 +25,20 @@ abstract class PageBase<TController extends GetxController,
 
   @override
   Widget build(BuildContext context) {
-    final themeCreator = _creatorMap[TTheme];
+    return LeafyThemeState<TTheme>(
+      builder: (context, theme) {
+        Widget widget = Scaffold(
+          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+          backgroundColor: theme.backgroundColor,
+          body: pageBody(context, theme),
+        );
 
-    return themeCreator!(
-      Builder(
-        builder: (context) {
-          final theme = getTheme(context);
+        if (safeArea) {
+          widget = SafeArea(child: widget);
+        }
 
-          Widget widget = Scaffold(
-            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-            backgroundColor: theme.backgroundColor,
-            body: pageBody(context, theme),
-          );
-
-          if (safeArea) {
-            widget = SafeArea(child: widget);
-          }
-
-          return widget;
-        },
-      ),
+        return widget;
+      },
     );
   }
 

@@ -32,6 +32,7 @@ class _TouchableTextButtonState extends State<TouchableTextButton>
   @override
   void initState() {
     super.initState();
+
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 50),
@@ -42,6 +43,16 @@ class _TouchableTextButtonState extends State<TouchableTextButton>
       end: widget.pressedColor,
     ).animate(_animationController);
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   _colorTween = ColorTween(
+  //     begin: widget.color,
+  //     end: widget.pressedColor,
+  //   ).animate(_animationController);
+
+  //   super.didChangeDependencies();
+  // }
 
   Future _animateForward() => _animationController.animateTo(
         1.0,
@@ -64,7 +75,7 @@ class _TouchableTextButtonState extends State<TouchableTextButton>
   Future _onTap() {
     widget.onTap?.call();
 
-    return _animateForward().then((_) => _animateBackward);
+    return _animateForward().then((_) => _animateBackward());
   }
 
   @override

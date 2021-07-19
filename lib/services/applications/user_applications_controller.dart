@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
+import '../../resources/theme/leafy_theme.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 import '../../utils/preferences/shared_preferences.dart';
 import 'application.dart';
@@ -212,5 +213,9 @@ class UserApplicationsController extends StatusControllerBase {
 
   Future launchApp(Application application) {
     return _installedApplications.launch(application);
+  }
+
+  void changeTheme() {
+    LeafyTheme.toggleTheme();
   }
 }
