@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -22,12 +23,16 @@ class HomeController extends StatusControllerBase {
   late final TextEditingController searchEditingController;
   late final FocusNode searchFocusNode;
 
+  final StreamController _backButtonController = StreamController.broadcast();
+
   final RxList<String> _searchSuggestions = <String>[].obs;
 
   Uint8List? get leftAppIcon => _userApplicationsController.leftAppIcon;
   Uint8List? get rightAppIcon => _userApplicationsController.rightAppIcon;
 
   Iterable<String> get searchSuggestions => _searchSuggestions;
+
+  Stream get onBackButtonPressed => _backButtonController.stream;
 
   @override
   Future resolveDependencies() async {
@@ -115,15 +120,11 @@ class HomeController extends StatusControllerBase {
     await Get.toNamed(AppRoutes.settings);
   }
 
-  Future onBottomSwipe() async {
-    final app = await AppRoutes.toAppPicker(returnOnFirstMatch: true);
-
-    if (app != null) {
-      _installedApplicationsService.launch(app);
-    }
-  }
-
   void onTopSwipe() {
     _googleSearch.openGoogleInput();
+  }
+
+  void backButtonPressed() {
+    _backButtonController.add(null);
   }
 }

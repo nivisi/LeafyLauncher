@@ -1,10 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../services/device_vibration/device_vibration.dart';
-import '../utils/gesture_processer.dart';
-import 'curved_background.dart';
+import '../../../../resources/app_constants.dart';
+import '../../../../services/device_vibration/device_vibration.dart';
+import '../../../app_picker/app_picker_controller.dart';
+import '../../home_controller.dart';
+import '../../utils/gesture_processer.dart';
+import 'bottom_app_list.dart';
+import 'horizontal_edge_app.dart';
 
 class HomeGestureDetector extends StatefulWidget {
   final Widget child;
@@ -15,7 +21,6 @@ class HomeGestureDetector extends StatefulWidget {
   final VoidCallback onLeftSwipe;
   final VoidCallback onRightSwipe;
   final VoidCallback onTopSwipe;
-  final VoidCallback onBottomSwipe;
   final VoidCallback onLongPress;
 
   HomeGestureDetector({
@@ -28,7 +33,6 @@ class HomeGestureDetector extends StatefulWidget {
     required this.onLeftSwipe,
     required this.onRightSwipe,
     required this.onTopSwipe,
-    required this.onBottomSwipe,
     required this.onLongPress,
   }) : super(key: key);
 
@@ -41,9 +45,12 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   static const swipeControllerThreshold = .98;
   static const offsetMultipler = 50.0;
   static const swipeIconSize = 55.0;
-  static const appStartingOffset = 50.0;
 
+  late final HomeController _homeController;
   late final DeviceVibration _deviceVibration;
+  late final AppPickerController _homeAppPickerController;
+
+  late final StreamSubscription _subscription;
 
   late final AnimationController _leftController;
   late final AnimationController _rightController;
@@ -55,7 +62,21 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   void initState() {
     super.initState();
 
+    _homeController = Get.find<HomeController>();
     _deviceVibration = Get.find<DeviceVibration>();
+    _homeAppPickerController = Get.find<AppPickerController>(tag: 'home');
+
+    _subscription = _homeController.onBackButtonPressed.listen((_) {
+      if (_bottomController.value > .0) {
+        _bottomController.animateTo(
+          0.0,
+          duration: kDefaultAnimationDuration,
+          curve: Curves.easeIn,
+        );
+
+        _homeAppPickerController.textFocusNode.unfocus();
+      }
+    });
 
     _leftController = AnimationController(
       vsync: this,
@@ -77,13 +98,17 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       vsync: this,
       duration: const Duration(milliseconds: 50),
       value: 0.0,
-    );
+    )..addListener(() {
+        _childController.value = 1.0 - _topController.value / 1.3;
+      });
 
     _bottomController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 50),
       value: 0.0,
-    );
+    )..addListener(() {
+        _childController.value = 1.0 - _bottomController.value / 1.0;
+      });
 
     _childController = AnimationController(
       vsync: this,
@@ -108,7 +133,16 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
 
   Future _onBottomSwipe() async {
     _deviceVibration.weak();
-    widget.onBottomSwipe();
+
+    if (!_homeAppPickerController.textFocusNode.hasFocus) {
+      _homeAppPickerController.textFocusNode.requestFocus();
+    }
+
+    _bottomController.animateTo(
+      1.0,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOut,
+    );
   }
 
   void _processChanges(
@@ -241,23 +275,35 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     } else if (_bottomController.value >= swipeControllerThreshold) {
       _onBottomSwipe();
 
-      _hideVerticalIcons();
+      _topController.animateTo(
+        .0,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
+      );
+
       return;
     }
 
-    final minFlingVelocity = 2500.0;
+    final minFlingVelocity = 2200.0;
 
     final visualVelocity = details.velocity.pixelsPerSecond.dy;
 
     if (visualVelocity.abs() > minFlingVelocity) {
       if (visualVelocity < 0.0) {
         _onBottomSwipe();
+
+        _topController.animateTo(
+          .0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+        );
       } else {
         _onTopSwipe();
+        _hideVerticalIcons();
       }
+    } else {
+      _hideVerticalIcons();
     }
-
-    _hideVerticalIcons();
   }
 
   @override
@@ -276,77 +322,17 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
           opacity: _childController,
           child: widget.child,
         ),
-        AnimatedBuilder(
-          animation: _rightController,
-          child: SizedBox(
-            width: swipeIconSize,
-            height: swipeIconSize,
-            child: Center(child: widget.right),
-          ),
-          builder: (context, child) {
-            var val = _rightController.value * offsetMultipler;
-            return Stack(
-              children: [
-                IgnorePointer(
-                  ignoring: true,
-                  child: SizedBox(
-                    width: Get.size.width,
-                    height: Get.size.height,
-                    child: CustomPaint(
-                      painter: CurvePainter(
-                        position: _rightController.value,
-                        direction: Direction.right,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: val - appStartingOffset,
-                  top: (Get.size.height - swipeIconSize) / 2.0,
-                  child: Opacity(
-                    opacity: _rightController.value,
-                    child: child!,
-                  ),
-                ),
-              ],
-            );
-          },
+        HorizontalEdgeApp(
+          animationController: _rightController,
+          child: widget.right,
+          direction: Direction.right,
+          iconSize: swipeIconSize,
         ),
-        AnimatedBuilder(
-          animation: _leftController,
-          child: SizedBox(
-            width: swipeIconSize,
-            height: swipeIconSize,
-            child: widget.left,
-          ),
-          builder: (context, child) {
-            var val = _leftController.value * offsetMultipler;
-            return Stack(
-              children: [
-                IgnorePointer(
-                  ignoring: true,
-                  child: SizedBox(
-                    width: Get.size.width,
-                    height: Get.size.height,
-                    child: CustomPaint(
-                      painter: CurvePainter(
-                        position: _leftController.value,
-                        direction: Direction.left,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: val - appStartingOffset,
-                  bottom: (Get.size.height - swipeIconSize) / 2.0,
-                  child: Opacity(
-                    opacity: _leftController.value,
-                    child: child!,
-                  ),
-                ),
-              ],
-            );
-          },
+        HorizontalEdgeApp(
+          animationController: _leftController,
+          child: widget.left,
+          direction: Direction.left,
+          iconSize: swipeIconSize,
         ),
         AnimatedBuilder(
           animation: _topController,
@@ -371,30 +357,20 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
             );
           },
         ),
-        AnimatedBuilder(
-          animation: _bottomController,
-          child: SizedBox(
-            width: swipeIconSize,
-            height: swipeIconSize,
-            child: Center(child: widget.bottom),
-          ),
-          builder: (context, child) {
-            var val = _bottomController.value * offsetMultipler + 5.0;
-            return Stack(
-              children: [
-                Positioned(
-                  bottom: val - appStartingOffset,
-                  left: (Get.size.width - swipeIconSize) / 2.0,
-                  child: Opacity(
-                    opacity: _bottomController.value,
-                    child: child!,
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
+        BottomAppList(animationController: _bottomController),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    _leftController.dispose();
+    _rightController.dispose();
+    _topController.dispose();
+    _bottomController.dispose();
+    _childController.dispose();
+
+    super.dispose();
   }
 }

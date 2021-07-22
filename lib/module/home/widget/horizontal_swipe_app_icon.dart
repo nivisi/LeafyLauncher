@@ -17,10 +17,7 @@ class HorizontalSwipeAppIcon
   }) : super(key: key);
 
   @override
-  Widget body(
-    BuildContext context,
-    LeafyTheme theme,
-  ) {
+  Widget body(BuildContext context, LeafyTheme theme) {
     return Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: const BoxDecoration(shape: BoxShape.circle),

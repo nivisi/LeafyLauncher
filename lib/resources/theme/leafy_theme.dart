@@ -74,7 +74,7 @@ class _LeafyThemeState<TTheme extends LeafyTheme>
   }
 }
 
-// TODO: Why stateful widgets aren't getting rebuilt on theme change?
+// TODO: How to reset the stateful widgets state?
 
 abstract class LeafyTheme extends InheritedWidget {
   static LeafyThemeStyle get currentStyle => _currentStyle;

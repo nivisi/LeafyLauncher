@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../resources/theme/leafy_theme.dart';
+import '../controller/controller_base.dart';
 
-abstract class PageBase<TController extends GetxController,
+class OnWillPopData {
+  Future<bool> Function() onWillPop;
+
+  OnWillPopData(this.onWillPop);
+}
+
+abstract class PageBase<TController extends ControllerBase,
     TTheme extends LeafyTheme> extends GetView<TController> {
   @protected
   bool get resizeToAvoidBottomInset => true;
@@ -11,21 +18,14 @@ abstract class PageBase<TController extends GetxController,
   @protected
   bool get safeArea => true;
 
+  @protected
+  OnWillPopData? get onWillPopData => null;
+
   const PageBase();
-
-  LeafyTheme getTheme(BuildContext context) {
-    final themeWidget = context.dependOnInheritedWidgetOfExactType<TTheme>();
-
-    if (themeWidget == null) {
-      throw Exception('Something went wrong!');
-    }
-
-    return themeWidget;
-  }
 
   @override
   Widget build(BuildContext context) {
-    return LeafyThemeState<TTheme>(
+    Widget widget = LeafyThemeState<TTheme>(
       builder: (context, theme) {
         Widget widget = Scaffold(
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
@@ -40,6 +40,15 @@ abstract class PageBase<TController extends GetxController,
         return widget;
       },
     );
+
+    if (onWillPopData != null) {
+      widget = WillPopScope(
+        child: widget,
+        onWillPop: onWillPopData!.onWillPop,
+      );
+    }
+
+    return widget;
   }
 
   Widget pageBody(BuildContext context, LeafyTheme theme);

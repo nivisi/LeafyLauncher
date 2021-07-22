@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../base/page/page_base.dart';
 import '../../base/page/status_page_base.dart';
 import '../../resources/theme/home_theme.dart';
 import '../../resources/theme/leafy_theme.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 import 'home_controller.dart';
-import 'widget/home_gesture_detector.dart';
+import 'widget/home_gesture_detector/home_gesture_detector.dart';
 import 'widget/horizontal_swipe_app_icon.dart';
 import 'widget/user_apps_list.dart';
 
@@ -13,17 +14,20 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
   @override
   bool get resizeToAvoidBottomInset => false;
 
-  const HomePage();
-
   @override
   bool get safeArea => false;
+
+  @override
+  OnWillPopData get onWillPopData => OnWillPopData(_onWillPop);
+
+  const HomePage();
+
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
     return HomeGestureDetector(
       onLeftSwipe: controller.onLeftSwipe,
       onRightSwipe: controller.onRightSwipe,
       onTopSwipe: controller.onTopSwipe,
-      onBottomSwipe: controller.onBottomSwipe,
       onLongPress: controller.openSettings,
       top: Icon(
         Icons.search,
@@ -58,5 +62,11 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
         ],
       ),
     );
+  }
+
+  Future<bool> _onWillPop() async {
+    controller.backButtonPressed();
+
+    return false;
   }
 }

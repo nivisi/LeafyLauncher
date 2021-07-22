@@ -37,7 +37,15 @@ class AppPickerController extends StatusControllerBase {
   }
 
   @override
-  Future load() {
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  Future load() async {
+    await _userApplicationsController.ensureLoaded;
+    await _installedApplicationsService.ensureInitialized;
+
     textEditingController = TextEditingController();
     textEditingController.addListener(_onTypedText);
 
@@ -48,7 +56,7 @@ class AppPickerController extends StatusControllerBase {
 
     _apps = _installedApplicationsService.installedApps;
 
-    return super.load();
+    return await super.load();
   }
 
   void _onTypedText() {
@@ -71,7 +79,6 @@ class AppPickerController extends StatusControllerBase {
   void _onScrolled() {
     if (scrollController.position.pixels <= .0) {
       if (!textFocusNode.hasFocus) {
-        print('requesting');
         textFocusNode.requestFocus();
       }
 
@@ -83,12 +90,12 @@ class AppPickerController extends StatusControllerBase {
     }
   }
 
-  Future reInit() async {
-    //
-  }
-
   Future onAppSelected(Application app) async {
     Get.back(result: app);
+  }
+
+  Future launchApp(Application application) {
+    return _installedApplicationsService.launch(application);
   }
 
   @override

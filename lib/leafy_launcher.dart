@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'app_routes.dart';
-import 'module/app_picker/app_picker.dart';
 import 'module/app_picker/app_picker_binding.dart';
+import 'module/app_picker/app_picker_controller.dart';
+import 'module/app_picker/app_picker_page.dart';
 import 'module/home/home_binding.dart';
 import 'module/home/home_page.dart';
 import 'module/home_settings/home_settings_binding.dart';
@@ -11,6 +12,7 @@ import 'module/home_settings/home_settings_page.dart';
 import 'module/startup/startup_binding.dart';
 import 'module/startup/startup_page.dart';
 import 'services/applications/installed_applications_service.dart';
+import 'services/applications/user_applications_controller.dart';
 import 'services/device_vibration/device_vibration.dart';
 import 'services/file_system/file_system.dart';
 import 'services/google_search/google_search.dart';
@@ -32,6 +34,9 @@ class LeafyLauncher {
   static Future initSecondaryDependencies() async {
     Get.lazyPut(() => DeviceVibration(), fenix: true);
     await Get.putAsync(InstalledApplicationsService.init, permanent: true);
+
+    Get.put(UserApplicationsController(), permanent: true);
+    Get.put(AppPickerController(), permanent: true, tag: 'home');
     Get.lazyPut(() => GoogleSearch(), fenix: true);
   }
 
@@ -42,6 +47,7 @@ class LeafyLauncher {
     runApp(
       GetMaterialApp(
         initialRoute: '/',
+        popGesture: true,
         getPages: [
           GetPage(
             name: '/',
@@ -56,17 +62,18 @@ class LeafyLauncher {
           GetPage(
             name: AppRoutes.appPickerSignature,
             binding: AppPickerBinding(),
-            page: () => const AppPicker(),
+            page: () => const AppPickerPage(),
           ),
           GetPage(
             name: AppRoutes.appPicker,
             binding: AppPickerBinding(),
-            page: () => const AppPicker(),
+            page: () => const AppPickerPage(),
           ),
           GetPage(
             name: AppRoutes.settings,
             binding: HomeSettingsBinding(),
             page: () => const HomeSettingsPage(),
+            transition: Transition.fadeIn,
           ),
         ],
       ),

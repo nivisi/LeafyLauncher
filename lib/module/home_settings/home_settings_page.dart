@@ -8,6 +8,9 @@ import 'widget/left_and_right_apps_list.dart';
 
 class HomeSettingsPage
     extends StatusPageBase<HomeSettingsController, HomeTheme> {
+  @override
+  bool get resizeToAvoidBottomInset => false;
+
   const HomeSettingsPage();
 
   @override
