@@ -42,9 +42,10 @@ class HomeGestureDetector extends StatefulWidget {
 
 class _HomeGestureDetectorState extends State<HomeGestureDetector>
     with TickerProviderStateMixin {
-  static const swipeControllerThreshold = .98;
+  static const swipeControllerThreshold = .97;
   static const offsetMultipler = 50.0;
   static const swipeIconSize = 55.0;
+  static const gestureUpdateDivider = 150.0;
 
   late final HomeController _homeController;
   late final DeviceVibration _deviceVibration;
@@ -107,7 +108,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       duration: const Duration(milliseconds: 50),
       value: 0.0,
     )..addListener(() {
-        _childController.value = 1.0 - _bottomController.value / 1.0;
+        _childController.value = 1.0 - _bottomController.value * 1.2;
       });
 
     _childController = AnimationController(
@@ -150,7 +151,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     AnimationController oppositeController,
     double change,
   ) {
-    change /= 130.0;
+    change /= gestureUpdateDivider;
 
     if (oppositeController.value > .0) {
       var val = oppositeController.value - change;
@@ -235,10 +236,9 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       return;
     }
 
-    final minFlingVelocity = 2500.0;
+    final minFlingVelocity = 2300.0;
 
     final visualVelocity = details.velocity.pixelsPerSecond.dx;
-    print(visualVelocity);
 
     if (visualVelocity.abs() > minFlingVelocity) {
       if (visualVelocity < 0.0) {
