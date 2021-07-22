@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/theme/home_theme.dart';
+import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
+import 'package:leafy_launcher/shared_widget/themed_widget.dart';
 
 import '../../utils/gesture_processer.dart';
 import '../curved_background.dart';
 
-class HorizontalEdgeApp extends StatelessWidget {
+class HorizontalEdgeApp extends ThemedWidget<HomeTheme> {
   static const _offsetMultipler = 50.0;
   static const _startingOffset = 50.0;
 
@@ -26,7 +29,7 @@ class HorizontalEdgeApp extends StatelessWidget {
         super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget body(BuildContext context, LeafyTheme theme) {
     return AnimatedBuilder(
       animation: _animationController,
       child: SizedBox(
@@ -46,6 +49,7 @@ class HorizontalEdgeApp extends StatelessWidget {
                 height: Get.size.height,
                 child: CustomPaint(
                   painter: CurvePainter(
+                    color: theme.foregroundColor,
                     position: _animationController.value,
                     direction: _direction,
                   ),

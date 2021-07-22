@@ -12,10 +12,12 @@ class CurvePainter extends CustomPainter {
   static const thirdYStop = .45;
   static const fourthYStop = .5;
 
+  final Color color;
   final double position;
   final Direction direction;
 
   const CurvePainter({
+    required this.color,
     required this.position,
     required this.direction,
   });
@@ -23,7 +25,7 @@ class CurvePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
-    paint.color = Colors.white.withOpacity(position / 3.0);
+    paint.color = color.withOpacity(position / 3.0);
     paint.style = PaintingStyle.fill;
 
     var path = Path();

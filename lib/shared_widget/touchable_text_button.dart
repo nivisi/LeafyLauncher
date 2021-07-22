@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 
 import '../resources/app_constants.dart';
 

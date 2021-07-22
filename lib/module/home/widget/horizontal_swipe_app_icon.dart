@@ -31,9 +31,9 @@ class HorizontalSwipeAppIcon
               : controller.rightAppIcon;
 
           return icon == null
-              ? const Icon(
+              ? Icon(
                   Icons.settings,
-                  color: Colors.white,
+                  color: theme.foregroundColor,
                   size: 40,
                 )
               : Image.memory(icon);
