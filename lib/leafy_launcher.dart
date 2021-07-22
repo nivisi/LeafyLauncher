@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 
 import 'app_routes.dart';
 import 'module/app_picker/app_picker_binding.dart';
@@ -43,6 +44,8 @@ class LeafyLauncher {
   static Future run() async {
     await initPrimaryDependencies();
     initSecondaryDependencies();
+
+    LeafyTheme.restoreThemeStyle();
 
     runApp(
       GetMaterialApp(

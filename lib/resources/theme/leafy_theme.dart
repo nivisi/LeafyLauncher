@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/utils/log/get_logger.dart';
+import 'package:logger/logger.dart';
+
+import '../../utils/enum/leafy_theme_style.dart';
+import '../../utils/preferences/shared_preferences.dart';
 
 import 'home_theme.dart';
 
 part 'theme_creators.dart';
-
-enum LeafyThemeStyle {
-  light,
-  dark,
-}
 
 LeafyThemeStyle _currentStyle = LeafyThemeStyle.dark;
 
@@ -74,9 +74,9 @@ class _LeafyThemeState<TTheme extends LeafyTheme>
   }
 }
 
-// TODO: How to reset the stateful widgets state?
-
 abstract class LeafyTheme extends InheritedWidget {
+  static Logger logger = getLogger(forObject: 'LeafyTheme');
+
   static LeafyThemeStyle get currentStyle => _currentStyle;
 
   final LeafyThemeStyle style;
@@ -131,6 +131,27 @@ abstract class LeafyTheme extends InheritedWidget {
         throw 'Unknown type';
     }
 
+    sharedPreferences.setString(
+      kThemeStyleKey,
+      stringifyLeafyThemeStyle(_currentStyle),
+    );
+
     _controller.add(null);
+  }
+
+  static void restoreThemeStyle() {
+    final style = sharedPreferences.getString(kThemeStyleKey);
+
+    if (style == null) {
+      _currentStyle = LeafyThemeStyle.dark;
+      return;
+    }
+
+    try {
+      _currentStyle = leafyThemeStyleFromString(style);
+    } on Exception catch (e) {
+      _currentStyle = LeafyThemeStyle.dark;
+      logger.e('Unable to restore theme style', e);
+    }
   }
 }

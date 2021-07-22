@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/resources/theme/home_theme.dart';
-import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
-import 'package:leafy_launcher/shared_widget/themed_widget.dart';
 
+import '../../../../resources/theme/home_theme.dart';
+import '../../../../resources/theme/leafy_theme.dart';
+import '../../../../shared_widget/themed_widget.dart';
 import '../../utils/gesture_processer.dart';
 import '../curved_background.dart';
 

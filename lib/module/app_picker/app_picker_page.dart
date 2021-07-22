@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/utils/enum/user_selected_app_type.dart';
 
 import '../../base/page/status_page_base.dart';
 import '../../resources/theme/home_theme.dart';
 import '../../resources/theme/leafy_theme.dart';
+import '../../utils/enum/user_selected_app_type.dart';
 import 'app_picker_controller.dart';
 import 'widget/app_picker.dart';
 

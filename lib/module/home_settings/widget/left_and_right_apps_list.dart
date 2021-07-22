@@ -8,6 +8,7 @@ import '../../../services/applications/user_applications_controller.dart';
 import '../../../shared_widget/leafy_spacer.dart';
 import '../../../shared_widget/themed_get_widget.dart';
 import '../../../shared_widget/touchable_text_button.dart';
+import '../../../utils/enum/leafy_theme_style.dart';
 import '../../../utils/enum/user_selected_app_type.dart';
 import '../../home/widget/user_app_button.dart';
 
