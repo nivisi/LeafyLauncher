@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'leafy_theme.dart';
+import 'leafy_theme_constants.dart';
 
 const Color _kLightForegroundColor = Colors.black;
 const Color _kLightForegroundPressedColor = Colors.green;
@@ -22,19 +23,19 @@ class HomeTheme extends LeafyTheme {
           backgroundColor: _kLightBackgroundPressedColor,
           textInfoColor: _kLightTextInfoColor,
           bodyText1: const TextStyle(
-            fontSize: 30,
+            fontSize: kBodyText1FontSize,
             color: _kLightForegroundColor,
           ),
           bodyText2: const TextStyle(
-            fontSize: 24,
+            fontSize: kBodyText2FontSize,
             color: _kLightForegroundColor,
           ),
           bodyText3: const TextStyle(
-            fontSize: 16,
+            fontSize: kBodyText3FontSize,
             color: _kLightForegroundColor,
           ),
           bodyText4: const TextStyle(
-            fontSize: 14,
+            fontSize: kBodyText4FontSize,
             color: _kLightForegroundColor,
           ),
         );
@@ -48,19 +49,19 @@ class HomeTheme extends LeafyTheme {
           backgroundColor: _kDarkBackgroundPressedColor,
           textInfoColor: _kDarkTextInfoColor,
           bodyText1: const TextStyle(
-            fontSize: 30,
+            fontSize: kBodyText1FontSize,
             color: _kDarkForegroundColor,
           ),
           bodyText2: const TextStyle(
-            fontSize: 24,
+            fontSize: kBodyText2FontSize,
             color: _kDarkForegroundColor,
           ),
           bodyText3: const TextStyle(
-            fontSize: 16,
+            fontSize: kBodyText3FontSize,
             color: _kDarkForegroundColor,
           ),
           bodyText4: const TextStyle(
-            fontSize: 14,
+            fontSize: kBodyText4FontSize,
             color: _kDarkForegroundColor,
           ),
         );

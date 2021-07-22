@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/resources/app_constants.dart';
 
 import '../../base/page/page_base.dart';
 import '../../base/page/status_page_base.dart';
@@ -53,7 +54,10 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
             child: Row(),
           ),
           Expanded(
-            child: const UserAppsList(),
+            child: Padding(
+              padding: kUserAppListTopPadding,
+              child: const UserAppsList(),
+            ),
           ),
           SizedBox(
             height: 50,

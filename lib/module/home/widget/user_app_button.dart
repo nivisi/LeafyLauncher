@@ -29,8 +29,8 @@ class UserAppButton extends ThemedWidget<HomeTheme> {
     return TouchableTextButton(
       text: _application?.name ?? 'Select',
       style: _textStyle ?? theme.bodyText1,
+      color: theme.foregroundColor,
       pressedColor: theme.foregroundPressedColor,
-      //color: theme.foregroundColor,
       onTap: () {
         _onTapped(_application);
       },

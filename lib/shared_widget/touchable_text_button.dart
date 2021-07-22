@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 
 import '../resources/app_constants.dart';
 
@@ -25,7 +28,7 @@ class TouchableTextButton extends StatefulWidget {
 }
 
 class _TouchableTextButtonState extends State<TouchableTextButton>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation _colorTween;
 
@@ -43,16 +46,6 @@ class _TouchableTextButtonState extends State<TouchableTextButton>
       end: widget.pressedColor,
     ).animate(_animationController);
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   _colorTween = ColorTween(
-  //     begin: widget.color,
-  //     end: widget.pressedColor,
-  //   ).animate(_animationController);
-
-  //   super.didChangeDependencies();
-  // }
 
   Future _animateForward() => _animationController.animateTo(
         1.0,
@@ -76,6 +69,26 @@ class _TouchableTextButtonState extends State<TouchableTextButton>
     widget.onTap?.call();
 
     return _animateForward().then((_) => _animateBackward());
+  }
+
+  @override
+  void didUpdateWidget(TouchableTextButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.color != widget.color ||
+        oldWidget.pressedColor != widget.pressedColor) {
+      _animationController.dispose();
+
+      _animationController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 50),
+      );
+
+      _colorTween = ColorTween(
+        begin: widget.color,
+        end: widget.pressedColor,
+      ).animate(_animationController);
+    }
   }
 
   @override

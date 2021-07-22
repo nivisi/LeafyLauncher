@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/utils/enum/user_selected_app_type.dart';
 
 import '../../base/page/status_page_base.dart';
 import '../../resources/theme/home_theme.dart';
@@ -17,12 +18,32 @@ class AppPickerPage extends StatusPageBase<AppPickerController, HomeTheme> {
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
-    // final title =
+    final String title;
+
+    switch (controller.type) {
+      case UserSelectedAppType.first:
+      case UserSelectedAppType.second:
+      case UserSelectedAppType.third:
+      case UserSelectedAppType.fourth:
+        title = 'Select ${stringifyUserSelectedAppType(controller.type!)} App';
+        break;
+      case UserSelectedAppType.left:
+      case UserSelectedAppType.right:
+        title =
+            'Select To ${stringifyUserSelectedAppType(controller.type!)} App';
+        break;
+      case null:
+        title = 'Launch';
+        break;
+      default:
+        throw 'Unknown UserSelectedAppType';
+    }
+
     return GetBuilder<AppPickerController>(
       id: AppPickerController.appListBuilderKey,
       builder: (controller) {
         return AppPicker(
-          title: '1',
+          title: title,
           autofocusTextField: true,
           textFieldFocusNode: controller.textFocusNode,
           textEditingController: controller.textEditingController,

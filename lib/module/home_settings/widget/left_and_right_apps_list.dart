@@ -74,7 +74,7 @@ class LeftAndRightAppsList
           TouchableTextButton(
             text: _themeToString(theme),
             style: theme.bodyText1,
-            //color: theme.foregroundColor,
+            color: theme.foregroundColor,
             pressedColor: theme.foregroundPressedColor,
             onTap: controller.changeTheme,
           )
