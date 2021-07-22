@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/resources/localization/l10n.dart';
+import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 
 import '../../../resources/theme/home_theme.dart';
 import '../../../resources/theme/leafy_theme.dart';
@@ -27,7 +29,7 @@ class UserAppButton extends ThemedWidget<HomeTheme> {
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return TouchableTextButton(
-      text: _application?.name ?? 'Select',
+      text: _application?.name ?? L10nProvider.getText(L10n.homeSelectApp),
       style: _textStyle ?? theme.bodyText1,
       color: theme.foregroundColor,
       pressedColor: theme.foregroundPressedColor,

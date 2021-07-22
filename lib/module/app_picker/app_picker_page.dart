@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../base/page/status_page_base.dart';
+import '../../resources/localization/l10n.dart';
+import '../../resources/localization/l10n_provider.dart';
 import '../../resources/theme/home_theme.dart';
 import '../../resources/theme/leafy_theme.dart';
 import '../../utils/enum/user_selected_app_type.dart';
@@ -25,18 +27,24 @@ class AppPickerPage extends StatusPageBase<AppPickerController, HomeTheme> {
       case UserSelectedAppType.second:
       case UserSelectedAppType.third:
       case UserSelectedAppType.fourth:
-        title = 'Select ${stringifyUserSelectedAppType(controller.type!)} App';
+        final select = L10nProvider.getText(L10n.appPickerSelect);
+        final app = L10nProvider.getText(L10n.appPickerApp);
+
+        title = '$select ${controller.type!.localize()} $app';
         break;
       case UserSelectedAppType.left:
       case UserSelectedAppType.right:
-        title =
-            'Select To ${stringifyUserSelectedAppType(controller.type!)} App';
+        final select = L10nProvider.getText(L10n.appPickerSelect);
+        final to = L10nProvider.getText(L10n.appPickerTo);
+        final app = L10nProvider.getText(L10n.appPickerApp);
+
+        title = '''$select $to ${controller.type!.localize()} $app''';
         break;
       case null:
-        title = 'Launch';
+        title = L10nProvider.getText(L10n.appPickerLaunchApp);
         break;
       default:
-        throw 'Unknown UserSelectedAppType';
+        throw Exception('Unknown UserSelectedAppType');
     }
 
     return GetBuilder<AppPickerController>(

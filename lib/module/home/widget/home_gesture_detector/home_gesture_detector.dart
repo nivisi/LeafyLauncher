@@ -75,7 +75,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
           curve: Curves.easeIn,
         );
 
-        _homeAppPickerController.textFocusNode.unfocus();
+        _homeAppPickerController.clearInput();
       }
     });
 

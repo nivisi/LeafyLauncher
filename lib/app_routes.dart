@@ -25,6 +25,6 @@ class AppRoutes {
       );
     }
     return Get.toNamed<Application>(
-        '$appPicker/${type.stringify()}?$paramName=$returnOnFirstMatchStr');
+        '$appPicker/${type.localize()}?$paramName=$returnOnFirstMatchStr');
   }
 }

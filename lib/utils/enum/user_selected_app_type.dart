@@ -1,3 +1,6 @@
+import '../../resources/localization/l10n.dart';
+import '../../resources/localization/l10n_provider.dart';
+
 enum UserSelectedAppType {
   first,
   second,
@@ -8,20 +11,25 @@ enum UserSelectedAppType {
 }
 
 extension UserSelectedAppTypeExtensions on UserSelectedAppType {
-  String stringify() {
+  String localize() {
     switch (this) {
       case UserSelectedAppType.first:
-        return 'First';
+        return L10nProvider.getText(L10n.userSelectedAppTypeFirst);
       case UserSelectedAppType.second:
-        return 'Second';
+        return L10nProvider.getText(L10n.userSelectedAppTypeSecond);
+
       case UserSelectedAppType.third:
-        return 'Third';
+        return L10nProvider.getText(L10n.userSelectedAppTypeThird);
+
       case UserSelectedAppType.fourth:
-        return 'Fourth';
+        return L10nProvider.getText(L10n.userSelectedAppTypeFourth);
+
       case UserSelectedAppType.left:
-        return 'Left';
+        return L10nProvider.getText(L10n.userSelectedAppTypeLeft);
+
       case UserSelectedAppType.right:
-        return 'Right';
+        return L10nProvider.getText(L10n.userSelectedAppTypeRight);
+
       default:
         throw 'Unknown type';
     }

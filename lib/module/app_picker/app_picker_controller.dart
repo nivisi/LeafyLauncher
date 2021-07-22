@@ -104,4 +104,10 @@ class AppPickerController extends StatusControllerBase {
 
     super.onClose();
   }
+
+  void clearInput() {
+    textFocusNode.unfocus();
+    textEditingController.clear();
+    scrollController.jumpTo(.0);
+  }
 }

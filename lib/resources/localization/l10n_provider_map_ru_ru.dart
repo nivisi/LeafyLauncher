@@ -1,0 +1,26 @@
+part of 'l10n_provider.dart';
+
+var _mapRu = {
+  L10n.appName: 'Leafy Launcher',
+  L10n.appPickerAppNamePlaceholder: 'Название приложения ...',
+  L10n.appPickerTo: 'В',
+  L10n.appPickerLaunchApp: 'Запустить',
+  L10n.appPickerSelect: 'Выбрать',
+  L10n.appPickerApp: 'Приложение',
+  L10n.appPickerNothingFound: 'Ничего не найдено :(',
+  L10n.homeSelectApp: 'Выбрать',
+  L10n.settingsAbout: 'О приложении',
+  L10n.settingsTheme: 'Тема',
+  L10n.settingsToLeftApp: 'Влево',
+  L10n.settingsToRightApp: 'Вправо',
+  L10n.settingsLanguage: 'Язык',
+  L10n.themeStyleLight: 'Светлая',
+  L10n.themeStyleDark: 'Темная',
+  L10n.homeLoadingApplications: 'Загружаем приложения ...',
+  L10n.userSelectedAppTypeFirst: 'Первое',
+  L10n.userSelectedAppTypeSecond: 'Второе',
+  L10n.userSelectedAppTypeThird: 'Третье',
+  L10n.userSelectedAppTypeFourth: 'Четвертое',
+  L10n.userSelectedAppTypeLeft: 'Влево',
+  L10n.userSelectedAppTypeRight: 'Вправо',
+};

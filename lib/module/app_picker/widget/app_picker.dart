@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../../resources/app_constants.dart';
+import '../../../resources/localization/l10n.dart';
+import '../../../resources/localization/l10n_provider.dart';
 import '../../../resources/theme/home_theme.dart';
 import '../../../resources/theme/leafy_theme.dart';
 import '../../../services/applications/application.dart';
 import '../../../shared_widget/list/list_builder.dart';
 import '../../../shared_widget/themed_widget.dart';
-
 import 'app_picker_button.dart';
 
 class AppPicker extends ThemedWidget<HomeTheme> {
@@ -48,7 +49,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding * 4.0),
             child: Text(
-              'Nothing found 🔍',
+              L10nProvider.getText(L10n.appPickerNothingFound),
               style: theme.bodyText1,
             ),
           )

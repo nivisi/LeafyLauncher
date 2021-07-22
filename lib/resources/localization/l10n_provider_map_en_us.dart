@@ -1,0 +1,26 @@
+part of 'l10n_provider.dart';
+
+var _mapEn = {
+  L10n.appName: 'Leafy Launcher',
+  L10n.appPickerAppNamePlaceholder: 'App name ...',
+  L10n.appPickerTo: 'To',
+  L10n.appPickerLaunchApp: 'Launch',
+  L10n.appPickerSelect: 'Select',
+  L10n.appPickerApp: 'App',
+  L10n.appPickerNothingFound: 'Nothing found :(',
+  L10n.homeSelectApp: 'Select',
+  L10n.settingsAbout: 'About',
+  L10n.settingsTheme: 'Theme',
+  L10n.settingsToLeftApp: 'To Left',
+  L10n.settingsToRightApp: 'To Right',
+  L10n.settingsLanguage: 'Language',
+  L10n.themeStyleLight: 'Light',
+  L10n.themeStyleDark: 'Dark',
+  L10n.homeLoadingApplications: 'Loading applications ...',
+  L10n.userSelectedAppTypeFirst: 'First',
+  L10n.userSelectedAppTypeSecond: 'Second',
+  L10n.userSelectedAppTypeThird: 'Third',
+  L10n.userSelectedAppTypeFourth: 'Fourth',
+  L10n.userSelectedAppTypeLeft: 'Left',
+  L10n.userSelectedAppTypeRight: 'Right',
+};

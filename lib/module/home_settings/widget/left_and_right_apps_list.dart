@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../resources/app_constants.dart';
+import '../../../resources/localization/l10n.dart';
+import '../../../resources/localization/l10n_provider.dart';
 import '../../../resources/theme/home_theme.dart';
 import '../../../resources/theme/leafy_theme.dart';
 import '../../../services/applications/user_applications_controller.dart';
@@ -37,15 +39,6 @@ class LeftAndRightAppsList
     );
   }
 
-  String _themeToString(LeafyTheme theme) {
-    switch (theme.style) {
-      case LeafyThemeStyle.light:
-        return 'Light';
-      case LeafyThemeStyle.dark:
-        return 'Dark';
-    }
-  }
-
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return Padding(
@@ -55,30 +48,42 @@ class LeftAndRightAppsList
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'To Left App',
+            L10nProvider.getText(L10n.settingsToLeftApp),
             style: theme.bodyText2.copyWith(color: theme.textInfoColor),
           ),
           const LeafySpacer(),
           _getBuilderForApp(UserSelectedAppType.left, theme),
           const LeafySpacer(multipler: _spacerMultipler),
           Text(
-            'To Right App',
+            L10nProvider.getText(L10n.settingsToRightApp),
             style: theme.bodyText2.copyWith(color: theme.textInfoColor),
           ),
           const LeafySpacer(),
           _getBuilderForApp(UserSelectedAppType.right, theme),
           const LeafySpacer(multipler: _spacerMultipler),
           Text(
-            'Theme',
+            L10nProvider.getText(L10n.settingsTheme),
             style: theme.bodyText2.copyWith(color: theme.textInfoColor),
           ),
           TouchableTextButton(
-            text: _themeToString(theme),
+            text: theme.style.localize(),
             style: theme.bodyText1,
             color: theme.foregroundColor,
             pressedColor: theme.foregroundPressedColor,
             onTap: controller.changeTheme,
-          )
+          ),
+          const LeafySpacer(multipler: _spacerMultipler),
+          Text(
+            L10nProvider.getText(L10n.settingsLanguage),
+            style: theme.bodyText2.copyWith(color: theme.textInfoColor),
+          ),
+          TouchableTextButton(
+            text: Get.locale!.toLanguageTag(),
+            style: theme.bodyText1,
+            color: theme.foregroundColor,
+            pressedColor: theme.foregroundPressedColor,
+            onTap: controller.changeLocale,
+          ),
         ],
       ),
     );

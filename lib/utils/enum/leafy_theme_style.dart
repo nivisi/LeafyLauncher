@@ -1,15 +1,18 @@
+import '../../resources/localization/l10n.dart';
+import '../../resources/localization/l10n_provider.dart';
+
 enum LeafyThemeStyle {
   light,
   dark,
 }
 
 extension LeafyThemeStyleExtensions on LeafyThemeStyle {
-  String stringify() {
+  String localize() {
     switch (this) {
       case LeafyThemeStyle.light:
-        return 'Light';
+        return L10nProvider.getText(L10n.themeStyleLight);
       case LeafyThemeStyle.dark:
-        return 'Dark';
+        return L10nProvider.getText(L10n.themeStyleDark);
       default:
         throw Exception('Unknown type');
     }

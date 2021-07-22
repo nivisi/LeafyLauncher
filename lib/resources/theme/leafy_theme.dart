@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:leafy_launcher/utils/log/get_logger.dart';
 import 'package:logger/logger.dart';
 
 import '../../utils/enum/leafy_theme_style.dart';
+import '../../utils/log/get_logger.dart';
 import '../../utils/preferences/shared_preferences.dart';
-
 import 'home_theme.dart';
 
 part 'theme_creators.dart';

@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 
 import 'app_routes.dart';
 import 'module/app_picker/app_picker_binding.dart';
@@ -12,6 +13,9 @@ import 'module/home_settings/home_settings_binding.dart';
 import 'module/home_settings/home_settings_page.dart';
 import 'module/startup/startup_binding.dart';
 import 'module/startup/startup_page.dart';
+import 'resources/localization/l10n.dart';
+import 'resources/localization/l10n_provider.dart';
+import 'resources/theme/leafy_theme.dart';
 import 'services/applications/installed_applications_service.dart';
 import 'services/applications/user_applications_controller.dart';
 import 'services/device_vibration/device_vibration.dart';
@@ -47,10 +51,24 @@ class LeafyLauncher {
 
     LeafyTheme.restoreThemeStyle();
 
+    L10n.restoreLocale();
+
     runApp(
       GetMaterialApp(
         initialRoute: '/',
         popGesture: true,
+        localizationsDelegates: [
+          GlobalWidgetsLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          L10n.ruLocale,
+          L10n.enLocale,
+        ],
+        locale: L10n.locale,
+        fallbackLocale: L10n.enLocale,
+        translations: L10nProvider(),
         getPages: [
           GetPage(
             name: '/',

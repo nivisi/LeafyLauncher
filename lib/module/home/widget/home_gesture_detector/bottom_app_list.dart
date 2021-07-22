@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/localization/l10n.dart';
+import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 
 import '../../../../resources/app_constants.dart';
 import '../../../app_picker/app_picker_controller.dart';
@@ -27,7 +29,7 @@ class BottomAppList extends StatelessWidget {
             tag: 'home',
             builder: (controller) {
               return AppPicker(
-                title: 'Launch',
+                title: L10nProvider.getText(L10n.appPickerLaunchApp),
                 autofocusTextField: false,
                 textFieldFocusNode: controller.textFocusNode,
                 textEditingController: controller.textEditingController,

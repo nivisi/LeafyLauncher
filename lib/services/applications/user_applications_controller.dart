@@ -1,6 +1,8 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/localization/l10n.dart';
 
 import '../../app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
@@ -176,7 +178,7 @@ class UserApplicationsController extends StatusControllerBase {
 
     update([getBuilderId(type)]);
 
-    logger.i('${type.stringify()} App was set');
+    logger.i('${type.localize()} App was set');
     logger.v('The app was ${app.name}');
   }
 
@@ -200,8 +202,9 @@ class UserApplicationsController extends StatusControllerBase {
   }
 
   Future selectApp(UserSelectedAppType type) async {
+    final str = stringifyUserSelectedAppType(type);
     final application = await Get.toNamed(
-      '${AppRoutes.appPicker}/${type.stringify()}',
+      '${AppRoutes.appPicker}/$str',
     );
 
     if (application == null) {
@@ -217,5 +220,11 @@ class UserApplicationsController extends StatusControllerBase {
 
   void changeTheme() {
     LeafyTheme.toggleTheme();
+  }
+
+  void changeLocale() {
+    final locale = L10n.isRu ? L10n.enLocale : L10n.ruLocale;
+
+    L10n.setLocale(locale);
   }
 }
