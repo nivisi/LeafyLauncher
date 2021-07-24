@@ -24,7 +24,10 @@ class AppRoutes {
         '''$appPicker?$paramName=$returnOnFirstMatchStr''',
       );
     }
+
+    final str = stringifyUserSelectedAppType(type);
+
     return Get.toNamed<Application>(
-        '$appPicker/${type.localize()}?$paramName=$returnOnFirstMatchStr');
+        '$appPicker/$str?$paramName=$returnOnFirstMatchStr');
   }
 }
