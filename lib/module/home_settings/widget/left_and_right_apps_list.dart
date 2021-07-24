@@ -46,7 +46,7 @@ class LeftAndRightAppsList
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.only(
           top: kDefaultPadding * 8.0,
-          left: kHomeButtonLeftPadding,
+          left: kHomeHorizontalPadding,
         ),
         children: [
           TouchableTextButton(
