@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../base/page/page_base.dart';
 import '../../base/page/status_page_base.dart';
 import '../../resources/app_constants.dart';
 import '../../resources/theme/home_theme.dart';
 import '../../resources/theme/leafy_theme.dart';
+import '../../utils/enum/corner_button_type.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 import 'home_controller.dart';
 import 'widget/corner_button/corner_button.dart';
@@ -68,13 +70,25 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
               ),
             ],
           ),
-          CornerButton(
-            type: CornerButtonType.phone,
-            position: CornerButtonPosition.left,
+          GetBuilder<HomeController>(
+            init: controller,
+            id: HomeController.leftCornerButtonBuilderKey,
+            builder: (_) {
+              return CornerButton(
+                type: controller.leftCornerButtonType,
+                position: CornerButtonPosition.left,
+              );
+            },
           ),
-          CornerButton(
-            type: CornerButtonType.messages,
-            position: CornerButtonPosition.right,
+          GetBuilder<HomeController>(
+            init: controller,
+            id: HomeController.rightCornerButtonBuilderKey,
+            builder: (_) {
+              return CornerButton(
+                type: controller.rightCornerButtonType,
+                position: CornerButtonPosition.right,
+              );
+            },
           ),
         ],
       ),

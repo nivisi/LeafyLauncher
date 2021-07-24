@@ -19,8 +19,8 @@ extension LeafyThemeStyleExtensions on LeafyThemeStyle {
   }
 }
 
-const _light = 'Light';
-const _dark = 'Dark';
+const String _light = 'Light';
+const String _dark = 'Dark';
 
 String stringifyLeafyThemeStyle(LeafyThemeStyle style) {
   switch (style) {

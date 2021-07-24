@@ -6,12 +6,14 @@ import 'themed_widget.dart';
 class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
   final Color? backgroundColor;
   final VoidCallback? onPressed;
+  final VoidCallback? onLongPressed;
   final Widget child;
 
   const LeafyTextButton({
     Key? key,
     required this.child,
     this.onPressed,
+    this.onLongPressed,
     this.backgroundColor,
   }) : super(key: key);
 
@@ -31,6 +33,7 @@ class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
 
     return TextButton(
       onPressed: onPressed,
+      onLongPress: onLongPressed,
       child: child,
       style: style,
     );
