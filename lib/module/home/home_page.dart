@@ -26,28 +26,28 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
-    return Stack(
-      children: [
-        HomeGestureDetector(
-          onLeftSwipe: controller.onLeftSwipe,
-          onRightSwipe: controller.onRightSwipe,
-          onTopSwipe: controller.onTopSwipe,
-          onLongPress: controller.openSettings,
-          top: Icon(
-            Icons.search,
-            color: theme.foregroundColor,
-          ),
-          bottom: Icon(
-            Icons.apps,
-            color: theme.foregroundColor,
-          ),
-          left: const HorizontalSwipeAppIcon(
-            appType: UserSelectedAppType.left,
-          ),
-          right: const HorizontalSwipeAppIcon(
-            appType: UserSelectedAppType.right,
-          ),
-          child: Column(
+    return HomeGestureDetector(
+      onLeftSwipe: controller.onLeftSwipe,
+      onRightSwipe: controller.onRightSwipe,
+      onTopSwipe: controller.onTopSwipe,
+      onLongPress: controller.openSettings,
+      top: Icon(
+        Icons.search,
+        color: theme.foregroundColor,
+      ),
+      bottom: Icon(
+        Icons.apps,
+        color: theme.foregroundColor,
+      ),
+      left: const HorizontalSwipeAppIcon(
+        appType: UserSelectedAppType.left,
+      ),
+      right: const HorizontalSwipeAppIcon(
+        appType: UserSelectedAppType.right,
+      ),
+      child: Stack(
+        children: [
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -68,16 +68,16 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
               ),
             ],
           ),
-        ),
-        CornerButton(
-          type: CornerButtonType.phone,
-          position: CornerButtonPosition.left,
-        ),
-        CornerButton(
-          type: CornerButtonType.camera,
-          position: CornerButtonPosition.right,
-        ),
-      ],
+          CornerButton(
+            type: CornerButtonType.phone,
+            position: CornerButtonPosition.left,
+          ),
+          CornerButton(
+            type: CornerButtonType.messages,
+            position: CornerButtonPosition.right,
+          ),
+        ],
+      ),
     );
   }
 
