@@ -34,6 +34,7 @@ class LeafyLauncher {
 
     await Get.putAsync(FileSystem.init, permanent: true);
     Get.lazyPut(() => FileLogger(), fenix: true);
+    Get.lazyPut(() => PlatformMethodsService(), fenix: true);
   }
 
   /// Initialized must have dependecies.
@@ -49,7 +50,6 @@ class LeafyLauncher {
       tag: 'home',
     );
     Get.lazyPut(() => GoogleSearch(), fenix: true);
-    Get.lazyPut(() => PlatformMethodsService(), fenix: true);
   }
 
   static Future run() async {

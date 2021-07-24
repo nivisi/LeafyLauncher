@@ -51,6 +51,8 @@ class L10n {
   static const String settingsTheme = 'settingsTheme';
   static const String settingsAbout = 'settingsAbout';
   static const String settingsLanguage = 'settingsLanguage';
+  static const String settingsSelectDefaultLauncher =
+      'settingsSelectDefaultLauncher';
   static const String appPickerLaunchApp = 'appPickerLaunchApp';
   static const String appPickerTo = 'appPickerTo';
   static const String appPickerSelect = 'appPickerSelect';

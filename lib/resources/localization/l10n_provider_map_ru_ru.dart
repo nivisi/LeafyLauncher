@@ -14,6 +14,7 @@ var _mapRu = {
   L10n.settingsToLeftApp: 'Влево',
   L10n.settingsToRightApp: 'Вправо',
   L10n.settingsLanguage: 'Язык',
+  L10n.settingsSelectDefaultLauncher: 'Выбрать стандартный лаунчер',
   L10n.themeStyleLight: 'Светлая',
   L10n.themeStyleDark: 'Темная',
   L10n.homeLoadingApplications: 'Загружаем приложения ...',

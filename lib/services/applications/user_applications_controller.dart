@@ -8,6 +8,7 @@ import '../../resources/localization/l10n.dart';
 import '../../resources/theme/leafy_theme.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 import '../../utils/preferences/shared_preferences.dart';
+import '../platform_methods/platform_methods_service.dart';
 import 'application.dart';
 import 'installed_applications_service.dart';
 
@@ -28,6 +29,8 @@ class UserApplicationsController extends StatusControllerBase {
   static const String _fourthBuilderId = 'fourthBuilderId';
   static const String _leftBuilderId = 'leftBuilderId';
   static const String _rightBuilderId = 'rightBuilderId';
+
+  late final PlatformMethodsService _platformMethodsService;
 
   final Rxn<Application> _firstApp = Rxn<Application>();
   final Rxn<Application> _secondApp = Rxn<Application>();
@@ -113,6 +116,13 @@ class UserApplicationsController extends StatusControllerBase {
       default:
         throw 'Unknown type';
     }
+  }
+
+  @override
+  Future resolveDependencies() async {
+    super.resolveDependencies();
+
+    _platformMethodsService = Get.find<PlatformMethodsService>();
   }
 
   @override
@@ -225,5 +235,9 @@ class UserApplicationsController extends StatusControllerBase {
     final locale = L10n.isRu ? L10n.enLocale : L10n.ruLocale;
 
     L10n.setLocale(locale);
+  }
+
+  void openLauncherPreferences() {
+    _platformMethodsService.openLauncherPreferences();
   }
 }

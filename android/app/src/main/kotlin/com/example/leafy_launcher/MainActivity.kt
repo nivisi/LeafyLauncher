@@ -101,6 +101,13 @@ class MainActivity: FlutterActivity() {
 
                     context.startActivity(mClockIntent, options.toBundle())
                 }
+                Companion.openLauncherPreferences -> {
+                    val intent = Intent(android.provider.Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
+
+                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+
+                    context.startActivity(intent, options.toBundle())
+                }
                 else -> result.notImplemented()
 
             }
@@ -242,6 +249,7 @@ class MainActivity: FlutterActivity() {
         private const val openCameraApp = "openCameraApp";
         private const val openMessagesApp = "openMessagesApp";
         private const val openClockApp = "openClockApp";
+        private const val openLauncherPreferences = "openLauncherPreferences";
 
         private const val argumentPackageName = "packageName";
         private const val argumentTransition = "transition";

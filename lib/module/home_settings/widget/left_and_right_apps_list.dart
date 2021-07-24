@@ -41,12 +41,22 @@ class LeftAndRightAppsList
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
-    return Padding(
-      padding: const EdgeInsets.all(kDefaultPadding * 4.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Expanded(
+      child: ListView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(
+          top: kDefaultPadding * 8.0,
+          left: kHomeButtonLeftPadding,
+        ),
         children: [
+          TouchableTextButton(
+            text: L10nProvider.getText(L10n.settingsSelectDefaultLauncher),
+            color: theme.foregroundColor,
+            pressedColor: theme.foregroundPressedColor,
+            style: theme.bodyText2,
+            onTap: controller.openLauncherPreferences,
+          ),
+          const LeafySpacer(multipler: _spacerMultipler),
           Text(
             L10nProvider.getText(L10n.settingsToLeftApp),
             style: theme.bodyText2.copyWith(color: theme.textInfoColor),

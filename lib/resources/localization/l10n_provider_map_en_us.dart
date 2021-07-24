@@ -14,6 +14,7 @@ var _mapEn = {
   L10n.settingsToLeftApp: 'To Left',
   L10n.settingsToRightApp: 'To Right',
   L10n.settingsLanguage: 'Language',
+  L10n.settingsSelectDefaultLauncher: 'Change default launcher',
   L10n.themeStyleLight: 'Light',
   L10n.themeStyleDark: 'Dark',
   L10n.homeLoadingApplications: 'Loading applications ...',

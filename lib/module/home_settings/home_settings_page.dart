@@ -20,15 +20,7 @@ class HomeSettingsPage
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SizedBox(
-          height: 100,
-          child: Row(),
-        ),
         const LeftAndRightAppsList(),
-        SizedBox(
-          height: 50,
-          child: Row(),
-        ),
       ],
     );
   }
