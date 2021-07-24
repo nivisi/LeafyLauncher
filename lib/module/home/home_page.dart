@@ -11,7 +11,7 @@ import '../../utils/enum/user_selected_app_type.dart';
 import 'home_controller.dart';
 import 'widget/corner_button/corner_button.dart';
 import 'widget/home_gesture_detector/home_gesture_detector.dart';
-import 'widget/home_widgets/clock.dart';
+import 'widget/home_widgets/home_clock.dart';
 import 'widget/horizontal_swipe_app_icon.dart';
 import 'widget/user_apps_list.dart';
 
@@ -89,12 +89,12 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
           ),
           Align(
             alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(
+            child: const Padding(
+              padding: EdgeInsets.only(
                 left: kHomeButtonLeftPadding,
                 top: kDefaultPadding * 4.0,
               ),
-              child: const HomeClock(),
+              child: HomeClock(),
             ),
           ),
           GetBuilder<HomeController>(

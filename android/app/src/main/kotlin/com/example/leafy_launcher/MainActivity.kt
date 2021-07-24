@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.util.Base64
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -91,6 +92,14 @@ class MainActivity: FlutterActivity() {
                     val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
 
                     context.startActivity(intent, options.toBundle())
+                }
+                Companion.openClockApp -> {
+                    val mClockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+                    mClockIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+
+                    context.startActivity(mClockIntent, options.toBundle())
                 }
                 else -> result.notImplemented()
 
@@ -232,6 +241,7 @@ class MainActivity: FlutterActivity() {
         private const val openPhoneApp = "openPhoneApp";
         private const val openCameraApp = "openCameraApp";
         private const val openMessagesApp = "openMessagesApp";
+        private const val openClockApp = "openClockApp";
 
         private const val argumentPackageName = "packageName";
         private const val argumentTransition = "transition";

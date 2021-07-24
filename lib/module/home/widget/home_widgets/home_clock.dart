@@ -1,10 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:leafy_launcher/resources/localization/l10n.dart';
+
 import '../../../../resources/theme/home_theme.dart';
+import '../../../../services/device_vibration/device_vibration.dart';
+import '../../../../services/platform_methods/platform_methods_service.dart';
 import '../../../../shared_widget/themed_state.dart';
+import '../../../../shared_widget/touchable_text_button.dart';
 
 class HomeClock extends StatefulWidget {
   const HomeClock({Key? key}) : super(key: key);
@@ -16,12 +20,18 @@ class HomeClock extends StatefulWidget {
 class _HomeClockState extends ThemedState<HomeClock, HomeTheme> {
   final DateFormat _format = DateFormat.Hm(); //('H:m, d/M/y');
 
+  late final PlatformMethodsService _platformMethodsService;
+  late final DeviceVibration _deviceVibration;
+
+  late final Timer _timer;
   late DateTime _time;
-  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
+
+    _platformMethodsService = Get.find<PlatformMethodsService>();
+    _deviceVibration = Get.find<DeviceVibration>();
 
     _time = DateTime.now();
 
@@ -35,13 +45,20 @@ class _HomeClockState extends ThemedState<HomeClock, HomeTheme> {
     );
   }
 
+  void _onPressed() {
+    _deviceVibration.weak();
+
+    _platformMethodsService.openClockApp();
+  }
+
   @override
   Widget body(BuildContext context, HomeTheme theme) {
-    return Container(
-      child: Text(
-        _format.format(_time),
-        style: theme.bodyText3,
-      ),
+    return TouchableTextButton(
+      onTap: _onPressed,
+      color: theme.foregroundColor,
+      pressedColor: theme.foregroundPressedColor,
+      text: _format.format(_time),
+      style: theme.bodyText3,
     );
   }
 
