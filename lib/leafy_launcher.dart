@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
@@ -58,6 +59,8 @@ class LeafyLauncher {
     LeafyTheme.restoreThemeStyle();
 
     L10n.restoreLocale();
+
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     runApp(
       GetMaterialApp(

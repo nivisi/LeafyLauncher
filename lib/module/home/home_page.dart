@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/shared_widget/leafy_spacer.dart';
 
 import '../../base/page/page_base.dart';
 import '../../base/page/status_page_base.dart';
@@ -10,6 +11,7 @@ import '../../utils/enum/user_selected_app_type.dart';
 import 'home_controller.dart';
 import 'widget/corner_button/corner_button.dart';
 import 'widget/home_gesture_detector/home_gesture_detector.dart';
+import 'widget/home_widgets/clock.dart';
 import 'widget/horizontal_swipe_app_icon.dart';
 import 'widget/user_apps_list.dart';
 
@@ -59,15 +61,41 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
               ),
               Expanded(
                 child: Padding(
-                  padding: kUserAppListTopPadding,
-                  child: const UserAppsList(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kHomeButtonLeftPadding,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const LeafySpacer(multipler: 2.5),
+                      const UserAppsList(),
+                    ],
+                  ),
                 ),
+              ),
+
+              // Notifications
+              SizedBox(
+                height: 125,
+                child: Row(),
               ),
               SizedBox(
                 height: 50,
                 child: Row(),
               ),
             ],
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: kHomeButtonLeftPadding,
+                top: kDefaultPadding * 4.0,
+              ),
+              child: const HomeClock(),
+            ),
           ),
           GetBuilder<HomeController>(
             init: controller,

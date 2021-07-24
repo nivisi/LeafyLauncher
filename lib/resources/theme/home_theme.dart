@@ -40,6 +40,10 @@ class HomeTheme extends LeafyTheme {
             fontSize: kBodyText4FontSize,
             color: _kLightForegroundColor,
           ),
+          bodyText5: const TextStyle(
+            fontSize: kBodyText5FontSize,
+            color: _kLightForegroundColor,
+          ),
         );
 
   const HomeTheme.dark(Widget child)
@@ -65,6 +69,10 @@ class HomeTheme extends LeafyTheme {
           ),
           bodyText4: const TextStyle(
             fontSize: kBodyText4FontSize,
+            color: _kDarkForegroundColor,
+          ),
+          bodyText5: const TextStyle(
+            fontSize: kBodyText5FontSize,
             color: _kDarkForegroundColor,
           ),
         );

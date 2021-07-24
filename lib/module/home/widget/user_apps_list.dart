@@ -36,22 +36,19 @@ class UserAppsList extends GetView<UserApplicationsController> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(kDefaultPadding * 4.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _getBuilderForApp(UserSelectedAppType.first),
-          const LeafySpacer(multipler: _spacerMultipler),
-          _getBuilderForApp(UserSelectedAppType.second),
-          const LeafySpacer(multipler: _spacerMultipler),
-          _getBuilderForApp(UserSelectedAppType.third),
-          const LeafySpacer(multipler: _spacerMultipler),
-          _getBuilderForApp(UserSelectedAppType.fourth),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _getBuilderForApp(UserSelectedAppType.first),
+        const LeafySpacer(multipler: _spacerMultipler),
+        _getBuilderForApp(UserSelectedAppType.second),
+        const LeafySpacer(multipler: _spacerMultipler),
+        _getBuilderForApp(UserSelectedAppType.third),
+        const LeafySpacer(multipler: _spacerMultipler),
+        _getBuilderForApp(UserSelectedAppType.fourth),
+      ],
     );
   }
 }

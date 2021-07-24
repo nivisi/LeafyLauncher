@@ -92,9 +92,9 @@ class _CornerButtonState extends ThemedState<CornerButton, HomeTheme>
               alignment: alignment,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(
-                  kDefaultPadding,
-                  kDefaultPadding,
-                  kDefaultPadding,
+                  kDefaultPadding * 1.3,
+                  .0,
+                  .0,
                   kDefaultPadding * 6.0,
                 ),
                 child: _OtherAppsList(
@@ -112,7 +112,11 @@ class _CornerButtonState extends ThemedState<CornerButton, HomeTheme>
         Align(
           alignment: alignment,
           child: _ConfiguredIconButton(
-            margin: const EdgeInsets.all(kDefaultPadding),
+            margin: const EdgeInsets.only(
+              left: kDefaultPadding * 1.3,
+              right: kDefaultPadding * 1.3,
+              bottom: kDefaultPadding,
+            ),
             type: widget.type,
             onPressed: () {
               _deviceVibration.weak();

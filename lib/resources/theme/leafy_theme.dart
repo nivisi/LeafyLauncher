@@ -90,6 +90,7 @@ abstract class LeafyTheme extends InheritedWidget {
   final TextStyle bodyText2;
   final TextStyle bodyText3;
   final TextStyle bodyText4;
+  final TextStyle bodyText5;
 
   static final StreamController _controller = StreamController.broadcast();
 
@@ -112,6 +113,7 @@ abstract class LeafyTheme extends InheritedWidget {
     required this.bodyText2,
     required this.bodyText3,
     required this.bodyText4,
+    required this.bodyText5,
   }) : super(key: key, child: child);
 
   @override
