@@ -22,6 +22,7 @@ import 'services/device_vibration/device_vibration.dart';
 import 'services/file_system/file_system.dart';
 import 'services/google_search/google_search.dart';
 import 'services/logging/file_logger.dart';
+import 'services/platform_methods/platform_methods_service.dart';
 import 'utils/preferences/shared_preferences.dart';
 
 class LeafyLauncher {
@@ -43,6 +44,7 @@ class LeafyLauncher {
     Get.put(UserApplicationsController(), permanent: true);
     Get.put(AppPickerController(), permanent: true, tag: 'home');
     Get.lazyPut(() => GoogleSearch(), fenix: true);
+    Get.lazyPut(() => PlatformMethodsService(), fenix: true);
   }
 
   static Future run() async {

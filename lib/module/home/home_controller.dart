@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/services/platform_methods/platform_methods_service.dart';
 import 'package:rate_limiter/rate_limiter.dart';
 
 import '../../app_routes.dart';
@@ -12,6 +13,7 @@ import '../../services/applications/user_applications_controller.dart';
 import '../../services/google_search/google_search.dart';
 import '../../utils/enum/app_launch_transition.dart';
 import '../../utils/enum/user_selected_app_type.dart';
+import 'widget/corner_button/corner_button.dart';
 
 class HomeController extends StatusControllerBase {
   static const suggestionsBuilderKey = 'suggestionsBuilder';
@@ -19,6 +21,7 @@ class HomeController extends StatusControllerBase {
   late final UserApplicationsController _userApplicationsController;
   late final InstalledApplicationsService _installedApplicationsService;
   late final GoogleSearch _googleSearch;
+  late final PlatformMethodsService _platformMethodsService;
 
   late final TextEditingController searchEditingController;
   late final FocusNode searchFocusNode;
@@ -39,6 +42,7 @@ class HomeController extends StatusControllerBase {
     _userApplicationsController = Get.find<UserApplicationsController>();
     _installedApplicationsService = Get.find<InstalledApplicationsService>();
     _googleSearch = Get.find<GoogleSearch>();
+    _platformMethodsService = Get.find<PlatformMethodsService>();
   }
 
   @override
@@ -126,5 +130,20 @@ class HomeController extends StatusControllerBase {
 
   void backButtonPressed() {
     _backButtonController.add(null);
+  }
+
+  Future cornerButtonPressed(CornerButtonType type) async {
+    switch (type) {
+      case CornerButtonType.phone:
+        return _platformMethodsService.openPhoneApp();
+
+      case CornerButtonType.messages:
+        return _platformMethodsService.openMessagesApp();
+
+      case CornerButtonType.camera:
+        return _platformMethodsService.openCameraApp();
+      default:
+        throw Exception('Unknown CornetButtonType');
+    }
   }
 }

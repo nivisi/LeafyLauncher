@@ -1,11 +1,10 @@
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:get/get.dart';
-import 'package:leafy_launcher/resources/localization/l10n.dart';
 
 import '../../app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
+import '../../resources/localization/l10n.dart';
 import '../../resources/theme/leafy_theme.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 import '../../utils/preferences/shared_preferences.dart';

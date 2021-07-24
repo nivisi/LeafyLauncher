@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/resources/localization/l10n.dart';
-import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 
 import '../../../../resources/app_constants.dart';
+import '../../../../resources/localization/l10n.dart';
+import '../../../../resources/localization/l10n_provider.dart';
 import '../../../app_picker/app_picker_controller.dart';
 import '../../../app_picker/widget/app_picker.dart';
 

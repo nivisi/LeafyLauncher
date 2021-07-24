@@ -11,7 +11,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Base64
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -26,7 +25,6 @@ class MainActivity: FlutterActivity() {
         super.onResume()
 
         overridePendingTransition(R.anim.app_launch_fade_long, R.anim.app_launch_fade_long)
-
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -68,6 +66,31 @@ class MainActivity: FlutterActivity() {
                    
                    result.success(null)
 
+                }
+                Companion.openPhoneApp -> {
+                    val intent = Intent(Intent.ACTION_DIAL)
+
+                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+                    context.startActivity(intent, options.toBundle())
+                }
+                Companion.openCameraApp -> {
+                    val intent = Intent("android.media.action.IMAGE_CAPTURE")
+
+                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+
+                    val launchIntent = packageManager.getLaunchIntentForPackage(
+                            intent.resolveActivity(packageManager).packageName
+                    )
+
+                    context.startActivity(launchIntent, options.toBundle())
+                }
+                Companion.openMessagesApp -> {
+                    val intent = Intent(Intent.ACTION_MAIN)
+                    intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
+
+                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+
+                    context.startActivity(intent, options.toBundle())
                 }
                 else -> result.notImplemented()
 
@@ -206,6 +229,9 @@ class MainActivity: FlutterActivity() {
         private const val getAppIcon = "getAppIcon";
         private const val launchSearch = "launchSearch";
         private const val launchGoogleSearchInput = "launchGoogleSearchInput";
+        private const val openPhoneApp = "openPhoneApp";
+        private const val openCameraApp = "openCameraApp";
+        private const val openMessagesApp = "openMessagesApp";
 
         private const val argumentPackageName = "packageName";
         private const val argumentTransition = "transition";

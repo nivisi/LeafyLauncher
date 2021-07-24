@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:leafy_launcher/resources/localization/l10n.dart';
-import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 
+import '../../../resources/localization/l10n.dart';
+import '../../../resources/localization/l10n_provider.dart';
 import '../../../resources/theme/home_theme.dart';
 import '../../../resources/theme/leafy_theme.dart';
 import '../../../services/applications/application.dart';
