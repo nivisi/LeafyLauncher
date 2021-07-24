@@ -7,6 +7,8 @@ import '../../../../resources/localization/l10n_provider.dart';
 import '../../../app_picker/app_picker_controller.dart';
 import '../../../app_picker/widget/app_picker.dart';
 
+// TODO: Fix: hide the list on app launch.
+
 class BottomAppList extends StatelessWidget {
   static const double _padding = 125.0;
 
@@ -26,6 +28,7 @@ class BottomAppList extends StatelessWidget {
         animation: _animationController,
         child: SafeArea(
           child: GetBuilder<AppPickerController>(
+            id: AppPickerController.appListBuilderKey,
             tag: 'home',
             builder: (controller) {
               return AppPicker(

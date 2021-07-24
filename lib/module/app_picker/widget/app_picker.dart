@@ -41,9 +41,20 @@ class AppPicker extends ThemedWidget<HomeTheme> {
         TextField(
           focusNode: textFieldFocusNode,
           controller: textEditingController,
-          style: theme.bodyText1,
+          style: theme.bodyText2,
           autofocus: autofocusTextField,
           autocorrect: false,
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            hintStyle: theme.bodyText2.copyWith(
+              color: theme.textInfoColor,
+            ),
+          ),
         ),
         if (applications.isEmpty)
           Padding(

@@ -49,6 +49,7 @@ class AppPickerPage extends StatusPageBase<AppPickerController, HomeTheme> {
 
     return GetBuilder<AppPickerController>(
       id: AppPickerController.appListBuilderKey,
+      init: controller,
       builder: (controller) {
         return AppPicker(
           title: title,

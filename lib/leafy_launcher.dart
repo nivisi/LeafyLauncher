@@ -42,7 +42,11 @@ class LeafyLauncher {
     await Get.putAsync(InstalledApplicationsService.init, permanent: true);
 
     Get.put(UserApplicationsController(), permanent: true);
-    Get.put(AppPickerController(), permanent: true, tag: 'home');
+    Get.put(
+      AppPickerController(selectOnFirstMatch: true),
+      permanent: true,
+      tag: 'home',
+    );
     Get.lazyPut(() => GoogleSearch(), fenix: true);
     Get.lazyPut(() => PlatformMethodsService(), fenix: true);
   }
