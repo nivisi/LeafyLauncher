@@ -45,6 +45,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
           autofocus: autofocusTextField,
           autocorrect: false,
           textAlign: TextAlign.center,
+          cursorColor: theme.leafyColor,
           decoration: InputDecoration(
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
@@ -61,7 +62,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
             padding: const EdgeInsets.all(kDefaultPadding * 4.0),
             child: Text(
               L10nProvider.getText(L10n.appPickerNothingFound),
-              style: theme.bodyText1,
+              style: theme.bodyText2,
             ),
           )
         else

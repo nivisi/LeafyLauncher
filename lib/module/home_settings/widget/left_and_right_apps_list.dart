@@ -67,7 +67,7 @@ class LeftAndRightAppsList
           ),
           TouchableTextButton(
             text: theme.style.localize(),
-            style: theme.bodyText1,
+            style: theme.bodyText2,
             color: theme.foregroundColor,
             pressedColor: theme.foregroundPressedColor,
             onTap: controller.changeTheme,
@@ -79,7 +79,7 @@ class LeftAndRightAppsList
           ),
           TouchableTextButton(
             text: Get.locale!.toLanguageTag(),
-            style: theme.bodyText1,
+            style: theme.bodyText2,
             color: theme.foregroundColor,
             pressedColor: theme.foregroundPressedColor,
             onTap: controller.changeLocale,

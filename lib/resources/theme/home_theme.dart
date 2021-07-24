@@ -18,6 +18,7 @@ class HomeTheme extends LeafyTheme {
   const HomeTheme.light(Widget child)
       : super(
           style: LeafyThemeStyle.light,
+          leafyColor: Colors.green,
           child: child,
           foregroundColor: _kLightForegroundColor,
           foregroundPressedColor: _kLightForegroundPressedColor,
@@ -45,6 +46,7 @@ class HomeTheme extends LeafyTheme {
       : super(
           style: LeafyThemeStyle.dark,
           child: child,
+          leafyColor: Colors.green,
           foregroundColor: _kDarkForegroundColor,
           foregroundPressedColor: _kDarkForegroundPressedColor,
           backgroundColor: _kDarkBackgroundPressedColor,

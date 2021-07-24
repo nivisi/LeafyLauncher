@@ -6,7 +6,6 @@ import '../../base/page/status_page_base.dart';
 import '../../resources/app_constants.dart';
 import '../../resources/theme/home_theme.dart';
 import '../../resources/theme/leafy_theme.dart';
-import '../../utils/enum/corner_button_type.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 import 'home_controller.dart';
 import 'widget/corner_button/corner_button.dart';

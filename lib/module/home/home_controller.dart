@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/module/home/widget/corner_button/corner_button.dart';
 import 'package:rate_limiter/rate_limiter.dart';
 
 import '../../app_routes.dart';
@@ -16,6 +15,7 @@ import '../../utils/enum/app_launch_transition.dart';
 import '../../utils/enum/corner_button_type.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 import '../../utils/preferences/shared_preferences.dart';
+import 'widget/corner_button/corner_button.dart';
 
 class HomeController extends StatusControllerBase {
   static const String suggestionsBuilderKey = 'suggestionsBuilder';

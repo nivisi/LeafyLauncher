@@ -80,6 +80,7 @@ abstract class LeafyTheme extends InheritedWidget {
 
   final LeafyThemeStyle style;
 
+  final Color leafyColor;
   final Color foregroundColor;
   final Color foregroundPressedColor;
   final Color backgroundColor;
@@ -100,8 +101,9 @@ abstract class LeafyTheme extends InheritedWidget {
 
   const LeafyTheme({
     Key? key,
-    required this.style,
     required Widget child,
+    required this.style,
+    required this.leafyColor,
     required this.foregroundColor,
     required this.foregroundPressedColor,
     required this.backgroundColor,
