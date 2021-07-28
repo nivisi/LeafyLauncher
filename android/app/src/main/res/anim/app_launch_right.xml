@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<translate xmlns:android="http://schemas.android.com/apk/res/android" android:toXDelta="0" android:fromXDelta="-100%p" android:duration="100"/>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:toXDelta="0"
+        android:fromXDelta="-100%p"
+        android:duration="100"/>
+
+    <alpha
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="100" />
+</set>
