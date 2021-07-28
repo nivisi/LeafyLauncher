@@ -22,6 +22,7 @@ import 'services/applications/user_applications_controller.dart';
 import 'services/device_vibration/device_vibration.dart';
 import 'services/file_system/file_system.dart';
 import 'services/google_search/google_search.dart';
+import 'services/home_button_listener/home_button_listener.dart';
 import 'services/logging/file_logger.dart';
 import 'services/platform_methods/platform_methods_service.dart';
 import 'utils/preferences/shared_preferences.dart';
@@ -40,6 +41,7 @@ class LeafyLauncher {
   /// Initialized must have dependecies.
   /// The app can start w/o them and they will be loaded soon.
   static Future initSecondaryDependencies() async {
+    Get.lazyPut(() => const HomeButtonListener(), fenix: true);
     Get.lazyPut(() => DeviceVibration(), fenix: true);
     await Get.putAsync(InstalledApplicationsService.init, permanent: true);
 

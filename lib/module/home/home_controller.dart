@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/services/home_button_listener/home_button_listener.dart';
 import 'package:rate_limiter/rate_limiter.dart';
 
 import '../../app_routes.dart';
@@ -26,6 +27,7 @@ class HomeController extends StatusControllerBase {
   late final InstalledApplicationsService _installedApplicationsService;
   late final GoogleSearch _googleSearch;
   late final PlatformMethodsService _platformMethodsService;
+  late final HomeButtonListener _homeButtonListener;
 
   late final TextEditingController searchEditingController;
   late final FocusNode searchFocusNode;
@@ -36,6 +38,7 @@ class HomeController extends StatusControllerBase {
 
   late CornerButtonType _leftCornerButtonType;
   late CornerButtonType _rightCornerButtonType;
+  late StreamSubscription _homeButtonPressedSubscription;
 
   Uint8List? get leftAppIcon => _userApplicationsController.leftAppIcon;
   Uint8List? get rightAppIcon => _userApplicationsController.rightAppIcon;
@@ -53,6 +56,33 @@ class HomeController extends StatusControllerBase {
     _installedApplicationsService = Get.find<InstalledApplicationsService>();
     _googleSearch = Get.find<GoogleSearch>();
     _platformMethodsService = Get.find<PlatformMethodsService>();
+    _homeButtonListener = Get.find<HomeButtonListener>();
+  }
+
+  @override
+  Future load() async {
+    searchEditingController = TextEditingController();
+    searchEditingController.addListener(
+      _onSearched.throttled(
+        const Duration(
+          seconds: 1,
+        ),
+        trailing: true,
+      ),
+    );
+
+    searchFocusNode = FocusNode();
+
+    _restoreLeftCornerButton();
+    _restoreRightCornerButton();
+
+    _homeButtonPressedSubscription = _homeButtonListener.addCallback(
+      _navigateHome,
+    );
+  }
+
+  Future _navigateHome() async {
+    Get.until((route) => route.settings.name == AppRoutes.home);
   }
 
   void _restoreLeftCornerButton() {
@@ -119,24 +149,6 @@ class HomeController extends StatusControllerBase {
         );
       }
     }
-  }
-
-  @override
-  Future load() async {
-    searchEditingController = TextEditingController();
-    searchEditingController.addListener(
-      _onSearched.throttled(
-        const Duration(
-          seconds: 1,
-        ),
-        trailing: true,
-      ),
-    );
-
-    searchFocusNode = FocusNode();
-
-    _restoreLeftCornerButton();
-    _restoreRightCornerButton();
   }
 
   void _onSearched() async {
@@ -248,5 +260,12 @@ class HomeController extends StatusControllerBase {
     );
 
     update([rightCornerButtonBuilderKey]);
+  }
+
+  @override
+  void onClose() {
+    _homeButtonPressedSubscription.cancel();
+
+    super.onClose();
   }
 }

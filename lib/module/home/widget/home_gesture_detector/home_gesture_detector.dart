@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/services/home_button_listener/home_button_listener.dart';
 
 import '../../../../resources/app_constants.dart';
 import '../../../../services/device_vibration/device_vibration.dart';
@@ -50,9 +51,11 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   late final HomeController _homeController;
   late final DeviceVibration _deviceVibration;
   late final AppPickerHomeController _homeAppPickerController;
+  late final HomeButtonListener _homeButtonListener;
 
   late final StreamSubscription _onBackButtonPressedSubscription;
   late final StreamSubscription _onAppPickedSubscription;
+  late final StreamSubscription _onHomeButtonPressedSubscription;
 
   late final AnimationController _leftController;
   late final AnimationController _rightController;
@@ -60,7 +63,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   late final AnimationController _bottomController;
   late final AnimationController _childController;
 
-  bool _isBottomListTapIgnored = true;
+  bool _isBottomListPresented = false;
 
   @override
   void initState() {
@@ -69,6 +72,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     _homeController = Get.find<HomeController>();
     _deviceVibration = Get.find<DeviceVibration>();
     _homeAppPickerController = Get.find<AppPickerHomeController>();
+    _homeButtonListener = Get.find<HomeButtonListener>();
 
     _onAppPickedSubscription =
         _homeAppPickerController.onAppSelectedEvent.listen((event) {
@@ -81,6 +85,10 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
         _hidePicker();
       }
     });
+
+    _onHomeButtonPressedSubscription = _homeButtonListener.addCallback(
+      _hidePicker,
+    );
 
     _leftController = AnimationController(
       vsync: this,
@@ -113,13 +121,21 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     )..addListener(() {
         _childController.value = 1.0 - _bottomController.value * 1.2;
 
-        if (_bottomController.value >= 1.0 && _isBottomListTapIgnored) {
+        if (_bottomController.value >= .99) {
+          if (_isBottomListPresented) {
+            return;
+          }
+
           setState(() {
-            _isBottomListTapIgnored = false;
+            _isBottomListPresented = true;
           });
-        } else if (!_isBottomListTapIgnored) {
+        } else {
+          if (!_isBottomListPresented) {
+            return;
+          }
+
           setState(() {
-            _isBottomListTapIgnored = true;
+            _isBottomListPresented = false;
           });
         }
       });
@@ -131,6 +147,10 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   }
 
   Future _hidePicker() {
+    if (!_isBottomListPresented) {
+      return Future.value();
+    }
+
     _homeAppPickerController.clearInput();
 
     return _bottomController.animateTo(
@@ -381,7 +401,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
           },
         ),
         IgnorePointer(
-          ignoring: _isBottomListTapIgnored,
+          ignoring: !_isBottomListPresented,
           child: BottomAppList(animationController: _bottomController),
         ),
       ],

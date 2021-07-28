@@ -13,14 +13,20 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.AlarmClock
 import android.util.Base64
+import android.view.KeyEvent
+import android.view.WindowManager
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 
 class MainActivity: FlutterActivity() {
     private lateinit var _appMaps: List<Map<String, String>>
+
+    private var homeEventChannel: EventChannel? = null
+    private var homeEventStreamHandler: StreamHandler = StreamHandler()
 
     override fun onResume() {
         super.onResume()
@@ -30,6 +36,9 @@ class MainActivity: FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        homeEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger, Companion.homePressedChannel)
+        homeEventChannel!!.setStreamHandler(homeEventStreamHandler)
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, Companion.commonChannel).setMethodCallHandler {
             call, result ->
@@ -109,7 +118,6 @@ class MainActivity: FlutterActivity() {
                     context.startActivity(intent, options.toBundle())
                 }
                 else -> result.notImplemented()
-
             }
         }
 
@@ -154,6 +162,14 @@ class MainActivity: FlutterActivity() {
                 else -> result.notImplemented()
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        if (intent.action == Intent.ACTION_MAIN) {
+            homeEventStreamHandler.dispatch()
+        }
+
+        super.onNewIntent(intent)
     }
 
     private fun encodeToBase64(image: Bitmap): String? {
@@ -239,6 +255,8 @@ class MainActivity: FlutterActivity() {
     companion object {
         private const val commonChannel = "com.nivisi.leafy_launcher/common";
         private const val applicationChannel = "com.nivisi.leafy_launcher/applicationChannel";
+        private const val homePressedChannel = "com.nivisi.leafy_launcher/homePressedChannel";
+
         private const val initApps = "initApps";
         private const val getApps = "getApps";
         private const val launch = "launch";
@@ -255,4 +273,21 @@ class MainActivity: FlutterActivity() {
         private const val argumentTransition = "transition";
         private const val argumentLaunchQuery = "launchQuery";
     }
+}
+
+class StreamHandler: EventChannel.StreamHandler {
+    private var eventSink: EventChannel.EventSink? = null
+
+    fun dispatch() {
+        eventSink!!.success(null)
+    }
+
+    override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+        eventSink = events;
+    }
+
+    override fun onCancel(arguments: Any?) {
+        eventSink = null
+    }
+
 }
