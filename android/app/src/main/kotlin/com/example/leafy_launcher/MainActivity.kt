@@ -31,7 +31,7 @@ class MainActivity: FlutterActivity() {
     override fun onResume() {
         super.onResume()
 
-        overridePendingTransition(R.anim.app_launch_fade_long, R.anim.app_launch_fade_long)
+        overridePendingTransition(R.anim.app_launch_fade_in_long, R.anim.app_launch_fade_out_long)
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -80,13 +80,13 @@ class MainActivity: FlutterActivity() {
                 Companion.openPhoneApp -> {
                     val intent = Intent(Intent.ACTION_DIAL)
 
-                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+                    val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(intent, options.toBundle())
                 }
                 Companion.openCameraApp -> {
                     val intent = Intent("android.media.action.IMAGE_CAPTURE")
 
-                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+                    val options: ActivityOptions = getDefaultLaunchOptions()
 
                     val launchIntent = packageManager.getLaunchIntentForPackage(
                             intent.resolveActivity(packageManager).packageName
@@ -98,7 +98,7 @@ class MainActivity: FlutterActivity() {
                     val intent = Intent(Intent.ACTION_MAIN)
                     intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
 
-                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+                    val options: ActivityOptions = getDefaultLaunchOptions()
 
                     context.startActivity(intent, options.toBundle())
                 }
@@ -106,14 +106,14 @@ class MainActivity: FlutterActivity() {
                     val mClockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
                     mClockIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
-                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+                    val options: ActivityOptions = getDefaultLaunchOptions()
 
                     context.startActivity(mClockIntent, options.toBundle())
                 }
                 Companion.openLauncherPreferences -> {
                     val intent = Intent(android.provider.Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
 
-                    val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade, 0)
+                    val options: ActivityOptions = getDefaultLaunchOptions()
 
                     context.startActivity(intent, options.toBundle())
                 }
@@ -172,6 +172,10 @@ class MainActivity: FlutterActivity() {
         super.onNewIntent(intent)
     }
 
+    private fun getDefaultLaunchOptions() : ActivityOptions {
+        return ActivityOptions.makeCustomAnimation(context, R.anim.app_launch_fade_in, R.anim.app_launch_fade_out)
+    }
+
     private fun encodeToBase64(image: Bitmap): String? {
 
         val byteArrayOS = ByteArrayOutputStream()
@@ -216,13 +220,13 @@ class MainActivity: FlutterActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 
         var anim = when (transition) {
-            0 -> R.anim.app_launch_fade;
+            0 -> R.anim.app_launch_fade_in;
             1 -> R.anim.app_launch_left
             2 -> R.anim.app_launch_right
             else -> 0
         }
 
-        val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, anim, 0)
+        val options: ActivityOptions = ActivityOptions.makeCustomAnimation(context, anim, R.anim.app_launch_fade_out)
 
         context.startActivity(intent, options.toBundle())
 
