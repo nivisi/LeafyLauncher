@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../../utils/enum/user_selected_app_type.dart';
 import 'app_picker_controller.dart';
+import 'app_picker_controller_base.dart';
 
 class AppPickerBinding implements Bindings {
   @override
@@ -15,7 +16,7 @@ class AppPickerBinding implements Bindings {
     }
 
     final selectOnFirstMatchStr =
-        Get.parameters[AppPickerController.selectOnFirstMatchParameter];
+        Get.parameters[AppPickerControllerBase.selectOnFirstMatchParameter];
 
     var selectOnFirstMatch = false;
 

@@ -4,12 +4,14 @@ import 'package:get/get.dart';
 import '../../../../resources/app_constants.dart';
 import '../../../../resources/localization/l10n.dart';
 import '../../../../resources/localization/l10n_provider.dart';
-import '../../../app_picker/app_picker_controller.dart';
+import '../../../../resources/theme/home_theme.dart';
+import '../../../../resources/theme/leafy_theme.dart';
+import '../../../../shared_widget/themed_widget.dart';
+import '../../../app_picker/app_picker_controller_base.dart';
+import '../../../app_picker/app_picker_home_controller.dart';
 import '../../../app_picker/widget/app_picker.dart';
 
-// TODO: Fix: hide the list on app launch.
-
-class BottomAppList extends StatelessWidget {
+class BottomAppList extends ThemedWidget<HomeTheme> {
   static const double _padding = 125.0;
 
   final AnimationController _animationController;
@@ -21,15 +23,15 @@ class BottomAppList extends StatelessWidget {
         super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
+  Widget body(BuildContext context, LeafyTheme theme) {
+    return Container(
+      color: Colors.transparent,
       padding: const EdgeInsets.only(top: kDefaultPadding * 2.0),
       child: AnimatedBuilder(
         animation: _animationController,
         child: SafeArea(
-          child: GetBuilder<AppPickerController>(
-            id: AppPickerController.appListBuilderKey,
-            tag: 'home',
+          child: GetBuilder<AppPickerHomeController>(
+            id: AppPickerControllerBase.appListBuilderKey,
             builder: (controller) {
               return AppPicker(
                 title: L10nProvider.getText(L10n.appPickerLaunchApp),
@@ -38,7 +40,7 @@ class BottomAppList extends StatelessWidget {
                 textEditingController: controller.textEditingController,
                 scrollController: controller.scrollController,
                 applications: controller.apps,
-                onAppSelected: controller.launchApp,
+                onAppSelected: controller.onAppSelected,
               );
             },
           ),

@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 
 import '../../../../resources/theme/home_theme.dart';
 import '../../../../services/device_vibration/device_vibration.dart';
-import '../../../../services/platform_methods/platform_methods_service.dart';
 import '../../../../shared_widget/themed_state.dart';
 import '../../../../shared_widget/touchable_text_button.dart';
 

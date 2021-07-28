@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'module/app_picker/app_picker_controller.dart';
+import 'module/app_picker/app_picker_controller_base.dart';
 import 'utils/enum/user_selected_app_type.dart';
 
 class AppRoutes {
@@ -17,7 +17,7 @@ class AppRoutes {
   }) {
     final returnOnFirstMatchStr = returnOnFirstMatch ? 'true' : 'false';
 
-    final paramName = AppPickerController.selectOnFirstMatchParameter;
+    final paramName = AppPickerControllerBase.selectOnFirstMatchParameter;
 
     if (type == null) {
       return Get.toNamed(
@@ -28,6 +28,7 @@ class AppRoutes {
     final str = stringifyUserSelectedAppType(type);
 
     return Get.toNamed<Application>(
-        '$appPicker/$str?$paramName=$returnOnFirstMatchStr');
+      '$appPicker/$str?$paramName=$returnOnFirstMatchStr',
+    );
   }
 }

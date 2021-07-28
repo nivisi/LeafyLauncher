@@ -8,6 +8,7 @@ import '../../resources/theme/home_theme.dart';
 import '../../resources/theme/leafy_theme.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 import 'app_picker_controller.dart';
+import 'app_picker_controller_base.dart';
 import 'widget/app_picker.dart';
 
 class AppPickerPage extends StatusPageBase<AppPickerController, HomeTheme> {
@@ -48,7 +49,7 @@ class AppPickerPage extends StatusPageBase<AppPickerController, HomeTheme> {
     }
 
     return GetBuilder<AppPickerController>(
-      id: AppPickerController.appListBuilderKey,
+      id: AppPickerControllerBase.appListBuilderKey,
       init: controller,
       builder: (controller) {
         return AppPicker(

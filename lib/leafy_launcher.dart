@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import 'app_routes.dart';
 import 'module/app_picker/app_picker_binding.dart';
-import 'module/app_picker/app_picker_controller.dart';
+import 'module/app_picker/app_picker_home_controller.dart';
 import 'module/app_picker/app_picker_page.dart';
 import 'module/home/home_binding.dart';
 import 'module/home/home_page.dart';
@@ -45,9 +45,8 @@ class LeafyLauncher {
 
     Get.put(UserApplicationsController(), permanent: true);
     Get.put(
-      AppPickerController(selectOnFirstMatch: true),
+      AppPickerHomeController(),
       permanent: true,
-      tag: 'home',
     );
     Get.lazyPut(() => GoogleSearch(), fenix: true);
   }

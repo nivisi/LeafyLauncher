@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../../resources/app_constants.dart';
 import '../../../../services/device_vibration/device_vibration.dart';
-import '../../../app_picker/app_picker_controller.dart';
+import '../../../app_picker/app_picker_home_controller.dart';
 import '../../home_controller.dart';
 import '../../utils/gesture_processer.dart';
 import 'bottom_app_list.dart';
@@ -49,9 +49,10 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
 
   late final HomeController _homeController;
   late final DeviceVibration _deviceVibration;
-  late final AppPickerController _homeAppPickerController;
+  late final AppPickerHomeController _homeAppPickerController;
 
-  late final StreamSubscription _subscription;
+  late final StreamSubscription _onBackButtonPressedSubscription;
+  late final StreamSubscription _onAppPickedSubscription;
 
   late final AnimationController _leftController;
   late final AnimationController _rightController;
@@ -59,23 +60,25 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   late final AnimationController _bottomController;
   late final AnimationController _childController;
 
+  bool _isBottomListTapIgnored = true;
+
   @override
   void initState() {
     super.initState();
 
     _homeController = Get.find<HomeController>();
     _deviceVibration = Get.find<DeviceVibration>();
-    _homeAppPickerController = Get.find<AppPickerController>(tag: 'home');
+    _homeAppPickerController = Get.find<AppPickerHomeController>();
 
-    _subscription = _homeController.onBackButtonPressed.listen((_) {
+    _onAppPickedSubscription =
+        _homeAppPickerController.onAppSelectedEvent.listen((event) {
+      _hidePicker();
+    });
+
+    _onBackButtonPressedSubscription =
+        _homeController.onBackButtonPressed.listen((_) {
       if (_bottomController.value > .0) {
-        _bottomController.animateTo(
-          0.0,
-          duration: kDefaultAnimationDuration,
-          curve: Curves.easeIn,
-        );
-
-        _homeAppPickerController.clearInput();
+        _hidePicker();
       }
     });
 
@@ -109,11 +112,31 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       value: 0.0,
     )..addListener(() {
         _childController.value = 1.0 - _bottomController.value * 1.2;
+
+        if (_bottomController.value >= 1.0 && _isBottomListTapIgnored) {
+          setState(() {
+            _isBottomListTapIgnored = false;
+          });
+        } else if (!_isBottomListTapIgnored) {
+          setState(() {
+            _isBottomListTapIgnored = true;
+          });
+        }
       });
 
     _childController = AnimationController(
       vsync: this,
       value: 1.0,
+    );
+  }
+
+  Future _hidePicker() {
+    _homeAppPickerController.clearInput();
+
+    return _bottomController.animateTo(
+      0.0,
+      duration: kDefaultAnimationDuration,
+      curve: Curves.easeIn,
     );
   }
 
@@ -357,14 +380,19 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
             );
           },
         ),
-        BottomAppList(animationController: _bottomController),
+        IgnorePointer(
+          ignoring: _isBottomListTapIgnored,
+          child: BottomAppList(animationController: _bottomController),
+        ),
       ],
     );
   }
 
   @override
   void dispose() {
-    _subscription.cancel();
+    _onBackButtonPressedSubscription.cancel();
+    _onAppPickedSubscription.cancel();
+
     _leftController.dispose();
     _rightController.dispose();
     _topController.dispose();
