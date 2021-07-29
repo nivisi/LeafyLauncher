@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/services/home_button_listener/home_button_listener.dart';
 
 import '../../../../resources/app_constants.dart';
@@ -161,23 +162,30 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   }
 
   Future _onTopSwipe() async {
-    _deviceVibration.weak();
     widget.onTopSwipe();
+
+    if (LeafySettings.vibrateAlways) {
+      _deviceVibration.weak();
+    }
   }
 
   Future _onLeftSwipe() async {
-    _deviceVibration.weak();
     widget.onLeftSwipe();
+
+    if (LeafySettings.vibrateAlways) {
+      _deviceVibration.weak();
+    }
   }
 
   Future _onRightSwipe() async {
     widget.onRightSwipe();
-    _deviceVibration.weak();
+
+    if (LeafySettings.vibrateAlways) {
+      _deviceVibration.weak();
+    }
   }
 
   Future _onBottomSwipe() async {
-    _deviceVibration.weak();
-
     if (!_homeAppPickerController.textFocusNode.hasFocus) {
       _homeAppPickerController.textFocusNode.requestFocus();
     }
@@ -187,6 +195,10 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeOut,
     );
+
+    if (LeafySettings.vibrateAlways) {
+      _deviceVibration.weak();
+    }
   }
 
   void _processChanges(
@@ -219,7 +231,9 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     }
 
     if (val >= swipeControllerThreshold && controller.value < .99) {
-      _deviceVibration.weak();
+      if (LeafySettings.vibrateAlways) {
+        _deviceVibration.weak();
+      }
     }
 
     controller.value = val;

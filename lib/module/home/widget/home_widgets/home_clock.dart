@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 import '../../../../resources/theme/home_theme.dart';
 import '../../../../services/device_vibration/device_vibration.dart';
@@ -46,7 +47,9 @@ class _HomeClockState extends ThemedState<HomeClock, HomeTheme> {
   }
 
   void _onPressed() {
-    _deviceVibration.weak();
+    if (!LeafySettings.vibrateNever) {
+      _deviceVibration.weak();
+    }
 
     _platformMethodsService.openClockApp();
   }

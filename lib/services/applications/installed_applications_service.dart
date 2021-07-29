@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 import '../../utils/enum/app_launch_transition.dart';
 import '../../utils/log/logable_mixin.dart';
@@ -111,8 +112,6 @@ class InstalledApplicationsService with LogableMixin {
     Application app, {
     AppLaunchTransition transition = AppLaunchTransition.fade,
   }) async {
-    _deviceVibration.weak();
-
     late final int transitionCode;
 
     switch (transition) {
@@ -134,6 +133,10 @@ class InstalledApplicationsService with LogableMixin {
         _argumentTransition: transitionCode,
       },
     );
+
+    if (!LeafySettings.vibrateNever) {
+      _deviceVibration.weak();
+    }
   }
 
   Future<Uint8List?> getAppIcon(Application app) async {

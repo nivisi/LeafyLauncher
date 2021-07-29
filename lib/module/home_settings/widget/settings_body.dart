@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
-import 'package:leafy_launcher/shared_widget/themed_widget.dart';
 
 import '../../../resources/app_constants.dart';
 import '../../../resources/localization/l10n.dart';

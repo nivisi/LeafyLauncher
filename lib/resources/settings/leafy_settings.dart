@@ -12,6 +12,14 @@ class _LeafySettings with LogableMixin {
   late VibrationPreferences _vibrationPreferences;
   VibrationPreferences get vibrationPreferences => _vibrationPreferences;
 
+  bool get vibrateAlways =>
+      _vibrationPreferences == VibrationPreferences.always;
+
+  bool get vibrateOnLaunch =>
+      _vibrationPreferences == VibrationPreferences.onLaunch;
+
+  bool get vibrateNever => _vibrationPreferences == VibrationPreferences.never;
+
   void _restoreVibrationPreferences() {
     const defaultVibrationPreferences = VibrationPreferences.always;
 
