@@ -12,12 +12,7 @@ import 'app_picker_controller_base.dart';
 import 'widget/app_picker.dart';
 
 class AppPickerPage extends StatusPageBase<AppPickerController, HomeTheme> {
-  final String? pickerTag;
-
-  @override
-  String? get tag => pickerTag;
-
-  const AppPickerPage({this.pickerTag});
+  const AppPickerPage();
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {

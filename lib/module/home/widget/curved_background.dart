@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import '../utils/gesture_processer.dart';
 
 class CurvePainter extends CustomPainter {
+  const CurvePainter({
+    required this.color,
+    required this.position,
+    required this.direction,
+  });
+
   static const firstXStop = 10.0;
   static const secondXStop = 35.0;
   static const thirdXStop = 86.0;
@@ -16,43 +22,37 @@ class CurvePainter extends CustomPainter {
   final double position;
   final Direction direction;
 
-  const CurvePainter({
-    required this.color,
-    required this.position,
-    required this.direction,
-  });
-
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint();
-    paint.color = color.withOpacity(position / 3.0);
-    paint.style = PaintingStyle.fill;
+    final paint = Paint()
+      ..color = color.withOpacity(position / 3.0)
+      ..style = PaintingStyle.fill;
 
-    var path = Path();
+    final path = Path();
 
     final startPosition = direction == Direction.right ? .0 : size.width;
     final multipler = direction == Direction.right ? 1.0 : -1.0;
 
-    path.moveTo(startPosition, size.height * firstYStop);
-
-    path.quadraticBezierTo(
-      startPosition + (firstXStop * multipler),
-      size.height * secondYStop,
-      startPosition + (position * secondXStop * multipler),
-      size.height * thirdYStop,
-    );
-    path.quadraticBezierTo(
-      startPosition + (position * thirdXStop * multipler),
-      size.height * fourthYStop,
-      startPosition + (position * secondXStop * multipler),
-      size.height * (1.0 - thirdYStop),
-    );
-    path.quadraticBezierTo(
-      startPosition + (firstXStop * multipler),
-      size.height * (1.0 - secondYStop),
-      startPosition,
-      size.height * (1.0 - firstYStop),
-    );
+    path
+      ..moveTo(startPosition, size.height * firstYStop)
+      ..quadraticBezierTo(
+        startPosition + (firstXStop * multipler),
+        size.height * secondYStop,
+        startPosition + (position * secondXStop * multipler),
+        size.height * thirdYStop,
+      )
+      ..quadraticBezierTo(
+        startPosition + (position * thirdXStop * multipler),
+        size.height * fourthYStop,
+        startPosition + (position * secondXStop * multipler),
+        size.height * (1.0 - thirdYStop),
+      )
+      ..quadraticBezierTo(
+        startPosition + (firstXStop * multipler),
+        size.height * (1.0 - secondYStop),
+        startPosition,
+        size.height * (1.0 - firstYStop),
+      );
 
     canvas.drawPath(path, paint);
   }

@@ -7,7 +7,6 @@ import 'package:synchronized/synchronized.dart';
 
 import '../../services/logging/file_logger.dart';
 
-
 class FileOutput extends LogOutput {
   final _fileLogService = Get.find<FileLogger>();
 
@@ -22,8 +21,8 @@ class FileOutput extends LogOutput {
   }
 
   @override
-  void output(OutputEvent event) async {
-    await _lock.synchronized(() {
+  void output(OutputEvent event) {
+    _lock.synchronized(() {
       return write(event);
     });
   }

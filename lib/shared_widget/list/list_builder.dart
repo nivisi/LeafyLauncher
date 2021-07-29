@@ -6,15 +6,7 @@ import '../leafy_spacer.dart';
 enum SeparatorType { line, space, none }
 
 class ListBuilder<T> extends StatelessWidget {
-  final Widget Function(T item) builder;
-  final Iterable<T> items;
-  final SeparatorType separatorType;
-  final bool addBottomBarPadding;
-  final EdgeInsets? padding;
-  final double? spacing;
-  final ScrollController? scrollController;
-
-  ListBuilder({
+  const ListBuilder({
     required this.builder,
     required this.items,
     this.separatorType = SeparatorType.line,
@@ -23,6 +15,15 @@ class ListBuilder<T> extends StatelessWidget {
     this.spacing,
     this.scrollController,
   });
+
+  final Widget Function(T item) builder;
+  final Iterable<T> items;
+  final SeparatorType separatorType;
+  final bool addBottomBarPadding;
+  final EdgeInsets? padding;
+  final double? spacing;
+  final ScrollController? scrollController;
+
   @override
   Widget build(BuildContext context) {
     if (separatorType != SeparatorType.none) {

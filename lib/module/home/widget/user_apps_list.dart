@@ -7,9 +7,9 @@ import '../../../utils/enum/user_selected_app_type.dart';
 import 'user_app_button.dart';
 
 class UserAppsList extends GetView<UserApplicationsController> {
-  static const double _spacerMultipler = 2.0;
-
   const UserAppsList({Key? key}) : super(key: key);
+
+  static const double _spacerMultipler = 2.0;
 
   GetBuilder _getBuilderForApp(UserSelectedAppType type) {
     return GetBuilder<UserApplicationsController>(

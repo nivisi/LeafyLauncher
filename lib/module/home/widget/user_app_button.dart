@@ -9,11 +9,6 @@ import '../../../shared_widget/themed_widget.dart';
 import '../../../shared_widget/touchable_text_button.dart';
 
 class UserAppButton extends ThemedWidget<HomeTheme> {
-  final Application? _application;
-  final void Function(Application? application) _onTapped;
-  final void Function() _onLongPress;
-  final TextStyle? _textStyle;
-
   const UserAppButton({
     Key? key,
     required Application? application,
@@ -25,6 +20,11 @@ class UserAppButton extends ThemedWidget<HomeTheme> {
         _onLongPress = onLongPress,
         _textStyle = textStyle,
         super(key: key);
+
+  final Application? _application;
+  final void Function(Application? application) _onTapped;
+  final void Function() _onLongPress;
+  final TextStyle? _textStyle;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {

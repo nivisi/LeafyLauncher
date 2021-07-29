@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/services/applications/application.dart';
 import 'package:leafy_launcher/services/home_button_listener/home_button_listener.dart';
 import 'package:rate_limiter/rate_limiter.dart';
 
@@ -67,7 +68,6 @@ class HomeController extends StatusControllerBase {
         const Duration(
           seconds: 1,
         ),
-        trailing: true,
       ),
     );
 
@@ -151,7 +151,7 @@ class HomeController extends StatusControllerBase {
     }
   }
 
-  void _onSearched() async {
+  Future<void> _onSearched() async {
     if (searchEditingController.text.isEmpty) {
       _searchSuggestions.clear();
       update([suggestionsBuilderKey]);
@@ -183,7 +183,7 @@ class HomeController extends StatusControllerBase {
       return;
     }
 
-    final app = await AppRoutes.toAppPicker(
+    final Application? app = await AppRoutes.toAppPicker(
       type: UserSelectedAppType.left,
     );
 
@@ -192,7 +192,7 @@ class HomeController extends StatusControllerBase {
     }
   }
 
-  Future onRightSwipe() async {
+  Future<void> onRightSwipe() async {
     if (_userApplicationsController.swipeRightApp != null) {
       _installedApplicationsService.launch(
         _userApplicationsController.swipeRightApp!,
@@ -202,7 +202,7 @@ class HomeController extends StatusControllerBase {
       return;
     }
 
-    final app = await AppRoutes.toAppPicker(
+    final Application? app = await AppRoutes.toAppPicker(
       type: UserSelectedAppType.right,
     );
 

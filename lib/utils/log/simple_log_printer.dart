@@ -4,8 +4,9 @@ import 'package:intl/intl.dart';
 
 import 'package:logger/logger.dart';
 
-
 class SimpleLogPrinter extends LogPrinter {
+  SimpleLogPrinter({dynamic forObject}) : _prefix = forObject?.toString();
+
   final _formatted = DateFormat('HH:mm:ss');
   final String? _prefix;
   final prettyPrinter = PrettyPrinter(methodCount: 0);
@@ -19,13 +20,11 @@ class SimpleLogPrinter extends LogPrinter {
     Level.wtf: '[WTF]',
   };
 
-  SimpleLogPrinter({dynamic forObject}) : _prefix = forObject?.toString();
-
   @override
   List<String> log(LogEvent event) {
-    var messageStr = _stringifyMessage(event.message);
-    var errorStr = event.error != null ? '  ERROR: ${event.error}' : '';
-    var timeStr = '${_formatted.format(DateTime.now())}';
+    final messageStr = _stringifyMessage(event.message);
+    final errorStr = event.error != null ? '  ERROR: ${event.error}' : '';
+    final timeStr = _formatted.format(DateTime.now());
     final list = ['$timeStr ${_labelFor(event.level)} $messageStr$errorStr'];
     if (event.stackTrace == null) {
       return list;
@@ -44,7 +43,7 @@ class SimpleLogPrinter extends LogPrinter {
   String _stringifyMessage(dynamic message) {
     String msg;
     if (message is Map || message is Iterable) {
-      var encoder = JsonEncoder.withIndent(null);
+      const encoder = JsonEncoder.withIndent(null);
       msg = encoder.convert(message);
     } else {
       msg = message.toString();

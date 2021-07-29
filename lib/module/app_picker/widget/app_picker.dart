@@ -11,14 +11,6 @@ import '../../../shared_widget/themed_widget.dart';
 import 'app_picker_button.dart';
 
 class AppPicker extends ThemedWidget<HomeTheme> {
-  final String title;
-  final FocusNode textFieldFocusNode;
-  final TextEditingController textEditingController;
-  final ScrollController scrollController;
-  final Iterable<Application> applications;
-  final void Function(Application application) onAppSelected;
-  final bool autofocusTextField;
-
   const AppPicker({
     Key? key,
     required this.title,
@@ -29,6 +21,14 @@ class AppPicker extends ThemedWidget<HomeTheme> {
     required this.onAppSelected,
     required this.autofocusTextField,
   }) : super(key: key);
+
+  final String title;
+  final FocusNode textFieldFocusNode;
+  final TextEditingController textEditingController;
+  final ScrollController scrollController;
+  final Iterable<Application> applications;
+  final void Function(Application application) onAppSelected;
+  final bool autofocusTextField;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {

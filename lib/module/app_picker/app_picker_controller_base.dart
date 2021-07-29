@@ -8,8 +8,13 @@ import '../../services/applications/user_applications_controller.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 
 abstract class AppPickerControllerBase extends StatusControllerBase {
+  AppPickerControllerBase({
+    this.selectOnFirstMatch = false,
+    this.type,
+  });
+
   static const selectOnFirstMatchParameter = 'selectOnFirstMatch';
-  static const appListBuilderKey = "appListBuilderKey";
+  static const appListBuilderKey = 'appListBuilderKey';
 
   @protected
   late final InstalledApplicationsService installedApplicationsService;
@@ -25,11 +30,6 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
 
   final UserSelectedAppType? type;
   final bool selectOnFirstMatch;
-
-  AppPickerControllerBase({
-    this.selectOnFirstMatch = false,
-    this.type,
-  });
 
   @override
   Future resolveDependencies() async {
@@ -52,7 +52,7 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
 
     _apps = installedApplicationsService.installedApps;
 
-    return await super.load();
+    return super.load();
   }
 
   void _onTypedText() {

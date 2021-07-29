@@ -8,14 +8,6 @@ import '../../utils/gesture_processer.dart';
 import '../curved_background.dart';
 
 class HorizontalEdgeApp extends ThemedWidget<HomeTheme> {
-  static const _offsetMultipler = 50.0;
-  static const _startingOffset = 50.0;
-
-  final AnimationController _animationController;
-  final Widget _child;
-  final double _iconSize;
-  final Direction _direction;
-
   const HorizontalEdgeApp({
     Key? key,
     required AnimationController animationController,
@@ -28,22 +20,24 @@ class HorizontalEdgeApp extends ThemedWidget<HomeTheme> {
         _direction = direction,
         super(key: key);
 
+  static const _offsetMultipler = 50.0;
+  static const _startingOffset = 50.0;
+
+  final AnimationController _animationController;
+  final Widget _child;
+  final double _iconSize;
+  final Direction _direction;
+
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return AnimatedBuilder(
       animation: _animationController,
-      child: SizedBox(
-        width: _iconSize,
-        height: _iconSize,
-        child: _child,
-      ),
       builder: (context, child) {
-        var val = _animationController.value * _offsetMultipler;
+        final val = _animationController.value * _offsetMultipler;
 
         return Stack(
           children: [
             IgnorePointer(
-              ignoring: true,
               child: SizedBox(
                 width: Get.size.width,
                 height: Get.size.height,
@@ -64,12 +58,17 @@ class HorizontalEdgeApp extends ThemedWidget<HomeTheme> {
               bottom: (Get.size.height - _iconSize) / 2.0,
               child: Opacity(
                 opacity: _animationController.value,
-                child: child!,
+                child: child,
               ),
             ),
           ],
         );
       },
+      child: SizedBox(
+        width: _iconSize,
+        height: _iconSize,
+        child: _child,
+      ),
     );
   }
 }

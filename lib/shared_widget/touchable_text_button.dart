@@ -5,13 +5,6 @@ import 'package:flutter/material.dart';
 import '../resources/app_constants.dart';
 
 class TouchableTextButton extends StatefulWidget {
-  final String text;
-  final VoidCallback? onTap;
-  final VoidCallback? onLongPress;
-  final Color? color;
-  final Color? pressedColor;
-  final TextStyle? style;
-
   const TouchableTextButton({
     Key? key,
     required this.text,
@@ -21,6 +14,13 @@ class TouchableTextButton extends StatefulWidget {
     this.pressedColor,
     this.style,
   }) : super(key: key);
+
+  final String text;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final Color? color;
+  final Color? pressedColor;
+  final TextStyle? style;
 
   @override
   _TouchableTextButtonState createState() => _TouchableTextButtonState();
@@ -106,7 +106,7 @@ class _TouchableTextButtonState extends State<TouchableTextButton>
 
           return Text(
             widget.text,
-            style: style.copyWith(color: _colorTween.value),
+            style: style.copyWith(color: _colorTween.value as Color?),
           );
         },
       ),

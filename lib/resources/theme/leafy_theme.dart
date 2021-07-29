@@ -14,12 +14,12 @@ part 'theme_creators.dart';
 LeafyThemeStyle _currentStyle = LeafyThemeStyle.dark;
 
 class LeafyThemeState<TTheme extends LeafyTheme> extends StatefulWidget {
-  final Widget Function(BuildContext context, LeafyTheme theme) builder;
-
   const LeafyThemeState({
     Key? key,
     required this.builder,
   }) : super(key: key);
+
+  final Widget Function(BuildContext context, LeafyTheme theme) builder;
 
   @override
   _LeafyThemeState<TTheme> createState() => _LeafyThemeState<TTheme>();
@@ -74,6 +74,22 @@ class _LeafyThemeState<TTheme extends LeafyTheme>
 }
 
 abstract class LeafyTheme extends InheritedWidget {
+  const LeafyTheme({
+    Key? key,
+    required Widget child,
+    required this.style,
+    required this.leafyColor,
+    required this.foregroundColor,
+    required this.foregroundPressedColor,
+    required this.backgroundColor,
+    required this.textInfoColor,
+    required this.bodyText1,
+    required this.bodyText2,
+    required this.bodyText3,
+    required this.bodyText4,
+    required this.bodyText5,
+  }) : super(key: key, child: child);
+
   static Logger logger = getLogger(forObject: 'LeafyTheme');
 
   static LeafyThemeStyle get currentStyle => _currentStyle;
@@ -99,22 +115,6 @@ abstract class LeafyTheme extends InheritedWidget {
       callback();
     });
   }
-
-  const LeafyTheme({
-    Key? key,
-    required Widget child,
-    required this.style,
-    required this.leafyColor,
-    required this.foregroundColor,
-    required this.foregroundPressedColor,
-    required this.backgroundColor,
-    required this.textInfoColor,
-    required this.bodyText1,
-    required this.bodyText2,
-    required this.bodyText3,
-    required this.bodyText4,
-    required this.bodyText5,
-  }) : super(key: key, child: child);
 
   @override
   @nonVirtual

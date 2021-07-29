@@ -17,6 +17,8 @@ import 'widget/horizontal_swipe_app_icon.dart';
 import 'widget/user_apps_list.dart';
 
 class HomePage extends StatusPageBase<HomeController, HomeTheme> {
+  const HomePage();
+
   @override
   bool get resizeToAvoidBottomInset => false;
 
@@ -25,8 +27,6 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
 
   @override
   OnWillPopData get onWillPopData => OnWillPopData(_onWillPop);
-
-  const HomePage();
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
@@ -53,7 +53,6 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
@@ -69,9 +68,9 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const LeafySpacer(multipler: 2.5),
-                      const UserAppsList(),
+                    children: const [
+                      LeafySpacer(multipler: 2.5),
+                      UserAppsList(),
                     ],
                   ),
                 ),
@@ -88,9 +87,9 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
               ),
             ],
           ),
-          Align(
+          const Align(
             alignment: Alignment.topLeft,
-            child: const Padding(
+            child: Padding(
               padding: EdgeInsets.only(
                 left: kHomeHorizontalPadding,
                 top: kHomeVerticalPadding,
@@ -98,9 +97,9 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
               child: HomeClock(),
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.topRight,
-            child: const Padding(
+            child: Padding(
               padding: EdgeInsets.only(
                 right: kHomeHorizontalPadding,
                 top: kHomeVerticalPadding,

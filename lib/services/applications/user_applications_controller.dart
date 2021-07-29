@@ -187,8 +187,9 @@ class UserApplicationsController extends StatusControllerBase {
 
     update([getBuilderId(type)]);
 
-    logger.i('${type.localize()} App was set');
-    logger.v('The app was ${app.name}');
+    logger
+      ..i('${type.localize()} App was set')
+      ..v('The app was ${app.name}');
   }
 
   String getBuilderId(UserSelectedAppType type) {
@@ -212,7 +213,7 @@ class UserApplicationsController extends StatusControllerBase {
 
   Future selectApp(UserSelectedAppType type) async {
     final str = stringifyUserSelectedAppType(type);
-    final application = await Get.toNamed(
+    final application = await Get.toNamed<Application>(
       '${AppRoutes.appPicker}/$str',
     );
 
