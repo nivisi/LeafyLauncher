@@ -55,7 +55,7 @@ class InstalledApplicationsService with LogableMixin {
       final map = item as Map;
 
       final name = map['name'];
-      final package = map['name'];
+      final package = map['package'];
 
       if (name is String && package is String) {
         return InstalledApplication(name: name, package: package);
@@ -81,7 +81,9 @@ class InstalledApplicationsService with LogableMixin {
       return _instance!;
     }
 
-    final installedApplications = InstalledApplicationsService._().._init();
+    final installedApplications = InstalledApplicationsService._();
+
+    installedApplications._init();
 
     return _instance = installedApplications;
   }

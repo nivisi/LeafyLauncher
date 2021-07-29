@@ -6,6 +6,7 @@ class _Theme extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           L10nProvider.getText(L10n.settingsTheme),

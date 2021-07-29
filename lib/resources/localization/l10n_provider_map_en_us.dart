@@ -24,4 +24,8 @@ var _mapEn = {
   L10n.userSelectedAppTypeFourth: 'Fourth',
   L10n.userSelectedAppTypeLeft: 'Left',
   L10n.userSelectedAppTypeRight: 'Right',
+  L10n.settingsVibration: 'Vibration',
+  L10n.vibrationPreferencesAlways: 'Always',
+  L10n.vibrationPreferencesOnLaunch: 'On Launch',
+  L10n.vibrationPreferencesNever: 'Never',
 };

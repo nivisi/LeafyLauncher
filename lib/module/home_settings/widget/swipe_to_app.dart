@@ -9,10 +9,11 @@ class _SwipeToApp
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     final key = type == UserSelectedAppType.left
-        ? L10n.settingsToRightApp
-        : L10n.settingsToLeftApp;
+        ? L10n.settingsToLeftApp
+        : L10n.settingsToRightApp;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           L10nProvider.getText(key),

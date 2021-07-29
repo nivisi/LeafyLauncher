@@ -22,9 +22,6 @@ linter:
     # Sometimes it just doesn't make sense.
     lines_longer_than_80_chars: true
 
-    # For test purposes. Perhaps it's not needed.
-    cascade_invocations: true
-
     # Make variables "var" only when really needed.
     prefer_final_locals: true
 

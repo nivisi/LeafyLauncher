@@ -6,11 +6,13 @@ class _Language extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           L10nProvider.getText(L10n.settingsLanguage),
           style: theme.bodyText2.copyWith(color: theme.textInfoColor),
         ),
+        const LeafySpacer(),
         TouchableTextButton(
           text: Get.locale!.toLanguageTag(),
           style: theme.bodyText2,

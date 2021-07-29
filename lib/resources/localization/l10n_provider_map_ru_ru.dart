@@ -24,4 +24,8 @@ var _mapRu = {
   L10n.userSelectedAppTypeFourth: 'Четвертое',
   L10n.userSelectedAppTypeLeft: 'Влево',
   L10n.userSelectedAppTypeRight: 'Вправо',
+  L10n.settingsVibration: 'Вибрация',
+  L10n.vibrationPreferencesAlways: 'Всегда',
+  L10n.vibrationPreferencesOnLaunch: 'По запуску',
+  L10n.vibrationPreferencesNever: 'Никогда',
 };

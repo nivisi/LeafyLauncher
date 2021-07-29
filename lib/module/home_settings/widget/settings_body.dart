@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
 
 import '../../../resources/app_constants.dart';
@@ -18,6 +19,7 @@ import '../../home/widget/user_app_button.dart';
 part 'swipe_to_app.dart';
 part 'theme.dart';
 part 'language.dart';
+part 'vibration_preference.dart';
 
 class SettingsBody
     extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
@@ -50,6 +52,8 @@ class SettingsBody
           const _Theme(),
           const LeafySpacer(multipler: _spacerMultipler),
           const _Language(),
+          const LeafySpacer(multipler: _spacerMultipler),
+          const _VibrationPreferences(),
         ],
       ),
     );

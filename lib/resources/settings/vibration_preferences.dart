@@ -24,15 +24,28 @@ VibrationPreferences _vibrationPreferencesFromString(String str) {
 }
 
 String _vibrationPreferencesToString(
-  VibrationPreferences vibrationPreferences,
+  VibrationPreferences preferences,
 ) {
-  switch (vibrationPreferences) {
+  switch (preferences) {
     case VibrationPreferences.always:
       return _kAlways;
     case VibrationPreferences.onLaunch:
       return _kOnLaunch;
     case VibrationPreferences.never:
       return _kNever;
+    default:
+      throw Exception('Unknown VibrationPreferencesType');
+  }
+}
+
+String localizeVibrationPreferences(VibrationPreferences preferences) {
+  switch (preferences) {
+    case VibrationPreferences.always:
+      return L10nProvider.getText(L10n.vibrationPreferencesAlways);
+    case VibrationPreferences.onLaunch:
+      return L10nProvider.getText(L10n.vibrationPreferencesOnLaunch);
+    case VibrationPreferences.never:
+      return L10nProvider.getText(L10n.vibrationPreferencesNever);
     default:
       throw Exception('Unknown VibrationPreferencesType');
   }
