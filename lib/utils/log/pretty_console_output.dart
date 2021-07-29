@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
 class PrettyConsoleOutput extends ConsoleOutput {
@@ -13,7 +14,7 @@ class PrettyConsoleOutput extends ConsoleOutput {
   @override
   void output(OutputEvent event) {
     for (var i = 0; i < event.lines.length; i++) {
-      print('${i == 0 ? levelEmojis[event.level] : ''}${event.lines[i]}');
+      debugPrint('${i == 0 ? levelEmojis[event.level] : ''}${event.lines[i]}');
     }
   }
 }

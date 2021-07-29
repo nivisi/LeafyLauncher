@@ -5,13 +5,15 @@ import '../../resources/theme/leafy_theme.dart';
 import '../controller/controller_base.dart';
 
 class OnWillPopData {
-  Future<bool> Function() onWillPop;
-
   OnWillPopData(this.onWillPop);
+
+  Future<bool> Function() onWillPop;
 }
 
 abstract class PageBase<TController extends ControllerBase,
     TTheme extends LeafyTheme> extends GetView<TController> {
+  const PageBase();
+
   @protected
   bool get resizeToAvoidBottomInset => true;
 
@@ -20,8 +22,6 @@ abstract class PageBase<TController extends ControllerBase,
 
   @protected
   OnWillPopData? get onWillPopData => null;
-
-  const PageBase();
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +43,8 @@ abstract class PageBase<TController extends ControllerBase,
 
     if (onWillPopData != null) {
       widget = WillPopScope(
-        child: widget,
         onWillPop: onWillPopData!.onWillPop,
+        child: widget,
       );
     }
 

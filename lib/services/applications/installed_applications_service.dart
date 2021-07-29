@@ -25,10 +25,10 @@ const _methodLaunch = 'launch';
 const _methodGetAppIcon = 'getAppIcon';
 
 class InstalledApplicationsService with LogableMixin {
+  InstalledApplicationsService._();
+
   static InstalledApplicationsService? _instance;
   static late final DeviceVibration _deviceVibration;
-
-  InstalledApplicationsService._();
 
   late final Iterable<InstalledApplication> _installedApps;
   late final Iterable<LeafyApplication> _leafyApps;
@@ -54,12 +54,20 @@ class InstalledApplicationsService with LogableMixin {
     final parsed = maps.map((item) {
       final map = item as Map;
 
-      return InstalledApplication(name: map['name'], package: map['package']);
+      final name = map['name'];
+      final package = map['name'];
+
+      if (name is String && package is String) {
+        return InstalledApplication(name: name, package: package);
+      }
+
+      throw Exception('Unable to parse a map');
     });
 
-    final parcedMap = parsed.toList();
-
-    parcedMap.sort((a, b) => a.name.compareTo(b.name));
+    final parcedMap = parsed.toList()
+      ..sort(
+        (a, b) => a.name.compareTo(b.name),
+      );
 
     _installedApps = parcedMap;
 
@@ -73,9 +81,7 @@ class InstalledApplicationsService with LogableMixin {
       return _instance!;
     }
 
-    final installedApplications = InstalledApplicationsService._();
-
-    installedApplications._init();
+    final installedApplications = InstalledApplicationsService._().._init();
 
     return _instance = installedApplications;
   }
@@ -128,15 +134,19 @@ class InstalledApplicationsService with LogableMixin {
     );
   }
 
-  Future<Uint8List> getAppIcon(Application app) async {
-    final data = await _appChannel.invokeMethod(
+  Future<Uint8List?> getAppIcon(Application app) async {
+    final data = await _appChannel.invokeMethod<String>(
       _methodGetAppIcon,
       {
         _argumentPackageName: app.package,
       },
     );
 
-    final bytes = Base64Decoder().convert(data);
+    if (data == null) {
+      return null;
+    }
+
+    final bytes = const Base64Decoder().convert(data);
 
     return bytes;
   }

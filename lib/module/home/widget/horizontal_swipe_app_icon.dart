@@ -9,12 +9,12 @@ import '../../../utils/enum/user_selected_app_type.dart';
 
 class HorizontalSwipeAppIcon
     extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
-  final UserSelectedAppType appType;
-
   const HorizontalSwipeAppIcon({
     Key? key,
     required this.appType,
   }) : super(key: key);
+
+  final UserSelectedAppType appType;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {

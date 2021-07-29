@@ -12,15 +12,15 @@ import '../../../app_picker/app_picker_home_controller.dart';
 import '../../../app_picker/widget/app_picker.dart';
 
 class BottomAppList extends ThemedWidget<HomeTheme> {
-  static const double _padding = 125.0;
-
-  final AnimationController _animationController;
-
   const BottomAppList({
     Key? key,
     required AnimationController animationController,
   })  : _animationController = animationController,
         super(key: key);
+
+  static const double _padding = 125.0;
+
+  final AnimationController _animationController;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
@@ -29,22 +29,6 @@ class BottomAppList extends ThemedWidget<HomeTheme> {
       padding: const EdgeInsets.only(top: kDefaultPadding * 2.0),
       child: AnimatedBuilder(
         animation: _animationController,
-        child: SafeArea(
-          child: GetBuilder<AppPickerHomeController>(
-            id: AppPickerControllerBase.appListBuilderKey,
-            builder: (controller) {
-              return AppPicker(
-                title: L10nProvider.getText(L10n.appPickerLaunchApp),
-                autofocusTextField: false,
-                textFieldFocusNode: controller.textFocusNode,
-                textEditingController: controller.textEditingController,
-                scrollController: controller.scrollController,
-                applications: controller.apps,
-                onAppSelected: controller.onAppSelected,
-              );
-            },
-          ),
-        ),
         builder: (context, child) {
           final value = _animationController.value;
 
@@ -61,6 +45,22 @@ class BottomAppList extends ThemedWidget<HomeTheme> {
             ),
           );
         },
+        child: SafeArea(
+          child: GetBuilder<AppPickerHomeController>(
+            id: AppPickerControllerBase.appListBuilderKey,
+            builder: (controller) {
+              return AppPicker(
+                title: L10nProvider.getText(L10n.appPickerLaunchApp),
+                autofocusTextField: false,
+                textFieldFocusNode: controller.textFocusNode,
+                textEditingController: controller.textEditingController,
+                scrollController: controller.scrollController,
+                applications: controller.apps,
+                onAppSelected: controller.onAppSelected,
+              );
+            },
+          ),
+        ),
       ),
     );
   }

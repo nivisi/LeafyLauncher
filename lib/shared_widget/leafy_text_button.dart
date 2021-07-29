@@ -4,11 +4,6 @@ import '../resources/theme/leafy_theme.dart';
 import 'themed_widget.dart';
 
 class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
-  final Color? backgroundColor;
-  final VoidCallback? onPressed;
-  final VoidCallback? onLongPressed;
-  final Widget child;
-
   const LeafyTextButton({
     Key? key,
     required this.child,
@@ -16,6 +11,11 @@ class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
     this.onLongPressed,
     this.backgroundColor,
   }) : super(key: key);
+
+  final Color? backgroundColor;
+  final VoidCallback? onPressed;
+  final VoidCallback? onLongPressed;
+  final Widget child;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
@@ -34,8 +34,8 @@ class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
     return TextButton(
       onPressed: onPressed,
       onLongPress: onLongPressed,
-      child: child,
       style: style,
+      child: child,
     );
   }
 }

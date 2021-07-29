@@ -16,9 +16,9 @@ import '../../home/widget/user_app_button.dart';
 
 class LeftAndRightAppsList
     extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
-  static const double _spacerMultipler = 4.0;
-
   const LeftAndRightAppsList({Key? key}) : super(key: key);
+
+  static const double _spacerMultipler = 4.0;
 
   GetBuilder _getBuilderForApp(UserSelectedAppType type, LeafyTheme theme) {
     return GetBuilder<UserApplicationsController>(

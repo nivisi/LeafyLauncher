@@ -1,13 +1,6 @@
 part of 'corner_button.dart';
 
 class _ConfiguredIconButton extends ThemedWidget<HomeTheme> {
-  static const _size = 48.0;
-
-  final CornerButtonType type;
-  final VoidCallback onPressed;
-  final VoidCallback? onLongPressed;
-  final EdgeInsets? margin;
-
   const _ConfiguredIconButton({
     Key? key,
     required this.type,
@@ -15,6 +8,13 @@ class _ConfiguredIconButton extends ThemedWidget<HomeTheme> {
     this.onLongPressed,
     this.margin,
   }) : super(key: key);
+
+  static const _size = 48.0;
+
+  final CornerButtonType type;
+  final VoidCallback onPressed;
+  final VoidCallback? onLongPressed;
+  final EdgeInsets? margin;
 
   IconData _iconDataFromCornerButtonType(CornerButtonType type) {
     switch (type) {

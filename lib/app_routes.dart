@@ -17,7 +17,7 @@ class AppRoutes {
   }) {
     final returnOnFirstMatchStr = returnOnFirstMatch ? 'true' : 'false';
 
-    final paramName = AppPickerControllerBase.selectOnFirstMatchParameter;
+    const paramName = AppPickerControllerBase.selectOnFirstMatchParameter;
 
     if (type == null) {
       return Get.toNamed(

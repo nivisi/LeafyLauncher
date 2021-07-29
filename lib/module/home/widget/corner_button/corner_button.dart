@@ -21,17 +21,17 @@ enum CornerButtonPosition {
 }
 
 class CornerButton extends StatefulWidget {
-  final CornerButtonType type;
-  final CornerButtonPosition position;
-
-  final Iterable<CornerButtonType> otherTypes;
-
   CornerButton({
     Key? key,
     required this.type,
     required this.position,
   })  : otherTypes = CornerButtonType.values.toList()..remove(type),
         super(key: key);
+
+  final CornerButtonType type;
+  final CornerButtonPosition position;
+
+  final Iterable<CornerButtonType> otherTypes;
 
   @override
   _CornerButtonState createState() => _CornerButtonState();

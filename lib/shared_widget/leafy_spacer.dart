@@ -8,13 +8,14 @@ enum LeafySpacerType {
 }
 
 class LeafySpacer extends StatelessWidget {
-  final double multipler;
-  final LeafySpacerType type;
-
   const LeafySpacer({
+    Key? key,
     this.multipler = 1.0,
     this.type = LeafySpacerType.vertical,
-  }) : super();
+  }) : super(key: key);
+
+  final double multipler;
+  final LeafySpacerType type;
 
   @override
   Widget build(BuildContext context) {

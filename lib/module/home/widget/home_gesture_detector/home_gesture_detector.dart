@@ -14,17 +14,7 @@ import 'bottom_app_list.dart';
 import 'horizontal_edge_app.dart';
 
 class HomeGestureDetector extends StatefulWidget {
-  final Widget child;
-  final Widget left;
-  final Widget right;
-  final Widget top;
-  final Widget bottom;
-  final VoidCallback onLeftSwipe;
-  final VoidCallback onRightSwipe;
-  final VoidCallback onTopSwipe;
-  final VoidCallback onLongPress;
-
-  HomeGestureDetector({
+  const HomeGestureDetector({
     Key? key,
     required this.child,
     required this.left,
@@ -36,6 +26,16 @@ class HomeGestureDetector extends StatefulWidget {
     required this.onTopSwipe,
     required this.onLongPress,
   }) : super(key: key);
+
+  final Widget child;
+  final Widget left;
+  final Widget right;
+  final Widget top;
+  final Widget bottom;
+  final VoidCallback onLeftSwipe;
+  final VoidCallback onRightSwipe;
+  final VoidCallback onTopSwipe;
+  final VoidCallback onLongPress;
 
   @override
   _HomeGestureDetectorState createState() => _HomeGestureDetectorState();
@@ -194,10 +194,10 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     AnimationController oppositeController,
     double change,
   ) {
-    change /= gestureUpdateDivider;
+    final realChange = change / gestureUpdateDivider;
 
     if (oppositeController.value > .0) {
-      var val = oppositeController.value - change;
+      var val = oppositeController.value - realChange;
 
       if (val <= .0) {
         val = .0;
@@ -208,7 +208,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       return;
     }
 
-    var val = controller.value + change;
+    var val = controller.value + realChange;
 
     if (val >= 1.0) {
       val = 1.0;
@@ -225,7 +225,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     controller.value = val;
   }
 
-  void _onHorizontalUpdate(DragUpdateDetails details) async {
+  Future<void> _onHorizontalUpdate(DragUpdateDetails details) async {
     final direction = details.delta.dx > .0 ? Direction.right : Direction.left;
 
     final controller =
@@ -266,7 +266,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     );
   }
 
-  void _onHorizontalDragEnd(DragEndDetails details) async {
+  Future<void> _onHorizontalDragEnd(DragEndDetails details) async {
     if (_leftController.value >= swipeControllerThreshold) {
       _onLeftSwipe();
 
@@ -276,10 +276,11 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       _onRightSwipe();
 
       _hideHorizontalIcons();
+
       return;
     }
 
-    final minFlingVelocity = 2300.0;
+    const minFlingVelocity = 2300.0;
 
     final visualVelocity = details.velocity.pixelsPerSecond.dx;
 
@@ -294,7 +295,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     _hideHorizontalIcons();
   }
 
-  void _onVerticalUpdate(DragUpdateDetails details) async {
+  Future<void> _onVerticalUpdate(DragUpdateDetails details) async {
     final direction = details.delta.dy > .0 ? Direction.down : Direction.up;
 
     final controller =
@@ -309,7 +310,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     _processChanges(controller, oppositeController, change);
   }
 
-  void _onVerticalDragEnd(DragEndDetails details) async {
+  Future<void> _onVerticalDragEnd(DragEndDetails details) async {
     if (_topController.value >= swipeControllerThreshold) {
       _onTopSwipe();
 
@@ -327,7 +328,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       return;
     }
 
-    final minFlingVelocity = 2200.0;
+    const minFlingVelocity = 2200.0;
 
     final visualVelocity = details.velocity.pixelsPerSecond.dy;
 
@@ -367,25 +368,21 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
         ),
         HorizontalEdgeApp(
           animationController: _rightController,
-          child: widget.right,
           direction: Direction.right,
           iconSize: swipeIconSize,
+          child: widget.right,
         ),
         HorizontalEdgeApp(
           animationController: _leftController,
-          child: widget.left,
           direction: Direction.left,
           iconSize: swipeIconSize,
+          child: widget.left,
         ),
         AnimatedBuilder(
           animation: _topController,
-          child: SizedBox(
-            width: swipeIconSize,
-            height: swipeIconSize,
-            child: Center(child: widget.top),
-          ),
           builder: (context, child) {
-            var val = _topController.value * offsetMultipler + 5.0;
+            final val = _topController.value * offsetMultipler + 5.0;
+
             return Stack(
               children: [
                 Positioned(
@@ -393,12 +390,17 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
                   left: (Get.size.width - swipeIconSize) / 2.0,
                   child: Opacity(
                     opacity: _topController.value,
-                    child: child!,
+                    child: child,
                   ),
                 ),
               ],
             );
           },
+          child: SizedBox(
+            width: swipeIconSize,
+            height: swipeIconSize,
+            child: Center(child: widget.top),
+          ),
         ),
         IgnorePointer(
           ignoring: !_isBottomListPresented,
@@ -412,6 +414,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   void dispose() {
     _onBackButtonPressedSubscription.cancel();
     _onAppPickedSubscription.cancel();
+    _onHomeButtonPressedSubscription.cancel();
 
     _leftController.dispose();
     _rightController.dispose();

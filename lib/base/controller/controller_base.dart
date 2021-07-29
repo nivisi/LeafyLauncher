@@ -11,9 +11,7 @@ abstract class ControllerBase extends GetxController with LogableMixin {
   @protected
   @nonVirtual
   Future init() async {
-    logger.i('Initializing ...');
-
-    logger.i('Resolving dependencies ...');
+    logger..i('Initializing ...')..i('Resolving dependencies ...');
 
     await resolveDependencies();
 

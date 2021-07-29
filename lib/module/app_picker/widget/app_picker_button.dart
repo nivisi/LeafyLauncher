@@ -7,14 +7,14 @@ import '../../../shared_widget/themed_widget.dart';
 import '../../../shared_widget/touchable_text_button.dart';
 
 class AppPickerButton extends ThemedWidget<HomeTheme> {
-  final Application application;
-  final void Function(Application app) onTapped;
-
   const AppPickerButton({
     Key? key,
     required this.application,
     required this.onTapped,
   }) : super(key: key);
+
+  final Application application;
+  final void Function(Application app) onTapped;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {

@@ -20,6 +20,6 @@ class StartupPage extends StatusPageBase<StartupController, HomeTheme> {
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
-    return Center(child: Text('Im the startup page'));
+    return const Center(child: Text('Im the startup page'));
   }
 }

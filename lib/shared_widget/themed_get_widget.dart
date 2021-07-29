@@ -4,13 +4,11 @@ import 'package:get/get.dart';
 import '../resources/theme/leafy_theme.dart';
 
 abstract class ThemedGetWidget<TController extends GetxController,
-        TTheme extends LeafyTheme> extends StatelessWidget
-    implements GetView<TController> {
-  final String? tag = null;
-
-  TController get controller => GetInstance().find<TController>(tag: tag);
-
+    TTheme extends LeafyTheme> extends GetView<TController> {
   const ThemedGetWidget({Key? key}) : super(key: key);
+
+  @override
+  TController get controller => GetInstance().find<TController>(tag: tag);
 
   @override
   @nonVirtual
@@ -18,7 +16,7 @@ abstract class ThemedGetWidget<TController extends GetxController,
     final theme = context.dependOnInheritedWidgetOfExactType<TTheme>();
 
     if (theme == null) {
-      return const Text('THEME NOT FOUND!');
+      throw Exception('Theme not found!');
     }
 
     return body(context, theme);

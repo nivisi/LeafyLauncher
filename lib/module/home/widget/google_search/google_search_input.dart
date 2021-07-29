@@ -5,16 +5,16 @@ import '../../../../resources/theme/leafy_theme.dart';
 import '../../../../shared_widget/themed_widget.dart';
 
 class GoogleSearchInput extends ThemedWidget<HomeTheme> {
-  final TextEditingController controller;
-  final FocusNode? focusNode;
-  final void Function(String)? onEditingComplete;
-
-  GoogleSearchInput({
+  const GoogleSearchInput({
     Key? key,
     required this.controller,
     this.focusNode,
     this.onEditingComplete,
-  });
+  }) : super(key: key);
+
+  final TextEditingController controller;
+  final FocusNode? focusNode;
+  final void Function(String)? onEditingComplete;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
@@ -22,9 +22,7 @@ class GoogleSearchInput extends ThemedWidget<HomeTheme> {
       decoration: InputDecoration(
         filled: true,
         fillColor: theme.foregroundColor,
-        prefixIcon: Icon(
-          Icons.search,
-        ),
+        prefixIcon: const Icon(Icons.search),
       ),
       controller: controller,
       focusNode: focusNode,

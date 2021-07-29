@@ -1,14 +1,14 @@
 part of 'corner_button.dart';
 
 class _OtherAppsList extends StatelessWidget {
-  final Function(CornerButtonType type) onPressed;
-  final Iterable<CornerButtonType> types;
-
   const _OtherAppsList({
     Key? key,
     required this.types,
     required this.onPressed,
   }) : super(key: key);
+
+  final Function(CornerButtonType type) onPressed;
+  final Iterable<CornerButtonType> types;
 
   List<Widget> _getOtherTypesChildren() {
     return types

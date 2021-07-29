@@ -19,13 +19,13 @@ enum ControllerErrorType {
 }
 
 class ControllerError {
-  final ControllerErrorType type;
-  final String? message;
-
   ControllerError({
     required this.type,
     this.message,
   });
+
+  final ControllerErrorType type;
+  final String? message;
 
   @override
   String toString() {
@@ -50,13 +50,12 @@ abstract class StatusControllerBase extends ControllerBase {
 
   Future get ensureLoaded => _loadedCompleter.future;
 
+  @override
   @protected
   @nonVirtual
   // ignore: invalid_override_of_non_virtual_member
   Future init() async {
-    logger.i('Initializing ...');
-
-    logger.i('Resolving dependencies ...');
+    logger..i('Initializing ...')..i('Resolving dependencies ...');
 
     await resolveDependencies();
 
@@ -77,6 +76,7 @@ abstract class StatusControllerBase extends ControllerBase {
     }
   }
 
+  @override
   @protected
   Future resolveDependencies() async {}
 

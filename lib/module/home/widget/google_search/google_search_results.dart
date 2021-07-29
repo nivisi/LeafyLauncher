@@ -7,14 +7,14 @@ import '../../../../shared_widget/list/list_builder.dart';
 import '../../../../shared_widget/themed_widget.dart';
 
 class GoogleSearchResults extends ThemedWidget<HomeTheme> {
-  final Iterable<String> results;
-  final void Function(String) onSuggestionPicked;
-
-  GoogleSearchResults({
+  const GoogleSearchResults({
     Key? key,
     required this.results,
     required this.onSuggestionPicked,
-  });
+  }) : super(key: key);
+
+  final Iterable<String> results;
+  final void Function(String) onSuggestionPicked;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
