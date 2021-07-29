@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 import 'app_routes.dart';
 import 'module/app_picker/app_picker_binding.dart';
@@ -61,6 +62,8 @@ class LeafyLauncher {
     initSecondaryDependencies();
 
     LeafyTheme.restoreThemeStyle();
+
+    await LeafySettings.restore();
 
     L10n.restoreLocale();
 
