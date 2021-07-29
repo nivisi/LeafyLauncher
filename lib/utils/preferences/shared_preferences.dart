@@ -4,6 +4,7 @@ const kThemeStyleKey = 'themeStyle';
 const kLocaleKey = 'locale';
 const kLeftCornerButtonType = 'leftCornerButtonType';
 const kRightCornerButtonType = 'rightCornerButtonType';
+const kVibrationPreferences = 'vibrationPreferences';
 
 late final SharedPreferences sharedPreferences;
 

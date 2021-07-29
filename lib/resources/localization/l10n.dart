@@ -69,4 +69,9 @@ class L10n {
   static const String userSelectedAppTypeFourth = 'userSelectedAppTypeFourth';
   static const String userSelectedAppTypeLeft = 'userSelectedAppTypeLeft';
   static const String userSelectedAppTypeRight = 'userSelectedAppTypeRight';
+  static const String settingsVibration = 'vibrationPreferences';
+  static const String vibrationPreferencesAlways = 'vibrationPreferencesAlways';
+  static const String vibrationPreferencesOnLaunch =
+      'vibrationPreferencesOnLaunch';
+  static const String vibrationPreferencesNever = 'vibrationPreferencesNever';
 }

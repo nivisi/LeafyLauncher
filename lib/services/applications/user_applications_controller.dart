@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 import '../../app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
@@ -16,6 +17,9 @@ import 'installed_applications_service.dart';
 typedef _AppSetter = void Function(Application? app);
 
 class UserApplicationsController extends StatusControllerBase {
+  static const String kVibrationPreferencesBuilderKey =
+      'vibrationPreferencesBuilderKey';
+
   static const String appFirstKey = 'firstApp';
   static const String appSecondKey = 'secondApp';
   static const String appThirdKey = 'thirdApp';
@@ -38,6 +42,9 @@ class UserApplicationsController extends StatusControllerBase {
   final Rxn<Application> _fourthApp = Rxn<Application>();
   final Rxn<Application> _swipeLeftApp = Rxn<Application>();
   final Rxn<Application> _swipeRightApp = Rxn<Application>();
+
+  late VibrationPreferences _vibrationPreferences;
+  VibrationPreferences get vibrationPreferences => _vibrationPreferences;
 
   Application? get firstApp => _firstApp.value;
   Application? get secondApp => _secondApp.value;
@@ -127,6 +134,8 @@ class UserApplicationsController extends StatusControllerBase {
 
   @override
   Future load() async {
+    _vibrationPreferences = LeafySettings.vibrationPreferences;
+
     await _restore(_firstAppSetter, appFirstKey);
     await _restore(_secondAppSetter, appSecondKey);
     await _restore(_thirdAppSetter, appThirdKey);
@@ -213,15 +222,13 @@ class UserApplicationsController extends StatusControllerBase {
 
   Future selectApp(UserSelectedAppType type) async {
     final str = stringifyUserSelectedAppType(type);
-    final application = await Get.toNamed<Application>(
+    final application = await Get.toNamed(
       '${AppRoutes.appPicker}/$str',
     );
 
-    if (application == null) {
-      return;
+    if (application is Application) {
+      await setApp(application, type);
     }
-
-    await setApp(application, type);
   }
 
   Future launchApp(Application application) {
@@ -236,6 +243,29 @@ class UserApplicationsController extends StatusControllerBase {
     final locale = L10n.isRu ? L10n.enLocale : L10n.ruLocale;
 
     L10n.setLocale(locale);
+  }
+
+  void toggleVibrationPreferences() {
+    late final VibrationPreferences toSet;
+
+    switch (_vibrationPreferences) {
+      case VibrationPreferences.always:
+        toSet = VibrationPreferences.onLaunch;
+        break;
+      case VibrationPreferences.onLaunch:
+        toSet = VibrationPreferences.never;
+        break;
+      case VibrationPreferences.never:
+        toSet = VibrationPreferences.always;
+        break;
+      default:
+        throw Exception('Unknown VibrationPreferenesType');
+    }
+
+    LeafySettings.setVibrationPreferences(toSet);
+    _vibrationPreferences = toSet;
+
+    update([kVibrationPreferencesBuilderKey]);
   }
 
   void openLauncherPreferences() {

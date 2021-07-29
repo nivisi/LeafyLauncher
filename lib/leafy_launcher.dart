@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 import 'app_routes.dart';
 import 'module/app_picker/app_picker_binding.dart';
@@ -35,25 +36,24 @@ class LeafyLauncher {
 
     await Get.putAsync(FileSystem.init, permanent: true);
 
-    Get
-      ..lazyPut(() => FileLogger(), fenix: true)
-      ..lazyPut(() => PlatformMethodsService(), fenix: true);
+    Get.lazyPut(() => FileLogger(), fenix: true);
+    Get.lazyPut(() => PlatformMethodsService(), fenix: true);
   }
 
   /// Initialized must have dependecies.
   /// The app can start w/o them and they will be loaded soon.
   static Future initSecondaryDependencies() async {
+    Get.lazyPut(() => const HomeButtonListener(), fenix: true);
+    Get.lazyPut(() => const DeviceVibration(), fenix: true);
+    Get.lazyPut(() => GoogleSearch(), fenix: true);
+
     await Get.putAsync(InstalledApplicationsService.init, permanent: true);
 
-    Get
-      ..lazyPut(() => const HomeButtonListener(), fenix: true)
-      ..lazyPut(() => DeviceVibration(), fenix: true)
-      ..put(UserApplicationsController(), permanent: true)
-      ..put(
-        AppPickerHomeController(),
-        permanent: true,
-      )
-      ..lazyPut(() => GoogleSearch(), fenix: true);
+    Get.put(UserApplicationsController(), permanent: true);
+    Get.put(
+      AppPickerHomeController(),
+      permanent: true,
+    );
   }
 
   static Future run() async {
@@ -61,6 +61,8 @@ class LeafyLauncher {
     initSecondaryDependencies();
 
     LeafyTheme.restoreThemeStyle();
+
+    await LeafySettings.restore();
 
     L10n.restoreLocale();
 

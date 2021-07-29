@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 import '../../../../resources/app_constants.dart';
 import '../../../../resources/theme/home_theme.dart';
@@ -119,15 +120,15 @@ class _CornerButtonState extends ThemedState<CornerButton, HomeTheme>
             ),
             type: widget.type,
             onPressed: () {
-              _deviceVibration.weak();
+              if (!LeafySettings.vibrateNever) {
+                _deviceVibration.weak();
+              }
 
               _homeController.cornerButtonPressed(
                 widget.type,
               );
             },
             onLongPressed: () {
-              _deviceVibration.weak();
-
               _startSelecting();
             },
           ),

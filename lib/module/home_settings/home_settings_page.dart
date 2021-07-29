@@ -4,7 +4,7 @@ import '../../base/page/status_page_base.dart';
 import '../../resources/theme/home_theme.dart';
 import '../../resources/theme/leafy_theme.dart';
 import 'home_settings_controller.dart';
-import 'widget/left_and_right_apps_list.dart';
+import 'widget/settings_body.dart';
 
 class HomeSettingsPage
     extends StatusPageBase<HomeSettingsController, HomeTheme> {
@@ -19,7 +19,7 @@ class HomeSettingsPage
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: const [
-        LeftAndRightAppsList(),
+        SettingsBody(),
       ],
     );
   }
