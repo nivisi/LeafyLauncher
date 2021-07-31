@@ -112,4 +112,11 @@ class _TouchableTextButtonState extends State<TouchableTextButton>
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+
+    super.dispose();
+  }
 }

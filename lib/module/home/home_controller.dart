@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/services/applications/application.dart';
 import 'package:leafy_launcher/services/home_button_listener/home_button_listener.dart';
 import 'package:rate_limiter/rate_limiter.dart';
 
@@ -183,7 +182,7 @@ class HomeController extends StatusControllerBase {
       return;
     }
 
-    final Application? app = await AppRoutes.toAppPicker(
+    final app = await AppRoutes.toAppPicker(
       type: UserSelectedAppType.left,
     );
 
@@ -202,7 +201,7 @@ class HomeController extends StatusControllerBase {
       return;
     }
 
-    final Application? app = await AppRoutes.toAppPicker(
+    final app = await AppRoutes.toAppPicker(
       type: UserSelectedAppType.right,
     );
 

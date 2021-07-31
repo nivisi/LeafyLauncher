@@ -74,4 +74,10 @@ class L10n {
   static const String vibrationPreferencesOnLaunch =
       'vibrationPreferencesOnLaunch';
   static const String vibrationPreferencesNever = 'vibrationPreferencesNever';
+  static const String confirmAction = 'confirmAction';
+  static const String confirmDeleteApp = 'confirmDeleteApp';
+  static const String actionDelete = 'actionDelete';
+  static const String actionCancel = 'actionCancel';
+  static const String actionAboutApp = 'actionAboutApp';
+  static const String choseAction = 'choseAction';
 }

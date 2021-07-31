@@ -24,9 +24,10 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
   late final FocusNode textFocusNode;
   late final ScrollController scrollController;
 
-  late Iterable<Application> _apps;
+  @protected
+  late List<Application> appsProtected;
 
-  Iterable<Application> get apps => _apps;
+  Iterable<Application> get apps => appsProtected;
 
   final UserSelectedAppType? type;
   final bool selectOnFirstMatch;
@@ -50,7 +51,7 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
 
     textFocusNode = FocusNode();
 
-    _apps = installedApplicationsService.installedApps;
+    appsProtected = installedApplicationsService.installedApps.toList();
 
     return super.load();
   }
@@ -68,7 +69,7 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
       return;
     }
 
-    _apps = searchApps;
+    appsProtected = searchApps.toList();
 
     update([appListBuilderKey]);
   }

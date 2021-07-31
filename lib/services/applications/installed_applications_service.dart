@@ -2,14 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/applications/exceptions/app_is_not_in_the_list_exception.dart';
 
 import '../../utils/enum/app_launch_transition.dart';
 import '../../utils/log/logable_mixin.dart';
 import '../device_vibration/device_vibration.dart';
 import 'application.dart';
+import 'exceptions/unable_to_uninstall_a_system_app_exception.dart';
 import 'installed_application.dart';
 import 'leafy_application.dart';
 
@@ -29,10 +32,11 @@ class InstalledApplicationsService with LogableMixin {
   InstalledApplicationsService._();
 
   static InstalledApplicationsService? _instance;
+
   static late final DeviceVibration _deviceVibration;
 
-  late final Iterable<InstalledApplication> _installedApps;
-  late final Iterable<LeafyApplication> _leafyApps;
+  late final List<InstalledApplication> _installedApps;
+  late final List<LeafyApplication> _leafyApps;
 
   Iterable<InstalledApplication> get installedApps => _installedApps;
   Iterable<LeafyApplication> get leafyApps => _leafyApps;
@@ -57,9 +61,14 @@ class InstalledApplicationsService with LogableMixin {
 
       final name = map['name'];
       final package = map['package'];
+      final isSystem = map['isSystem'];
 
-      if (name is String && package is String) {
-        return InstalledApplication(name: name, package: package);
+      if (name is String && package is String && isSystem is bool) {
+        return InstalledApplication(
+          name: name,
+          package: package,
+          isSystem: isSystem,
+        );
       }
 
       throw Exception('Unable to parse a map');
@@ -154,5 +163,46 @@ class InstalledApplicationsService with LogableMixin {
     final bytes = const Base64Decoder().convert(data);
 
     return bytes;
+  }
+
+  Future<bool> deleteApp(InstalledApplication app) async {
+    if (!_installedApps.contains(app)) {
+      throw const AppIsNotInTheListException();
+    }
+
+    if (app.isSystem) {
+      throw const UninstallSystemAppException();
+    }
+
+    try {
+      final result = await _appChannel.invokeMethod<bool>('deleteApp', {
+            'packageName': app.package,
+          }) ??
+          false;
+
+      if (result) {
+        _installedApps.remove(app);
+      }
+
+      return result;
+    } on Exception catch (e, s) {
+      logger.e('Unable to delete an app', e, s);
+
+      return false;
+    }
+  }
+
+  Future<void> viewInfo(InstalledApplication app) async {
+    if (!_installedApps.contains(app)) {
+      return;
+    }
+
+    try {
+      await _appChannel.invokeMethod('viewInfo', {
+        'packageName': app.package,
+      });
+    } on Exception catch (e, s) {
+      logger.e('Unable to delete app', e, s);
+    }
   }
 }
