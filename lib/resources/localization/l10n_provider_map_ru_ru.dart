@@ -28,4 +28,10 @@ var _mapRu = {
   L10n.vibrationPreferencesAlways: 'Всегда',
   L10n.vibrationPreferencesOnLaunch: 'По запуску',
   L10n.vibrationPreferencesNever: 'Никогда',
+  L10n.confirmAction: 'Подтвердите',
+  L10n.confirmDeleteApp: 'Вы хотите удалить это приложение?',
+  L10n.actionDelete: 'Удалить',
+  L10n.actionCancel: 'Отмена',
+  L10n.actionAboutApp: 'О приложении',
+  L10n.choseAction: 'Выберите действие',
 };

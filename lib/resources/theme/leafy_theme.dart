@@ -82,7 +82,10 @@ abstract class LeafyTheme extends InheritedWidget {
     required this.foregroundColor,
     required this.foregroundPressedColor,
     required this.backgroundColor,
+    required this.secondaryBackgroundColor,
     required this.textInfoColor,
+    required this.dialogPositiveColor,
+    required this.dialogNegativeColor,
     required this.bodyText1,
     required this.bodyText2,
     required this.bodyText3,
@@ -100,7 +103,10 @@ abstract class LeafyTheme extends InheritedWidget {
   final Color foregroundColor;
   final Color foregroundPressedColor;
   final Color backgroundColor;
+  final Color secondaryBackgroundColor;
   final Color textInfoColor;
+  final Color dialogPositiveColor;
+  final Color dialogNegativeColor;
 
   final TextStyle bodyText1;
   final TextStyle bodyText2;

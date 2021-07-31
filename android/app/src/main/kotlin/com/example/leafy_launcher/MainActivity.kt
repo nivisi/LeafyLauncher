@@ -6,27 +6,32 @@ import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.ResolveInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.AlarmClock
+import android.provider.Settings
 import android.util.Base64
-import android.view.KeyEvent
-import android.view.WindowManager
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
+import java.io.Serializable
+
 
 class MainActivity: FlutterActivity() {
-    private lateinit var _appMaps: List<Map<String, String>>
+    private lateinit var _appMaps: List<Map<String, Serializable>>
 
     private var homeEventChannel: EventChannel? = null
     private var homeEventStreamHandler: StreamHandler = StreamHandler()
+
+    private var deleteAppResult: MethodChannel.Result? = null
 
     override fun onResume() {
         super.onResume()
@@ -159,6 +164,24 @@ class MainActivity: FlutterActivity() {
 
                     return@setMethodCallHandler
                 }
+                Companion.deleteApp -> {
+                    deleteAppResult = result
+
+                    val name = call.argument<String>(Companion.argumentPackageName)
+
+                    deleteApp(name!!)
+
+                    return@setMethodCallHandler
+                }
+                Companion.viewInfo -> {
+                    val name = call.argument<String>(Companion.argumentPackageName)
+
+                    viewInfo(name!!)
+
+                    result.success(null)
+
+                    return@setMethodCallHandler
+                }
                 else -> result.notImplemented()
             }
         }
@@ -170,6 +193,25 @@ class MainActivity: FlutterActivity() {
         }
 
         super.onNewIntent(intent)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == Companion.UNINSTALL_REQUEST_CODE) {
+            if (deleteAppResult == null) {
+                return
+            }
+
+            when (resultCode) {
+                0 -> {
+                    deleteAppResult!!.success(true)
+                }
+                else -> deleteAppResult!!.success(false)
+            }
+
+            deleteAppResult = null
+        }
     }
 
     private fun getDefaultLaunchOptions() : ActivityOptions {
@@ -189,7 +231,7 @@ class MainActivity: FlutterActivity() {
                 drawable.intrinsicHeight,
                 Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight())
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
         return bmp
     }
@@ -233,8 +275,12 @@ class MainActivity: FlutterActivity() {
         result.success(true)
     }
 
-    private fun getMap(name: String, packageName: String): Map<String, String> {
-        return mapOf<String, String>("name" to name, "package" to packageName);
+    private fun getMap(name: String, packageName: String, isSystemApp: Boolean): Map<String, Serializable> {
+        return mapOf(
+                "name" to name,
+                "package" to packageName,
+                "isSystem" to isSystemApp
+        );
     }
 
     private fun getApps() {
@@ -242,18 +288,39 @@ class MainActivity: FlutterActivity() {
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
         val list: List<ResolveInfo> = packageManager.queryIntentActivities(intent, 0)
 
-        val apps = mutableListOf<Map<String, String>>()
+        val apps = mutableListOf<Map<String, Serializable>>()
 
         for (resolveInfo in list) {
-            val name = resolveInfo.activityInfo.loadLabel(packageManager).toString()
-            val packageName = resolveInfo.activityInfo.packageName
+            val activityInfo = resolveInfo.activityInfo
 
-            val map = getMap(name, packageName)
+            val packageName = activityInfo.packageName
+
+            if (packageName == context.packageName) {
+                continue
+            }
+
+            val name = activityInfo.loadLabel(packageManager).toString()
+
+            val isSystemApp = activityInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+
+            val map = getMap(name, packageName, isSystemApp)
 
             apps.add(map)
         }
 
         _appMaps = apps;
+    }
+
+    private fun deleteApp(packageName: String) {
+        val intent = Intent(Intent.ACTION_DELETE, Uri.parse("package:$packageName"))
+
+        startActivityForResult(intent, Companion.UNINSTALL_REQUEST_CODE)
+    }
+
+    private fun viewInfo(packageName: String) {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))
+
+        startActivity(intent)
     }
 
     companion object {
@@ -272,10 +339,14 @@ class MainActivity: FlutterActivity() {
         private const val openMessagesApp = "openMessagesApp";
         private const val openClockApp = "openClockApp";
         private const val openLauncherPreferences = "openLauncherPreferences";
+        private const val deleteApp = "deleteApp";
+        private const val viewInfo = "viewInfo";
 
         private const val argumentPackageName = "packageName";
         private const val argumentTransition = "transition";
         private const val argumentLaunchQuery = "launchQuery";
+
+        private const val UNINSTALL_REQUEST_CODE = 3213123
     }
 }
 

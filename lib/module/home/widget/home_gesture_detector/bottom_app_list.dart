@@ -57,6 +57,7 @@ class BottomAppList extends ThemedWidget<HomeTheme> {
                 scrollController: controller.scrollController,
                 applications: controller.apps,
                 onAppSelected: controller.onAppSelected,
+                onLongPress: controller.onAppLongPressed,
               );
             },
           ),

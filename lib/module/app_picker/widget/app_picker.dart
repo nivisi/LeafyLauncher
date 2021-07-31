@@ -20,6 +20,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
     required this.applications,
     required this.onAppSelected,
     required this.autofocusTextField,
+    this.onLongPress,
   }) : super(key: key);
 
   final String title;
@@ -28,6 +29,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
   final ScrollController scrollController;
   final Iterable<Application> applications;
   final void Function(Application application) onAppSelected;
+  final void Function(Application application)? onLongPress;
   final bool autofocusTextField;
 
   @override
@@ -76,6 +78,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
                 return AppPickerButton(
                   application: app,
                   onTapped: onAppSelected,
+                  onLongPress: onLongPress,
                 );
               },
             ),

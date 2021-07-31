@@ -6,13 +6,18 @@ import 'leafy_theme_constants.dart';
 
 const Color _kLightForegroundColor = Colors.black;
 const Color _kLightForegroundPressedColor = Colors.green;
-const Color _kLightBackgroundPressedColor = Colors.white;
+const Color _kLightBackgroundColor = Colors.white;
+const Color _kLightSecondaryBackgroundColor = Color(0xFFEEEEEE);
 const Color _kLightTextInfoColor = Color(0xFFCDCDCD);
 
 const Color _kDarkForegroundColor = Colors.white;
 const Color _kDarkForegroundPressedColor = Colors.green;
-const Color _kDarkBackgroundPressedColor = Colors.black;
+const Color _kDarkBackgroundColor = Colors.black;
+const Color _kDarkSecondaryBackgroundColor = Color(0xFF222222);
 const Color _kDarkTextInfoColor = Color(0xFFBDBDBD);
+
+const Color _kDialogNegativeColor = Colors.red;
+const Color _kDialogPositiveColor = Colors.green;
 
 class HomeTheme extends LeafyTheme {
   const HomeTheme.light(Widget child)
@@ -22,8 +27,11 @@ class HomeTheme extends LeafyTheme {
           child: child,
           foregroundColor: _kLightForegroundColor,
           foregroundPressedColor: _kLightForegroundPressedColor,
-          backgroundColor: _kLightBackgroundPressedColor,
+          backgroundColor: _kLightBackgroundColor,
+          secondaryBackgroundColor: _kLightSecondaryBackgroundColor,
           textInfoColor: _kLightTextInfoColor,
+          dialogPositiveColor: _kDialogPositiveColor,
+          dialogNegativeColor: _kDialogNegativeColor,
           bodyText1: const TextStyle(
             fontSize: kBodyText1FontSize,
             color: _kLightForegroundColor,
@@ -53,8 +61,11 @@ class HomeTheme extends LeafyTheme {
           leafyColor: Colors.green,
           foregroundColor: _kDarkForegroundColor,
           foregroundPressedColor: _kDarkForegroundPressedColor,
-          backgroundColor: _kDarkBackgroundPressedColor,
+          backgroundColor: _kDarkBackgroundColor,
+          secondaryBackgroundColor: _kDarkSecondaryBackgroundColor,
           textInfoColor: _kDarkTextInfoColor,
+          dialogPositiveColor: _kDialogPositiveColor,
+          dialogNegativeColor: _kDialogNegativeColor,
           bodyText1: const TextStyle(
             fontSize: kBodyText1FontSize,
             color: _kDarkForegroundColor,

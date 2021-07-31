@@ -28,4 +28,10 @@ var _mapEn = {
   L10n.vibrationPreferencesAlways: 'Always',
   L10n.vibrationPreferencesOnLaunch: 'On Launch',
   L10n.vibrationPreferencesNever: 'Never',
+  L10n.confirmAction: 'Confirm',
+  L10n.confirmDeleteApp: 'Do you want to uninstall this app?',
+  L10n.actionDelete: 'Uninstall',
+  L10n.actionCancel: 'Cancel',
+  L10n.actionAboutApp: 'About app',
+  L10n.choseAction: 'Chose action',
 };
