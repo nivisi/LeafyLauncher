@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
+import 'package:ensure_initialized/ensure_initialized.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
@@ -28,7 +28,7 @@ const _methodGetApps = 'getApps';
 const _methodLaunch = 'launch';
 const _methodGetAppIcon = 'getAppIcon';
 
-class InstalledApplicationsService with LogableMixin {
+class InstalledApplicationsService with LogableMixin, EnsureInitialized {
   InstalledApplicationsService._();
 
   static InstalledApplicationsService? _instance;
@@ -40,10 +40,6 @@ class InstalledApplicationsService with LogableMixin {
 
   Iterable<InstalledApplication> get installedApps => _installedApps;
   Iterable<LeafyApplication> get leafyApps => _leafyApps;
-
-  final _initCompleter = Completer();
-
-  Future get ensureInitialized => _initCompleter.future;
 
   Future _init() async {
     logger.i('Initializing installed applications ...');
@@ -83,7 +79,7 @@ class InstalledApplicationsService with LogableMixin {
 
     logger.i('Initialized!');
 
-    _initCompleter.complete();
+    initializedSuccessfully();
   }
 
   static Future<InstalledApplicationsService> init() async {
