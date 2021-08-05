@@ -18,7 +18,7 @@ class StartupController extends StatusControllerBase {
   @override
   Future load() async {
     await _installedApplicationsService.ensureInitialized;
-    await _userApplicationsController.ensureLoaded;
+    await _userApplicationsController.ensureInitialized;
 
     Get.offAndToNamed(AppRoutes.home);
   }
