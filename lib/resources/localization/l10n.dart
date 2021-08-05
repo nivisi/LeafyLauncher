@@ -53,6 +53,7 @@ class L10n {
   static const String settingsLanguage = 'settingsLanguage';
   static const String settingsSelectDefaultLauncher =
       'settingsSelectDefaultLauncher';
+  static const String settingsDoTutorial = 'settingsDoTutorial';
   static const String appPickerLaunchApp = 'appPickerLaunchApp';
   static const String appPickerTo = 'appPickerTo';
   static const String appPickerSelect = 'appPickerSelect';
@@ -78,6 +79,37 @@ class L10n {
   static const String confirmDeleteApp = 'confirmDeleteApp';
   static const String actionDelete = 'actionDelete';
   static const String actionCancel = 'actionCancel';
+  static const String actionYes = 'actionYes';
+  static const String actionNo = 'actionNo';
   static const String actionAboutApp = 'actionAboutApp';
   static const String choseAction = 'choseAction';
+
+  static const String introHello = 'introHello';
+  static const String introWelcome = 'introWelcome';
+  static const String introWouldYouLikeToTakeATutorial =
+      'introWouldYouLikeToTakeATutorial';
+
+  static const String tutorialAppCamera = 'tutorialAppCamera';
+  static const String tutorialAppPhone = 'tutorialAppPhone';
+  static const String tutorialAppBrowser = 'tutorialAppBrowser';
+  static const String tutorialAppGallery = 'tutorialAppGallery';
+  static const String tutorialAppMessages = 'tutorialAppMessages';
+  static const String tutorialAppAny = 'tutorialAnyApp';
+  static const String tutorialSkip = 'tutorialSkip';
+  static const String tutorialDone = 'tutorialDone';
+  static const String tutorialQuickAppLaunchTitle =
+      'tutorialQuickAppLaunchTitle';
+  static const String tutorialQuickAppLaunchInfo = 'tutorialQuickAppLaunchInfo';
+  static const String tutorialHorizontalSwipesTitle =
+      'tutorialHorizontalSwipesTitle';
+  static const String tutorialHorizontalSwipesInfo =
+      'tutorialHorizontalSwipesInfo';
+  static const String tutorialCornerButtonsTitle = 'tutorialCornerButtonsTitle';
+  static const String tutorialCornerButtonsInfo = 'tutorialCornerButtonsInfo';
+  static const String tutorialAppPickerTitle = 'tutorialAppPickerTitle';
+  static const String tutorialAppPickerInfo = 'tutorialAppPickerInfo';
+  static const String tutorialSearchTitle = 'tutorialSearchTitle';
+  static const String tutorialSearchInfo = 'tutorialSearchInfo';
+  static const String tutorialSettingsTitle = 'tutorialSettingsTitle';
+  static const String tutorialSettingsInfo = 'tutorialSettingsInfo';
 }

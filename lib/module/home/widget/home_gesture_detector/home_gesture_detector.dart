@@ -45,8 +45,6 @@ class HomeGestureDetector extends StatefulWidget {
 class _HomeGestureDetectorState extends State<HomeGestureDetector>
     with TickerProviderStateMixin {
   static const swipeControllerThreshold = .97;
-  static const offsetMultipler = 50.0;
-  static const swipeIconSize = 55.0;
   static const gestureUpdateDivider = 150.0;
 
   late final HomeController _homeController;
@@ -383,25 +381,25 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
         HorizontalEdgeApp(
           animationController: _rightController,
           direction: Direction.right,
-          iconSize: swipeIconSize,
+          iconSize: kHomeHorizontalSwipeIconSize,
           child: widget.right,
         ),
         HorizontalEdgeApp(
           animationController: _leftController,
           direction: Direction.left,
-          iconSize: swipeIconSize,
+          iconSize: kHomeHorizontalSwipeIconSize,
           child: widget.left,
         ),
         AnimatedBuilder(
           animation: _topController,
           builder: (context, child) {
-            final val = _topController.value * offsetMultipler + 5.0;
+            final val = _topController.value * kHomeSearchOffsetMultipler + 5.0;
 
             return Stack(
               children: [
                 Positioned(
                   top: val,
-                  left: (Get.size.width - swipeIconSize) / 2.0,
+                  left: (Get.size.width - kHomeHorizontalSwipeIconSize) / 2.0,
                   child: Opacity(
                     opacity: _topController.value,
                     child: child,
@@ -411,8 +409,8 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
             );
           },
           child: SizedBox(
-            width: swipeIconSize,
-            height: swipeIconSize,
+            width: kHomeHorizontalSwipeIconSize,
+            height: kHomeHorizontalSwipeIconSize,
             child: Center(child: widget.top),
           ),
         ),

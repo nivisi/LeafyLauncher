@@ -61,6 +61,9 @@ class HomeController extends StatusControllerBase {
 
   @override
   Future load() async {
+    await _installedApplicationsService.ensureInitialized;
+    await _userApplicationsController.ensureLoaded;
+
     searchEditingController = TextEditingController();
     searchEditingController.addListener(
       _onSearched.throttled(

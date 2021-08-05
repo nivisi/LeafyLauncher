@@ -271,4 +271,8 @@ class UserApplicationsController extends StatusControllerBase {
   void openLauncherPreferences() {
     _platformMethodsService.openLauncherPreferences();
   }
+
+  void openTutorial() {
+    Get.toNamed(AppRoutes.tutorial);
+  }
 }

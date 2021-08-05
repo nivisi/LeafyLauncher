@@ -113,11 +113,7 @@ class _CornerButtonState extends ThemedState<CornerButton, HomeTheme>
         Align(
           alignment: alignment,
           child: _ConfiguredIconButton(
-            margin: const EdgeInsets.only(
-              left: kDefaultPadding * 1.3,
-              right: kDefaultPadding * 1.3,
-              bottom: kDefaultPadding,
-            ),
+            margin: kHomeCornerButtonEdgeInsets,
             type: widget.type,
             onPressed: () {
               if (!LeafySettings.vibrateNever) {

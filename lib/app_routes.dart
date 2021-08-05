@@ -11,6 +11,11 @@ class AppRoutes {
   static const home = '/home';
 
   static const settings = '/settings';
+  static const tutorial = '/tutorial';
+
+  static Future<void>? toHome({bool off = false}) {
+    return off ? Get.offNamed(home) : Get.toNamed(home);
+  }
 
   static Future<Application?>? toAppPicker({
     UserSelectedAppType? type,

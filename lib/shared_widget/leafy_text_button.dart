@@ -21,7 +21,13 @@ class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
   Widget body(BuildContext context, LeafyTheme theme) {
     final style = ButtonStyle(
       foregroundColor: MaterialStateColor.resolveWith(
-        (states) => theme.foregroundColor,
+        (states) {
+          if (states.contains(MaterialState.disabled)) {
+            return theme.foregroundColor.withOpacity(.5);
+          }
+
+          return theme.foregroundColor;
+        },
       ),
       overlayColor: MaterialStateColor.resolveWith(
         (states) => theme.foregroundColor.withOpacity(.2),
