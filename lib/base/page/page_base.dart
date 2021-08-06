@@ -12,7 +12,7 @@ class OnWillPopData {
 
 abstract class PageBase<TController extends ControllerBase,
     TTheme extends LeafyTheme> extends GetView<TController> {
-  const PageBase();
+  const PageBase({Key? key}) : super(key: key);
 
   @protected
   bool get resizeToAvoidBottomInset => true;

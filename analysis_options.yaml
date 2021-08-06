@@ -42,3 +42,5 @@ analyzer:
     unnecessary_this: error
     unnecessary_const: error
     todo: ignore
+    no_logic_in_create_state: ignore
+    invariant_booleans: ignore

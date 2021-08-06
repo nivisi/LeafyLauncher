@@ -13,6 +13,7 @@ class TouchableTextButton extends StatefulWidget {
     this.color,
     this.pressedColor,
     this.style,
+    this.textAlign,
   }) : super(key: key);
 
   final String text;
@@ -21,6 +22,7 @@ class TouchableTextButton extends StatefulWidget {
   final Color? color;
   final Color? pressedColor;
   final TextStyle? style;
+  final TextAlign? textAlign;
 
   @override
   _TouchableTextButtonState createState() => _TouchableTextButtonState();
@@ -106,6 +108,7 @@ class _TouchableTextButtonState extends State<TouchableTextButton>
 
           return Text(
             widget.text,
+            textAlign: widget.textAlign,
             style: style.copyWith(color: _colorTween.value as Color?),
           );
         },

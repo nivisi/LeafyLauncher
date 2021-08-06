@@ -13,6 +13,7 @@ import 'widget/corner_button/corner_button.dart';
 import 'widget/home_gesture_detector/home_gesture_detector.dart';
 import 'widget/home_widgets/home_clock.dart';
 import 'widget/home_widgets/home_date.dart';
+import 'widget/home_widgets/home_top_widget.dart';
 import 'widget/horizontal_swipe_app_icon.dart';
 import 'widget/user_apps_list.dart';
 
@@ -35,10 +36,7 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
       onRightSwipe: controller.onRightSwipe,
       onTopSwipe: controller.onTopSwipe,
       onLongPress: controller.openSettings,
-      top: Icon(
-        Icons.search,
-        color: theme.foregroundColor,
-      ),
+      top: const HomeTopWidget(),
       bottom: Icon(
         Icons.apps,
         color: theme.foregroundColor,

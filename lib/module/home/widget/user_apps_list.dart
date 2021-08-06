@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/app_constants.dart';
 
 import '../../../services/applications/user_applications_controller.dart';
 import '../../../shared_widget/leafy_spacer.dart';
@@ -8,8 +9,6 @@ import 'user_app_button.dart';
 
 class UserAppsList extends GetView<UserApplicationsController> {
   const UserAppsList({Key? key}) : super(key: key);
-
-  static const double _spacerMultipler = 2.0;
 
   GetBuilder _getBuilderForApp(UserSelectedAppType type) {
     return GetBuilder<UserApplicationsController>(
@@ -41,11 +40,11 @@ class UserAppsList extends GetView<UserApplicationsController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _getBuilderForApp(UserSelectedAppType.first),
-        const LeafySpacer(multipler: _spacerMultipler),
+        const LeafySpacer(multipler: kHomeAppsSpacingMultipler),
         _getBuilderForApp(UserSelectedAppType.second),
-        const LeafySpacer(multipler: _spacerMultipler),
+        const LeafySpacer(multipler: kHomeAppsSpacingMultipler),
         _getBuilderForApp(UserSelectedAppType.third),
-        const LeafySpacer(multipler: _spacerMultipler),
+        const LeafySpacer(multipler: kHomeAppsSpacingMultipler),
         _getBuilderForApp(UserSelectedAppType.fourth),
       ],
     );

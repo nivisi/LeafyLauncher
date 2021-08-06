@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/module/intro/intro_binding.dart';
+import 'package:leafy_launcher/module/intro/intro_page.dart';
+import 'package:leafy_launcher/module/intro/tutorial/tutorial_binding.dart';
+import 'package:leafy_launcher/module/intro/tutorial/tutorial_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 import 'app_routes.dart';
@@ -85,11 +89,18 @@ class LeafyLauncher {
         fallbackLocale: L10n.enLocale,
         translations: L10nProvider(),
         getPages: [
-          GetPage(
-            name: '/',
-            binding: StartupBinding(),
-            page: () => const StartupPage(),
-          ),
+          if (LeafySettings.isFirstLaunch)
+            GetPage(
+              name: '/',
+              binding: IntroBinding(),
+              page: () => const IntroPage(),
+            )
+          else
+            GetPage(
+              name: '/',
+              binding: StartupBinding(),
+              page: () => const StartupPage(),
+            ),
           GetPage(
             name: AppRoutes.home,
             binding: HomeBinding(),
@@ -109,6 +120,12 @@ class LeafyLauncher {
             name: AppRoutes.settings,
             binding: HomeSettingsBinding(),
             page: () => const HomeSettingsPage(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: AppRoutes.tutorial,
+            binding: TutorialBinding(),
+            page: () => const TutorialPage(),
             transition: Transition.fadeIn,
           ),
         ],

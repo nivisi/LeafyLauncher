@@ -10,6 +10,8 @@ final LeafySettings = _LeafySettings();
 
 class _LeafySettings with LogableMixin {
   late VibrationPreferences _vibrationPreferences;
+  late bool _isFirstLaunch;
+
   VibrationPreferences get vibrationPreferences => _vibrationPreferences;
 
   bool get vibrateAlways =>
@@ -19,6 +21,8 @@ class _LeafySettings with LogableMixin {
       _vibrationPreferences == VibrationPreferences.onLaunch;
 
   bool get vibrateNever => _vibrationPreferences == VibrationPreferences.never;
+
+  bool get isFirstLaunch => _isFirstLaunch;
 
   void _restoreVibrationPreferences() {
     const defaultVibrationPreferences = VibrationPreferences.always;
@@ -42,10 +46,29 @@ class _LeafySettings with LogableMixin {
     logger.i('Vibration Preference was restored');
   }
 
+  void _restoreIsFirstLaunch() {
+    const defaultIsFirstLaunch = true;
+
+    final val = sharedPreferences.getBool(
+      kIsFirstLaunch,
+    );
+
+    if (val == null) {
+      _isFirstLaunch = defaultIsFirstLaunch;
+
+      sharedPreferences.setBool(kIsFirstLaunch, defaultIsFirstLaunch);
+    } else {
+      _isFirstLaunch = val;
+    }
+
+    logger.i('Is First Launch was restored');
+  }
+
   Future<void> restore() async {
     logger.i('Restoring Leafy Settings ...');
 
     _restoreVibrationPreferences();
+    _restoreIsFirstLaunch();
 
     logger.i('Leafy Settings were restored!');
   }
@@ -59,6 +82,12 @@ class _LeafySettings with LogableMixin {
     );
 
     logger.i('Vibration Preference was changed');
+  }
+
+  void setFirstLaunchToFalse() {
+    _isFirstLaunch = false;
+
+    sharedPreferences.setBool(kIsFirstLaunch, false);
   }
 
   @override

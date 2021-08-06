@@ -5,6 +5,7 @@ const kLocaleKey = 'locale';
 const kLeftCornerButtonType = 'leftCornerButtonType';
 const kRightCornerButtonType = 'rightCornerButtonType';
 const kVibrationPreferences = 'vibrationPreferences';
+const kIsFirstLaunch = 'isFirstLaunch';
 
 late final SharedPreferences sharedPreferences;
 
