@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:leafy_launcher/module/intro/intro_controller.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
@@ -39,7 +40,16 @@ class HelloAndWelcome extends ThemedGetWidget<IntroController, HomeTheme> {
         Center(
           child: FadeTransition(
             opacity: controller.opacityDoYouLikeToDoTutorialController,
-            child: const _DoTutorial(),
+            child: GetBuilder<IntroController>(
+              init: controller,
+              id: IntroController.questionBuilderKey,
+              builder: (controller) {
+                return IgnorePointer(
+                  ignoring: !controller.areButtonsEnabled,
+                  child: const _DoTutorial(),
+                );
+              },
+            ),
           ),
         ),
       ],

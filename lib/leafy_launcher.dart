@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:leafy_launcher/module/intro/intro_binding.dart';
 import 'package:leafy_launcher/module/intro/intro_page.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_binding.dart';
-import 'package:leafy_launcher/module/intro/tutorial/tutorial_controller.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 

@@ -5,18 +5,19 @@ import 'package:leafy_launcher/base/controller/controller_base.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 class IntroController extends ControllerBase with SingleGetTickerProviderMixin {
+  static const String questionBuilderKey = 'questionBuilder';
+
   bool _isHelloAndWelcome = true;
+  bool _areButtonsEnabled = false;
 
   late final AnimationController opacityHelloController;
   late final AnimationController opacityWelcomeController;
   late final AnimationController opacityDoYouLikeToDoTutorialController;
 
   bool get isHelloAndWelcome => _isHelloAndWelcome;
+  bool get areButtonsEnabled => _areButtonsEnabled;
 
   Future<void> _intro() async {
-    // opacityDoYouLikeToDoTutorialController.forward();
-
-    // // TODO: UNCOMMENT!!!
     await Future.delayed(const Duration(milliseconds: 500));
 
     opacityHelloController.forward();
@@ -31,6 +32,9 @@ class IntroController extends ControllerBase with SingleGetTickerProviderMixin {
     opacityWelcomeController.reverse();
 
     await Future.delayed(const Duration(seconds: 1));
+
+    _areButtonsEnabled = true;
+    update([questionBuilderKey]);
 
     opacityDoYouLikeToDoTutorialController.forward();
   }
@@ -61,6 +65,9 @@ class IntroController extends ControllerBase with SingleGetTickerProviderMixin {
 
   Future<void> doTutorial() async {
     _isHelloAndWelcome = false;
+
+    _areButtonsEnabled = false;
+    update([questionBuilderKey]);
 
     opacityDoYouLikeToDoTutorialController.reverse();
 
