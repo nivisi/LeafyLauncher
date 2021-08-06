@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ensure_initialized/ensure_initialized.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -33,11 +34,11 @@ class ControllerError {
   }
 }
 
-abstract class StatusControllerBase extends ControllerBase {
+abstract class StatusControllerBase extends ControllerBase
+    with EnsureInitialized {
   static const statusGetKey = 'status';
 
   final Rx<ControllerStatus> _status = ControllerStatus.loading.obs;
-  final Completer _loadedCompleter = Completer();
 
   ControllerError? _error;
 
@@ -47,8 +48,6 @@ abstract class StatusControllerBase extends ControllerBase {
   bool get isLoading => status == ControllerStatus.loading;
   bool get isError => status == ControllerStatus.error;
   bool get isReady => status == ControllerStatus.ready;
-
-  Future get ensureLoaded => _loadedCompleter.future;
 
   @override
   @protected
@@ -72,7 +71,7 @@ abstract class StatusControllerBase extends ControllerBase {
 
       statusError();
     } finally {
-      _loadedCompleter.complete();
+      initializedSuccessfully();
     }
   }
 

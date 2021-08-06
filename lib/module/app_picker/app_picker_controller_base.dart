@@ -40,7 +40,7 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
 
   @override
   Future load() async {
-    await _userApplicationsController.ensureLoaded;
+    await _userApplicationsController.ensureInitialized;
     await installedApplicationsService.ensureInitialized;
 
     textEditingController = TextEditingController();
