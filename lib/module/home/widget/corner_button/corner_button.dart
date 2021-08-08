@@ -92,10 +92,14 @@ class _CornerButtonState extends ThemedState<CornerButton, HomeTheme>
             child: Align(
               alignment: alignment,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  kDefaultPadding * 1.3,
+                padding: EdgeInsets.fromLTRB(
+                  widget.position == CornerButtonPosition.left
+                      ? kDefaultPadding * 1.3
+                      : 0.0,
                   .0,
-                  .0,
+                  widget.position == CornerButtonPosition.right
+                      ? kDefaultPadding * 1.3
+                      : .0,
                   kDefaultPadding * 6.0,
                 ),
                 child: _OtherAppsList(
