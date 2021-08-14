@@ -70,8 +70,6 @@ class LeafyLauncher {
 
     L10n.restoreLocale();
 
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-
     runApp(
       GetMaterialApp(
         debugShowCheckedModeBanner: false,
