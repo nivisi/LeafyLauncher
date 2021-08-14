@@ -20,8 +20,9 @@ const Color _kDarkBackgroundColor = Colors.black;
 const Color _kDarkSecondaryBackgroundColor = Color(0xFF222222);
 const Color _kDarkTextInfoColor = Color(0xFFBDBDBD);
 
-const Color _kDialogNegativeColor = Colors.red;
-const Color _kDialogPositiveColor = Colors.green;
+const Color _kDialogNegativeColor = Color(0xFFE53935);
+const Color _kDialogLightPositiveColor = _kLightForegroundPressedColor;
+const Color _kDialogDarkPositiveColor = _kDarkForegroundPressedColor;
 
 class HomeTheme extends LeafyTheme {
   const HomeTheme.light(Widget child)
@@ -34,7 +35,7 @@ class HomeTheme extends LeafyTheme {
           backgroundColor: _kLightBackgroundColor,
           secondaryBackgroundColor: _kLightSecondaryBackgroundColor,
           textInfoColor: _kLightTextInfoColor,
-          dialogPositiveColor: _kDialogPositiveColor,
+          dialogPositiveColor: _kDialogLightPositiveColor,
           dialogNegativeColor: _kDialogNegativeColor,
           bodyText1: const TextStyle(
             fontSize: kBodyText1FontSize,
@@ -68,7 +69,7 @@ class HomeTheme extends LeafyTheme {
           backgroundColor: _kDarkBackgroundColor,
           secondaryBackgroundColor: _kDarkSecondaryBackgroundColor,
           textInfoColor: _kDarkTextInfoColor,
-          dialogPositiveColor: _kDialogPositiveColor,
+          dialogPositiveColor: _kDialogDarkPositiveColor,
           dialogNegativeColor: _kDialogNegativeColor,
           bodyText1: const TextStyle(
             fontSize: kBodyText1FontSize,
