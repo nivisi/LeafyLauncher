@@ -65,5 +65,6 @@ var _mapEn = {
   L10n.tutorialSearchInfo:
       'You can easily launch Google search. Just drag to bottom.',
   L10n.tutorialSettingsTitle: 'Open Settings',
-  L10n.tutorialSettingsInfo: 'Long press to open settings',
+  L10n.tutorialSettingsInfo:
+      '''Long press anywhere on the home screen to open settings''',
 };
