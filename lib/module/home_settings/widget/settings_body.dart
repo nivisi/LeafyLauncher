@@ -32,10 +32,25 @@ class SettingsBody
       child: ListView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.only(
-          top: kDefaultPadding * 8.0,
+          top: kDefaultPadding * 6.0,
           left: kHomeHorizontalPadding,
         ),
         children: [
+          Text(
+            L10nProvider.getText(L10n.settingsTitle),
+            style: theme.bodyText1,
+          ),
+          const LeafySpacer(multipler: 6.0),
+          const _SwipeToApp(type: UserSelectedAppType.left),
+          const LeafySpacer(multipler: _spacerMultipler),
+          const _SwipeToApp(type: UserSelectedAppType.right),
+          const LeafySpacer(multipler: _spacerMultipler),
+          const _Theme(),
+          const LeafySpacer(multipler: _spacerMultipler),
+          const _Language(),
+          const LeafySpacer(multipler: _spacerMultipler),
+          const _VibrationPreferences(),
+          const LeafySpacer(multipler: 8.0),
           TouchableTextButton(
             text: L10nProvider.getText(L10n.settingsSelectDefaultLauncher),
             color: theme.foregroundColor,
@@ -52,15 +67,6 @@ class SettingsBody
             onTap: controller.openTutorial,
           ),
           const LeafySpacer(multipler: _spacerMultipler),
-          const _SwipeToApp(type: UserSelectedAppType.left),
-          const LeafySpacer(multipler: _spacerMultipler),
-          const _SwipeToApp(type: UserSelectedAppType.right),
-          const LeafySpacer(multipler: _spacerMultipler),
-          const _Theme(),
-          const LeafySpacer(multipler: _spacerMultipler),
-          const _Language(),
-          const LeafySpacer(multipler: _spacerMultipler),
-          const _VibrationPreferences(),
         ],
       ),
     );

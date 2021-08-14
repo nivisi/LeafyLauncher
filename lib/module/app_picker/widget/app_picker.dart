@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/shared_widget/leafy_spacer.dart';
 
 import '../../../resources/app_constants.dart';
 import '../../../resources/localization/l10n.dart';
@@ -36,14 +37,15 @@ class AppPicker extends ThemedWidget<HomeTheme> {
   Widget body(BuildContext context, LeafyTheme theme) {
     return Column(
       children: [
+        const LeafySpacer(multipler: 6.0),
         Text(
           title,
-          style: theme.bodyText1,
+          style: theme.bodyText2,
         ),
         TextField(
           focusNode: textFieldFocusNode,
           controller: textEditingController,
-          style: theme.bodyText2,
+          style: theme.bodyText1.copyWith(color: theme.leafyColor),
           autofocus: autofocusTextField,
           autocorrect: false,
           textAlign: TextAlign.center,

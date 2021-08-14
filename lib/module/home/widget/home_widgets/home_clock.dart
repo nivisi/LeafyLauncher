@@ -19,7 +19,7 @@ class HomeClock extends StatefulWidget {
 }
 
 class _HomeClockState extends ThemedState<HomeClock, HomeTheme> {
-  final DateFormat _format = DateFormat.Hm(); //('H:m, d/M/y');
+  final DateFormat _format = DateFormat.Hm();
 
   late final PlatformMethodsService _platformMethodsService;
   late final DeviceVibration _deviceVibration;
@@ -61,7 +61,7 @@ class _HomeClockState extends ThemedState<HomeClock, HomeTheme> {
       color: theme.foregroundColor,
       pressedColor: theme.foregroundPressedColor,
       text: _format.format(_time),
-      style: theme.bodyText3,
+      style: theme.bodyText4,
     );
   }
 

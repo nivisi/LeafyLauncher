@@ -4,33 +4,38 @@ import '../../utils/enum/leafy_theme_style.dart';
 import 'leafy_theme.dart';
 import 'leafy_theme_constants.dart';
 
-const Color _kLightForegroundColor = Colors.black;
-const Color _kLightForegroundPressedColor = Colors.green;
+const Color _kBraveBlue = Color(0xFF1B2137);
+const Color _kBrandLightColor = Color(0xFF6AC55C);
+const Color _kBrandDarkColor = Color(0xFFB4FFAD);
+
+const Color _kLightForegroundColor = _kBraveBlue;
+const Color _kLightForegroundPressedColor = _kBrandLightColor;
 const Color _kLightBackgroundColor = Colors.white;
 const Color _kLightSecondaryBackgroundColor = Color(0xFFEEEEEE);
-const Color _kLightTextInfoColor = Color(0xFFCDCDCD);
+const Color _kLightTextInfoColor = Color(0xFF9D9D9D);
 
 const Color _kDarkForegroundColor = Colors.white;
-const Color _kDarkForegroundPressedColor = Colors.green;
+const Color _kDarkForegroundPressedColor = _kBrandDarkColor;
 const Color _kDarkBackgroundColor = Colors.black;
 const Color _kDarkSecondaryBackgroundColor = Color(0xFF222222);
 const Color _kDarkTextInfoColor = Color(0xFFBDBDBD);
 
-const Color _kDialogNegativeColor = Colors.red;
-const Color _kDialogPositiveColor = Colors.green;
+const Color _kDialogNegativeColor = Color(0xFFE53935);
+const Color _kDialogLightPositiveColor = _kLightForegroundPressedColor;
+const Color _kDialogDarkPositiveColor = _kDarkForegroundPressedColor;
 
 class HomeTheme extends LeafyTheme {
   const HomeTheme.light(Widget child)
       : super(
           style: LeafyThemeStyle.light,
-          leafyColor: Colors.green,
+          leafyColor: _kBrandLightColor,
           child: child,
           foregroundColor: _kLightForegroundColor,
           foregroundPressedColor: _kLightForegroundPressedColor,
           backgroundColor: _kLightBackgroundColor,
           secondaryBackgroundColor: _kLightSecondaryBackgroundColor,
           textInfoColor: _kLightTextInfoColor,
-          dialogPositiveColor: _kDialogPositiveColor,
+          dialogPositiveColor: _kDialogLightPositiveColor,
           dialogNegativeColor: _kDialogNegativeColor,
           bodyText1: const TextStyle(
             fontSize: kBodyText1FontSize,
@@ -58,13 +63,13 @@ class HomeTheme extends LeafyTheme {
       : super(
           style: LeafyThemeStyle.dark,
           child: child,
-          leafyColor: Colors.green,
+          leafyColor: _kBrandDarkColor,
           foregroundColor: _kDarkForegroundColor,
           foregroundPressedColor: _kDarkForegroundPressedColor,
           backgroundColor: _kDarkBackgroundColor,
           secondaryBackgroundColor: _kDarkSecondaryBackgroundColor,
           textInfoColor: _kDarkTextInfoColor,
-          dialogPositiveColor: _kDialogPositiveColor,
+          dialogPositiveColor: _kDialogDarkPositiveColor,
           dialogNegativeColor: _kDialogNegativeColor,
           bodyText1: const TextStyle(
             fontSize: kBodyText1FontSize,

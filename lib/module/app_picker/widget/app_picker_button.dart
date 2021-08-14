@@ -24,7 +24,7 @@ class AppPickerButton extends ThemedWidget<HomeTheme> {
       text: application.name,
       color: theme.foregroundColor,
       pressedColor: theme.foregroundPressedColor,
-      style: const TextStyle(fontSize: 26),
+      style: theme.bodyText1,
       onTap: () {
         onTapped(application);
       },

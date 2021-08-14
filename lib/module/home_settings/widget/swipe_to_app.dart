@@ -17,7 +17,7 @@ class _SwipeToApp
       children: [
         Text(
           L10nProvider.getText(key),
-          style: theme.bodyText2.copyWith(color: theme.textInfoColor),
+          style: theme.bodyText3.copyWith(color: theme.textInfoColor),
         ),
         const LeafySpacer(),
         GetBuilder<UserApplicationsController>(
