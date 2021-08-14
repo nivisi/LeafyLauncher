@@ -43,18 +43,18 @@ class _HomeDateState extends ThemedState<HomeDate, HomeTheme> {
     );
   }
 
-  void _onPressed() {
-    if (!LeafySettings.vibrateNever) {
-      _deviceVibration.weak();
-    }
+  // void _onPressed() {
+  //   if (!LeafySettings.vibrateNever) {
+  //     _deviceVibration.weak();
+  //   }
 
-    // TODO: open calendar.
-  }
+  //   // TODO: open calendar.
+  // }
 
   @override
   Widget body(BuildContext context, HomeTheme theme) {
     return TouchableTextButton(
-      onTap: _onPressed,
+      // onTap: _onPressed,
       color: theme.foregroundColor,
       pressedColor: theme.foregroundPressedColor,
       text: _format.format(_time),
