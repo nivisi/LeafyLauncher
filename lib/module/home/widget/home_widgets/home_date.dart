@@ -18,7 +18,7 @@ class HomeDate extends StatefulWidget {
 }
 
 class _HomeDateState extends ThemedState<HomeDate, HomeTheme> {
-  final DateFormat _format = DateFormat('d/M/y');
+  final DateFormat _format = DateFormat('dd/MM/y');
 
   late final DeviceVibration _deviceVibration;
 

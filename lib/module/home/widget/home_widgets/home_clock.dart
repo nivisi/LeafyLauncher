@@ -19,7 +19,7 @@ class HomeClock extends StatefulWidget {
 }
 
 class _HomeClockState extends ThemedState<HomeClock, HomeTheme> {
-  final DateFormat _format = DateFormat.Hm(); //('H:m, d/M/y');
+  final DateFormat _format = DateFormat.Hm();
 
   late final PlatformMethodsService _platformMethodsService;
   late final DeviceVibration _deviceVibration;
