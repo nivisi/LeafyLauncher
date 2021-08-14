@@ -140,8 +140,7 @@ abstract class SlideStateBase<T extends StatefulWidget>
       )
           .onError(
         (error, stackTrace) {
-          // Would be nice to log
-          var r = 5;
+          /* Nothing to do */
         },
       );
     }
