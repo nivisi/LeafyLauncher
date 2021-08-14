@@ -74,6 +74,7 @@ class LeafyLauncher {
 
     runApp(
       GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         initialRoute: '/',
         popGesture: true,
         localizationsDelegates: const [
