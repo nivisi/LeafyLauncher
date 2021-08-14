@@ -11,7 +11,7 @@ class _VibrationPreferences
       children: [
         Text(
           L10nProvider.getText(L10n.settingsVibration),
-          style: theme.bodyText2.copyWith(color: theme.textInfoColor),
+          style: theme.bodyText3.copyWith(color: theme.textInfoColor),
         ),
         const LeafySpacer(),
         GetBuilder<UserApplicationsController>(

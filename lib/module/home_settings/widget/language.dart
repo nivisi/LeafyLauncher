@@ -10,7 +10,7 @@ class _Language extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
       children: [
         Text(
           L10nProvider.getText(L10n.settingsLanguage),
-          style: theme.bodyText2.copyWith(color: theme.textInfoColor),
+          style: theme.bodyText3.copyWith(color: theme.textInfoColor),
         ),
         const LeafySpacer(),
         TouchableTextButton(

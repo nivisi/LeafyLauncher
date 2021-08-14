@@ -10,7 +10,7 @@ class _Theme extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
       children: [
         Text(
           L10nProvider.getText(L10n.settingsTheme),
-          style: theme.bodyText2.copyWith(color: theme.textInfoColor),
+          style: theme.bodyText3.copyWith(color: theme.textInfoColor),
         ),
         const LeafySpacer(),
         TouchableTextButton(
