@@ -9,6 +9,7 @@ var _mapRu = {
   L10n.appPickerApp: 'Приложение',
   L10n.appPickerNothingFound: 'Ничего не найдено :(',
   L10n.homeSelectApp: 'Выбрать',
+  L10n.settingsTitle: 'Настройки',
   L10n.settingsAbout: 'О приложении',
   L10n.settingsTheme: 'Тема',
   L10n.settingsToLeftApp: 'Влево',

@@ -46,6 +46,7 @@ class L10n {
 
   static const String appName = 'appName';
   static const String homeSelectApp = 'homeSelectApp';
+  static const String settingsTitle = 'settingsTitle';
   static const String settingsToLeftApp = 'settingsToLeftApp';
   static const String settingsToRightApp = 'settingsToRightApp';
   static const String settingsTheme = 'settingsTheme';
