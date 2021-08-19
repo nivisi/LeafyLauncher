@@ -6,7 +6,7 @@
   <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
   <application
-      android:label="Leafy Launcher"
+      android:label="Leafy Launcher Beta"
       android:icon="@mipmap/ic_launcher">
 
     <activity
