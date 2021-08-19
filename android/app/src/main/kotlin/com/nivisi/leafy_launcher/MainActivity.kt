@@ -1,4 +1,4 @@
-package com.example.leafy_launcher
+package com.nivisi.leafy_launcher
 
 import android.app.ActivityOptions
 import android.app.SearchManager
