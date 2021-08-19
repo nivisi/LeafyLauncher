@@ -84,15 +84,8 @@ class _CornerButtonsSlideState extends SlideStateBase<CornerButtonsSlide> {
       return;
     }
 
-    _leftController.animateTo(
-      1.0,
-      curve: Curves.easeInOut,
-    );
-
-    _rightController.animateTo(
-      1.0,
-      curve: Curves.easeInOut,
-    );
+    animateController(_leftController, 1.0);
+    animateController(_rightController, 1.0);
 
     await Future.delayed(const Duration(seconds: 1));
 

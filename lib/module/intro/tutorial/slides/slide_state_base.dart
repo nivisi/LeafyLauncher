@@ -36,6 +36,7 @@ abstract class SlideStateBase<T extends StatefulWidget>
   late StreamSubscription _subscription;
 
   bool _isEnded = false;
+  bool isDisposed = false;
 
   @protected
   bool get isEnded => _isEnded;
@@ -130,11 +131,17 @@ abstract class SlideStateBase<T extends StatefulWidget>
     Duration duration = kDefaultAnimationDuration,
     Curve curve = Curves.easeInOut,
   }) {
-    if (!controller.isDismissed && !isEnded) {
-      controller.animateTo(
+    if (!controller.isDismissed && !isEnded && !isDisposed) {
+      controller
+          .animateTo(
         to,
         duration: duration,
         curve: curve,
+      )
+          .onError(
+        (error, stackTrace) {
+          /* Nothing to do */
+        },
       );
     }
   }
@@ -204,6 +211,8 @@ abstract class SlideStateBase<T extends StatefulWidget>
 
   @override
   void dispose() {
+    isDisposed = true;
+
     _subscription.cancel();
     _opacityController.dispose();
 

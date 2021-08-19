@@ -9,6 +9,7 @@ var _mapRu = {
   L10n.appPickerApp: 'Приложение',
   L10n.appPickerNothingFound: 'Ничего не найдено :(',
   L10n.homeSelectApp: 'Выбрать',
+  L10n.settingsTitle: 'Настройки',
   L10n.settingsAbout: 'О приложении',
   L10n.settingsTheme: 'Тема',
   L10n.settingsToLeftApp: 'Влево',
@@ -47,7 +48,7 @@ var _mapRu = {
   L10n.tutorialAppPhone: 'Телефон',
   L10n.tutorialAppAny: 'Любое Приложение',
   L10n.tutorialSkip: 'Пропустить',
-  L10n.tutorialDone: 'Дальше',
+  L10n.tutorialDone: 'Закончить',
   L10n.tutorialQuickAppLaunchTitle: 'Быстрый Запуск',
   L10n.tutorialQuickAppLaunchInfo:
       '''Вы можете выбрать до четырех приложений быстрого запуска. Просто нажмите на кнопку и выберите приложение.\n\nЧтобы изменить выбор, зажмите кнопку приложение.''',
@@ -64,5 +65,6 @@ var _mapRu = {
   L10n.tutorialSearchInfo:
       'Можно легко и быстро запустить Google поиск. Просто потяните вниз.',
   L10n.tutorialSettingsTitle: 'Открыть Настройки',
-  L10n.tutorialSettingsInfo: 'Зажмите, чтобы перейти в настройки.',
+  L10n.tutorialSettingsInfo:
+      '''Зажмите на пустом месте на главном экране, чтобы перейти в настройки.''',
 };

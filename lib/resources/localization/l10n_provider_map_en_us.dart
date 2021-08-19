@@ -4,11 +4,12 @@ var _mapEn = {
   L10n.appName: 'Leafy Launcher',
   L10n.appPickerAppNamePlaceholder: 'App name ...',
   L10n.appPickerTo: 'To',
-  L10n.appPickerLaunchApp: 'Launch',
+  L10n.appPickerLaunchApp: 'Launch app',
   L10n.appPickerSelect: 'Select',
   L10n.appPickerApp: 'App',
   L10n.appPickerNothingFound: 'Nothing found :(',
   L10n.homeSelectApp: 'Select',
+  L10n.settingsTitle: 'Settings',
   L10n.settingsAbout: 'About',
   L10n.settingsTheme: 'Theme',
   L10n.settingsToLeftApp: 'To Left',
@@ -64,5 +65,6 @@ var _mapEn = {
   L10n.tutorialSearchInfo:
       'You can easily launch Google search. Just drag to bottom.',
   L10n.tutorialSettingsTitle: 'Open Settings',
-  L10n.tutorialSettingsInfo: 'Long press to open settings',
+  L10n.tutorialSettingsInfo:
+      '''Long press anywhere on the home screen to open settings''',
 };

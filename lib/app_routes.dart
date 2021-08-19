@@ -37,6 +37,6 @@ class AppRoutes {
       '$appPicker/$str?$paramName=$returnOnFirstMatchStr',
     );
 
-    return res as Application;
+    return res as Application?;
   }
 }

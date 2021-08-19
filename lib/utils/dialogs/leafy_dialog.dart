@@ -71,7 +71,7 @@ class _LeafyDialogOptionWidget<T extends LeafyTheme> extends ThemedWidget<T> {
       onPressed: () => Get.back(result: option.callback()),
       child: Text(
         option.title,
-        style: theme.bodyText4.copyWith(color: getForegroundColor(theme)),
+        style: theme.bodyText5.copyWith(color: getForegroundColor(theme)),
       ),
     );
   }
@@ -117,10 +117,10 @@ class LeafyDialog<TTheme extends LeafyTheme> extends StatelessWidget {
                 if (message != null)
                   Text(
                     message!,
-                    style: theme.bodyText4,
+                    style: theme.bodyText5,
                     textAlign: TextAlign.center,
                   ),
-                const LeafySpacer(multipler: 2),
+                const LeafySpacer(multipler: 2.0),
                 Divider(
                   height: 1,
                   color: theme.backgroundColor,
