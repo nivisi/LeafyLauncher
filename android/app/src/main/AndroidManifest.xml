@@ -7,7 +7,7 @@
 
   <application
       android:label="Leafy Launcher Beta"
-      android:icon="@mipmap/ic_launcher">
+      android:icon="@mipmap/leafy_icon">
 
     <activity
         android:name="com.nivisi.leafy_launcher.MainActivity"
