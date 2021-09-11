@@ -7,10 +7,18 @@ import '../../../shared_widget/leafy_spacer.dart';
 import '../../../utils/enum/user_selected_app_type.dart';
 import 'user_app_button.dart';
 
-class UserAppsList extends GetView<UserApplicationsController> {
-  const UserAppsList({Key? key}) : super(key: key);
+class _AppBuilder extends StatelessWidget {
+  const _AppBuilder({
+    Key? key,
+    required this.type,
+    required this.controller,
+  }) : super(key: key);
 
-  GetBuilder _getBuilderForApp(UserSelectedAppType type) {
+  final UserSelectedAppType type;
+  final UserApplicationsController controller;
+
+  @override
+  Widget build(BuildContext context) {
     return GetBuilder<UserApplicationsController>(
       id: controller.getBuilderId(type),
       init: controller,
@@ -31,6 +39,10 @@ class UserAppsList extends GetView<UserApplicationsController> {
       },
     );
   }
+}
+
+class UserAppsList extends GetView<UserApplicationsController> {
+  const UserAppsList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +51,13 @@ class UserAppsList extends GetView<UserApplicationsController> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _getBuilderForApp(UserSelectedAppType.first),
+        _AppBuilder(type: UserSelectedAppType.first, controller: controller),
         const LeafySpacer(multipler: kHomeAppsSpacingMultipler),
-        _getBuilderForApp(UserSelectedAppType.second),
+        _AppBuilder(type: UserSelectedAppType.second, controller: controller),
         const LeafySpacer(multipler: kHomeAppsSpacingMultipler),
-        _getBuilderForApp(UserSelectedAppType.third),
+        _AppBuilder(type: UserSelectedAppType.third, controller: controller),
         const LeafySpacer(multipler: kHomeAppsSpacingMultipler),
-        _getBuilderForApp(UserSelectedAppType.fourth),
+        _AppBuilder(type: UserSelectedAppType.fourth, controller: controller),
       ],
     );
   }
