@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/services/home_button_listener/home_button_listener.dart';
-import 'package:rate_limiter/rate_limiter.dart';
 
 import '../../app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
@@ -29,7 +28,6 @@ class HomeController extends StatusControllerBase {
   late final PlatformMethodsService _platformMethodsService;
   late final HomeButtonListener _homeButtonListener;
 
-  late final TextEditingController searchEditingController;
   late final FocusNode searchFocusNode;
 
   final StreamController _backButtonController = StreamController.broadcast();
@@ -63,15 +61,6 @@ class HomeController extends StatusControllerBase {
   Future load() async {
     await _installedApplicationsService.ensureInitialized;
     await _userApplicationsController.ensureInitialized;
-
-    searchEditingController = TextEditingController();
-    searchEditingController.addListener(
-      _onSearched.throttled(
-        const Duration(
-          seconds: 1,
-        ),
-      ),
-    );
 
     searchFocusNode = FocusNode();
 
@@ -151,28 +140,6 @@ class HomeController extends StatusControllerBase {
         );
       }
     }
-  }
-
-  Future<void> _onSearched() async {
-    if (searchEditingController.text.isEmpty) {
-      _searchSuggestions.clear();
-      update([suggestionsBuilderKey]);
-
-      return;
-    }
-
-    final res = await _googleSearch.query(searchEditingController.text);
-
-    if (searchEditingController.text.isEmpty) {
-      _searchSuggestions.clear();
-      update([suggestionsBuilderKey]);
-
-      return;
-    }
-
-    _searchSuggestions.assignAll(res);
-
-    update([suggestionsBuilderKey]);
   }
 
   Future onLeftSwipe() async {
