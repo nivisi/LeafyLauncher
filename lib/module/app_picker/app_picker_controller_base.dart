@@ -13,6 +13,8 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
     this.type,
   });
 
+  bool _shouldOpenKeyboardOnScrollToTop = true;
+
   static const selectOnFirstMatchParameter = 'selectOnFirstMatch';
   static const appListBuilderKey = 'appListBuilderKey';
 
@@ -76,7 +78,7 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
 
   void _onScrolled() {
     if (scrollController.position.pixels <= .0) {
-      if (!textFocusNode.hasFocus) {
+      if (!textFocusNode.hasFocus && _shouldOpenKeyboardOnScrollToTop) {
         textFocusNode.requestFocus();
       }
 
@@ -98,8 +100,12 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
   }
 
   void clearInput() {
+    _shouldOpenKeyboardOnScrollToTop = false;
+
     textFocusNode.unfocus();
     textEditingController.clear();
     scrollController.jumpTo(.0);
+
+    _shouldOpenKeyboardOnScrollToTop = true;
   }
 }
