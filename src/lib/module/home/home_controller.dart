@@ -21,6 +21,7 @@ class HomeController extends StatusControllerBase {
   static const String suggestionsBuilderKey = 'suggestionsBuilder';
   static const String leftCornerButtonBuilderKey = 'leftCornerButtonBuilder';
   static const String rightCornerButtonBuilderKey = 'rightCornerButtonBuilder';
+  static const String dayProgressBuilderKey = 'dayProgressBuilderKey';
 
   late final UserApplicationsController _userApplicationsController;
   late final InstalledApplicationsService _installedApplicationsService;
@@ -29,6 +30,8 @@ class HomeController extends StatusControllerBase {
   late final HomeButtonListener _homeButtonListener;
 
   late final FocusNode searchFocusNode;
+
+  late bool _isDayProgressVisible;
 
   final StreamController _backButtonController = StreamController.broadcast();
 
@@ -48,6 +51,8 @@ class HomeController extends StatusControllerBase {
 
   Stream get onBackButtonPressed => _backButtonController.stream;
 
+  bool get isDayProgressVisible => _isDayProgressVisible;
+
   @override
   Future resolveDependencies() async {
     _userApplicationsController = Get.find<UserApplicationsController>();
@@ -66,6 +71,7 @@ class HomeController extends StatusControllerBase {
 
     _restoreLeftCornerButton();
     _restoreRightCornerButton();
+    _restoreIsDayProgressVisible();
 
     _homeButtonPressedSubscription = _homeButtonListener.addCallback(
       _navigateHome,
@@ -140,6 +146,23 @@ class HomeController extends StatusControllerBase {
         );
       }
     }
+  }
+
+  void _restoreIsDayProgressVisible() {
+    var isDayProgressVisible = sharedPreferences.getBool(
+      kIsDayProgressVisible,
+    );
+
+    if (isDayProgressVisible == null) {
+      isDayProgressVisible = true;
+
+      sharedPreferences.setBool(
+        kIsDayProgressVisible,
+        isDayProgressVisible,
+      );
+    }
+
+    _isDayProgressVisible = isDayProgressVisible;
   }
 
   Future onLeftSwipe() async {
@@ -229,6 +252,16 @@ class HomeController extends StatusControllerBase {
     );
 
     update([rightCornerButtonBuilderKey]);
+  }
+
+  void setIsDayProgressVisible({bool value = true}) {
+    if (_isDayProgressVisible == value) {
+      return;
+    }
+
+    _isDayProgressVisible = value;
+
+    update([dayProgressBuilderKey]);
   }
 
   @override

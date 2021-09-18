@@ -67,4 +67,10 @@ var _mapEn = {
   L10n.tutorialSettingsTitle: 'Open Settings',
   L10n.tutorialSettingsInfo:
       '''Long press anywhere on the home screen to open settings''',
+  L10n.dayProgress: 'Day',
+  L10n.settingsHomeWidgets: 'Home Widgets',
+  L10n.settingsWidgetsTitle: 'Home Widgets',
+  L10n.settingsDayProgressWidget: 'Day Progress',
+  L10n.enabled: 'Enabled',
+  L10n.disabled: 'Disabled',
 };

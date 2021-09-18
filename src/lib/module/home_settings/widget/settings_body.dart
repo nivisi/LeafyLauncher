@@ -34,6 +34,7 @@ class SettingsBody
         padding: const EdgeInsets.only(
           top: kDefaultPadding * 6.0,
           left: kHomeHorizontalPadding,
+          bottom: kDefaultPadding * 4.0,
         ),
         children: [
           Text(
@@ -67,6 +68,13 @@ class SettingsBody
             onTap: controller.openTutorial,
           ),
           const LeafySpacer(multipler: _spacerMultipler),
+          TouchableTextButton(
+            text: L10nProvider.getText(L10n.settingsHomeWidgets),
+            color: theme.foregroundColor,
+            pressedColor: theme.foregroundPressedColor,
+            style: theme.bodyText2,
+            onTap: controller.openWidgets,
+          ),
         ],
       ),
     );

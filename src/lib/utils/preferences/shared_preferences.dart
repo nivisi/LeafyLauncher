@@ -6,6 +6,7 @@ const kLeftCornerButtonType = 'leftCornerButtonType';
 const kRightCornerButtonType = 'rightCornerButtonType';
 const kVibrationPreferences = 'vibrationPreferences';
 const kIsFirstLaunch = 'isFirstLaunch';
+const kIsDayProgressVisible = 'isDayProgressVisible';
 
 late final SharedPreferences sharedPreferences;
 

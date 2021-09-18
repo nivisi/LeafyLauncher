@@ -54,6 +54,9 @@ class L10n {
   static const String settingsLanguage = 'settingsLanguage';
   static const String settingsSelectDefaultLauncher =
       'settingsSelectDefaultLauncher';
+  static const String settingsWidgetsTitle = 'settingsWidgetsTitle';
+  static const String settingsHomeWidgets = 'settingsHomeWidgets';
+  static const String settingsDayProgressWidget = 'settingsDayProgressWidget';
   static const String settingsDoTutorial = 'settingsDoTutorial';
   static const String appPickerLaunchApp = 'appPickerLaunchApp';
   static const String appPickerTo = 'appPickerTo';
@@ -113,4 +116,8 @@ class L10n {
   static const String tutorialSearchInfo = 'tutorialSearchInfo';
   static const String tutorialSettingsTitle = 'tutorialSettingsTitle';
   static const String tutorialSettingsInfo = 'tutorialSettingsInfo';
+
+  static const String dayProgress = 'dayProgress';
+  static const String enabled = 'enabled';
+  static const String disabled = 'disabled';
 }
