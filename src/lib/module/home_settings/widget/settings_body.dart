@@ -24,8 +24,6 @@ class SettingsBody
     extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
   const SettingsBody({Key? key}) : super(key: key);
 
-  static const double _spacerMultipler = 4.0;
-
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return Expanded(
@@ -34,6 +32,7 @@ class SettingsBody
         padding: const EdgeInsets.only(
           top: kDefaultPadding * 6.0,
           left: kHomeHorizontalPadding,
+          bottom: kDefaultPadding * 4.0,
         ),
         children: [
           Text(
@@ -42,13 +41,13 @@ class SettingsBody
           ),
           const LeafySpacer(multipler: 6.0),
           const _SwipeToApp(type: UserSelectedAppType.left),
-          const LeafySpacer(multipler: _spacerMultipler),
+          const LeafySpacer.section(),
           const _SwipeToApp(type: UserSelectedAppType.right),
-          const LeafySpacer(multipler: _spacerMultipler),
+          const LeafySpacer.section(),
           const _Theme(),
-          const LeafySpacer(multipler: _spacerMultipler),
+          const LeafySpacer.section(),
           const _Language(),
-          const LeafySpacer(multipler: _spacerMultipler),
+          const LeafySpacer.section(),
           const _VibrationPreferences(),
           const LeafySpacer(multipler: 8.0),
           TouchableTextButton(
@@ -66,7 +65,14 @@ class SettingsBody
             style: theme.bodyText2,
             onTap: controller.openTutorial,
           ),
-          const LeafySpacer(multipler: _spacerMultipler),
+          const LeafySpacer.section(),
+          TouchableTextButton(
+            text: L10nProvider.getText(L10n.settingsHomeWidgets),
+            color: theme.foregroundColor,
+            pressedColor: theme.foregroundPressedColor,
+            style: theme.bodyText2,
+            onTap: controller.openWidgets,
+          ),
         ],
       ),
     );

@@ -67,4 +67,16 @@ var _mapRu = {
   L10n.tutorialSettingsTitle: 'Открыть Настройки',
   L10n.tutorialSettingsInfo:
       '''Зажмите на пустом месте на главном экране, чтобы перейти в настройки.''',
+  L10n.dayProgress: 'День',
+  L10n.weekProgress: 'Неделя',
+  L10n.yearProgress: 'Год',
+  L10n.settingsHomeWidgets: 'Домашние виджеты',
+  L10n.settingsWidgetsTitle: 'Домашние виджеты',
+  L10n.settingsTimeProgressWidget: 'Прогресс времени',
+  L10n.settingsIsEnabled: 'Включен',
+  L10n.settingsYes: 'Да',
+  L10n.settingsNo: 'Нет',
+  L10n.settingsType: 'Тип',
+  L10n.enabled: 'Включен',
+  L10n.disabled: 'Выключен',
 };

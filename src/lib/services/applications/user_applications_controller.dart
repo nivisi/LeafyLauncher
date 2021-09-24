@@ -275,4 +275,8 @@ class UserApplicationsController extends StatusControllerBase {
   void openTutorial() {
     Get.toNamed(AppRoutes.tutorial);
   }
+
+  void openWidgets() {
+    Get.toNamed(AppRoutes.settingsWidgets);
+  }
 }

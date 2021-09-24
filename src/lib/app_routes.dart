@@ -11,6 +11,7 @@ class AppRoutes {
   static const home = '/home';
 
   static const settings = '/settings';
+  static const settingsWidgets = '/settings/widgets';
   static const tutorial = '/tutorial';
 
   static Future<void>? toHome({bool off = false}) {

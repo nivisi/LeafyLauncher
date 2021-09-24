@@ -15,6 +15,7 @@ import 'widget/home_gesture_detector/home_gesture_detector.dart';
 import 'widget/home_widgets/home_clock.dart';
 import 'widget/home_widgets/home_date.dart';
 import 'widget/home_widgets/home_top_widget.dart';
+import 'widget/home_widgets/time_progress/time_progress.dart';
 import 'widget/horizontal_swipe_app_icon.dart';
 import 'widget/user_apps_list.dart';
 
@@ -144,6 +145,32 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
                                 top: kHomeVerticalPadding,
                               ),
                               child: HomeDate(),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              kHomeHorizontalPadding,
+                              90,
+                              kHomeHorizontalPadding,
+                              0,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: GetBuilder<HomeController>(
+                                    id: HomeController.timeProgressBuilderKey,
+                                    builder: (controller) {
+                                      return Visibility(
+                                        visible:
+                                            controller.isTimeProgressVisible,
+                                        child: const TimeProgress(),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                const Spacer(),
+                                const Spacer(),
+                              ],
                             ),
                           ),
                           GetBuilder<HomeController>(

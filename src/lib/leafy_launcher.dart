@@ -16,6 +16,8 @@ import 'module/home/home_binding.dart';
 import 'module/home/home_page.dart';
 import 'module/home_settings/home_settings_binding.dart';
 import 'module/home_settings/home_settings_page.dart';
+import 'module/home_settings/widgets/home_settings_widgets_binding.dart';
+import 'module/home_settings/widgets/home_settings_widgets_page.dart';
 import 'module/startup/startup_binding.dart';
 import 'module/startup/startup_page.dart';
 import 'resources/localization/l10n.dart';
@@ -118,6 +120,12 @@ class LeafyLauncher {
             name: AppRoutes.settings,
             binding: HomeSettingsBinding(),
             page: () => const HomeSettingsPage(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: AppRoutes.settingsWidgets,
+            binding: HomeSettingsWidgetsBinding(),
+            page: () => const HomeSettingsWidgetsPage(),
             transition: Transition.fadeIn,
           ),
           GetPage(
