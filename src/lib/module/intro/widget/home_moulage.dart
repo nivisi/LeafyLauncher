@@ -23,6 +23,7 @@ class HomeMoulage extends StatelessWidget {
     this.appPickerAnimationController,
     this.searchAnimationController,
     this.settingsAnimationController,
+    this.appPickerScrollController,
   }) : super(key: key);
 
   final Widget? appList;
@@ -37,6 +38,7 @@ class HomeMoulage extends StatelessWidget {
   final AnimationController? appPickerAnimationController;
   final AnimationController? searchAnimationController;
   final AnimationController? settingsAnimationController;
+  final ScrollController? appPickerScrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +136,7 @@ class HomeMoulage extends StatelessWidget {
           IgnorePointer(
             child: BottomAppList(
               animationController: appPickerAnimationController!,
+              slidesScrollController: appPickerScrollController,
             ),
           ),
         if (searchAnimationController != null)

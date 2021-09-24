@@ -90,7 +90,7 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
   }
 
   void _onScrolled() {
-    if (scrollController.position.pixels <= .0) {
+    if (scrollController.hasClients && scrollController.position.pixels <= .0) {
       if (!textFocusNode.hasFocus && _shouldOpenKeyboardOnScrollToTop) {
         textFocusNode.requestFocus();
       }
