@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/module/home/home_controller.dart';
+import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/shared_widget/leafy_spacer.dart';
@@ -143,7 +144,9 @@ class _TimeProgressState extends ThemedState<TimeProgress, HomeTheme> {
               color: theme.foregroundColor.withOpacity(.5),
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  return Container(
+                  return AnimatedContainer(
+                    curve: Curves.easeInOut,
+                    duration: kDefaultAnimationDuration,
                     decoration: BoxDecoration(
                       color: theme.foregroundColor,
                       borderRadius: const BorderRadius.only(
