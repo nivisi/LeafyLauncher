@@ -21,17 +21,18 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  ensure_initialized: ^0.0.3
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  ensure_initialized: ^0.0.3
   intl: ^0.17.0
   lint: ^1.5.3
   logger: ^1.0.0
   path_provider: ^2.0.2
   shared_preferences: ^2.0.6
   synchronized: ^3.0.0
+  table_calendar: ^3.0.2
   webview_flutter: ^2.0.9
 
 dev_dependencies:

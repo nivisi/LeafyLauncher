@@ -44,3 +44,4 @@ analyzer:
     todo: ignore
     no_logic_in_create_state: ignore
     invariant_booleans: ignore
+    avoid_classes_with_only_static_members: ignore
