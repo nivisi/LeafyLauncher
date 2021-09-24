@@ -110,7 +110,6 @@ class _BottomPanel extends ThemedGetWidget<TutorialController, HomeTheme> {
           id: TutorialController.currentPageBuilderId,
           builder: (controller) {
             return Stack(
-              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Align(
                   alignment: Alignment.centerLeft,

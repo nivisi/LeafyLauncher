@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:ensure_initialized/ensure_initialized.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'controller_base.dart';
 
@@ -54,7 +53,9 @@ abstract class StatusControllerBase extends ControllerBase
   @nonVirtual
   // ignore: invalid_override_of_non_virtual_member
   Future init() async {
-    logger..i('Initializing ...')..i('Resolving dependencies ...');
+    logger
+      ..i('Initializing ...')
+      ..i('Resolving dependencies ...');
 
     await resolveDependencies();
 
