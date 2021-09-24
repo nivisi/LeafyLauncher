@@ -17,16 +17,20 @@ import '../../utils/enum/user_selected_app_type.dart';
 import '../../utils/preferences/shared_preferences.dart';
 import 'widget/corner_button/corner_button.dart';
 
-class HomeController extends StatusControllerBase {
+class HomeController extends StatusControllerBase
+    with SingleGetTickerProviderMixin {
   static const String suggestionsBuilderKey = 'suggestionsBuilder';
   static const String leftCornerButtonBuilderKey = 'leftCornerButtonBuilder';
   static const String rightCornerButtonBuilderKey = 'rightCornerButtonBuilder';
+  static const String calendarBuilderKey = 'calendarBuilderKey';
 
   late final UserApplicationsController _userApplicationsController;
   late final InstalledApplicationsService _installedApplicationsService;
   late final GoogleSearch _googleSearch;
   late final PlatformMethodsService _platformMethodsService;
   late final HomeButtonListener _homeButtonListener;
+
+  bool _isCalendarDisplayed = false;
 
   late final FocusNode searchFocusNode;
 
@@ -47,6 +51,11 @@ class HomeController extends StatusControllerBase {
   Iterable<String> get searchSuggestions => _searchSuggestions;
 
   Stream get onBackButtonPressed => _backButtonController.stream;
+
+  // AnimationController get calendarAnimationController =>
+  //     _calendarAnimationController;
+
+  bool get isCalendarDisplayed => _isCalendarDisplayed;
 
   @override
   Future resolveDependencies() async {
@@ -70,6 +79,13 @@ class HomeController extends StatusControllerBase {
     _homeButtonPressedSubscription = _homeButtonListener.addCallback(
       _navigateHome,
     );
+
+    onBackButtonPressed.listen((event) {
+      if (isCalendarDisplayed) {
+        _isCalendarDisplayed = false;
+        update([calendarBuilderKey]);
+      }
+    });
   }
 
   Future _navigateHome() async {
@@ -236,5 +252,17 @@ class HomeController extends StatusControllerBase {
     _homeButtonPressedSubscription.cancel();
 
     super.onClose();
+  }
+
+  void openCalendar() {
+    _isCalendarDisplayed = true;
+
+    update([calendarBuilderKey]);
+  }
+
+  void closeCalendar() {
+    _isCalendarDisplayed = false;
+
+    update([calendarBuilderKey]);
   }
 }
