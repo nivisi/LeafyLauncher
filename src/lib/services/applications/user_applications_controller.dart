@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/services/applications/installed_application.dart';
-import 'package:leafy_launcher/services/toast/toast_service.dart';
 
 import '../../app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
@@ -341,5 +340,12 @@ class UserApplicationsController extends StatusControllerBase {
 
   void openWidgets() {
     Get.toNamed(AppRoutes.settingsWidgets);
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+
+    _onAppRemovedSubscription.cancel();
   }
 }
