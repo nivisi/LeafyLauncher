@@ -116,6 +116,10 @@ class L10n {
   static const String tutorialCornerButtonsInfo = 'tutorialCornerButtonsInfo';
   static const String tutorialAppPickerTitle = 'tutorialAppPickerTitle';
   static const String tutorialAppPickerInfo = 'tutorialAppPickerInfo';
+  static const String tutorialAppPickerRefreshAppsTitle =
+      'tutorialAppPickerRefreshAppsTitle';
+  static const String tutorialAppPickerRefreshAppsInfo =
+      'tutorialAppPickerRefreshAppsInfo';
   static const String tutorialSearchTitle = 'tutorialSearchTitle';
   static const String tutorialSearchInfo = 'tutorialSearchInfo';
   static const String tutorialSettingsTitle = 'tutorialSettingsTitle';

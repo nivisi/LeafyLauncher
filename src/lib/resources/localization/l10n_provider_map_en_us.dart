@@ -61,6 +61,9 @@ var _mapEn = {
   L10n.tutorialAppPickerTitle: 'App Picker',
   L10n.tutorialAppPickerInfo:
       '''App Picker — this is where you can launch any app installed on your device. Drag up to open it.\n\nYou can either tap on the app name or type it: on first match the app will be launched automatically.''',
+  L10n.tutorialAppPickerRefreshAppsTitle: 'Refreshing Apps List',
+  L10n.tutorialAppPickerRefreshAppsInfo:
+      '''If some apps doesn't appear in the list, scroll back to the list start and drag it down.''',
   L10n.tutorialSearchTitle: 'Google Search',
   L10n.tutorialSearchInfo:
       'You can easily launch Google search. Just drag to bottom.',

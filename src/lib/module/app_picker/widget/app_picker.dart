@@ -23,6 +23,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
     required this.autofocusTextField,
     required this.onRefresh,
     this.onLongPress,
+    this.slidesScrollController,
   }) : super(key: key);
 
   final String title;
@@ -34,6 +35,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
   final void Function(Application application)? onLongPress;
   final bool autofocusTextField;
   final VoidCallback onRefresh;
+  final ScrollController? slidesScrollController;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
@@ -68,7 +70,11 @@ class AppPicker extends ThemedWidget<HomeTheme> {
             displacement: 0,
             color: theme.leafyColor,
             backgroundColor: Colors.transparent,
-            onRefresh: () async => onRefresh(),
+            onRefresh: slidesScrollController == null
+                ? () async => onRefresh()
+                : () async {
+                    await Future.delayed(const Duration(seconds: 1));
+                  },
             child: applications.isEmpty
                 ? Stack(
                     children: [
@@ -88,7 +94,8 @@ class AppPicker extends ThemedWidget<HomeTheme> {
                     ],
                   )
                 : ListBuilder<Application>(
-                    scrollController: scrollController,
+                    scrollController:
+                        slidesScrollController ?? scrollController,
                     padding: const EdgeInsets.all(kDefaultPadding * 2.0),
                     items: applications,
                     separatorType: SeparatorType.space,

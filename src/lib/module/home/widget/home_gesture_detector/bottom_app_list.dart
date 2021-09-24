@@ -15,12 +15,14 @@ class BottomAppList extends ThemedWidget<HomeTheme> {
   const BottomAppList({
     Key? key,
     required AnimationController animationController,
+    this.slidesScrollController,
   })  : _animationController = animationController,
         super(key: key);
 
   static const double _padding = 125.0;
 
   final AnimationController _animationController;
+  final ScrollController? slidesScrollController;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
@@ -59,6 +61,7 @@ class BottomAppList extends ThemedWidget<HomeTheme> {
                 onAppSelected: controller.onAppSelected,
                 onLongPress: controller.onAppLongPressed,
                 onRefresh: controller.onRefresh,
+                slidesScrollController: slidesScrollController,
               );
             },
           ),
