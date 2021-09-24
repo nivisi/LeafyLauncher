@@ -129,7 +129,9 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
 
     textFocusNode.unfocus();
     textEditingController.clear();
-    scrollController.jumpTo(.0);
+    if (scrollController.hasClients) {
+      scrollController.jumpTo(.0);
+    }
 
     _shouldOpenKeyboardOnScrollToTop = true;
   }
