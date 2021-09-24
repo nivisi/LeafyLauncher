@@ -7,6 +7,7 @@ import 'package:leafy_launcher/module/intro/intro_page.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_binding.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/toast/toast_service.dart';
 
 import 'app_routes.dart';
 import 'module/app_picker/app_picker_binding.dart';
@@ -48,6 +49,7 @@ class LeafyLauncher {
   /// Initialized must have dependecies.
   /// The app can start w/o them and they will be loaded soon.
   static Future initSecondaryDependencies() async {
+    Get.lazyPut(() => const ToastService(), fenix: true);
     Get.lazyPut(() => const HomeButtonListener(), fenix: true);
     Get.lazyPut(() => const DeviceVibration(), fenix: true);
     Get.lazyPut(() => GoogleSearch(), fenix: true);
