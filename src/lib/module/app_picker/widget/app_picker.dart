@@ -21,6 +21,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
     required this.applications,
     required this.onAppSelected,
     required this.autofocusTextField,
+    required this.onRefresh,
     this.onLongPress,
   }) : super(key: key);
 
@@ -32,6 +33,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
   final void Function(Application application) onAppSelected;
   final void Function(Application application)? onLongPress;
   final bool autofocusTextField;
+  final VoidCallback onRefresh;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
@@ -71,18 +73,24 @@ class AppPicker extends ThemedWidget<HomeTheme> {
           )
         else
           Expanded(
-            child: ListBuilder<Application>(
-              scrollController: scrollController,
-              padding: const EdgeInsets.all(kDefaultPadding * 2.0),
-              items: applications,
-              separatorType: SeparatorType.space,
-              builder: (app) {
-                return AppPickerButton(
-                  application: app,
-                  onTapped: onAppSelected,
-                  onLongPress: onLongPress,
-                );
-              },
+            child: RefreshIndicator(
+              displacement: 0,
+              color: theme.leafyColor,
+              backgroundColor: Colors.transparent,
+              onRefresh: () async => onRefresh(),
+              child: ListBuilder<Application>(
+                scrollController: scrollController,
+                padding: const EdgeInsets.all(kDefaultPadding * 2.0),
+                items: applications,
+                separatorType: SeparatorType.space,
+                builder: (app) {
+                  return AppPickerButton(
+                    application: app,
+                    onTapped: onAppSelected,
+                    onLongPress: onLongPress,
+                  );
+                },
+              ),
             ),
           )
       ],

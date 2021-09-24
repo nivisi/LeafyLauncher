@@ -79,4 +79,5 @@ var _mapEn = {
   L10n.settingsType: 'Type',
   L10n.enabled: 'Enabled',
   L10n.disabled: 'Disabled',
+  L10n.installedAppsRefetched: 'Apps Reloaded',
 };

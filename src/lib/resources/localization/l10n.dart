@@ -126,4 +126,6 @@ class L10n {
   static const String yearProgress = 'yearProgress';
   static const String enabled = 'enabled';
   static const String disabled = 'disabled';
+
+  static const String installedAppsRefetched = 'installedAppsRefetched';
 }
