@@ -55,6 +55,7 @@ class AppPickerPage extends StatusPageBase<AppPickerController, HomeTheme> {
           scrollController: controller.scrollController,
           applications: controller.apps,
           onAppSelected: controller.onAppSelected,
+          onRefresh: controller.onRefresh,
         );
       },
     );

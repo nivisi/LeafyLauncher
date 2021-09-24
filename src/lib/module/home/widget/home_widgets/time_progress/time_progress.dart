@@ -69,8 +69,8 @@ class _TimeProgressState extends ThemedState<TimeProgress, HomeTheme> {
 
     var percentage = progress / _timelineLength;
 
-    if (percentage > 1.0) {
-      percentage = 1.0;
+    if (percentage > .99) {
+      percentage = .99;
     }
 
     setState(() {

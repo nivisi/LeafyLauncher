@@ -35,17 +35,13 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
 
   static late final DeviceVibration _deviceVibration;
 
-  late final List<InstalledApplication> _installedApps;
+  late List<InstalledApplication> _installedApps;
   late final List<LeafyApplication> _leafyApps;
 
   Iterable<InstalledApplication> get installedApps => _installedApps;
   Iterable<LeafyApplication> get leafyApps => _leafyApps;
 
-  Future _init() async {
-    logger.i('Initializing installed applications ...');
-
-    _deviceVibration = Get.find<DeviceVibration>();
-
+  Future _fetchApps() async {
     await _appChannel.invokeMethod(_methodInitApps);
 
     final apps = await _appChannel.invokeMethod(_methodGetApps);
@@ -76,10 +72,22 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
       );
 
     _installedApps = parcedMap;
+  }
+
+  Future _init() async {
+    logger.i('Initializing installed applications ...');
+
+    _deviceVibration = Get.find<DeviceVibration>();
+
+    await _fetchApps();
 
     logger.i('Initialized!');
 
     initializedSuccessfully();
+  }
+
+  Future refetchApps() {
+    return _fetchApps();
   }
 
   static Future<InstalledApplicationsService> init() async {

@@ -79,4 +79,5 @@ var _mapRu = {
   L10n.settingsType: 'Тип',
   L10n.enabled: 'Включен',
   L10n.disabled: 'Выключен',
+  L10n.installedAppsRefetched: 'Приложения обновлены',
 };
