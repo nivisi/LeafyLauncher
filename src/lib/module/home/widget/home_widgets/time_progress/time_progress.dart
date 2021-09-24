@@ -131,6 +131,7 @@ class _TimeProgressState extends ThemedState<TimeProgress, HomeTheme> {
         color: Colors.transparent,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               '${_getTitle()}: $_percentage%',
