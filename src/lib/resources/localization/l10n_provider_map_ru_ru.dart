@@ -72,7 +72,11 @@ var _mapRu = {
   L10n.yearProgress: 'Год',
   L10n.settingsHomeWidgets: 'Домашние Виджеты',
   L10n.settingsWidgetsTitle: 'Домашние Виджеты',
-  L10n.settingsDayProgressWidget: 'Прогресс дня',
+  L10n.settingsTimeProgressWidget: 'Прогресс времени',
+  L10n.settingsIsEnabled: 'Включен',
+  L10n.settingsYes: 'Да',
+  L10n.settingsNo: 'Нет',
+  L10n.settingsType: 'Тип',
   L10n.enabled: 'Включен',
   L10n.disabled: 'Выключен',
 };

@@ -72,7 +72,11 @@ var _mapEn = {
   L10n.yearProgress: 'Year',
   L10n.settingsHomeWidgets: 'Home Widgets',
   L10n.settingsWidgetsTitle: 'Home Widgets',
-  L10n.settingsDayProgressWidget: 'Day Progress',
+  L10n.settingsTimeProgressWidget: 'Time Progress',
+  L10n.settingsIsEnabled: 'Enabled',
+  L10n.settingsYes: 'Yes',
+  L10n.settingsNo: 'No',
+  L10n.settingsType: 'Type',
   L10n.enabled: 'Enabled',
   L10n.disabled: 'Disabled',
 };

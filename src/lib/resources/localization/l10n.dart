@@ -56,8 +56,12 @@ class L10n {
       'settingsSelectDefaultLauncher';
   static const String settingsWidgetsTitle = 'settingsWidgetsTitle';
   static const String settingsHomeWidgets = 'settingsHomeWidgets';
-  static const String settingsDayProgressWidget = 'settingsDayProgressWidget';
+  static const String settingsTimeProgressWidget = 'settingsDayProgressWidget';
   static const String settingsDoTutorial = 'settingsDoTutorial';
+  static const String settingsIsEnabled = 'settingsIsEnabled';
+  static const String settingsYes = 'settingsYes';
+  static const String settingsNo = 'settingsNo';
+  static const String settingsType = 'settingsType';
   static const String appPickerLaunchApp = 'appPickerLaunchApp';
   static const String appPickerTo = 'appPickerTo';
   static const String appPickerSelect = 'appPickerSelect';

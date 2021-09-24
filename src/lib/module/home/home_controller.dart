@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/module/home/widget/home_widgets/time_progress/time_progress.dart';
 import 'package:leafy_launcher/services/home_button_listener/home_button_listener.dart';
 
 import '../../app_routes.dart';
@@ -22,7 +23,8 @@ class HomeController extends StatusControllerBase
   static const String suggestionsBuilderKey = 'suggestionsBuilder';
   static const String leftCornerButtonBuilderKey = 'leftCornerButtonBuilder';
   static const String rightCornerButtonBuilderKey = 'rightCornerButtonBuilder';
-  static const String dayProgressBuilderKey = 'dayProgressBuilderKey';
+  static const String timeProgressBuilderKey = 'timeProgressBuilderKey';
+  static const String timeProgressTypeBuilderKey = 'timeProgressTypeBuilderKey';
   static const String calendarBuilderKey = 'calendarBuilderKey';
 
   late final UserApplicationsController _userApplicationsController;
@@ -35,7 +37,8 @@ class HomeController extends StatusControllerBase
 
   late final FocusNode searchFocusNode;
 
-  late bool _isDayProgressVisible;
+  late bool _isTimeProgressVisible;
+  late TimeProgressType _timeProgressType;
 
   final StreamController _backButtonController = StreamController.broadcast();
 
@@ -55,7 +58,8 @@ class HomeController extends StatusControllerBase
 
   Stream get onBackButtonPressed => _backButtonController.stream;
 
-  bool get isDayProgressVisible => _isDayProgressVisible;
+  bool get isTimeProgressVisible => _isTimeProgressVisible;
+  TimeProgressType get timeProgressType => _timeProgressType;
 
   bool get isCalendarDisplayed => _isCalendarDisplayed;
 
@@ -77,7 +81,8 @@ class HomeController extends StatusControllerBase
 
     _restoreLeftCornerButton();
     _restoreRightCornerButton();
-    _restoreIsDayProgressVisible();
+    _restoreIsTimeProgressVisible();
+    _restoreIsTimeProgressType();
 
     _homeButtonPressedSubscription = _homeButtonListener.addCallback(
       _navigateHome,
@@ -161,21 +166,62 @@ class HomeController extends StatusControllerBase
     }
   }
 
-  void _restoreIsDayProgressVisible() {
-    var isDayProgressVisible = sharedPreferences.getBool(
-      kIsDayProgressVisible,
-    );
+  void _restoreIsTimeProgressVisible() {
+    const fallback = true;
 
-    if (isDayProgressVisible == null) {
-      isDayProgressVisible = true;
+    try {
+      var isTimeProgressVisible = sharedPreferences.getBool(
+        kIsTimeProgressVisible,
+      );
+
+      if (isTimeProgressVisible == null) {
+        isTimeProgressVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsTimeProgressVisible,
+          isTimeProgressVisible,
+        );
+      }
+
+      _isTimeProgressVisible = isTimeProgressVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsTimeProgressVisible', e, s);
+
+      _isTimeProgressVisible = fallback;
 
       sharedPreferences.setBool(
-        kIsDayProgressVisible,
-        isDayProgressVisible,
+        kIsTimeProgressVisible,
+        isTimeProgressVisible,
       );
     }
+  }
 
-    _isDayProgressVisible = isDayProgressVisible;
+  void _restoreIsTimeProgressType() {
+    const fallback = TimeProgressType.day;
+    try {
+      var timeProgressTypeStr = sharedPreferences.getString(
+        kTimeProgressType,
+      );
+
+      if (timeProgressTypeStr == null) {
+        timeProgressTypeStr = timeProgressTypeToString(fallback);
+
+        sharedPreferences.setString(
+          kTimeProgressType,
+          timeProgressTypeStr,
+        );
+      }
+
+      _timeProgressType = timeProgressTypeFromString(timeProgressTypeStr);
+    } on Exception catch (e, s) {
+      logger.e('Unable to parse TimeProgressType on init', e, s);
+      _timeProgressType = fallback;
+
+      sharedPreferences.setString(
+        kTimeProgressType,
+        timeProgressTypeToString(fallback),
+      );
+    }
   }
 
   Future onLeftSwipe() async {
@@ -267,14 +313,48 @@ class HomeController extends StatusControllerBase
     update([rightCornerButtonBuilderKey]);
   }
 
-  void setIsDayProgressVisible({bool value = true}) {
-    if (_isDayProgressVisible == value) {
+  void setIsTimeProgressVisible({bool value = true}) {
+    if (_isTimeProgressVisible == value) {
       return;
     }
 
-    _isDayProgressVisible = value;
+    _isTimeProgressVisible = value;
 
-    update([dayProgressBuilderKey]);
+    sharedPreferences.setBool(
+      kIsTimeProgressVisible,
+      isTimeProgressVisible,
+    );
+
+    update([timeProgressBuilderKey]);
+  }
+
+  void nextTimeProgressType() {
+    late TimeProgressType newType;
+
+    switch (timeProgressType) {
+      case TimeProgressType.day:
+        newType = TimeProgressType.week;
+        break;
+      case TimeProgressType.week:
+        newType = TimeProgressType.year;
+        break;
+      case TimeProgressType.year:
+        newType = TimeProgressType.day;
+        break;
+    }
+
+    setTimeProgressType(newType);
+  }
+
+  void setTimeProgressType(TimeProgressType type) {
+    _timeProgressType = type;
+
+    sharedPreferences.setString(
+      kTimeProgressType,
+      timeProgressTypeToString(type),
+    );
+
+    update([timeProgressTypeBuilderKey]);
   }
 
   @override

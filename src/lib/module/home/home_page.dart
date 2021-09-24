@@ -12,10 +12,10 @@ import '../../utils/enum/user_selected_app_type.dart';
 import 'home_controller.dart';
 import 'widget/corner_button/corner_button.dart';
 import 'widget/home_gesture_detector/home_gesture_detector.dart';
-import 'widget/home_widgets/day_progress.dart';
 import 'widget/home_widgets/home_clock.dart';
 import 'widget/home_widgets/home_date.dart';
 import 'widget/home_widgets/home_top_widget.dart';
+import 'widget/home_widgets/time_progress/time_progress.dart';
 import 'widget/horizontal_swipe_app_icon.dart';
 import 'widget/user_apps_list.dart';
 
@@ -158,12 +158,12 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
                               children: [
                                 Expanded(
                                   child: GetBuilder<HomeController>(
-                                    id: HomeController.dayProgressBuilderKey,
+                                    id: HomeController.timeProgressBuilderKey,
                                     builder: (controller) {
                                       return Visibility(
                                         visible:
-                                            controller.isDayProgressVisible,
-                                        child: const DayProgress(),
+                                            controller.isTimeProgressVisible,
+                                        child: const TimeProgress(),
                                       );
                                     },
                                   ),

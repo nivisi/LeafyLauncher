@@ -1,29 +1,28 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:leafy_launcher/module/home/home_controller.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/shared_widget/leafy_spacer.dart';
 
-import '../../../../resources/theme/home_theme.dart';
-import '../../../../shared_widget/themed_state.dart';
+import '../../../../../resources/theme/home_theme.dart';
+import '../../../../../shared_widget/themed_state.dart';
 
-enum TimeProgressType {
-  day,
-  week,
-  year,
-}
+part 'time_progress_type.dart';
 
-class DayProgress extends StatefulWidget {
-  const DayProgress({Key? key}) : super(key: key);
+class TimeProgress extends StatefulWidget {
+  const TimeProgress({Key? key}) : super(key: key);
 
   @override
-  _DayProgressState createState() => _DayProgressState();
+  _TimeProgressState createState() => _TimeProgressState();
 }
 
-class _DayProgressState extends ThemedState<DayProgress, HomeTheme> {
+class _TimeProgressState extends ThemedState<TimeProgress, HomeTheme> {
+  final HomeController _homeController = Get.find<HomeController>();
+
   late int _timelineLength;
-  TimeProgressType _state = TimeProgressType.day;
 
   late final Timer _timer;
 
@@ -69,7 +68,7 @@ class _DayProgressState extends ThemedState<DayProgress, HomeTheme> {
   void _initTimeline() {
     _now = DateTime.now();
 
-    switch (_state) {
+    switch (_homeController.timeProgressType) {
       case TimeProgressType.day:
         _startMoment = DateTime(_now.year, _now.month, _now.day);
         _endMoment = _startMoment.add(const Duration(days: 1));
@@ -100,40 +99,12 @@ class _DayProgressState extends ThemedState<DayProgress, HomeTheme> {
   }
 
   String _getTitle() {
-    late String l10nKey;
-
-    switch (_state) {
-      case TimeProgressType.day:
-        l10nKey = L10n.dayProgress;
-        break;
-      case TimeProgressType.week:
-        l10nKey = L10n.weekProgress;
-        break;
-      case TimeProgressType.year:
-        l10nKey = L10n.yearProgress;
-        break;
-    }
-
-    return L10nProvider.getText(l10nKey);
+    return localizeTimeProgressType(_homeController.timeProgressType);
   }
 
   void _nextState() {
-    late TimeProgressType newState;
-
-    switch (_state) {
-      case TimeProgressType.day:
-        newState = TimeProgressType.week;
-        break;
-      case TimeProgressType.week:
-        newState = TimeProgressType.year;
-        break;
-      case TimeProgressType.year:
-        newState = TimeProgressType.day;
-        break;
-    }
-
     setState(() {
-      _state = newState;
+      _homeController.nextTimeProgressType();
       _initTimeline();
     });
   }

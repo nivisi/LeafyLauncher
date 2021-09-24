@@ -13,9 +13,9 @@ class HomeSettingsWidgetsController extends StatusControllerBase {
     return super.resolveDependencies();
   }
 
-  void updateIsDayProgressVisible() {
-    final newValue = !_homeController.isDayProgressVisible;
+  void updateIsTimeProgressVisible() {
+    final newValue = !_homeController.isTimeProgressVisible;
 
-    _homeController.setIsDayProgressVisible(value: newValue);
+    _homeController.setIsTimeProgressVisible(value: newValue);
   }
 }

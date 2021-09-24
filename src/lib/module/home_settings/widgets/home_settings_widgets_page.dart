@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/module/home/home_controller.dart';
+import 'package:leafy_launcher/module/home/widget/home_widgets/time_progress/time_progress.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
@@ -13,7 +14,7 @@ import '../../../resources/theme/home_theme.dart';
 import '../../../resources/theme/leafy_theme.dart';
 import 'home_settings_widgets_controller.dart';
 
-part 'widget/_day_progress.dart';
+part 'widget/_time_progress.dart';
 
 class HomeSettingsWidgetsPage
     extends StatusPageBase<HomeSettingsWidgetsController, HomeTheme> {
@@ -37,7 +38,7 @@ class HomeSettingsWidgetsPage
           style: theme.bodyText1,
         ),
         const LeafySpacer(multipler: 6.0),
-        const _DayProgress(),
+        const _TimeProgress(),
       ],
     );
   }
