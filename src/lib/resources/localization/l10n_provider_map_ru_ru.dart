@@ -68,6 +68,8 @@ var _mapRu = {
   L10n.tutorialSettingsInfo:
       '''Зажмите на пустом месте на главном экране, чтобы перейти в настройки.''',
   L10n.dayProgress: 'День',
+  L10n.weekProgress: 'Неделя',
+  L10n.yearProgress: 'Год',
   L10n.settingsHomeWidgets: 'Домашние Виджеты',
   L10n.settingsWidgetsTitle: 'Домашние Виджеты',
   L10n.settingsDayProgressWidget: 'Прогресс дня',

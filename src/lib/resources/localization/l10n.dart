@@ -118,6 +118,8 @@ class L10n {
   static const String tutorialSettingsInfo = 'tutorialSettingsInfo';
 
   static const String dayProgress = 'dayProgress';
+  static const String weekProgress = 'weekProgress';
+  static const String yearProgress = 'yearProgress';
   static const String enabled = 'enabled';
   static const String disabled = 'disabled';
 }
