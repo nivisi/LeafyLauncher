@@ -63,36 +63,45 @@ class AppPicker extends ThemedWidget<HomeTheme> {
             ),
           ),
         ),
-        if (applications.isEmpty)
-          Padding(
-            padding: const EdgeInsets.all(kDefaultPadding * 4.0),
-            child: Text(
-              L10nProvider.getText(L10n.appPickerNothingFound),
-              style: theme.bodyText2,
-            ),
-          )
-        else
-          Expanded(
-            child: RefreshIndicator(
-              displacement: 0,
-              color: theme.leafyColor,
-              backgroundColor: Colors.transparent,
-              onRefresh: () async => onRefresh(),
-              child: ListBuilder<Application>(
-                scrollController: scrollController,
-                padding: const EdgeInsets.all(kDefaultPadding * 2.0),
-                items: applications,
-                separatorType: SeparatorType.space,
-                builder: (app) {
-                  return AppPickerButton(
-                    application: app,
-                    onTapped: onAppSelected,
-                    onLongPress: onLongPress,
-                  );
-                },
-              ),
-            ),
-          )
+        Expanded(
+          child: RefreshIndicator(
+            displacement: 0,
+            color: theme.leafyColor,
+            backgroundColor: Colors.transparent,
+            onRefresh: () async => onRefresh(),
+            child: applications.isEmpty
+                ? Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding * 4.0),
+                        child: Text(
+                          L10nProvider.getText(L10n.appPickerNothingFound),
+                          style: theme.bodyText2,
+                        ),
+                      ),
+                      // A workaround to enable pull to refresh.
+                      ListView(
+                        physics: const AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics(),
+                        ),
+                      ),
+                    ],
+                  )
+                : ListBuilder<Application>(
+                    scrollController: scrollController,
+                    padding: const EdgeInsets.all(kDefaultPadding * 2.0),
+                    items: applications,
+                    separatorType: SeparatorType.space,
+                    builder: (app) {
+                      return AppPickerButton(
+                        application: app,
+                        onTapped: onAppSelected,
+                        onLongPress: onLongPress,
+                      );
+                    },
+                  ),
+          ),
+        ),
       ],
     );
   }
