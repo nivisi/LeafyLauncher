@@ -12,6 +12,7 @@ import '../../../../../shared_widget/themed_state.dart';
 
 part 'time_progress_type.dart';
 
+// TODO: Refactor to use a controller
 class TimeProgress extends StatefulWidget {
   const TimeProgress({Key? key}) : super(key: key);
 
@@ -31,9 +32,13 @@ class _TimeProgressState extends ThemedState<TimeProgress, HomeTheme> {
   late DateTime _startMoment;
   late DateTime _endMoment;
 
+  late TimeProgressType _type;
+
   @override
   void initState() {
     super.initState();
+
+    _type = _homeController.timeProgressType;
 
     _percentage = 0;
     _initTimeline();
@@ -42,6 +47,14 @@ class _TimeProgressState extends ThemedState<TimeProgress, HomeTheme> {
       const Duration(seconds: 1),
       (timer) {
         _now = DateTime.now();
+
+        if (_type != _homeController.timeProgressType) {
+          setState(() {
+            _type = _homeController.timeProgressType;
+
+            _initTimeline();
+          });
+        }
 
         _setupCurrentTimeline();
 
