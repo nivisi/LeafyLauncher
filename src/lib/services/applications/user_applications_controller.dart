@@ -1,7 +1,11 @@
+import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/applications/installed_application.dart';
+import 'package:leafy_launcher/services/toast/toast_service.dart';
 
 import '../../app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
@@ -35,6 +39,8 @@ class UserApplicationsController extends StatusControllerBase {
   static const String _rightBuilderId = 'rightBuilderId';
 
   late final PlatformMethodsService _platformMethodsService;
+
+  late final StreamSubscription _onAppRemovedSubscription;
 
   final Rxn<Application> _firstApp = Rxn<Application>();
   final Rxn<Application> _secondApp = Rxn<Application>();
@@ -152,6 +158,48 @@ class UserApplicationsController extends StatusControllerBase {
       final icon = await _installedApplications.getAppIcon(swipeRightApp!);
       _rightAppIcon = icon;
     }
+
+    _onAppRemovedSubscription =
+        _installedApplications.onAppRemovedEvent.listen(_onAppRemoved);
+  }
+
+  void _clearAppIfNeeded(Application application) {
+    if (application is! InstalledApplication) {
+      return;
+    }
+
+    try {
+      if (swipeLeftApp?.package == application.package) {
+        _setApp(null, UserSelectedAppType.left);
+        update([getBuilderId(UserSelectedAppType.left)]);
+      }
+      if (swipeRightApp?.package == application.package) {
+        _setApp(null, UserSelectedAppType.right);
+        update([getBuilderId(UserSelectedAppType.right)]);
+      }
+      if (firstApp?.package == application.package) {
+        _setApp(null, UserSelectedAppType.first);
+        update([getBuilderId(UserSelectedAppType.first)]);
+      }
+      if (secondApp?.package == application.package) {
+        _setApp(null, UserSelectedAppType.second);
+        update([getBuilderId(UserSelectedAppType.second)]);
+      }
+      if (thirdApp?.package == application.package) {
+        _setApp(null, UserSelectedAppType.third);
+        update([getBuilderId(UserSelectedAppType.third)]);
+      }
+      if (fourthApp?.package == application.package) {
+        _setApp(null, UserSelectedAppType.fourth);
+        update([getBuilderId(UserSelectedAppType.fourth)]);
+      }
+    } on Exception catch (e, s) {
+      logger.e('Unable to clear app', e, s);
+    }
+  }
+
+  void _onAppRemoved(Application application) {
+    _clearAppIfNeeded(application);
   }
 
   Future _restore(_AppSetter setter, String key) async {
@@ -176,6 +224,11 @@ class UserApplicationsController extends StatusControllerBase {
     setter(application);
 
     if (application == null) {
+      if (type == UserSelectedAppType.left) {
+        _leftAppIcon = null;
+      } else if (type == UserSelectedAppType.right) {
+        _rightAppIcon = null;
+      }
       await sharedPreferences.remove(key);
       return;
     }
@@ -231,8 +284,18 @@ class UserApplicationsController extends StatusControllerBase {
     }
   }
 
-  Future launchApp(Application application) {
-    return _installedApplications.launch(application);
+  Future launchApp(Application application) async {
+    try {
+      await _installedApplications.launch(application);
+    } on PlatformException catch (e, s) {
+      logger.e('Unable to launch an app', null, s);
+
+      _clearAppIfNeeded(application);
+    } on Exception catch (e, s) {
+      logger.e('Unable to launch an app', null, s);
+
+      _clearAppIfNeeded(application);
+    }
   }
 
   void changeTheme() {

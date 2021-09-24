@@ -35,11 +35,16 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
 
   static late final DeviceVibration _deviceVibration;
 
+  final StreamController<Application> _onAppRemoved =
+      StreamController.broadcast();
+
   late List<InstalledApplication> _installedApps;
   late final List<LeafyApplication> _leafyApps;
 
   Iterable<InstalledApplication> get installedApps => _installedApps;
   Iterable<LeafyApplication> get leafyApps => _leafyApps;
+
+  Stream<Application> get onAppRemovedEvent => _onAppRemoved.stream;
 
   Future _fetchApps() async {
     await _appChannel.invokeMethod(_methodInitApps);
@@ -139,17 +144,17 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
         break;
     }
 
-    _appChannel.invokeMethod(
+    if (!LeafySettings.vibrateNever) {
+      _deviceVibration.weak();
+    }
+
+    await _appChannel.invokeMethod(
       _methodLaunch,
       {
         _argumentPackageName: app.package,
         _argumentTransition: transitionCode,
       },
     );
-
-    if (!LeafySettings.vibrateNever) {
-      _deviceVibration.weak();
-    }
   }
 
   Future<Uint8List?> getAppIcon(Application app) async {
@@ -186,6 +191,7 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
 
       if (result) {
         _installedApps.remove(app);
+        _onAppRemoved.add(app);
       }
 
       return result;
