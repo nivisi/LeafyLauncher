@@ -66,7 +66,7 @@ class _DayProgressState extends ThemedState<DayProgress, HomeTheme> {
   }
 
   void _setupCurrentDay() {
-    if (_nextDay.isBefore(_now)) {
+    if (_nextDay.isAfter(_now)) {
       return;
     }
 
