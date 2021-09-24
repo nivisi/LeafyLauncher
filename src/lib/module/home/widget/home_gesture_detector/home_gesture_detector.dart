@@ -47,6 +47,8 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   static const swipeControllerThreshold = .97;
   static const gestureUpdateDivider = 150.0;
   static const _verticalIgnoringSpace = 70.0;
+  static const _horizontalMinFlingVelocity = 1500.0;
+  static const _verticalMinFlingVelocity = 1500.0;
 
   late final HomeController _homeController;
   late final DeviceVibration _deviceVibration;
@@ -295,11 +297,9 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       return;
     }
 
-    const minFlingVelocity = 2300.0;
-
     final visualVelocity = details.velocity.pixelsPerSecond.dx;
 
-    if (visualVelocity.abs() > minFlingVelocity) {
+    if (visualVelocity.abs() > _horizontalMinFlingVelocity) {
       if (visualVelocity < 0.0) {
         _onLeftSwipe();
       } else {
@@ -351,11 +351,9 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       return;
     }
 
-    const minFlingVelocity = 2200.0;
-
     final visualVelocity = details.velocity.pixelsPerSecond.dy;
 
-    if (visualVelocity.abs() > minFlingVelocity) {
+    if (visualVelocity.abs() > _verticalMinFlingVelocity) {
       if (visualVelocity < 0.0) {
         _onBottomSwipe();
 
