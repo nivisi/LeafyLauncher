@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/module/intro/tutorial/domain/slide_type.dart';
+import 'package:leafy_launcher/module/intro/tutorial/slides/app_picker_refresh_apps_slide.dart';
 import 'package:leafy_launcher/module/intro/tutorial/slides/app_picker_slide.dart';
 import 'package:leafy_launcher/module/intro/tutorial/slides/corner_buttons_slide.dart';
 import 'package:leafy_launcher/module/intro/tutorial/slides/horizontal_swipes_slide.dart';
@@ -48,6 +49,10 @@ class Tutorial extends ThemedGetWidget<TutorialController, HomeTheme> {
       case SlideType.appPicker:
         return AppPickerSlide(
           slideController: controller.appPickerSlideController,
+        );
+      case SlideType.appPickerRefreshApps:
+        return AppPickerRefreshAppsSlide(
+          slideController: controller.appPickerRefreshAppsSlideController,
         );
       case SlideType.search:
         return SearchSlide(

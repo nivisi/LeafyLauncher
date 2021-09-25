@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:ensure_initialized/ensure_initialized.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/services/applications/exceptions/app_is_not_in_the_list_exception.dart';
 
@@ -79,12 +80,29 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
     _installedApps = parcedMap;
   }
 
+  void _initRefetchTimer() {
+    Timer(
+      kAppRefetchDuration,
+      () async {
+        try {
+          logger.i('Refetching apps ...');
+          await refetchApps();
+          logger.i('Apps refetched!');
+        } on Exception catch (e, s) {
+          logger.e('Unable to refetch apps', e, s);
+        }
+      },
+    );
+  }
+
   Future _init() async {
     logger.i('Initializing installed applications ...');
 
     _deviceVibration = Get.find<DeviceVibration>();
 
     await _fetchApps();
+
+    _initRefetchTimer();
 
     logger.i('Initialized!');
 

@@ -21,6 +21,7 @@ class TutorialController extends ControllerBase
   late final SlideController horizontalSwipesSlideController;
   late final SlideController cornerButtonsSlideController;
   late final SlideController appPickerSlideController;
+  late final SlideController appPickerRefreshAppsSlideController;
   late final SlideController searchSlideController;
   late final SlideController settingsSlideController;
 
@@ -29,8 +30,9 @@ class TutorialController extends ControllerBase
     1: SlideType.horizontalSwipes,
     2: SlideType.cornerButtons,
     3: SlideType.appPicker,
-    4: SlideType.search,
-    5: SlideType.settings,
+    4: SlideType.appPickerRefreshApps,
+    5: SlideType.search,
+    6: SlideType.settings,
   };
 
   late final Map<SlideType, SlideController> _controllersMap;
@@ -55,6 +57,7 @@ class TutorialController extends ControllerBase
     horizontalSwipesSlideController = SlideController();
     cornerButtonsSlideController = SlideController();
     appPickerSlideController = SlideController();
+    appPickerRefreshAppsSlideController = SlideController();
     searchSlideController = SlideController();
     settingsSlideController = SlideController();
 
@@ -63,6 +66,7 @@ class TutorialController extends ControllerBase
       SlideType.horizontalSwipes: horizontalSwipesSlideController,
       SlideType.cornerButtons: cornerButtonsSlideController,
       SlideType.appPicker: appPickerSlideController,
+      SlideType.appPickerRefreshApps: appPickerRefreshAppsSlideController,
       SlideType.search: searchSlideController,
       SlideType.settings: settingsSlideController,
     };
@@ -122,6 +126,7 @@ class TutorialController extends ControllerBase
     horizontalSwipesSlideController.dispose();
     cornerButtonsSlideController.dispose();
     appPickerSlideController.dispose();
+    appPickerRefreshAppsSlideController.dispose();
     searchSlideController.dispose();
     settingsSlideController.dispose();
 
