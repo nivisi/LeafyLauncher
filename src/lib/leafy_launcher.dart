@@ -7,6 +7,7 @@ import 'package:leafy_launcher/module/intro/intro_page.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_binding.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/toast/toast_service.dart';
 
 import 'app_routes.dart';
 import 'module/app_picker/app_picker_binding.dart';
@@ -16,6 +17,8 @@ import 'module/home/home_binding.dart';
 import 'module/home/home_page.dart';
 import 'module/home_settings/home_settings_binding.dart';
 import 'module/home_settings/home_settings_page.dart';
+import 'module/home_settings/widgets/home_settings_widgets_binding.dart';
+import 'module/home_settings/widgets/home_settings_widgets_page.dart';
 import 'module/startup/startup_binding.dart';
 import 'module/startup/startup_page.dart';
 import 'resources/localization/l10n.dart';
@@ -46,6 +49,7 @@ class LeafyLauncher {
   /// Initialized must have dependecies.
   /// The app can start w/o them and they will be loaded soon.
   static Future initSecondaryDependencies() async {
+    Get.lazyPut(() => const ToastService(), fenix: true);
     Get.lazyPut(() => const HomeButtonListener(), fenix: true);
     Get.lazyPut(() => const DeviceVibration(), fenix: true);
     Get.lazyPut(() => GoogleSearch(), fenix: true);
@@ -118,6 +122,12 @@ class LeafyLauncher {
             name: AppRoutes.settings,
             binding: HomeSettingsBinding(),
             page: () => const HomeSettingsPage(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: AppRoutes.settingsWidgets,
+            binding: HomeSettingsWidgetsBinding(),
+            page: () => const HomeSettingsWidgetsPage(),
             transition: Transition.fadeIn,
           ),
           GetPage(

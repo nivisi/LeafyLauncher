@@ -26,6 +26,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  fluttertoast: ^8.0.8
   intl: ^0.17.0
   lint: ^1.5.3
   logger: ^1.0.0

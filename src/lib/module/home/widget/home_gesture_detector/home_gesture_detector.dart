@@ -46,6 +46,9 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     with TickerProviderStateMixin {
   static const swipeControllerThreshold = .97;
   static const gestureUpdateDivider = 150.0;
+  static const _verticalIgnoringSpace = 70.0;
+  static const _horizontalMinFlingVelocity = 1500.0;
+  static const _verticalMinFlingVelocity = 1500.0;
 
   late final HomeController _homeController;
   late final DeviceVibration _deviceVibration;
@@ -61,6 +64,8 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   late final AnimationController _topController;
   late final AnimationController _bottomController;
   late final AnimationController _childController;
+
+  late bool _canDragVertically;
 
   bool _isBottomListPresented = false;
 
@@ -292,11 +297,9 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       return;
     }
 
-    const minFlingVelocity = 2300.0;
-
     final visualVelocity = details.velocity.pixelsPerSecond.dx;
 
-    if (visualVelocity.abs() > minFlingVelocity) {
+    if (visualVelocity.abs() > _horizontalMinFlingVelocity) {
       if (visualVelocity < 0.0) {
         _onLeftSwipe();
       } else {
@@ -308,6 +311,10 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   }
 
   Future<void> _onVerticalUpdate(DragUpdateDetails details) async {
+    if (!_canDragVertically) {
+      return;
+    }
+
     final direction = details.delta.dy > .0 ? Direction.down : Direction.up;
 
     final controller =
@@ -323,6 +330,10 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
   }
 
   Future<void> _onVerticalDragEnd(DragEndDetails details) async {
+    if (!_canDragVertically) {
+      return;
+    }
+
     if (_topController.value >= swipeControllerThreshold) {
       _onTopSwipe();
 
@@ -340,11 +351,9 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
       return;
     }
 
-    const minFlingVelocity = 2200.0;
-
     final visualVelocity = details.velocity.pixelsPerSecond.dy;
 
-    if (visualVelocity.abs() > minFlingVelocity) {
+    if (visualVelocity.abs() > _verticalMinFlingVelocity) {
       if (visualVelocity < 0.0) {
         _onBottomSwipe();
 
@@ -362,6 +371,10 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
     }
   }
 
+  void _onVerticalStart(DragStartDetails details) {
+    _canDragVertically = details.globalPosition.dy >= _verticalIgnoringSpace;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -370,6 +383,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
           behavior: HitTestBehavior.translucent,
           onHorizontalDragUpdate: _onHorizontalUpdate,
           onHorizontalDragEnd: _onHorizontalDragEnd,
+          onVerticalDragStart: _onVerticalStart,
           onVerticalDragUpdate: _onVerticalUpdate,
           onVerticalDragEnd: _onVerticalDragEnd,
           onLongPress: widget.onLongPress,
