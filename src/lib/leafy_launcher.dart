@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/module/home_notes/note/home_note_binding.dart';
+import 'package:leafy_launcher/module/home_notes/notes/home_notes_page.dart';
 import 'package:leafy_launcher/module/intro/intro_binding.dart';
 import 'package:leafy_launcher/module/intro/intro_page.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_binding.dart';
@@ -136,6 +138,18 @@ class LeafyLauncher {
             name: AppRoutes.tutorial,
             binding: TutorialBinding(),
             page: () => const TutorialPage(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: AppRoutes.notes,
+            binding: HomeNoteBinding(),
+            page: () => const HomeNotesPage(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: '${AppRoutes.notes}/:id',
+            binding: HomeNoteBinding(),
+            page: () => const HomeNotesPage(),
             transition: Transition.fadeIn,
           ),
         ],
