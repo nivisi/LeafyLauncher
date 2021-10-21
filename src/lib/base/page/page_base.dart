@@ -53,7 +53,8 @@ abstract class PageBase<TController extends ControllerBase,
   }
 
   Widget pageBody(BuildContext context, LeafyTheme theme);
-  Widget fab(BuildContext context, LeafyTheme theme) {
-    return const SizedBox();
+
+  Widget? fab(BuildContext context, LeafyTheme theme) {
+    return null;
   }
 }
