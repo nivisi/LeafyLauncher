@@ -128,4 +128,6 @@ class L10n {
   static const String disabled = 'disabled';
 
   static const String installedAppsRefetched = 'installedAppsRefetched';
+
+  static const String leafyNotesTitle = 'leafyNotesTitle';
 }

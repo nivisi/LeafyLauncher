@@ -80,4 +80,5 @@ var _mapEn = {
   L10n.enabled: 'Enabled',
   L10n.disabled: 'Disabled',
   L10n.installedAppsRefetched: 'Apps Reloaded',
+  L10n.leafyNotesTitle: 'Notes',
 };
