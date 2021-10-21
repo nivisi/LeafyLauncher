@@ -291,6 +291,10 @@ class HomeController extends StatusControllerBase
     _backButtonController.add(null);
   }
 
+  Future? onDoubleTap() {
+    return AppRoutes.toNotes();
+  }
+
   Future cornerButtonPressed(CornerButtonType type) async {
     switch (type) {
       case CornerButtonType.phone:

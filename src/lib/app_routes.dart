@@ -9,6 +9,7 @@ class AppRoutes {
   static const appPickerSignature = '/appPicker/:type';
 
   static const home = '/home';
+  static const notes = '/notes';
 
   static const settings = '/settings';
   static const settingsWidgets = '/settings/widgets';
@@ -39,5 +40,9 @@ class AppRoutes {
     );
 
     return res as Application?;
+  }
+
+  static Future<void>? toNotes() {
+    return Get.toNamed(notes);
   }
 }
