@@ -31,4 +31,8 @@ class HomeNotesController extends StatusControllerBase {
       curve: Curves.fastOutSlowIn,
     );
   }
+
+  void onSearchPressed() {}
+
+  void onMenuPressed() {}
 }
