@@ -31,6 +31,7 @@ abstract class PageBase<TController extends ControllerBase,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           backgroundColor: theme.backgroundColor,
           body: pageBody(context, theme),
+          floatingActionButton: fab(context, theme),
         );
 
         if (safeArea) {
@@ -52,4 +53,7 @@ abstract class PageBase<TController extends ControllerBase,
   }
 
   Widget pageBody(BuildContext context, LeafyTheme theme);
+  Widget fab(BuildContext context, LeafyTheme theme) {
+    return const SizedBox();
+  }
 }
