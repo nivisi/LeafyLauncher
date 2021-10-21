@@ -13,6 +13,7 @@ class HomeNotesList extends ThemedGetWidget<HomeNotesController, HomeTheme> {
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return ListView.separated(
+      physics: const BouncingScrollPhysics(),
       controller: controller.scrollController,
       itemCount: controller.notes.length,
       separatorBuilder: (context, index) {
