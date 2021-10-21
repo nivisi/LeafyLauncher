@@ -45,4 +45,8 @@ class AppRoutes {
   static Future<void>? toNotes() {
     return Get.toNamed(notes);
   }
+
+  static Future<void>? toNote(String noteId) {
+    return Get.toNamed('$notes/$noteId');
+  }
 }
