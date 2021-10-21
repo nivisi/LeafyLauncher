@@ -17,6 +17,7 @@ import 'module/app_picker/app_picker_home_controller.dart';
 import 'module/app_picker/app_picker_page.dart';
 import 'module/home/home_binding.dart';
 import 'module/home/home_page.dart';
+import 'module/home_notes/notes/home_notes_binding.dart';
 import 'module/home_settings/home_settings_binding.dart';
 import 'module/home_settings/home_settings_page.dart';
 import 'module/home_settings/widgets/home_settings_widgets_binding.dart';
@@ -142,7 +143,7 @@ class LeafyLauncher {
           ),
           GetPage(
             name: AppRoutes.notes,
-            binding: HomeNoteBinding(),
+            binding: HomeNotesBinding(),
             page: () => const HomeNotesPage(),
             transition: Transition.fadeIn,
           ),
