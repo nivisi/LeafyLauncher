@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/module/app_picker/widget/app_picker_fade.dart';
 import 'package:leafy_launcher/shared_widget/leafy_spacer.dart';
 
 import '../../../resources/app_constants.dart';
@@ -41,7 +42,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
   Widget body(BuildContext context, LeafyTheme theme) {
     return Column(
       children: [
-        const LeafySpacer(multipler: 6.0),
+        const LeafySpacer(multipler: 2.0),
         Text(
           title,
           style: theme.bodyText2,
@@ -79,7 +80,10 @@ class AppPicker extends ThemedWidget<HomeTheme> {
                 ? Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding * 4.0),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: kDefaultPadding * 2.0,
+                          horizontal: kHomeHorizontalPadding,
+                        ),
                         child: Text(
                           L10nProvider.getText(L10n.appPickerNothingFound),
                           style: theme.bodyText2,
@@ -93,19 +97,26 @@ class AppPicker extends ThemedWidget<HomeTheme> {
                       ),
                     ],
                   )
-                : ListBuilder<Application>(
-                    scrollController:
-                        slidesScrollController ?? scrollController,
-                    padding: const EdgeInsets.all(kDefaultPadding * 2.0),
-                    items: applications,
-                    separatorType: SeparatorType.space,
-                    builder: (app) {
-                      return AppPickerButton(
-                        application: app,
-                        onTapped: onAppSelected,
-                        onLongPress: onLongPress,
-                      );
-                    },
+                : AppPickerFade(
+                    child: ListBuilder<Application>(
+                      scrollController:
+                          slidesScrollController ?? scrollController,
+                      padding: const EdgeInsets.fromLTRB(
+                        kHomeHorizontalPadding,
+                        kDefaultPadding * 2.0,
+                        kHomeHorizontalPadding,
+                        0.0,
+                      ),
+                      items: applications,
+                      separatorType: SeparatorType.space,
+                      builder: (app) {
+                        return AppPickerButton(
+                          application: app,
+                          onTapped: onAppSelected,
+                          onLongPress: onLongPress,
+                        );
+                      },
+                    ),
                   ),
           ),
         ),
