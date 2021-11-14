@@ -49,11 +49,13 @@ class MainActivity: FlutterActivity() {
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
         intentFilter.addDataScheme("package")
 
-        registerReceiver(AppChangeReceiver(appsChangedEventStreamHandler), intentFilter)
+        registerReceiver(AppChangeReceiver(), intentFilter)
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        self = this
 
         homeEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger,
             homePressedChannel
@@ -372,7 +374,18 @@ class MainActivity: FlutterActivity() {
         startActivity(intent)
     }
 
+    public fun dispatchAppChangedEvent(packageName: String, isRemoved: Boolean) {
+        appsChangedEventStreamHandler.dispatch(
+            mapOf(
+                "package" to packageName,
+                "isRemoved" to isRemoved
+            )
+        )
+    }
+
     companion object {
+        lateinit var self: MainActivity
+
         private const val commonChannel = "com.nivisi.leafy_launcher/common"
         private const val applicationChannel = "com.nivisi.leafy_launcher/applicationChannel"
         private const val homePressedChannel = "com.nivisi.leafy_launcher/homePressedChannel"
