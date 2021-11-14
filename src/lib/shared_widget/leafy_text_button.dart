@@ -11,6 +11,7 @@ class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
     this.onLongPressed,
     this.backgroundColor,
   })  : _isCircled = false,
+        circledSize = .0,
         super(key: key);
 
   const LeafyTextButton.circled({
@@ -19,17 +20,19 @@ class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
     this.onPressed,
     this.onLongPressed,
     this.backgroundColor,
+    double size = defaultCircledSize,
   })  : _isCircled = true,
+        circledSize = size,
         super(key: key);
 
-  static const _defaultCircledSize = 48.0;
-  static const _containerSize = _defaultCircledSize;
+  static const defaultCircledSize = 48.0;
 
   final Color? backgroundColor;
   final VoidCallback? onPressed;
   final VoidCallback? onLongPressed;
   final Widget child;
   final bool _isCircled;
+  final double circledSize;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
@@ -37,21 +40,21 @@ class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
       fixedSize: _isCircled
           ? MaterialStateProperty.resolveWith(
               (_) {
-                return const Size(_defaultCircledSize, _defaultCircledSize);
+                return Size(circledSize, circledSize);
               },
             )
           : null,
       maximumSize: _isCircled
           ? MaterialStateProperty.resolveWith(
               (_) {
-                return const Size(_defaultCircledSize, _defaultCircledSize);
+                return Size(circledSize, circledSize);
               },
             )
           : null,
       minimumSize: _isCircled
           ? MaterialStateProperty.resolveWith(
               (_) {
-                return const Size(_defaultCircledSize, _defaultCircledSize);
+                return Size(circledSize, circledSize);
               },
             )
           : null,
@@ -91,8 +94,8 @@ class LeafyTextButton<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
     }
 
     return Container(
-      width: _containerSize,
-      height: _containerSize,
+      width: circledSize,
+      height: circledSize,
       decoration: const BoxDecoration(shape: BoxShape.circle),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: Center(child: button),

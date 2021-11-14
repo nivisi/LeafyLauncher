@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_page.dart';
-import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
+import 'package:leafy_launcher/resources/localization/l10n.dart';
+import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
-import 'package:leafy_launcher/shared_widget/leafy_spacer.dart';
 import 'package:leafy_launcher/shared_widget/leafy_text_button.dart';
 import 'package:leafy_launcher/shared_widget/themed_get_widget.dart';
 
-class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
-  const HomeNotesTitle({
+import '../../home_note_folders_controller.dart';
+
+class HomeNoteFoldersTitle
+    extends ThemedGetWidget<HomeNoteFoldersController, HomeTheme> {
+  const HomeNoteFoldersTitle({
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +20,6 @@ class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
   Widget body(BuildContext context, LeafyTheme theme) {
     return GestureDetector(
       onTap: controller.onTitleTapped,
-      onDoubleTap: controller.onTitleDoubleTapped,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -34,26 +35,10 @@ class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
         ),
         child: Row(
           children: [
-            LeafyTextButton<HomeTheme>.circled(
-              onPressed: controller.back,
-              size: 40.0,
-              child: Icon(
-                Icons.chevron_left,
-                color: theme.foregroundColor,
-                size: 32,
-              ),
+            Text(
+              L10nProvider.getText(L10n.leafyNotesFoldersTitle),
+              style: theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
             ),
-            const LeafySpacer.horizontal(multipler: .5),
-            GetBuilder<HomeNotesController>(
-                id: HomeNotesController.titleBuilder,
-                init: controller,
-                builder: (controller) {
-                  return Text(
-                    controller.title,
-                    style:
-                        theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
-                  );
-                }),
             const Spacer(),
             LeafyTextButton<HomeTheme>.circled(
               onPressed: controller.onSearchPressed,

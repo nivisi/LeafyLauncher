@@ -82,11 +82,13 @@ class LeafyDialog<TTheme extends LeafyTheme> extends StatelessWidget {
     Key? key,
     required this.title,
     this.message,
+    this.body,
     required this.options,
   }) : super(key: key);
 
-  final String title;
-  final String? message;
+  final Widget title;
+  final Widget? message;
+  final Widget? body;
 
   final Iterable<LeafyDialogOption> options;
 
@@ -100,33 +102,43 @@ class LeafyDialog<TTheme extends LeafyTheme> extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: kDefaultPadding * 1.5,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Container(
+            padding: const EdgeInsets.only(top: kDefaultPadding * 1.5),
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                Text(
-                  title,
-                  style: theme.bodyText3,
-                  textAlign: TextAlign.center,
-                ),
-                if (message != null) const LeafySpacer(multipler: 1.5),
-                if (message != null)
-                  Text(
-                    message!,
-                    style: theme.bodyText5,
-                    textAlign: TextAlign.center,
-                  ),
-                const LeafySpacer(multipler: 2.0),
-                Divider(
-                  height: 1,
-                  color: theme.backgroundColor,
-                ),
-                ...options.map(
-                  (item) => _LeafyDialogOptionWidget<TTheme>(option: item),
+                // TODO: Dismiss the keyboard here!
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    DefaultTextStyle(
+                      style:
+                          theme.bodyText3.copyWith(fontWeight: FontWeight.w500),
+                      textAlign: TextAlign.center,
+                      child:
+                          title is Text ? IgnorePointer(child: title) : title,
+                    ),
+                    if (message != null) const LeafySpacer(multipler: .5),
+                    if (message != null)
+                      DefaultTextStyle(
+                        style: theme.bodyText4,
+                        textAlign: TextAlign.center,
+                        child: message is Text
+                            ? IgnorePointer(child: message)
+                            : message!,
+                      ),
+                    if (body != null) const LeafySpacer(multipler: 2.5),
+                    if (body != null) body!,
+                    const LeafySpacer(multipler: 2.0),
+                    Divider(
+                      height: 1,
+                      color: theme.backgroundColor,
+                    ),
+                    ...options.map(
+                      (item) => _LeafyDialogOptionWidget<TTheme>(option: item),
+                    ),
+                  ],
                 ),
               ],
             ),

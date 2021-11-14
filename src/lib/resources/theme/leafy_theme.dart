@@ -87,11 +87,13 @@ abstract class LeafyTheme extends InheritedWidget {
     required this.dialogPositiveColor,
     required this.dialogNegativeColor,
     required this.separatorColor,
+    required this.deleteColor,
     required this.bodyText1,
     required this.bodyText2,
     required this.bodyText3,
     required this.bodyText4,
     required this.bodyText5,
+    required this.defaultRadius,
   }) : super(key: key, child: child);
 
   static Logger logger = getLogger(forObject: 'LeafyTheme');
@@ -109,12 +111,15 @@ abstract class LeafyTheme extends InheritedWidget {
   final Color dialogPositiveColor;
   final Color dialogNegativeColor;
   final Color separatorColor;
+  final Color deleteColor;
 
   final TextStyle bodyText1;
   final TextStyle bodyText2;
   final TextStyle bodyText3;
   final TextStyle bodyText4;
   final TextStyle bodyText5;
+
+  final Radius defaultRadius;
 
   static final StreamController _controller = StreamController.broadcast();
 

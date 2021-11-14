@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:leafy_launcher/base/page/status_page_base.dart';
+import 'package:leafy_launcher/module/home_notes/notes/note/widget/body/home_note_body.dart';
+import 'package:leafy_launcher/module/home_notes/notes/note/widget/title/home_note_title.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 
@@ -10,6 +12,11 @@ class HomeNotePage extends StatusPageBase<HomeNoteController, HomeTheme> {
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
-    return const Center(child: Text('Notes!'));
+    return Column(
+      children: const [
+        HomeNoteTitle(),
+        HomeNoteBody(),
+      ],
+    );
   }
 }

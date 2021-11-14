@@ -42,8 +42,8 @@ class ActionsDialog<TTheme extends LeafyTheme, TResult>
   @override
   Widget build(BuildContext context) {
     return LeafyDialog<TTheme>(
-      title: title,
-      message: message,
+      title: Text(title),
+      message: message != null ? Text(message!) : null,
       options: options,
     );
   }

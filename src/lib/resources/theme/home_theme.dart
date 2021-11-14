@@ -27,6 +27,11 @@ const Color _kDialogDarkPositiveColor = _kDarkForegroundPressedColor;
 const Color _kLightSeparatorColor = Color(0x30000000);
 const Color _kDarkSeparatorColor = Color(0x30FFFFFF);
 
+const Color _kLightDeleteColor = Color(0xFFE53935);
+const Color _kDarkDeleteColor = Color(0xFFE53935);
+
+const Radius _defaultRadius = Radius.circular(10);
+
 class HomeTheme extends LeafyTheme {
   const HomeTheme.light(Widget child)
       : super(
@@ -41,6 +46,7 @@ class HomeTheme extends LeafyTheme {
           dialogPositiveColor: _kDialogLightPositiveColor,
           dialogNegativeColor: _kDialogNegativeColor,
           separatorColor: _kLightSeparatorColor,
+          deleteColor: _kLightDeleteColor,
           bodyText1: const TextStyle(
             fontSize: kBodyText1FontSize,
             color: _kLightForegroundColor,
@@ -61,6 +67,7 @@ class HomeTheme extends LeafyTheme {
             fontSize: kBodyText5FontSize,
             color: _kLightForegroundColor,
           ),
+          defaultRadius: _defaultRadius,
         );
 
   const HomeTheme.dark(Widget child)
@@ -76,6 +83,7 @@ class HomeTheme extends LeafyTheme {
           dialogPositiveColor: _kDialogDarkPositiveColor,
           dialogNegativeColor: _kDialogNegativeColor,
           separatorColor: _kDarkSeparatorColor,
+          deleteColor: _kDarkDeleteColor,
           bodyText1: const TextStyle(
             fontSize: kBodyText1FontSize,
             color: _kDarkForegroundColor,
@@ -96,5 +104,6 @@ class HomeTheme extends LeafyTheme {
             fontSize: kBodyText5FontSize,
             color: _kDarkForegroundColor,
           ),
+          defaultRadius: _defaultRadius,
         );
 }

@@ -2,9 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/module/home_notes/note/home_note_binding.dart';
-import 'package:leafy_launcher/module/home_notes/notes/home_notes_page.dart';
-import 'package:leafy_launcher/module/home_notes/services/notes_services.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:leafy_launcher/data/notes/domain/note_model.dart';
+import 'package:leafy_launcher/data/notes/note_repo.dart';
+import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_page.dart';
+import 'package:leafy_launcher/module/home_notes/notes/note/home_note_page.dart';
+import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_page.dart';
 import 'package:leafy_launcher/module/intro/intro_binding.dart';
 import 'package:leafy_launcher/module/intro/intro_page.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_binding.dart';
@@ -13,12 +17,16 @@ import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
 
 import 'app_routes.dart';
+import 'data/folders/domain/folder_model.dart';
+import 'data/folders/folders_repo.dart';
 import 'module/app_picker/app_picker_binding.dart';
 import 'module/app_picker/app_picker_home_controller.dart';
 import 'module/app_picker/app_picker_page.dart';
 import 'module/home/home_binding.dart';
 import 'module/home/home_page.dart';
-import 'module/home_notes/notes/home_notes_binding.dart';
+import 'module/home_notes/notes/folders/home_note_folders_binding.dart';
+import 'module/home_notes/notes/note/home_note_binding.dart';
+import 'module/home_notes/notes/notes/home_notes_binding.dart';
 import 'module/home_settings/home_settings_binding.dart';
 import 'module/home_settings/home_settings_page.dart';
 import 'module/home_settings/widgets/home_settings_widgets_binding.dart';
@@ -53,7 +61,8 @@ class LeafyLauncher {
   /// Initialized must have dependecies.
   /// The app can start w/o them and they will be loaded soon.
   static Future initSecondaryDependencies() async {
-    Get.lazyPut(() => NotesService(), fenix: true);
+    dbInitialization();
+
     Get.lazyPut(() => const ToastService(), fenix: true);
     Get.lazyPut(() => const HomeButtonListener(), fenix: true);
     Get.lazyPut(() => const DeviceVibration(), fenix: true);
@@ -66,6 +75,21 @@ class LeafyLauncher {
       AppPickerHomeController(),
       permanent: true,
     );
+  }
+
+  static Future dbInitialization() async {
+    await Hive.initFlutter('hive');
+
+    Hive.registerAdapter(NoteModelAdapter());
+    Hive.registerAdapter(FolderModelAdapter());
+
+    final folderRepo = FoldersRepo();
+    Get.put(folderRepo, permanent: true);
+    folderRepo.init();
+
+    final notesRepo = NotesRepo();
+    Get.put(notesRepo, permanent: true);
+    notesRepo.init();
   }
 
   static Future run() async {
@@ -144,16 +168,22 @@ class LeafyLauncher {
             transition: Transition.fadeIn,
           ),
           GetPage(
-            name: AppRoutes.notes,
-            binding: HomeNotesBinding(),
-            page: () => const HomeNotesPage(),
+            name: AppRoutes.folders,
+            binding: HomeNoteFoldersBinding(),
+            page: () => const HomeNoteFoldersPage(),
             transition: Transition.fadeIn,
           ),
           GetPage(
-            name: '${AppRoutes.notes}/:id',
-            binding: HomeNoteBinding(),
+            name: AppRoutes.notes,
+            binding: HomeNotesBinding(),
             page: () => const HomeNotesPage(),
-            transition: Transition.fadeIn,
+            transition: Transition.cupertino,
+          ),
+          GetPage(
+            name: AppRoutes.note,
+            binding: HomeNoteBinding(),
+            page: () => const HomeNotePage(),
+            transition: Transition.cupertino,
           ),
         ],
       ),

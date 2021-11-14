@@ -26,3 +26,5 @@ const kSettingsIcon = Icons.settings;
 const kCameraAppIcon = Icons.camera_alt;
 const kPhoneAppIcon = Icons.phone;
 const kMessagesAppIcon = Icons.message;
+
+const kDefaultAnimationCurve = Curves.fastOutSlowIn;

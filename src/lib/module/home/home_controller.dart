@@ -292,7 +292,7 @@ class HomeController extends StatusControllerBase
   }
 
   Future? onDoubleTap() {
-    return AppRoutes.toNotes();
+    return AppRoutes.toFolders();
   }
 
   Future cornerButtonPressed(CornerButtonType type) async {
