@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/module/home/widget/home_widgets/time_progress/time_progress.dart';
+import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/device_vibration/device_vibration.dart';
 import 'package:leafy_launcher/services/home_button_listener/home_button_listener.dart';
 
 import '../../app_routes.dart';
@@ -32,6 +34,7 @@ class HomeController extends StatusControllerBase
   late final GoogleSearch _googleSearch;
   late final PlatformMethodsService _platformMethodsService;
   late final HomeButtonListener _homeButtonListener;
+  late final DeviceVibration _deviceVibration;
 
   bool _isCalendarDisplayed = false;
 
@@ -70,6 +73,7 @@ class HomeController extends StatusControllerBase
     _googleSearch = Get.find<GoogleSearch>();
     _platformMethodsService = Get.find<PlatformMethodsService>();
     _homeButtonListener = Get.find<HomeButtonListener>();
+    _deviceVibration = Get.find<DeviceVibration>();
   }
 
   @override
@@ -272,6 +276,10 @@ class HomeController extends StatusControllerBase
   }
 
   Future openSettings() async {
+    if (LeafySettings.vibrateAlways) {
+      _deviceVibration.weak();
+    }
+
     await Get.toNamed(AppRoutes.settings);
   }
 
@@ -374,6 +382,10 @@ class HomeController extends StatusControllerBase
   }
 
   void openCalendar() {
+    if (LeafySettings.vibrateAlways) {
+      _deviceVibration.weak();
+    }
+
     _isCalendarDisplayed = true;
 
     update([calendarBuilderKey]);
