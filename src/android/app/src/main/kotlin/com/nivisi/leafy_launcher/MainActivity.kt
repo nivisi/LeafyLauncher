@@ -2,10 +2,7 @@ package com.nivisi.leafy_launcher
 
 import android.app.ActivityOptions
 import android.app.SearchManager
-import android.content.ActivityNotFoundException
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.ApplicationInfo
 import android.content.pm.ResolveInfo
 import android.graphics.Bitmap
@@ -35,6 +32,8 @@ class MainActivity: FlutterActivity() {
 
     private var homeEventChannel: EventChannel? = null
     private var homeEventStreamHandler: StreamHandler = StreamHandler()
+    private var appsChangedEventChannel: EventChannel? = null
+    private var appsChangedEventStreamHandler: StreamHandlerParams<Map<String, Serializable>> = StreamHandlerParams()
 
     private var deleteAppResult: MethodChannel.Result? = null
 
@@ -44,6 +43,15 @@ class MainActivity: FlutterActivity() {
         overridePendingTransition(R.anim.app_launch_fade_in_long, R.anim.app_launch_fade_out_long)
     }
 
+    private fun registerAppChangedReceived() {
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED)
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
+        intentFilter.addDataScheme("package")
+
+        registerReceiver(AppChangeReceiver(appsChangedEventStreamHandler), intentFilter)
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
@@ -51,6 +59,13 @@ class MainActivity: FlutterActivity() {
             homePressedChannel
         )
         homeEventChannel!!.setStreamHandler(homeEventStreamHandler)
+
+        appsChangedEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger,
+            appsChangedChannel
+        )
+        appsChangedEventChannel!!.setStreamHandler(appsChangedEventStreamHandler)
+
+        registerAppChangedReceived()
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, commonChannel).setMethodCallHandler {
             call, result ->
@@ -361,6 +376,7 @@ class MainActivity: FlutterActivity() {
         private const val commonChannel = "com.nivisi.leafy_launcher/common"
         private const val applicationChannel = "com.nivisi.leafy_launcher/applicationChannel"
         private const val homePressedChannel = "com.nivisi.leafy_launcher/homePressedChannel"
+        private const val appsChangedChannel = "com.nivisi.leafy_launcher/appsChangedChannel"
 
         private const val initApps = "initApps"
         private const val getApps = "getApps"
@@ -391,6 +407,26 @@ class StreamHandler: EventChannel.StreamHandler {
     fun dispatch() {
         if (!isCancelled) {
             eventSink!!.success(null)
+        }
+    }
+
+    override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+        isCancelled = false
+        eventSink = events
+    }
+
+    override fun onCancel(arguments: Any?) {
+        isCancelled = true
+    }
+}
+
+class StreamHandlerParams<T>: EventChannel.StreamHandler {
+    private var eventSink: EventChannel.EventSink? = null
+    private var isCancelled: Boolean = false
+
+    fun dispatch(param: T) {
+        if (!isCancelled) {
+            eventSink!!.success(param)
         }
     }
 
