@@ -3,7 +3,6 @@ enum SlideType {
   horizontalSwipes,
   cornerButtons,
   appPicker,
-  appPickerRefreshApps,
   search,
   settings,
 }

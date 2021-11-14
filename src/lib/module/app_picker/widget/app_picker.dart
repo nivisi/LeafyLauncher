@@ -22,7 +22,6 @@ class AppPicker extends ThemedWidget<HomeTheme> {
     required this.applications,
     required this.onAppSelected,
     required this.autofocusTextField,
-    required this.onRefresh,
     this.onLongPress,
     this.slidesScrollController,
   }) : super(key: key);
@@ -35,7 +34,6 @@ class AppPicker extends ThemedWidget<HomeTheme> {
   final void Function(Application application) onAppSelected;
   final void Function(Application application)? onLongPress;
   final bool autofocusTextField;
-  final VoidCallback onRefresh;
   final ScrollController? slidesScrollController;
 
   @override
@@ -67,58 +65,38 @@ class AppPicker extends ThemedWidget<HomeTheme> {
           ),
         ),
         Expanded(
-          child: RefreshIndicator(
-            displacement: 0,
-            color: theme.leafyColor,
-            backgroundColor: Colors.transparent,
-            onRefresh: slidesScrollController == null
-                ? () async => onRefresh()
-                : () async {
-                    await Future.delayed(const Duration(seconds: 1));
-                  },
-            child: applications.isEmpty
-                ? Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: kDefaultPadding * 2.0,
-                          horizontal: kHomeHorizontalPadding,
-                        ),
-                        child: Text(
-                          L10nProvider.getText(L10n.appPickerNothingFound),
-                          style: theme.bodyText2,
-                        ),
-                      ),
-                      // A workaround to enable pull to refresh.
-                      ListView(
-                        physics: const AlwaysScrollableScrollPhysics(
-                          parent: BouncingScrollPhysics(),
-                        ),
-                      ),
-                    ],
-                  )
-                : AppPickerFade(
-                    child: ListBuilder<Application>(
-                      scrollController:
-                          slidesScrollController ?? scrollController,
-                      padding: const EdgeInsets.fromLTRB(
-                        kHomeHorizontalPadding,
-                        kDefaultPadding * 2.0,
-                        kHomeHorizontalPadding,
-                        0.0,
-                      ),
-                      items: applications,
-                      separatorType: SeparatorType.space,
-                      builder: (app) {
-                        return AppPickerButton(
-                          application: app,
-                          onTapped: onAppSelected,
-                          onLongPress: onLongPress,
-                        );
-                      },
-                    ),
+          child: applications.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: kDefaultPadding * 2.0,
+                    horizontal: kHomeHorizontalPadding,
                   ),
-          ),
+                  child: Text(
+                    L10nProvider.getText(L10n.appPickerNothingFound),
+                    style: theme.bodyText2,
+                  ),
+                )
+              : AppPickerFade(
+                  child: ListBuilder<Application>(
+                    scrollController:
+                        slidesScrollController ?? scrollController,
+                    padding: const EdgeInsets.fromLTRB(
+                      kHomeHorizontalPadding,
+                      kDefaultPadding * 2.0,
+                      kHomeHorizontalPadding,
+                      0.0,
+                    ),
+                    items: applications,
+                    separatorType: SeparatorType.space,
+                    builder: (app) {
+                      return AppPickerButton(
+                        application: app,
+                        onTapped: onAppSelected,
+                        onLongPress: onLongPress,
+                      );
+                    },
+                  ),
+                ),
         ),
       ],
     );

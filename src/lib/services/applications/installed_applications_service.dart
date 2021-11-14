@@ -21,6 +21,10 @@ const _appChannel = MethodChannel(
   'com.nivisi.leafy_launcher/applicationChannel',
 );
 
+const _appsChangedChannel = EventChannel(
+  'com.nivisi.leafy_launcher/appsChangedChannel',
+);
+
 const _argumentPackageName = 'packageName';
 const _argumentTransition = 'transition';
 
@@ -39,6 +43,8 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
   final StreamController<Application> _onAppRemoved =
       StreamController.broadcast();
 
+  final StreamController<void> _onAppsChanged = StreamController.broadcast();
+
   late List<InstalledApplication> _installedApps;
   late final List<LeafyApplication> _leafyApps;
 
@@ -46,6 +52,7 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
   Iterable<LeafyApplication> get leafyApps => _leafyApps;
 
   Stream<Application> get onAppRemovedEvent => _onAppRemoved.stream;
+  Stream<void> get onAppsChanged => _onAppsChanged.stream;
 
   Future _fetchApps() async {
     await _appChannel.invokeMethod(_methodInitApps);
@@ -107,6 +114,45 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
     logger.i('Initialized!');
 
     initializedSuccessfully();
+
+    _appsChangedChannel.receiveBroadcastStream().listen(_onAppChanged);
+  }
+
+  Future<void> _onAppChanged(dynamic arg) async {
+    if (arg is! Map) {
+      logger.e(
+        '''Received app changed callback, but arg was not a map but a ${arg.runtimeType}''',
+      );
+      return;
+    }
+
+    final package = arg['package'];
+    if (package is! String) {
+      logger.e("""Received app callback didn't contained package arg""");
+      return;
+    }
+
+    final isRemoved = arg['isRemoved'];
+    if (isRemoved is! bool) {
+      logger.e("""Received app callback didn't contained isRemoved arg""");
+      return;
+    }
+
+    if (isRemoved) {
+      try {
+        final app = _installedApps.firstWhere((e) => e.package == package);
+        _installedApps.remove(app);
+        _onAppRemoved.add(app);
+        _onAppsChanged.add(null);
+      } on Exception catch (e, s) {
+        logger.e('Unable to remove the app', e, s);
+      }
+
+      return;
+    }
+
+    await _fetchApps();
+    _onAppsChanged.add(null);
   }
 
   Future refetchApps() {
@@ -192,7 +238,7 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
     return bytes;
   }
 
-  Future<bool> deleteApp(InstalledApplication app) async {
+  Future<void> deleteApp(InstalledApplication app) async {
     if (!_installedApps.contains(app)) {
       throw const AppIsNotInTheListException();
     }
@@ -202,21 +248,11 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
     }
 
     try {
-      final result = await _appChannel.invokeMethod<bool>('deleteApp', {
-            'packageName': app.package,
-          }) ??
-          false;
-
-      if (result) {
-        _installedApps.remove(app);
-        _onAppRemoved.add(app);
-      }
-
-      return result;
+      await _appChannel.invokeMethod<bool>('deleteApp', {
+        'packageName': app.package,
+      });
     } on Exception catch (e, s) {
       logger.e('Unable to delete an app', e, s);
-
-      return false;
     }
   }
 
