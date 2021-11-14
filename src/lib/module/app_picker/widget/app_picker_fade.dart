@@ -13,12 +13,15 @@ class AppPickerFade extends ThemedWidget<HomeTheme> {
   Widget body(BuildContext context, LeafyTheme theme) {
     return Stack(
       children: [
-        child,
+        Padding(
+          padding: const EdgeInsets.only(top: 2.0),
+          child: child,
+        ),
         Align(
           alignment: Alignment.topCenter,
           child: IgnorePointer(
             child: Container(
-              height: kDefaultPadding * 2.0,
+              height: kDefaultPadding * 2.5,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
