@@ -395,11 +395,11 @@ class StreamHandler: EventChannel.StreamHandler {
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
-        isCancelled = true
+        isCancelled = false
         eventSink = events
     }
 
     override fun onCancel(arguments: Any?) {
-        isCancelled = false
+        isCancelled = true
     }
 }

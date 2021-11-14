@@ -89,6 +89,8 @@ class HomeController extends StatusControllerBase
     );
 
     onBackButtonPressed.listen((event) {
+      logger.i('Back button pressed');
+
       if (isCalendarDisplayed) {
         _isCalendarDisplayed = false;
         update([calendarBuilderKey]);
@@ -97,7 +99,14 @@ class HomeController extends StatusControllerBase
   }
 
   Future _navigateHome() async {
-    Get.until((route) => route.settings.name == AppRoutes.home);
+    logger.i('Back button pressed, navigate home');
+
+    if (isCalendarDisplayed) {
+      _isCalendarDisplayed = false;
+      update([calendarBuilderKey]);
+    } else {
+      Get.until((route) => route.settings.name == AppRoutes.home);
+    }
   }
 
   void _restoreLeftCornerButton() {
