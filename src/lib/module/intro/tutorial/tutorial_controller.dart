@@ -21,7 +21,6 @@ class TutorialController extends ControllerBase
   late final SlideController horizontalSwipesSlideController;
   late final SlideController cornerButtonsSlideController;
   late final SlideController appPickerSlideController;
-  late final SlideController appPickerRefreshAppsSlideController;
   late final SlideController searchSlideController;
   late final SlideController settingsSlideController;
 
@@ -56,7 +55,6 @@ class TutorialController extends ControllerBase
     horizontalSwipesSlideController = SlideController();
     cornerButtonsSlideController = SlideController();
     appPickerSlideController = SlideController();
-    appPickerRefreshAppsSlideController = SlideController();
     searchSlideController = SlideController();
     settingsSlideController = SlideController();
 
@@ -124,7 +122,6 @@ class TutorialController extends ControllerBase
     horizontalSwipesSlideController.dispose();
     cornerButtonsSlideController.dispose();
     appPickerSlideController.dispose();
-    appPickerRefreshAppsSlideController.dispose();
     searchSlideController.dispose();
     settingsSlideController.dispose();
 
