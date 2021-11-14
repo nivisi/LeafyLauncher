@@ -384,17 +384,20 @@ class MainActivity: FlutterActivity() {
 
 class StreamHandler: EventChannel.StreamHandler {
     private var eventSink: EventChannel.EventSink? = null
+    private var isCancelled: Boolean = false
 
     fun dispatch() {
-        eventSink!!.success(null)
+        if (!isCancelled) {
+            eventSink!!.success(null)
+        }
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
-        eventSink = events;
+        isCancelled = true
+        eventSink = events
     }
 
     override fun onCancel(arguments: Any?) {
-        eventSink = null
+        isCancelled = false
     }
-
 }
