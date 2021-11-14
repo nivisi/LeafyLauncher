@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/resources/localization/l10n.dart';
-import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
-import 'package:leafy_launcher/services/toast/toast_service.dart';
 
 import '../../base/controller/status_controller_base.dart';
 import '../../services/applications/application.dart';
@@ -24,7 +21,6 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
   @protected
   late final InstalledApplicationsService installedApplicationsService;
   late final UserApplicationsController _userApplicationsController;
-  late final ToastService _toastService;
 
   late final TextEditingController textEditingController;
   late final FocusNode textFocusNode;
@@ -42,7 +38,6 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
   Future resolveDependencies() async {
     installedApplicationsService = Get.find<InstalledApplicationsService>();
     _userApplicationsController = Get.find<UserApplicationsController>();
-    _toastService = Get.find<ToastService>();
   }
 
   @override
@@ -51,7 +46,7 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
     await installedApplicationsService.ensureInitialized;
 
     textEditingController = TextEditingController();
-    textEditingController.addListener(_onTypedText);
+    textEditingController.addListener(onTypedText);
 
     scrollController = ScrollController();
     scrollController.addListener(_onScrolled);
@@ -63,7 +58,7 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
     return super.load();
   }
 
-  void _onTypedText() {
+  void onTypedText() {
     final value = textEditingController.text;
 
     if (value.isEmpty) {
@@ -104,18 +99,6 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
   }
 
   Future onAppSelected(Application app);
-
-  Future onRefresh() async {
-    try {
-      await installedApplicationsService.refetchApps();
-
-      _onTypedText();
-
-      _toastService.short(L10nProvider.getText(L10n.installedAppsRefetched));
-    } on Exception catch (e, s) {
-      logger.e('Unable to refetch apps', e, s);
-    }
-  }
 
   @override
   void onClose() {

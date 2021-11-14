@@ -30,6 +30,10 @@ class AppPickerHomeController extends AppPickerControllerBase {
 
     _installedApplicationsService = Get.find<InstalledApplicationsService>();
     _deviceVibration = Get.find<DeviceVibration>();
+
+    _installedApplicationsService.onAppsChanged.listen((app) {
+      onTypedText();
+    });
   }
 
   @override
@@ -87,12 +91,7 @@ class AppPickerHomeController extends AppPickerControllerBase {
 
     switch (result) {
       case _LongPressActions.delete:
-        final isDeleted = await _installedApplicationsService.deleteApp(app);
-
-        if (isDeleted) {
-          appsProtected.remove(app);
-          update([AppPickerControllerBase.appListBuilderKey]);
-        }
+        await _installedApplicationsService.deleteApp(app);
 
         break;
       case _LongPressActions.view:
