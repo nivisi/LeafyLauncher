@@ -73,6 +73,8 @@ class LeafyLauncher {
 
     L10n.restoreLocale();
 
+    Paint.enableDithering = true;
+
     runApp(
       GetMaterialApp(
         debugShowCheckedModeBanner: false,
