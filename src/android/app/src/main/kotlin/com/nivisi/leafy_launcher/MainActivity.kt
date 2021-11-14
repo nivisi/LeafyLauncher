@@ -47,13 +47,15 @@ class MainActivity: FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
-        homeEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger, Companion.homePressedChannel)
+        homeEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger,
+            homePressedChannel
+        )
         homeEventChannel!!.setStreamHandler(homeEventStreamHandler)
 
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, Companion.commonChannel).setMethodCallHandler {
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, commonChannel).setMethodCallHandler {
             call, result ->
             when (call.method) {
-                Companion.launchGoogleSearchInput -> {
+                launchGoogleSearchInput -> {
                    val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
                     val globalSearchActivity: ComponentName? = searchManager.globalSearchActivity
                     if (globalSearchActivity == null) {
@@ -73,12 +75,12 @@ class MainActivity: FlutterActivity() {
                         context.startActivity(intent)
                         result.success(null)
                     } catch (ex: ActivityNotFoundException) {
-                        result.error("no activity", "lala", "1")
+                        result.error("no activity", "error", "1")
                     }
 
                 }
-                Companion.launchSearch -> {
-                   val arg = call.argument<String>(Companion.argumentLaunchQuery);
+                launchSearch -> {
+                   val arg = call.argument<String>(argumentLaunchQuery)
 
                    val intent = Intent(Intent.ACTION_WEB_SEARCH)
                    intent.putExtra(SearchManager.QUERY, arg)
@@ -87,13 +89,13 @@ class MainActivity: FlutterActivity() {
                    result.success(null)
 
                 }
-                Companion.openPhoneApp -> {
+                openPhoneApp -> {
                     val intent = Intent(Intent.ACTION_DIAL)
 
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(intent, options.toBundle())
                 }
-                Companion.openCameraApp -> {
+                openCameraApp -> {
                     val intent = Intent("android.media.action.IMAGE_CAPTURE")
 
                     val options: ActivityOptions = getDefaultLaunchOptions()
@@ -104,7 +106,7 @@ class MainActivity: FlutterActivity() {
 
                     context.startActivity(launchIntent, options.toBundle())
                 }
-                Companion.openMessagesApp -> {
+                openMessagesApp -> {
                     val intent = Intent(Intent.ACTION_MAIN)
                     intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
 
@@ -112,7 +114,7 @@ class MainActivity: FlutterActivity() {
 
                     context.startActivity(intent, options.toBundle())
                 }
-                Companion.openClockApp -> {
+                openClockApp -> {
                     val mClockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
                     mClockIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
@@ -120,8 +122,8 @@ class MainActivity: FlutterActivity() {
 
                     context.startActivity(mClockIntent, options.toBundle())
                 }
-                Companion.openLauncherPreferences -> {
-                    val intent = Intent(android.provider.Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
+                openLauncherPreferences -> {
+                    val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
 
                     val options: ActivityOptions = getDefaultLaunchOptions()
 
@@ -131,29 +133,29 @@ class MainActivity: FlutterActivity() {
             }
         }
 
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, Companion.applicationChannel).setMethodCallHandler {
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, applicationChannel).setMethodCallHandler {
             call, result ->
 
             when (call.method) {
-                Companion.initApps -> {
+                initApps -> {
                     getApps()
 
                     result.success(null)
 
                     return@setMethodCallHandler
                 }
-                Companion.launch -> {
+                launch -> {
                     launchApp(call, result)
 
                     return@setMethodCallHandler
                 }
-                Companion.getApps -> {
+                getApps -> {
                     result.success(_appMaps)
 
                     return@setMethodCallHandler
                 }
-                Companion.getAppIcon -> {
-                    val name = call.argument<String>(Companion.argumentPackageName)
+                getAppIcon -> {
+                    val name = call.argument<String>(argumentPackageName)
 
                     val icon: Drawable = packageManager.getApplicationIcon(name!!)
                     val bitmap = getBitmapFromDrawable(icon)
@@ -163,23 +165,23 @@ class MainActivity: FlutterActivity() {
                         return@setMethodCallHandler
                     }
 
-                    val encodedImage: String? = encodeToBase64(bitmap!!)
+                    val encodedImage: String? = encodeToBase64(bitmap)
 
                     result.success(encodedImage)
 
                     return@setMethodCallHandler
                 }
-                Companion.deleteApp -> {
+                deleteApp -> {
                     deleteAppResult = result
 
-                    val name = call.argument<String>(Companion.argumentPackageName)
+                    val name = call.argument<String>(argumentPackageName)
 
                     deleteApp(name!!)
 
                     return@setMethodCallHandler
                 }
-                Companion.viewInfo -> {
-                    val name = call.argument<String>(Companion.argumentPackageName)
+                viewInfo -> {
+                    val name = call.argument<String>(argumentPackageName)
 
                     viewInfo(name!!)
 
@@ -230,7 +232,7 @@ class MainActivity: FlutterActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == Companion.UNINSTALL_REQUEST_CODE) {
+        if (requestCode == UNINSTALL_REQUEST_CODE) {
             if (deleteAppResult == null) {
                 return
             }
@@ -269,19 +271,19 @@ class MainActivity: FlutterActivity() {
     }
 
     private fun launchApp(call: MethodCall, result: MethodChannel.Result) {
-        if (!call.hasArgument(Companion.argumentPackageName)) {
-            result.error("No Package Name provided", null, null);
+        if (!call.hasArgument(argumentPackageName)) {
+            result.error("No Package Name provided", null, null)
 
             return
         }
 
         var transition = 0
 
-        if (call.hasArgument(Companion.argumentTransition)) {
-            transition = call.argument<Int>(Companion.argumentTransition)!!
+        if (call.hasArgument(argumentTransition)) {
+            transition = call.argument<Int>(argumentTransition)!!
         }
 
-        var packageName = call.argument<String>(Companion.argumentPackageName);
+        val packageName = call.argument<String>(argumentPackageName)
 
         val intent = context.packageManager.getLaunchIntentForPackage(packageName!!)
 
@@ -293,8 +295,8 @@ class MainActivity: FlutterActivity() {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 
-        var anim = when (transition) {
-            0 -> R.anim.app_launch_fade_in;
+        val anim = when (transition) {
+            0 -> R.anim.app_launch_fade_in
             1 -> R.anim.app_launch_left
             2 -> R.anim.app_launch_right
             else -> 0
@@ -312,7 +314,7 @@ class MainActivity: FlutterActivity() {
                 "name" to name,
                 "package" to packageName,
                 "isSystem" to isSystemApp
-        );
+        )
     }
 
     private fun getApps() {
@@ -340,13 +342,13 @@ class MainActivity: FlutterActivity() {
             apps.add(map)
         }
 
-        _appMaps = apps;
+        _appMaps = apps
     }
 
     private fun deleteApp(packageName: String) {
         val intent = Intent(Intent.ACTION_DELETE, Uri.parse("package:$packageName"))
 
-        startActivityForResult(intent, Companion.UNINSTALL_REQUEST_CODE)
+        startActivityForResult(intent, UNINSTALL_REQUEST_CODE)
     }
 
     private fun viewInfo(packageName: String) {
@@ -356,27 +358,27 @@ class MainActivity: FlutterActivity() {
     }
 
     companion object {
-        private const val commonChannel = "com.nivisi.leafy_launcher/common";
-        private const val applicationChannel = "com.nivisi.leafy_launcher/applicationChannel";
-        private const val homePressedChannel = "com.nivisi.leafy_launcher/homePressedChannel";
+        private const val commonChannel = "com.nivisi.leafy_launcher/common"
+        private const val applicationChannel = "com.nivisi.leafy_launcher/applicationChannel"
+        private const val homePressedChannel = "com.nivisi.leafy_launcher/homePressedChannel"
 
-        private const val initApps = "initApps";
-        private const val getApps = "getApps";
-        private const val launch = "launch";
-        private const val getAppIcon = "getAppIcon";
-        private const val launchSearch = "launchSearch";
-        private const val launchGoogleSearchInput = "launchGoogleSearchInput";
-        private const val openPhoneApp = "openPhoneApp";
-        private const val openCameraApp = "openCameraApp";
-        private const val openMessagesApp = "openMessagesApp";
-        private const val openClockApp = "openClockApp";
-        private const val openLauncherPreferences = "openLauncherPreferences";
-        private const val deleteApp = "deleteApp";
-        private const val viewInfo = "viewInfo";
+        private const val initApps = "initApps"
+        private const val getApps = "getApps"
+        private const val launch = "launch"
+        private const val getAppIcon = "getAppIcon"
+        private const val launchSearch = "launchSearch"
+        private const val launchGoogleSearchInput = "launchGoogleSearchInput"
+        private const val openPhoneApp = "openPhoneApp"
+        private const val openCameraApp = "openCameraApp"
+        private const val openMessagesApp = "openMessagesApp"
+        private const val openClockApp = "openClockApp"
+        private const val openLauncherPreferences = "openLauncherPreferences"
+        private const val deleteApp = "deleteApp"
+        private const val viewInfo = "viewInfo"
 
-        private const val argumentPackageName = "packageName";
-        private const val argumentTransition = "transition";
-        private const val argumentLaunchQuery = "launchQuery";
+        private const val argumentPackageName = "packageName"
+        private const val argumentTransition = "transition"
+        private const val argumentLaunchQuery = "launchQuery"
 
         private const val UNINSTALL_REQUEST_CODE = 3213123
     }
