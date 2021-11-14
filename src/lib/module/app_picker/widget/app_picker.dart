@@ -84,7 +84,7 @@ class AppPicker extends ThemedWidget<HomeTheme> {
                       kHomeHorizontalPadding,
                       kDefaultPadding * 2.0,
                       kHomeHorizontalPadding,
-                      0.0,
+                      kDefaultPadding * 2.0,
                     ),
                     items: applications,
                     separatorType: SeparatorType.space,
