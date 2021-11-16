@@ -1,4 +1,4 @@
-name: Leafy Launcher CI 🌱
+name: Leafy CI 🌱
 
 on:
   push:
@@ -14,12 +14,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-java@v1
+      - name: Checkout
+        uses: actions/checkout@v2 
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
         with:
           java-version: '12.x'
 
-      - uses: subosito/flutter-action@v1
+      - name: Setup Flutter and build 🌱
+        uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
 
@@ -28,7 +32,8 @@ jobs:
       - run: flutter analyze .
       - run: flutter build apk --release
     
-      - uses: actions/upload-artifact@v1
+      - name: Upload Artifacts 
+        uses: actions/upload-artifact@v1
         with:
           name: leafy-release
           path: build/app/outputs/apk/release/app-release.apk
