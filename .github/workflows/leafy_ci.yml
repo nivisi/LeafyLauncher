@@ -13,6 +13,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./src
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2 
@@ -30,7 +34,7 @@ jobs:
       - run: flutter pub get
       - run: flutter format --set-exit-if-changed .
       - run: flutter analyze .
-      - run: flutter build apk --release
+      - run: flutter build apk --release --build-number "${{ github.run_number }}"
     
       - name: Upload Artifacts 
         uses: actions/upload-artifact@v1
