@@ -35,20 +35,10 @@ jobs:
       # - run: flutter format --set-exit-if-changed .
       - run: flutter analyze .
       - run: flutter build apk --release --build-number "${{ github.run_number }}"
-      - run: |
-          ls
-          cd build
-          ls
-          cd app
-          ls
-          cd outputs
-          ls
-          cd flutter-apk
-          ls
     
       - name: Upload Artifacts 
         uses: actions/upload-artifact@v1
         with:
-          name: release-apk-${{ github.run_number }}
-          path: build/app/outputs/apk/release/app-release.apk
+          name: leafy-${{ github.run_number }}
+          path: ./build/app/outputs/flutter-apk/app-release.apk
 
