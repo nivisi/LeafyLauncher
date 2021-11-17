@@ -20,6 +20,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2 
+      
+      - name: Define PR Artifact Version
+        if: github.event.pull_request
+        run: |
+          echo "APP_VERSION=PR-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          echo App Version ${{ env.APP_VERSION }}
+
+      - name: Define PR Artifact Version
+        if: contains(github.ref,'develop')
+        run: |
+          echo "APP_VERSION=dev" >> $GITHUB_ENV
+          echo App Version ${{ env.APP_VERSION 
 
       - name: Setup Java
         uses: actions/setup-java@v1
@@ -38,17 +50,7 @@ jobs:
         run: flutter analyze .
         
       - name: Build 🌱
-        run: flutter build apk --release --build-number "${{ github.run_number }}"
-      
-      - name: Define PR Artifact Version
-        if: github.event.pull_request
-        run: |
-          echo "APP_VERSION=PR-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
-
-      - name: Define PR Artifact Version
-        if: github.ref=='develop'
-        run: |
-          echo "APP_VERSION=dev" >> $GITHUB_ENV
+        run: flutter build apk --release --build-number "${{ github.run_number }}"}}
     
       - name: Upload Artifacts 
         uses: actions/upload-artifact@v1
