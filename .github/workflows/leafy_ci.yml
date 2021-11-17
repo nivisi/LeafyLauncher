@@ -25,13 +25,13 @@ jobs:
         if: github.event.pull_request
         run: |
           echo "APP_VERSION=PR-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
-          echo App Version ${{ env.APP_VERSION }}
+          echo App Version $APP_VERSION
 
       - name: Define Dev Artifact Version
         if: (!github.event.pull_request)
         run: |
           echo "APP_VERSION=dev" >> $GITHUB_ENV
-          echo App Version ${{ env.APP_VERSION }}
+          echo App Version $APP_VERSION
 
       - name: Setup Java
         uses: actions/setup-java@v1
