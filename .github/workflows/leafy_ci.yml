@@ -36,6 +36,14 @@ jobs:
       - run: flutter analyze .
       - run: flutter build apk --release --build-number "${{ github.run_number }}"
       - run: ls
+      - run: cd build
+      - run: ls
+      - run: cd app
+      - run: ls
+      - run: cd outputs
+      - run: ls
+      - run: cd flutter-apk
+      - run: ls
     
       - name: Upload Artifacts 
         uses: actions/upload-artifact@v1
