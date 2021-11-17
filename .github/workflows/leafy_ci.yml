@@ -46,7 +46,7 @@ jobs:
           echo "APP_VERSION=PR-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
 
       - name: Define PR Artifact Version
-        if: contains(github.ref, "develop")
+        if: github.ref=='develop'
         run: |
           echo "APP_VERSION=dev" >> $GITHUB_ENV
     
