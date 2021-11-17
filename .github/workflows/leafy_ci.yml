@@ -35,6 +35,13 @@ jobs:
       # - run: flutter format --set-exit-if-changed .
       - run: flutter analyze .
       - run: flutter build apk --release --build-number "${{ github.run_number }}"
+      - run: |
+          pwd
+          ls
+          echo Going to the outputs
+          cd build/app/outputs/flutter-apk
+          pwd
+          ls
     
       - name: Upload Artifacts 
         uses: actions/upload-artifact@v1
