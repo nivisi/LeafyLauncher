@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  LeafyCI:
+  Build_and_Upload_APK:
 
     runs-on: ubuntu-latest
 
@@ -36,8 +36,8 @@ jobs:
       - run: flutter analyze .
       - run: flutter build apk --release --build-number "${{ github.run_number }}"
     
-      #- name: Upload Artifacts 
-      #  uses: actions/upload-artifact@v1
-      #  with:
-      #    name: leafy-release
-      #    path: build/app/outputs/apk/release/app-release.apk
+      - name: Upload Artifacts 
+        uses: actions/upload-artifact@v1
+        with:
+          name: leafy-release
+          path: build/app/outputs/flutter-apk/app-release.apk
