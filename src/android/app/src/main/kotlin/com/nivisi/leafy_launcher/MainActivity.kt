@@ -102,7 +102,7 @@ class MainActivity: FlutterActivity() {
                    val intent = Intent(Intent.ACTION_WEB_SEARCH)
                    intent.putExtra(SearchManager.QUERY, arg)
                    startActivity(intent)
-                   
+
                    result.success(null)
 
                 }
