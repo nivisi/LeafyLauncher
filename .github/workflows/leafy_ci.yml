@@ -5,7 +5,7 @@ on:
     branches: [ develop ]
 
   pull_request:
-  
+
   workflow_dispatch:
 
 jobs:
@@ -19,8 +19,8 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2 
-      
+        uses: actions/checkout@v2
+
       - name: Define PR Artifact Version
         if: github.event.pull_request
         run: echo "APP_VERSION=PR-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
@@ -47,11 +47,11 @@ jobs:
       # - run: flutter format --set-exit-if-changed .
       - name: Analyze
         run: flutter analyze .
-        
+
       - name: Build 🌱
         run: flutter build apk --release --build-number "${{ github.run_number }}"
-    
-      - name: Upload Artifacts 
+
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: leafy_launcher_${{ env.APP_VERSION }}_build${{ github.run_number }}.apk
