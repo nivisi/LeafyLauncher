@@ -16,7 +16,6 @@ class HomeNoteBody extends ThemedGetWidget<HomeNoteController, HomeTheme> {
       child: TextField(
         expands: true,
         maxLines: null,
-        minLines: null,
         controller: controller.bodyEditingController,
         style: theme.bodyText3,
         autofocus: controller.shouldAutofocusBody,

@@ -1,7 +1,5 @@
 // ignore_for_file: hash_and_equals
 
-import 'dart:convert';
-
 import 'package:hive/hive.dart';
 import 'package:leafy_launcher/data/base/db_entity_base.dart';
 import 'package:leafy_launcher/data/base/hive_types.dart';

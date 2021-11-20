@@ -1,4 +1,3 @@
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 import 'package:leafy_launcher/shared_widget/section/leafy_custom_section_item.dart';
