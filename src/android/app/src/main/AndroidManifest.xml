@@ -5,6 +5,13 @@
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <application
         android:label="Leafy Launcher Beta"
         android:icon="@mipmap/leafy_icon"
