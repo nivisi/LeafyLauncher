@@ -21,7 +21,7 @@ abstract class PageBase<TController extends ControllerBase,
   bool get safeArea => true;
 
   @protected
-  OnWillPopData? get onWillPopData => null;
+  OnWillPopData? get onWillPopData => OnWillPopData(controller.back);
 
   @override
   Widget build(BuildContext context) {

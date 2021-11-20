@@ -119,7 +119,7 @@ class HomeNoteController extends StatusControllerBase {
   }
 
   @override
-  Future back() async {
+  Future<bool> back() async {
     final note = _note;
 
     if (note == null) {

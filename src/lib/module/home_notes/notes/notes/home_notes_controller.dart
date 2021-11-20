@@ -152,7 +152,7 @@ class HomeNotesController extends StatusControllerBase {
   }
 
   @override
-  Future back() {
+  Future<bool> back() {
     _foldersController.updateList(doSort: true);
     return super.back();
   }
