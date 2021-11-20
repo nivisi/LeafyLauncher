@@ -149,4 +149,6 @@ class L10n {
       'leafyNotesRenameFolderDialogTitle';
   static const String leafyNotesRenameFolderDialogMessage =
       'leafyNotesRenameFolderDialogMessage';
+  static const String leafyNotesFolderTitlePlaceholder =
+      'leafyNotesFolderTitlePlaceholder';
 }

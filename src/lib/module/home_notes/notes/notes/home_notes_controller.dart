@@ -82,23 +82,26 @@ class HomeNotesController extends StatusControllerBase {
     }
 
     final result = await InputDialog.show<HomeTheme>(
-      title: L10nProvider.getText(L10n.leafyNotesNewFolderDialogTitle),
-      message: L10nProvider.getText(L10n.leafyNotesNewFolderDialogMessage),
+      title: L10nProvider.getText(L10n.leafyNotesRenameFolderDialogTitle),
+      message: L10nProvider.getText(L10n.leafyNotesRenameFolderDialogMessage),
       positiveButtonTitle: L10nProvider.getText(L10n.actionSave),
-      startValue: folder.title,
+      startValue: folder.normalizedTitle,
     );
 
-    if (result == null) {
+    if (result == null || result.isEmpty) {
       return;
     }
 
-    _foldersRepo.add(folder.copyWith(
+    final editedFolder = folder.copyWith(
       title: result,
       lastEditedAt: DateTime.now().toUtc(),
-    ));
+    );
 
-    this.folder = folder;
-    _foldersController.updateList();
+    _foldersRepo.add(editedFolder);
+
+    this.folder = editedFolder;
+    _foldersController.updateFolder(editedFolder);
+
     update([titleBuilder]);
   }
 
@@ -143,7 +146,7 @@ class HomeNotesController extends StatusControllerBase {
     }
   }
 
-  void updateList({bool doSort = false}) {
+  Future updateList({bool doSort = false}) async {
     if (doSort) {
       _sort();
     }

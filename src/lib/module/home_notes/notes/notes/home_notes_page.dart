@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:leafy_launcher/base/page/status_page_base.dart';
-import 'package:leafy_launcher/module/home_notes/notes/widget/list/home_notes_list.dart';
-import 'package:leafy_launcher/module/home_notes/notes/widget/title/home_notes_title.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 
 import 'home_notes_controller.dart';
+import 'widget/list/home_notes_list.dart';
+import 'widget/title/home_notes_title.dart';
 
 class HomeNotesPage extends StatusPageBase<HomeNotesController, HomeTheme> {
   const HomeNotesPage();

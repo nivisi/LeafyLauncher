@@ -115,11 +115,28 @@ class HomeNoteFoldersController extends StatusControllerBase {
     }
   }
 
-  void updateList({bool doSort = false}) {
+  Future updateList({bool doSort = false}) async {
     if (doSort) {
       _sort();
     }
 
     update([listBuilder]);
+  }
+
+  // TODO: Replace it with Hive listenable box
+  void updateFolder(FolderModel folder, {bool removed = false}) {
+    final updated = !removed;
+
+    try {
+      final index = _folders.indexWhere((e) => e.id == folder.id);
+
+      _folders.removeAt(index);
+      if (updated) {
+        _folders.insert(index, folder);
+      }
+      updateList(doSort: updated);
+    } on Exception catch (e, s) {
+      logger.e('Updated a note, but it was not in the list', e, s);
+    }
   }
 }

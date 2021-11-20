@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/base/page/page_base.dart';
 import 'package:leafy_launcher/base/page/status_page_base.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';

@@ -93,4 +93,5 @@ var _mapRu = {
   L10n.leafyNotesNotesEmptyStateMessage: 'Пусто ۪📭',
   L10n.leafyNotesRenameFolderDialogTitle: 'Переименовать',
   L10n.leafyNotesRenameFolderDialogMessage: 'Введите новое название папки',
+  L10n.leafyNotesFolderTitlePlaceholder: 'Папка',
 };

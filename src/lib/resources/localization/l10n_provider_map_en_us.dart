@@ -93,4 +93,5 @@ var _mapEn = {
   L10n.leafyNotesNotesEmptyStateMessage: 'Empty ۪📭',
   L10n.leafyNotesRenameFolderDialogTitle: 'Rename',
   L10n.leafyNotesRenameFolderDialogMessage: 'Enter a new nome for the folder',
+  L10n.leafyNotesFolderTitlePlaceholder: 'Folder',
 };

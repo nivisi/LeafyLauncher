@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:leafy_launcher/data/notes/domain/note_model.dart';
 import 'package:leafy_launcher/module/home/utils/gesture_processer.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
-import 'package:leafy_launcher/module/home_notes/notes/widget/list/home_note_container.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
@@ -12,6 +11,8 @@ import 'package:leafy_launcher/shared_widget/list/dismissible_delete_background.
 import 'package:leafy_launcher/shared_widget/section/leafy_section.dart';
 import 'package:leafy_launcher/shared_widget/themed_get_widget.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
+
+import 'home_note_container.dart';
 
 class _DismissibleItem extends ThemedWidget<HomeTheme> {
   const _DismissibleItem({
