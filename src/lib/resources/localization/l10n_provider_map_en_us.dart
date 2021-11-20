@@ -94,4 +94,6 @@ var _mapEn = {
   L10n.leafyNotesRenameFolderDialogTitle: 'Rename',
   L10n.leafyNotesRenameFolderDialogMessage: 'Enter a new name for the folder',
   L10n.leafyNotesFolderTitlePlaceholder: 'Folder',
+  L10n.leafyNotesShareAsText: 'Share',
+  L10n.leafyNotesShareAsFile: 'Share (as file)',
 };

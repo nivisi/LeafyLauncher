@@ -5,6 +5,7 @@ import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
+import 'package:leafy_launcher/shared_widget/context_menu/context_menu_button.dart';
 import 'package:leafy_launcher/shared_widget/leafy_spacer.dart';
 import 'package:leafy_launcher/shared_widget/leafy_text_button.dart';
 import 'package:leafy_launcher/shared_widget/themed_get_widget.dart';
@@ -43,6 +44,7 @@ class HomeNoteTitle extends ThemedGetWidget<HomeNoteController, HomeTheme> {
               controller: controller.titleEditingController,
               autofocus: controller.shouldAutofocusTitle,
               textInputAction: TextInputAction.next,
+              textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
@@ -58,6 +60,12 @@ class HomeNoteTitle extends ThemedGetWidget<HomeNoteController, HomeTheme> {
                 ),
               ),
             ),
+          ),
+          const LeafySpacer.horizontal(),
+          ContextMenuButton<HomeTheme>(
+            items: controller.shareMenuItems,
+            offset: const Offset(-8, -48),
+            child: Icon(Icons.share, color: theme.foregroundColor),
           ),
         ],
       ),

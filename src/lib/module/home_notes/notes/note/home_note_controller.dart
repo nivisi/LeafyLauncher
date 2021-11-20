@@ -9,7 +9,9 @@ import 'package:leafy_launcher/data/notes/note_repo.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
+import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
+import 'package:leafy_launcher/shared_widget/context_menu/context_menu_route.dart';
 
 class HomeNoteController extends StatusControllerBase {
   HomeNoteController({
@@ -27,6 +29,7 @@ class HomeNoteController extends StatusControllerBase {
   late final ToastService _toastService = Get.find<ToastService>();
   late final HomeNotesController _notesController =
       Get.find<HomeNotesController>();
+  late final ShareService _shareService = Get.find<ShareService>();
 
   late final TextEditingController titleEditingController;
   late final TextEditingController bodyEditingController;
@@ -44,6 +47,54 @@ class HomeNoteController extends StatusControllerBase {
   bool get shouldAutofocusTitle => _shouldAutofocusTitle;
 
   bool _savedOnExit = false;
+
+  List<MenuItem> get shareMenuItems => [
+        MenuAction(
+          action: shareAsText,
+          title: L10nProvider.getText(L10n.leafyNotesShareAsText),
+        ),
+        MenuAction(
+          action: shareAsFile,
+          title: L10nProvider.getText(L10n.leafyNotesShareAsFile),
+        ),
+      ];
+
+  String? getShareableText() {
+    final note = this.note;
+    if (note == null) {
+      return null;
+    }
+
+    if (note.title.isEmpty && note.text.isEmpty) {
+      return null;
+    }
+
+    if (note.title.isNotEmpty && note.text.isNotEmpty) {
+      return '${note.title}\n\n${note.text}';
+    }
+
+    if (note.title.isEmpty) {
+      return note.text;
+    }
+
+    if (note.text.isEmpty) {
+      return note.title;
+    }
+  }
+
+  Future shareAsText() async {
+    final toShare = getShareableText();
+
+    if (toShare == null) {
+      return;
+    }
+
+    return _shareService.shareText(toShare);
+  }
+
+  Future shareAsFile() async {
+    //
+  }
 
   @override
   Future load() async {
