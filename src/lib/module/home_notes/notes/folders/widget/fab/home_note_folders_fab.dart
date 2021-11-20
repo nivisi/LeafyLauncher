@@ -76,7 +76,7 @@ class _HomeNoteFoldersFabState
                   }
                 : null,
             child: Icon(
-              Icons.note_outlined,
+              Icons.description_outlined,
               color: theme.backgroundColor,
             ),
           ),
