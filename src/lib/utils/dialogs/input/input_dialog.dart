@@ -47,7 +47,7 @@ class InputDialog<TTheme extends LeafyTheme> extends StatefulWidget {
       barrierDismissible: barrierDismissible,
     );
 
-    return result ?? fallbackResult ?? '';
+    return result ?? fallbackResult;
   }
 
   @override
@@ -96,7 +96,9 @@ class _InputDialogState<TTheme extends LeafyTheme>
               autofocus: true,
               focusNode: _focusNode,
               decoration: InputDecoration(
-                hintText: 'Name',
+                hintText: L10nProvider.getText(
+                  L10n.leafyNotesFolderTitlePlaceholder,
+                ),
                 hintStyle: theme.bodyText4.copyWith(color: theme.textInfoColor),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 10.0,
