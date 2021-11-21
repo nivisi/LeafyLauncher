@@ -16,7 +16,6 @@
         android:label="Leafy Launcher Beta"
         android:icon="@mipmap/leafy_icon"
         android:allowBackup="true"
-        android:restoreAnyVersion="true"
         android:fullBackupOnly="true">
 
         <activity
