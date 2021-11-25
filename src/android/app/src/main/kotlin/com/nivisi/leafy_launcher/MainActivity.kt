@@ -110,6 +110,7 @@ class MainActivity: FlutterActivity() {
                 }
                 openCameraApp -> {
                     val intent = Intent("android.media.action.IMAGE_CAPTURE")
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     val launchIntent = packageManager.getLaunchIntentForPackage(
                         intent.resolveActivity(packageManager).packageName
@@ -119,11 +120,13 @@ class MainActivity: FlutterActivity() {
                 openMessagesApp -> {
                     val intent = Intent(Intent.ACTION_MAIN)
                     intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(intent, options.toBundle())
                 }
                 openClockApp -> {
                     val mClockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     mClockIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(mClockIntent, options.toBundle())
