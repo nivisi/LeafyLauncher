@@ -44,7 +44,10 @@ jobs:
 
       - name: Get packages
         run: flutter pub get
-      # - run: flutter format --set-exit-if-changed .
+
+      - name: Check formatting
+        run: flutter format --set-exit-if-changed .
+
       - name: Analyze
         run: flutter analyze .
 
