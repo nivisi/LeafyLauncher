@@ -1,4 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.nivisi.leafy_launcher">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.nivisi.leafy_launcher">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
@@ -22,6 +24,7 @@
             android:name="com.nivisi.leafy_launcher.MainActivity"
             android:theme="@style/LaunchTheme"
             android:taskAffinity="leafy"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
@@ -29,7 +32,8 @@
             android:launchMode="singleTask"
             android:resumeWhilePausing="true"
             android:excludeFromRecents="true"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            tools:ignore="LockedOrientationActivity">
 
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
