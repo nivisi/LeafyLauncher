@@ -53,28 +53,28 @@ class MainActivity: FlutterActivity() {
         registerReceiver(AppChangeReceiver(), intentFilter)
     }
 
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-        super.configureFlutterEngine(flutterEngine)
-
-        self = this
-
+    private fun registerHomeEventChannel(flutterEngine: FlutterEngine) {
         homeEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger,
             homePressedChannel
         )
         homeEventChannel!!.setStreamHandler(homeEventStreamHandler)
+    }
 
+    private fun registerAppsChangedEventChannel(flutterEngine: FlutterEngine) {
         appsChangedEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger,
             appsChangedChannel
         )
         appsChangedEventChannel!!.setStreamHandler(appsChangedEventStreamHandler)
 
         registerAppChangedReceived()
+    }
 
+    private fun registerCommonChannel(flutterEngine: FlutterEngine) {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, commonChannel).setMethodCallHandler {
-            call, result ->
+                call, result ->
             when (call.method) {
                 launchGoogleSearchInput -> {
-                   val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+                    val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
                     val globalSearchActivity: ComponentName? = searchManager.globalSearchActivity
                     if (globalSearchActivity == null) {
                         result.error("no activity", "la", "1")
@@ -85,7 +85,6 @@ class MainActivity: FlutterActivity() {
                     intent.component = globalSearchActivity
                     val appSearchData = Bundle()
                     appSearchData.putString("source", packageName)
-
                     intent.putExtra(SearchManager.APP_DATA, appSearchData)
                     intent.putExtra(SearchManager.QUERY, "")
                     intent.putExtra(SearchManager.EXTRA_SELECT_QUERY, true)
@@ -98,83 +97,67 @@ class MainActivity: FlutterActivity() {
 
                 }
                 launchSearch -> {
-                   val arg = call.argument<String>(argumentLaunchQuery)
-
-                   val intent = Intent(Intent.ACTION_WEB_SEARCH)
-                   intent.putExtra(SearchManager.QUERY, arg)
-                   startActivity(intent)
-
-                   result.success(null)
-
+                    val arg = call.argument<String>(argumentLaunchQuery)
+                    val intent = Intent(Intent.ACTION_WEB_SEARCH)
+                    intent.putExtra(SearchManager.QUERY, arg)
+                    startActivity(intent)
+                    result.success(null)
                 }
                 openPhoneApp -> {
                     val intent = Intent(Intent.ACTION_DIAL)
-
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(intent, options.toBundle())
                 }
                 openCameraApp -> {
                     val intent = Intent("android.media.action.IMAGE_CAPTURE")
-
                     val options: ActivityOptions = getDefaultLaunchOptions()
-
                     val launchIntent = packageManager.getLaunchIntentForPackage(
-                            intent.resolveActivity(packageManager).packageName
+                        intent.resolveActivity(packageManager).packageName
                     )
-
                     context.startActivity(launchIntent, options.toBundle())
                 }
                 openMessagesApp -> {
                     val intent = Intent(Intent.ACTION_MAIN)
                     intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
-
                     val options: ActivityOptions = getDefaultLaunchOptions()
-
                     context.startActivity(intent, options.toBundle())
                 }
                 openClockApp -> {
                     val mClockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
                     mClockIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
                     val options: ActivityOptions = getDefaultLaunchOptions()
-
                     context.startActivity(mClockIntent, options.toBundle())
                 }
                 openLauncherPreferences -> {
                     val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
-
                     val options: ActivityOptions = getDefaultLaunchOptions()
-
                     context.startActivity(intent, options.toBundle())
                 }
                 else -> result.notImplemented()
             }
         }
+    }
 
+    private fun registerApplicationChannel(flutterEngine: FlutterEngine) {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, applicationChannel).setMethodCallHandler {
-            call, result ->
+                call, result ->
 
             when (call.method) {
                 initApps -> {
                     getApps()
-
                     result.success(null)
-
                     return@setMethodCallHandler
                 }
                 launch -> {
                     launchApp(call, result)
-
                     return@setMethodCallHandler
                 }
                 getApps -> {
                     result.success(_appMaps)
-
                     return@setMethodCallHandler
                 }
                 getAppIcon -> {
                     val name = call.argument<String>(argumentPackageName)
-
                     val icon: Drawable = packageManager.getApplicationIcon(name!!)
                     val bitmap = getBitmapFromDrawable(icon)
                     if (bitmap == null)
@@ -184,32 +167,36 @@ class MainActivity: FlutterActivity() {
                     }
 
                     val encodedImage: String? = encodeToBase64(bitmap)
-
                     result.success(encodedImage)
-
                     return@setMethodCallHandler
                 }
                 deleteApp -> {
                     deleteAppResult = result
-
                     val name = call.argument<String>(argumentPackageName)
-
                     deleteApp(name!!)
-
                     return@setMethodCallHandler
                 }
                 viewInfo -> {
                     val name = call.argument<String>(argumentPackageName)
-
                     viewInfo(name!!)
-
                     result.success(null)
-
                     return@setMethodCallHandler
                 }
                 else -> result.notImplemented()
             }
         }
+    }
+
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
+
+        self = this
+
+        registerHomeEventChannel(flutterEngine)
+        registerAppsChangedEventChannel(flutterEngine)
+
+        registerCommonChannel(flutterEngine)
+        registerApplicationChannel(flutterEngine)
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
