@@ -1,0 +1,123 @@
+name: Leafy Release CI 🌳
+
+on:
+  release:
+    types: [published]
+    
+  workflow_dispatch:
+
+jobs:
+  ReleaseLeafy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Define Release Version
+        id: define_release_version
+        run: |
+          echo "APP_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "APK_NAME=leafy${{ github.ref_name }}.apk" >> $GITHUB_ENV
+        
+      - name: Get Release Data
+        id: get_release_data
+        uses: actions/github-script@v4.1.0
+        env:
+          APP_VERSION: ${{ env.APP_VERSION }}
+
+        with:
+          script: |
+            const { APP_VERSION } = process.env;
+            
+            console.log("Looking for a release " + APP_VERSION + "...");
+
+            try { 
+              const release = await github.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag: APP_VERSION
+              });
+
+              if (!release) {
+                core.setFailed("Couldnt find the release");
+                return;
+              }
+              
+              console.log("The release " + APP_VERSION + " was found!");
+              console.log("Release URL: " + release.data.url);
+              console.log("Release Notes: " + release.data.body);
+              console.log("Release ID: " + release.data.id);
+              core.setOutput("release_url", release.data.url);
+              core.setOutput("release_notes", release.data.body);
+              core.setOutput("release_id", release.data.id);
+            } catch (error) {
+              console.log(error);
+              core.setFailed("Couldnt find the release");
+            }
+      - name: Put Release Data to env
+        run: |
+          echo "RELEASE_URL=${{ steps.get_release_data.outputs.release_url }}" >> $GITHUB_ENV
+          echo "RELEASE_ID=${{ steps.get_release_data.outputs.release_id }}" >> $GITHUB_ENV
+          echo "RELEASE_NOTES=${{ steps.get_release_data.outputs.release_notes }}" >> $GITHUB_ENV
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+
+      - name: Get Flutter packages
+        run: flutter pub get
+
+      - name: Build 🌳
+        run: flutter build apk --release --build-name "${{ env.APP_VERSION }}"
+        
+      - name: Rename and Upload Release Asset
+        id: upload_release
+        uses: actions/github-script@v4.1.0
+        env:
+          APK_NAME: ${{ env.APK_NAME }}
+          RELEASE_ID: ${{ env.RELEASE_ID }}
+          BUILT_APK_PATH: /home/runner/work/Leafy/Leafy/src/build/app/outputs/flutter-apk/app-release.apk
+          RENAMED_APK_PATH: /home/runner/work/Leafy/Leafy/src/build/app/outputs/flutter-apk/${{ env.APK_NAME }}
+        with:
+          script: |
+            const { APK_NAME, RELEASE_ID, BUILT_APK_PATH, RENAMED_APK_PATH } = process.env;
+            
+            const fs = require('fs');
+            
+            await fs.promises.rename(BUILT_APK_PATH, RENAMED_APK_PATH)
+
+            const assetContentType = "application/octet-stream";
+            
+            const contentLength = filePath => fs.statSync(filePath).size;
+            const headers = { 'content-type': assetContentType, 'content-length': contentLength(RENAMED_APK_PATH) };
+            
+            const uploadAssetResponse = await github.repos.uploadReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: RELEASE_ID,
+              name: APK_NAME,
+              data: await fs.readFileSync(RENAMED_APK_PATH)
+            });
+
+      - name: Notify Telegram Chat
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          document: /home/runner/work/Leafy/Leafy/src/build/app/outputs/flutter-apk/${{ env.APK_NAME }}
+          message: |
+            Leafy ${{ env.APP_VERSION }} is here 🍃
+            
+            ${{ env.RELEASE_NOTES }}
+            
+            Release URL: ${{ env.RELEASE_URL }}

@@ -212,13 +212,17 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
       _deviceVibration.weak();
     }
 
-    await _appChannel.invokeMethod(
-      _methodLaunch,
-      {
-        _argumentPackageName: app.package,
-        _argumentTransition: transitionCode,
-      },
-    );
+    try {
+      await _appChannel.invokeMethod(
+        _methodLaunch,
+        {
+          _argumentPackageName: app.package,
+          _argumentTransition: transitionCode,
+        },
+      );
+    } on Exception catch (e, s) {
+      logger.e('Unable to launch app', e, s);
+    }
   }
 
   Future<Uint8List?> getAppIcon(Application app) async {

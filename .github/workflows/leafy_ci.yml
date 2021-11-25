@@ -1,0 +1,61 @@
+name: Leafy CI 🌱
+
+on:
+  push:
+    branches: [ develop ]
+
+  pull_request:
+
+  workflow_dispatch:
+
+jobs:
+  BuildAndUploadApk:
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Define PR Artifact Version
+        if: github.event.pull_request
+        run: echo "APP_VERSION=PR-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+
+      - name: Define Dev Artifact Version
+        if: (!github.event.pull_request)
+        run: echo "APP_VERSION=dev" >> $GITHUB_ENV
+
+      - name: Echo Artifact Version
+        run: echo ${{ env.APP_VERSION }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Check formatting
+        run: flutter format --set-exit-if-changed .
+
+      - name: Analyze
+        run: flutter analyze .
+
+      - name: Build 🌱
+        run: flutter build apk --release --build-number "${{ github.run_number }}"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: leafy_launcher_${{ env.APP_VERSION }}_build${{ github.run_number }}.apk
+          path: src/build/app/outputs/flutter-apk/app-release.apk

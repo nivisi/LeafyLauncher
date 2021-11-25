@@ -18,6 +18,7 @@ import android.util.Base64
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import io.flutter.Log
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -37,6 +38,8 @@ class MainActivity: FlutterActivity() {
 
     private var deleteAppResult: MethodChannel.Result? = null
 
+    private var systemCameraAppPackage: String? = null
+
     override fun onResume() {
         super.onResume()
 
@@ -52,28 +55,60 @@ class MainActivity: FlutterActivity() {
         registerReceiver(AppChangeReceiver(), intentFilter)
     }
 
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-        super.configureFlutterEngine(flutterEngine)
-
-        self = this
-
+    private fun registerHomeEventChannel(flutterEngine: FlutterEngine) {
         homeEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger,
             homePressedChannel
         )
         homeEventChannel!!.setStreamHandler(homeEventStreamHandler)
+    }
 
+    private fun registerAppsChangedEventChannel(flutterEngine: FlutterEngine) {
         appsChangedEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger,
             appsChangedChannel
         )
         appsChangedEventChannel!!.setStreamHandler(appsChangedEventStreamHandler)
 
         registerAppChangedReceived()
+    }
 
+    private fun openCameraApp(result: MethodChannel.Result) {
+        if (systemCameraAppPackage == null) {
+            val intent = Intent("android.media.action.IMAGE_CAPTURE")
+            val options: ActivityOptions = getDefaultLaunchOptions()
+            val launchIntent = packageManager.getLaunchIntentForPackage(
+                intent.resolveActivity(packageManager).packageName
+            )
+            launchIntent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(launchIntent, options.toBundle())
+            result.success(null)
+            return
+        }
+
+        val options: ActivityOptions = getDefaultLaunchOptions()
+        val launchIntent = packageManager.getLaunchIntentForPackage(
+            systemCameraAppPackage!!
+        )
+        if (launchIntent != null ) {
+            launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            try {
+                context.startActivity(launchIntent, options.toBundle())
+                result.success(null)
+            } catch (ex: ActivityNotFoundException) {
+                result.error("No Camera App Activity", "error", "1")
+            }
+
+            return
+        }
+
+        result.error("No Camera App Activity", "error", "1")
+    }
+
+    private fun registerCommonChannel(flutterEngine: FlutterEngine) {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, commonChannel).setMethodCallHandler {
-            call, result ->
+                call, result ->
             when (call.method) {
                 launchGoogleSearchInput -> {
-                   val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+                    val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
                     val globalSearchActivity: ComponentName? = searchManager.globalSearchActivity
                     if (globalSearchActivity == null) {
                         result.error("no activity", "la", "1")
@@ -84,7 +119,6 @@ class MainActivity: FlutterActivity() {
                     intent.component = globalSearchActivity
                     val appSearchData = Bundle()
                     appSearchData.putString("source", packageName)
-
                     intent.putExtra(SearchManager.APP_DATA, appSearchData)
                     intent.putExtra(SearchManager.QUERY, "")
                     intent.putExtra(SearchManager.EXTRA_SELECT_QUERY, true)
@@ -97,83 +131,68 @@ class MainActivity: FlutterActivity() {
 
                 }
                 launchSearch -> {
-                   val arg = call.argument<String>(argumentLaunchQuery)
-
-                   val intent = Intent(Intent.ACTION_WEB_SEARCH)
-                   intent.putExtra(SearchManager.QUERY, arg)
-                   startActivity(intent)
-                   
-                   result.success(null)
-
+                    val arg = call.argument<String>(argumentLaunchQuery)
+                    val intent = Intent(Intent.ACTION_WEB_SEARCH)
+                    intent.putExtra(SearchManager.QUERY, arg)
+                    startActivity(intent)
+                    result.success(null)
                 }
                 openPhoneApp -> {
                     val intent = Intent(Intent.ACTION_DIAL)
-
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(intent, options.toBundle())
+                    result.success(null)
                 }
                 openCameraApp -> {
-                    val intent = Intent("android.media.action.IMAGE_CAPTURE")
-
-                    val options: ActivityOptions = getDefaultLaunchOptions()
-
-                    val launchIntent = packageManager.getLaunchIntentForPackage(
-                            intent.resolveActivity(packageManager).packageName
-                    )
-
-                    context.startActivity(launchIntent, options.toBundle())
+                    openCameraApp(result)
                 }
                 openMessagesApp -> {
                     val intent = Intent(Intent.ACTION_MAIN)
                     intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
-
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     val options: ActivityOptions = getDefaultLaunchOptions()
-
                     context.startActivity(intent, options.toBundle())
+                    result.success(null)
                 }
                 openClockApp -> {
                     val mClockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     mClockIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
                     val options: ActivityOptions = getDefaultLaunchOptions()
-
                     context.startActivity(mClockIntent, options.toBundle())
+                    result.success(null)
                 }
                 openLauncherPreferences -> {
                     val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
-
                     val options: ActivityOptions = getDefaultLaunchOptions()
-
                     context.startActivity(intent, options.toBundle())
+                    result.success(null)
                 }
                 else -> result.notImplemented()
             }
         }
+    }
 
+    private fun registerApplicationChannel(flutterEngine: FlutterEngine) {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, applicationChannel).setMethodCallHandler {
-            call, result ->
+                call, result ->
 
             when (call.method) {
                 initApps -> {
                     getApps()
-
                     result.success(null)
-
                     return@setMethodCallHandler
                 }
                 launch -> {
                     launchApp(call, result)
-
                     return@setMethodCallHandler
                 }
                 getApps -> {
                     result.success(_appMaps)
-
                     return@setMethodCallHandler
                 }
                 getAppIcon -> {
                     val name = call.argument<String>(argumentPackageName)
-
                     val icon: Drawable = packageManager.getApplicationIcon(name!!)
                     val bitmap = getBitmapFromDrawable(icon)
                     if (bitmap == null)
@@ -183,32 +202,36 @@ class MainActivity: FlutterActivity() {
                     }
 
                     val encodedImage: String? = encodeToBase64(bitmap)
-
                     result.success(encodedImage)
-
                     return@setMethodCallHandler
                 }
                 deleteApp -> {
                     deleteAppResult = result
-
                     val name = call.argument<String>(argumentPackageName)
-
                     deleteApp(name!!)
-
                     return@setMethodCallHandler
                 }
                 viewInfo -> {
                     val name = call.argument<String>(argumentPackageName)
-
                     viewInfo(name!!)
-
                     result.success(null)
-
                     return@setMethodCallHandler
                 }
                 else -> result.notImplemented()
             }
         }
+    }
+
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
+
+        self = this
+
+        registerHomeEventChannel(flutterEngine)
+        registerAppsChangedEventChannel(flutterEngine)
+
+        registerCommonChannel(flutterEngine)
+        registerApplicationChannel(flutterEngine)
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
@@ -360,6 +383,21 @@ class MainActivity: FlutterActivity() {
         }
 
         _appMaps = apps
+
+        try {
+            val cameraApps = packageManager.queryIntentActivities(
+                Intent("android.media.action.IMAGE_CAPTURE"),
+                0
+            )
+            val systemCameraApp = cameraApps.find { app ->
+                app.activityInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+            }
+
+            systemCameraAppPackage = systemCameraApp?.activityInfo?.packageName
+        } catch (ex:Exception) {
+            Log.e("MainActivity", "Unable to find the system camera app")
+        }
+
     }
 
     private fun deleteApp(packageName: String) {
@@ -418,18 +456,46 @@ class StreamHandler: EventChannel.StreamHandler {
     private var isCancelled: Boolean = false
 
     fun dispatch() {
-        if (!isCancelled) {
+        if (isCancelled) {
+            return
+        }
+
+        if (eventSink == null) {
+            Log.e(
+                "StreamHandler",
+                "Tried to fire an event, but eventSink was null"
+            )
+
+            return
+        }
+
+        try {
             eventSink!!.success(null)
+        } catch (ex:Exception) {
+            Log.e(
+                "StreamHandler",
+                "Tried to fire an event, but got an error " + ex.localizedMessage
+            )
         }
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+        Log.i(
+            "StreamHandler",
+            "Started listening"
+        )
         isCancelled = false
         eventSink = events
     }
 
     override fun onCancel(arguments: Any?) {
+        Log.i(
+            "StreamHandlerParams",
+            "Cancelled"
+        )
+
         isCancelled = true
+        eventSink = null
     }
 }
 
@@ -438,17 +504,45 @@ class StreamHandlerParams<T>: EventChannel.StreamHandler {
     private var isCancelled: Boolean = false
 
     fun dispatch(param: T) {
-        if (!isCancelled) {
+        if (isCancelled) {
+            return
+        }
+
+        if (eventSink == null) {
+            Log.e(
+                "StreamHandlerParams",
+                "Tried to fire an event, but eventSink was null"
+            )
+
+            return
+        }
+
+        try {
             eventSink!!.success(param)
+        } catch (ex:Exception) {
+            Log.e(
+                "StreamHandlerParams",
+                "Tried to fire an event, but got an error " + ex.localizedMessage
+            )
         }
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+        Log.i(
+            "StreamHandlerParams",
+            "Started listening"
+        )
         isCancelled = false
         eventSink = events
     }
 
     override fun onCancel(arguments: Any?) {
+        Log.i(
+            "StreamHandlerParams",
+            "Cancelled"
+        )
+
         isCancelled = true
+        eventSink = null
     }
 }
