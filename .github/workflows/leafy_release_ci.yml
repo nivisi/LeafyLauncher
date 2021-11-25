@@ -52,7 +52,8 @@ jobs:
               console.log("Release Notes: " + release.data.body);
               console.log("Release ID: " + release.data.id);
               core.setOutput("release_url", release.data.url);
-              core.setOutput("release_notes", release.data.body);
+              // It throws GITHUB_ENV. Invalid environment variable format for a reason...
+              // core.setOutput("release_notes", release.data.body);
               core.setOutput("release_id", release.data.id);
             } catch (error) {
               console.log(error);
@@ -62,7 +63,8 @@ jobs:
         run: |
           echo "RELEASE_URL=${{ steps.get_release_data.outputs.release_url }}" >> $GITHUB_ENV
           echo "RELEASE_ID=${{ steps.get_release_data.outputs.release_id }}" >> $GITHUB_ENV
-          echo "RELEASE_NOTES=${{ steps.get_release_data.outputs.release_notes }}" >> $GITHUB_ENV
+          
+#          echo "RELEASE_NOTES=${{ steps.get_release_data.outputs.release_notes }}" >> $GITHUB_ENV
 
       - name: Setup Java
         uses: actions/setup-java@v1
@@ -118,6 +120,6 @@ jobs:
           message: |
             Leafy ${{ env.APP_VERSION }} is here 🍃
             
-            ${{ env.RELEASE_NOTES }}
-            
-            Release URL: ${{ env.RELEASE_URL }}
+            At the moment I can't publish changelog here, but I'll find out how soon! Meanwhile you can check the notes for ${{ env.APP_VERSION }} here: ${{ env.RELEASE_URL }}
+
+#           ${{ env.RELEASE_NOTES }} Publish it when the error is fixed :(
