@@ -19,9 +19,9 @@ class FolderModelAdapter extends TypeAdapter<FolderModel> {
     return FolderModel(
       id: fields[0] as String,
       title: fields[1] as String,
-      notes: (fields[4] as List).cast<NoteModel>(),
       createdAt: fields[2] as DateTime,
       lastEditedAt: fields[3] as DateTime,
+      notes: (fields[4] as HiveList).castHiveList(),
       isDefaultOne: fields[5] as bool,
     );
   }

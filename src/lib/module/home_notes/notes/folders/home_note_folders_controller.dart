@@ -5,26 +5,21 @@ import 'package:leafy_launcher/app_routes.dart';
 import 'package:leafy_launcher/base/controller/status_controller_base.dart';
 import 'package:leafy_launcher/data/folders/domain/folder_model.dart';
 import 'package:leafy_launcher/data/folders/folders_repo.dart';
-import 'package:leafy_launcher/data/notes/domain/note_model.dart';
+import 'package:leafy_launcher/data/hive_extensions/hive_listenable_conditioned_box.dart';
 import 'package:leafy_launcher/data/notes/note_repo.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/utils/dialogs/input/input_dialog.dart';
-import 'package:uuid/uuid.dart';
 
 class HomeNoteFoldersController extends StatusControllerBase {
-  static const listBuilder = 'homeNoteListBuilder';
-
   late final FoldersRepo _foldersRepo = Get.find<FoldersRepo>();
   late final NotesRepo _notesRepo = Get.find<NotesRepo>();
 
-  late final List<FolderModel> _folders;
-
-  Iterable<FolderModel> get folders => _folders;
-
   late final ScrollController scrollController;
+
+  late HiveListenableConditionedList<FolderModel> foldersListenable;
 
   @override
   Future load() async {
@@ -32,32 +27,21 @@ class HomeNoteFoldersController extends StatusControllerBase {
 
     scrollController = ScrollController();
 
-    _folders = _foldersRepo.getAll().toList();
+    await _foldersRepo.ensureInitialized;
 
-    _sort();
-  }
-
-  void _sort() {
-    // Makes the recently edited ones first.
-    _folders.sort((a, b) => b.lastEditedAt.compareTo(a.lastEditedAt));
-  }
-
-  void onFabPressed() {
-    final folder = FolderModel(
-      id: const Uuid().v1(),
-      title: 'Untitled',
-      notes: <NoteModel>[],
-      createdAt: DateTime.now().toUtc(),
-      lastEditedAt: DateTime.now().toUtc(),
-      isDefaultOne: false,
+    foldersListenable = _foldersRepo.getConditionedListenableBox(
+      primarySort: FoldersRepo.sortByName,
     );
-    _foldersRepo.add(folder);
+  }
 
-    _folders.add(folder);
+  Future onFabPressed() async {
+    try {
+      final folder = await _foldersRepo.create();
 
-    update([listBuilder]);
-
-    AppRoutes.toNotes(folder.id);
+      AppRoutes.toNotes(folder.id);
+    } on Exception catch (e, s) {
+      logger.e('Unable to create a folder', e, s);
+    }
   }
 
   void onTitleTapped() {
@@ -88,17 +72,12 @@ class HomeNoteFoldersController extends StatusControllerBase {
     }
 
     final folder = await _foldersRepo.create(result);
-    _folders.add(folder);
-
-    updateList();
 
     AppRoutes.toNotes(folder.id);
   }
 
   Future createNote() async {
     final note = await _notesRepo.create(_foldersRepo.defaultFolder);
-
-    updateList();
 
     AppRoutes.toNotes(_foldersRepo.defaultFolder.id);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
@@ -109,34 +88,8 @@ class HomeNoteFoldersController extends StatusControllerBase {
   Future onFolderRemoved(FolderModel model) async {
     try {
       await _foldersRepo.delete(model);
-      _folders.remove(model);
     } on Exception catch (e, s) {
       logger.e('Unable to remove a folder', e, s);
-    }
-  }
-
-  Future updateList({bool doSort = false}) async {
-    if (doSort) {
-      _sort();
-    }
-
-    update([listBuilder]);
-  }
-
-  // TODO: Replace it with Hive listenable box
-  void updateFolder(FolderModel folder, {bool removed = false}) {
-    final updated = !removed;
-
-    try {
-      final index = _folders.indexWhere((e) => e.id == folder.id);
-
-      _folders.removeAt(index);
-      if (updated) {
-        _folders.insert(index, folder);
-      }
-      updateList(doSort: updated);
-    } on Exception catch (e, s) {
-      logger.e('Updated a note, but it was not in the list', e, s);
     }
   }
 }

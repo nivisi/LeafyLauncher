@@ -6,7 +6,6 @@ import 'package:leafy_launcher/data/folders/domain/folder_model.dart';
 import 'package:leafy_launcher/data/folders/folders_repo.dart';
 import 'package:leafy_launcher/data/notes/domain/note_model.dart';
 import 'package:leafy_launcher/data/notes/note_repo.dart';
-import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/services/share/share_service.dart';
@@ -27,8 +26,6 @@ class HomeNoteController extends StatusControllerBase {
   late final FoldersRepo _foldersRepo = Get.find<FoldersRepo>();
   late final NotesRepo _notesRepo = Get.find<NotesRepo>();
   late final ToastService _toastService = Get.find<ToastService>();
-  late final HomeNotesController _notesController =
-      Get.find<HomeNotesController>();
   late final ShareService _shareService = Get.find<ShareService>();
 
   late final TextEditingController titleEditingController;
@@ -179,9 +176,9 @@ class HomeNoteController extends StatusControllerBase {
 
     if (titleEditingController.text.isEmpty &&
         bodyEditingController.text.isEmpty) {
+      note.folder.notes.remove(note.id);
       await _notesRepo.delete(note);
-
-      _notesController.updateNote(note);
+      await note.folder.save();
 
       return super.back();
     }
@@ -189,7 +186,6 @@ class HomeNoteController extends StatusControllerBase {
     final updatedNote = await _saveIfNeeded();
 
     if (updatedNote != null) {
-      _notesController.updateNote(updatedNote, removed: false);
       _savedOnExit = true;
     }
 
@@ -202,7 +198,6 @@ class HomeNoteController extends StatusControllerBase {
       final updatedNote = await _saveIfNeeded();
 
       if (updatedNote != null) {
-        _notesController.updateNote(updatedNote, removed: false);
         _savedOnExit = true;
       }
     }

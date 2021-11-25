@@ -18,6 +18,11 @@ class ContextMenuButton<TTheme extends LeafyTheme>
   final Offset offset;
 
   Future<void> _showMenu(BuildContext context) async {
+    final focusScope = FocusScope.of(context);
+    if (focusScope.hasFocus) {
+      focusScope.unfocus();
+    }
+
     final renderObject = context.findRenderObject();
 
     if (renderObject is! RenderBox) {

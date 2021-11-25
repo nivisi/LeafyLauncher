@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'package:leafy_launcher/base/controller/status_controller_base.dart';
 import 'package:leafy_launcher/data/folders/domain/folder_model.dart';
 import 'package:leafy_launcher/data/folders/folders_repo.dart';
+import 'package:leafy_launcher/data/hive_extensions/hive_listenable_conditioned_box.dart';
+import 'package:leafy_launcher/data/hive_extensions/hive_listenable_value.dart';
 import 'package:leafy_launcher/data/notes/domain/note_model.dart';
 import 'package:leafy_launcher/data/notes/note_repo.dart';
-import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_controller.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
@@ -18,24 +19,15 @@ import '../../../../app_routes.dart';
 class HomeNotesController extends StatusControllerBase {
   HomeNotesController(this.folderId);
 
-  static const String listBuilder = 'listBuilder';
-  static const String titleBuilder = 'titleBuilder';
-
   late final FoldersRepo _foldersRepo = Get.find<FoldersRepo>();
   late final NotesRepo _notesRepo = Get.find<NotesRepo>();
-  late final HomeNoteFoldersController _foldersController =
-      Get.find<HomeNoteFoldersController>();
 
   final String folderId;
 
-  FolderModel? folder;
-
-  late final List<NoteModel> _notes;
-  Iterable<NoteModel> get notes => _notes;
+  late final HiveListenableValue<FolderModel> folderListenable;
+  late final HiveListenableConditionedList<NoteModel> notesListenable;
 
   late final ScrollController scrollController = ScrollController();
-
-  String get title => folder != null ? folder!.normalizedTitle : 'Unknown';
 
   @override
   Future load() async {
@@ -43,23 +35,23 @@ class HomeNotesController extends StatusControllerBase {
 
     await _foldersRepo.ensureInitialized;
 
-    folder = _foldersRepo.getById(folderId);
-    _notes = folder!.notes;
-
-    _sort();
-  }
-
-  void _sort() {
-    // Makes the recently edited ones first.
-    _notes.sort((a, b) => b.lastEdited.compareTo(a.lastEdited));
+    folderListenable = _foldersRepo.getListenableValue(folderId);
+    notesListenable = _notesRepo.getAllOfFolder(folderId);
   }
 
   Future onFabPressed() async {
-    final note = await _notesRepo.create(folder!);
+    final folder = _foldersRepo.getById(folderListenable.value!.id);
 
-    updateList();
+    if (folder == null) {
+      return;
+    }
 
-    AppRoutes.toNote(folderId, note.id);
+    try {
+      final note = await _notesRepo.create(folder);
+      AppRoutes.toNote(folderId, note.id);
+    } on Exception catch (e, s) {
+      logger.e('Unable to create a note', e, s);
+    }
   }
 
   void onTitleTapped() {
@@ -71,13 +63,9 @@ class HomeNotesController extends StatusControllerBase {
   }
 
   Future<void> onTitleDoubleTapped() async {
-    final folder = this.folder;
+    final folder = folderListenable.value;
 
-    if (folder == null) {
-      return;
-    }
-
-    if (folder.isDefaultOne) {
+    if (folder == null || folder.isDefaultOne) {
       return;
     }
 
@@ -98,11 +86,6 @@ class HomeNotesController extends StatusControllerBase {
     );
 
     _foldersRepo.add(editedFolder);
-
-    this.folder = editedFolder;
-    _foldersController.updateFolder(editedFolder);
-
-    update([titleBuilder]);
   }
 
   void onSearchPressed() {}
@@ -110,53 +93,38 @@ class HomeNotesController extends StatusControllerBase {
   void onMenuPressed() {}
 
   void onNoteSelected(NoteModel note) {
-    final folderId = folder?.id;
-
-    if (folderId == null) {
-      return;
-    }
-
     AppRoutes.toNote(folderId, note.id);
   }
 
-  void onNoteRemoved(NoteModel note) {
-    _notes.remove(note);
-    if (_notes.isEmpty) {
-      updateList();
+  Future<void> onNoteRemoved(NoteModel note) async {
+    final folder = folderListenable.value;
+
+    if (folder == null) {
+      return;
+    }
+
+    folder.notes.remove(note.id);
+
+    try {
+      await folder.save();
+    } on Exception catch (e, s) {
+      logger.e('Unable to save a folder', e, s);
+    }
+
+    try {
+      await _notesRepo.delete(note);
+    } on Exception catch (e, s) {
+      logger.e('Unable to remove a note', e, s);
     }
   }
 
   void onNoteLongPressed(NoteModel note) {}
 
-  // TODO: Replace it with Hive listenable box
-  void updateNote(NoteModel note, {bool removed = true}) {
-    final updated = !removed;
-
-    try {
-      final index = _notes.indexWhere((e) => e.id == note.id);
-
-      _notes.removeAt(index);
-      if (updated) {
-        _notes.insert(index, note);
-      }
-
-      updateList(doSort: updated);
-    } on Exception catch (e, s) {
-      logger.e('Updated a note, but it was not in the list', e, s);
-    }
-  }
-
-  Future updateList({bool doSort = false}) async {
-    if (doSort) {
-      _sort();
-    }
-
-    update([listBuilder]);
-  }
-
   @override
-  Future<bool> back() {
-    _foldersController.updateList(doSort: true);
-    return super.back();
+  void onClose() {
+    folderListenable.dispose();
+    notesListenable.dispose();
+
+    super.onClose();
   }
 }

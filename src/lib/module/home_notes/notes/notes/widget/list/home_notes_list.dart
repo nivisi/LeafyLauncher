@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:leafy_launcher/data/notes/domain/note_model.dart';
 import 'package:leafy_launcher/module/home/utils/gesture_processer.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
@@ -48,11 +47,10 @@ class HomeNotesList extends ThemedGetWidget<HomeNotesController, HomeTheme> {
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
-    return GetBuilder<HomeNotesController>(
-      id: HomeNotesController.listBuilder,
-      init: controller,
-      builder: (context) {
-        if (controller.notes.isEmpty) {
+    return ValueListenableBuilder<Iterable<NoteModel>>(
+      valueListenable: controller.notesListenable,
+      builder: (context, notes, _) {
+        if (notes.isEmpty) {
           return Text(
             L10nProvider.getText(L10n.leafyNotesNotesEmptyStateMessage),
             style: theme.bodyText2.copyWith(color: theme.textInfoColor),
@@ -61,7 +59,7 @@ class HomeNotesList extends ThemedGetWidget<HomeNotesController, HomeTheme> {
         }
         return LeafySection<HomeTheme>(
           children: [
-            for (final note in controller.notes)
+            for (final note in notes)
               _DismissibleItem(
                 note: note,
                 onTap: controller.onNoteSelected,

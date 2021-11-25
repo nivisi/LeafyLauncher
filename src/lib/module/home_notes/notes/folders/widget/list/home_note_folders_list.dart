@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:leafy_launcher/data/folders/domain/folder_model.dart';
 import 'package:leafy_launcher/module/home/utils/gesture_processer.dart';
 import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_controller.dart';
@@ -47,34 +46,34 @@ class HomeNoteFoldersList
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
-    return GetBuilder<HomeNoteFoldersController>(
-      id: HomeNoteFoldersController.listBuilder,
-      builder: (controller) {
-        if (controller.folders.isEmpty) {
-          return Text(
-            'List is empty!',
-            textAlign: TextAlign.center,
-            style: theme.bodyText2,
+    return ValueListenableBuilder<Iterable<FolderModel>>(
+        valueListenable: controller.foldersListenable,
+        builder: (context, folders, _) {
+          if (folders.isEmpty) {
+            return Text(
+              'List is empty!',
+              textAlign: TextAlign.center,
+              style: theme.bodyText2,
+            );
+          }
+
+          return LeafySection<HomeTheme>(
+            leadingAlwaysTakesSpace: true,
+            children: [
+              for (final folder in folders)
+                folder.isDefaultOne
+                    ? HomeNoteFolderSectionItem(
+                        key: ValueKey(folder.id),
+                        folder: folder,
+                        onTap: controller.onFolderSelected,
+                      )
+                    : _DismissibleItem(
+                        folder: folder,
+                        onDismissed: controller.onFolderRemoved,
+                        onTap: controller.onFolderSelected,
+                      )
+            ],
           );
-        }
-        return LeafySection<HomeTheme>(
-          leadingAlwaysTakesSpace: true,
-          children: [
-            for (final folder in controller.folders)
-              folder.isDefaultOne
-                  ? HomeNoteFolderSectionItem(
-                      key: ValueKey(folder.id),
-                      folder: folder,
-                      onTap: controller.onFolderSelected,
-                    )
-                  : _DismissibleItem(
-                      folder: folder,
-                      onDismissed: controller.onFolderRemoved,
-                      onTap: controller.onFolderSelected,
-                    ),
-          ],
-        );
-      },
-    );
+        });
   }
 }

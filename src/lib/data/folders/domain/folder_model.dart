@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:leafy_launcher/data/base/db_entity_base.dart';
 import 'package:leafy_launcher/data/base/hive_types.dart';
-import 'package:leafy_launcher/data/notes/domain/note_model.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 
@@ -39,7 +38,7 @@ class FolderModel extends DbEntityBase {
   final DateTime lastEditedAt;
 
   @HiveField(4)
-  final List<NoteModel> notes;
+  final List<String> notes;
 
   @HiveField(5)
   final bool isDefaultOne;
@@ -52,7 +51,7 @@ class FolderModel extends DbEntityBase {
     String? title,
     DateTime? createdAt,
     DateTime? lastEditedAt,
-    List<NoteModel>? notes,
+    List<String>? notes,
     bool? isDefaultOne,
   }) {
     return FolderModel(

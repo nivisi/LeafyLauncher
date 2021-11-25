@@ -3,6 +3,7 @@
 import 'package:hive/hive.dart';
 import 'package:leafy_launcher/data/base/db_entity_base.dart';
 import 'package:leafy_launcher/data/base/hive_types.dart';
+import 'package:leafy_launcher/data/folders/domain/folder_model.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 
@@ -17,6 +18,7 @@ class NoteModel extends DbEntityBase {
     this.text = '',
     required this.lastEdited,
     required this.createdAt,
+    required this.folder,
   }) : super(id);
 
   @HiveField(1)
@@ -34,6 +36,9 @@ class NoteModel extends DbEntityBase {
   @HiveField(5)
   final DateTime createdAt;
 
+  @HiveField(6)
+  final FolderModel folder;
+
   String get normalizedTitle => title.isNotEmpty
       ? title
       : firstLine.isNotEmpty
@@ -47,6 +52,7 @@ class NoteModel extends DbEntityBase {
     String? text,
     DateTime? lastEdited,
     DateTime? createdAt,
+    FolderModel? folder,
   }) {
     return NoteModel(
       id: id ?? this.id,
@@ -55,6 +61,7 @@ class NoteModel extends DbEntityBase {
       text: text ?? this.text,
       lastEdited: lastEdited ?? this.lastEdited,
       createdAt: createdAt ?? this.createdAt,
+      folder: folder ?? this.folder,
     );
   }
 

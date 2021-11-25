@@ -3,6 +3,8 @@
 import 'package:ensure_initialized/ensure_initialized.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:leafy_launcher/data/hive_extensions/hive_listenable_conditioned_box.dart';
+import 'package:leafy_launcher/data/hive_extensions/hive_listenable_value.dart';
 import 'package:leafy_launcher/utils/log/logable_mixin.dart';
 
 import 'db_entity_base.dart';
@@ -25,7 +27,7 @@ abstract class RepositoryBase<T extends DbEntityBase>
     }
   }
 
-  Future<RepositoryBase> init({List<int>? encryptionKey}) async {
+  Future<RepositoryBase> initBox({List<int>? encryptionKey}) async {
     HiveAesCipher? cipher;
 
     logger.i('Initializing ...');
@@ -120,5 +122,39 @@ abstract class RepositoryBase<T extends DbEntityBase>
     throwIfClosed();
 
     await box!.deleteAll(models.map((item) => item.id));
+  }
+
+  HiveListenableConditionedList<T> getConditionedListenableBox({
+    FilterRule<T>? filterRule,
+    SortFunction<T>? primarySort,
+    SortFunction<T>? secondarySort,
+  }) {
+    if (box == null) {
+      throw Exception(
+        'Cannot get conditioned listenable box: the repo box was null',
+      );
+    }
+
+    return HiveListenableConditionedList<T>(
+      box!,
+      keyFunction: (model) => model.id,
+      filterRule: filterRule ?? (_) => true,
+      primarySort: primarySort,
+      secondarySort: (a, b) => a.id.compareTo(b.id),
+    );
+  }
+
+  HiveListenableValue<T> getListenableValue(String id) {
+    if (box == null) {
+      throw Exception(
+        'Cannot get conditioned listenable box: the repo box was null',
+      );
+    }
+
+    return HiveListenableValue<T>(
+      box!,
+      key: id,
+      keyFunction: (model) => model.id,
+    );
   }
 }

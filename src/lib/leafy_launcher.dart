@@ -85,13 +85,14 @@ class LeafyLauncher {
     Hive.registerAdapter(NoteModelAdapter());
     Hive.registerAdapter(FolderModelAdapter());
 
-    final folderRepo = FoldersRepo();
-    Get.put(folderRepo, permanent: true);
-    folderRepo.init();
-
     final notesRepo = NotesRepo();
     Get.put(notesRepo, permanent: true);
-    notesRepo.init();
+    await notesRepo.initBox();
+
+    final folderRepo = FoldersRepo();
+    Get.put(folderRepo, permanent: true);
+    await folderRepo.initBox();
+    await folderRepo.init();
   }
 
   static Future run() async {

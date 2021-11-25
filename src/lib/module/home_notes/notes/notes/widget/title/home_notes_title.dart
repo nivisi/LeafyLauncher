@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:leafy_launcher/data/folders/domain/folder_model.dart';
 import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_page.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
@@ -44,12 +44,15 @@ class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
               ),
             ),
             const LeafySpacer.horizontal(multipler: .5),
-            GetBuilder<HomeNotesController>(
-                id: HomeNotesController.titleBuilder,
-                init: controller,
-                builder: (controller) {
+            ValueListenableBuilder<FolderModel?>(
+                valueListenable: controller.folderListenable,
+                builder: (context, folder, _) {
+                  if (folder == null) {
+                    return const SizedBox();
+                  }
+
                   return Text(
-                    controller.title,
+                    folder.normalizedTitle,
                     style:
                         theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   );
