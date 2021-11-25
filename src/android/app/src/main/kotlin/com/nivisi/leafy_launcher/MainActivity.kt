@@ -103,7 +103,7 @@ class MainActivity: FlutterActivity() {
                    val intent = Intent(Intent.ACTION_WEB_SEARCH)
                    intent.putExtra(SearchManager.QUERY, arg)
                    startActivity(intent)
-                   
+
                    result.success(null)
 
                 }
@@ -428,7 +428,6 @@ class StreamHandler: EventChannel.StreamHandler {
                 "StreamHandler",
                 "Tried to fire an event, but eventSink was null"
             )
-            // TODO: Log this.
 
             return
         }
@@ -477,7 +476,6 @@ class StreamHandlerParams<T>: EventChannel.StreamHandler {
                 "StreamHandlerParams",
                 "Tried to fire an event, but eventSink was null"
             )
-            // TODO: Log this.
 
             return
         }
