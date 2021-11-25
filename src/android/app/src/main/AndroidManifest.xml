@@ -23,7 +23,7 @@
         <activity
             android:name="com.nivisi.leafy_launcher.MainActivity"
             android:theme="@style/LaunchTheme"
-            android:taskAffinity="leafy"
+            android:taskAffinity=".com.nivisi.leafy_launcher.MainActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"

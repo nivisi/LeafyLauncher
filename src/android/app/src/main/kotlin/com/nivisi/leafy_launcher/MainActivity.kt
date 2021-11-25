@@ -38,6 +38,8 @@ class MainActivity: FlutterActivity() {
 
     private var deleteAppResult: MethodChannel.Result? = null
 
+    private var systemCameraAppPackage: String? = null
+
     override fun onResume() {
         super.onResume()
 
@@ -67,6 +69,38 @@ class MainActivity: FlutterActivity() {
         appsChangedEventChannel!!.setStreamHandler(appsChangedEventStreamHandler)
 
         registerAppChangedReceived()
+    }
+
+    private fun openCameraApp(result: MethodChannel.Result) {
+        if (systemCameraAppPackage == null) {
+            val intent = Intent("android.media.action.IMAGE_CAPTURE")
+            val options: ActivityOptions = getDefaultLaunchOptions()
+            val launchIntent = packageManager.getLaunchIntentForPackage(
+                intent.resolveActivity(packageManager).packageName
+            )
+            launchIntent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(launchIntent, options.toBundle())
+            result.success(null)
+            return
+        }
+
+        val options: ActivityOptions = getDefaultLaunchOptions()
+        val launchIntent = packageManager.getLaunchIntentForPackage(
+            systemCameraAppPackage!!
+        )
+        if (launchIntent != null ) {
+            launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            try {
+                context.startActivity(launchIntent, options.toBundle())
+                result.success(null)
+            } catch (ex: ActivityNotFoundException) {
+                result.error("No Camera App Activity", "error", "1")
+            }
+
+            return
+        }
+
+        result.error("No Camera App Activity", "error", "1")
     }
 
     private fun registerCommonChannel(flutterEngine: FlutterEngine) {
@@ -107,31 +141,32 @@ class MainActivity: FlutterActivity() {
                     val intent = Intent(Intent.ACTION_DIAL)
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(intent, options.toBundle())
+                    result.success(null)
                 }
                 openCameraApp -> {
-                    val intent = Intent("android.media.action.IMAGE_CAPTURE")
-                    val options: ActivityOptions = getDefaultLaunchOptions()
-                    val launchIntent = packageManager.getLaunchIntentForPackage(
-                        intent.resolveActivity(packageManager).packageName
-                    )
-                    context.startActivity(launchIntent, options.toBundle())
+                    openCameraApp(result)
                 }
                 openMessagesApp -> {
                     val intent = Intent(Intent.ACTION_MAIN)
                     intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(intent, options.toBundle())
+                    result.success(null)
                 }
                 openClockApp -> {
                     val mClockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     mClockIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(mClockIntent, options.toBundle())
+                    result.success(null)
                 }
                 openLauncherPreferences -> {
                     val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
                     val options: ActivityOptions = getDefaultLaunchOptions()
                     context.startActivity(intent, options.toBundle())
+                    result.success(null)
                 }
                 else -> result.notImplemented()
             }
@@ -348,6 +383,21 @@ class MainActivity: FlutterActivity() {
         }
 
         _appMaps = apps
+
+        try {
+            val cameraApps = packageManager.queryIntentActivities(
+                Intent("android.media.action.IMAGE_CAPTURE"),
+                0
+            )
+            val systemCameraApp = cameraApps.find { app ->
+                app.activityInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+            }
+
+            systemCameraAppPackage = systemCameraApp?.activityInfo?.packageName
+        } catch (ex:Exception) {
+            Log.e("MainActivity", "Unable to find the system camera app")
+        }
+
     }
 
     private fun deleteApp(packageName: String) {
