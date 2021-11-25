@@ -22,6 +22,7 @@ jobs:
         run: |
           echo "APP_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
           echo "APK_NAME=leafy${{ github.ref_name }}.apk" >> $GITHUB_ENV
+          echo "APK_PATH=/home/runner/work/LeafyLauncher/LeafyLauncher/src/build/app/outputs/" >> $GITHUB_ENV
         
       - name: Get Release Data
         id: get_release_data
@@ -88,8 +89,8 @@ jobs:
         env:
           APK_NAME: ${{ env.APK_NAME }}
           RELEASE_ID: ${{ env.RELEASE_ID }}
-          BUILT_APK_PATH: /home/runner/work/Leafy/Leafy/src/build/app/outputs/flutter-apk/app-release.apk
-          RENAMED_APK_PATH: /home/runner/work/Leafy/Leafy/src/build/app/outputs/flutter-apk/${{ env.APK_NAME }}
+          BUILT_APK_PATH: ${{ env.APK_PATH }}app-release.apk
+          RENAMED_APK_PATH: ${{ env.APK_PATH }}${{ env.APK_NAME }}
         with:
           script: |
             const { APK_NAME, RELEASE_ID, BUILT_APK_PATH, RENAMED_APK_PATH } = process.env;
@@ -116,7 +117,7 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          document: /home/runner/work/Leafy/Leafy/src/build/app/outputs/flutter-apk/${{ env.APK_NAME }}
+          document: ${{ env.APK_PATH }}${{ env.APK_NAME }}
           message: |
             Leafy ${{ env.APP_VERSION }} is here 🍃
             
