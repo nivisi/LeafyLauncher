@@ -18,6 +18,7 @@ import android.util.Base64
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import io.flutter.Log
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -102,7 +103,7 @@ class MainActivity: FlutterActivity() {
                    val intent = Intent(Intent.ACTION_WEB_SEARCH)
                    intent.putExtra(SearchManager.QUERY, arg)
                    startActivity(intent)
-                   
+
                    result.success(null)
 
                 }
@@ -418,18 +419,46 @@ class StreamHandler: EventChannel.StreamHandler {
     private var isCancelled: Boolean = false
 
     fun dispatch() {
-        if (!isCancelled) {
+        if (isCancelled) {
+            return
+        }
+
+        if (eventSink == null) {
+            Log.e(
+                "StreamHandler",
+                "Tried to fire an event, but eventSink was null"
+            )
+
+            return
+        }
+
+        try {
             eventSink!!.success(null)
+        } catch (ex:Exception) {
+            Log.e(
+                "StreamHandler",
+                "Tried to fire an event, but got an error " + ex.localizedMessage
+            )
         }
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+        Log.i(
+            "StreamHandler",
+            "Started listening"
+        )
         isCancelled = false
         eventSink = events
     }
 
     override fun onCancel(arguments: Any?) {
+        Log.i(
+            "StreamHandlerParams",
+            "Cancelled"
+        )
+
         isCancelled = true
+        eventSink = null
     }
 }
 
@@ -438,17 +467,45 @@ class StreamHandlerParams<T>: EventChannel.StreamHandler {
     private var isCancelled: Boolean = false
 
     fun dispatch(param: T) {
-        if (!isCancelled) {
+        if (isCancelled) {
+            return
+        }
+
+        if (eventSink == null) {
+            Log.e(
+                "StreamHandlerParams",
+                "Tried to fire an event, but eventSink was null"
+            )
+
+            return
+        }
+
+        try {
             eventSink!!.success(param)
+        } catch (ex:Exception) {
+            Log.e(
+                "StreamHandlerParams",
+                "Tried to fire an event, but got an error " + ex.localizedMessage
+            )
         }
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+        Log.i(
+            "StreamHandlerParams",
+            "Started listening"
+        )
         isCancelled = false
         eventSink = events
     }
 
     override fun onCancel(arguments: Any?) {
+        Log.i(
+            "StreamHandlerParams",
+            "Cancelled"
+        )
+
         isCancelled = true
+        eventSink = null
     }
 }
