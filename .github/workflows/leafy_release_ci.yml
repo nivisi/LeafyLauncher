@@ -4,8 +4,6 @@ on:
   release:
     types: [published]
 
-  workflow_dispatch:
-
 jobs:
   ReleaseLeafy:
     runs-on: ubuntu-latest
