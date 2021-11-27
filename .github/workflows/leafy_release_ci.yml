@@ -3,7 +3,7 @@ name: Leafy Release CI 🌳
 on:
   release:
     types: [published]
-    
+
   workflow_dispatch:
 
 jobs:
@@ -22,8 +22,10 @@ jobs:
         run: |
           echo "APP_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
           echo "APK_NAME=leafy${{ github.ref_name }}.apk" >> $GITHUB_ENV
+          echo "APP_BUNDLE_NAME=leafy${{ github.ref_name }}.aab" >> $GITHUB_ENV
           echo "APK_PATH=/home/runner/work/LeafyLauncher/LeafyLauncher/src/build/app/outputs/flutter-apk/" >> $GITHUB_ENV
-        
+          echo "APP_BUNDLE_PATH=/home/runner/work/LeafyLauncher/LeafyLauncher/src/build/app/outputs/bundle/release/" >> $GITHUB_ENV
+
       - name: Get Release Data
         id: get_release_data
         uses: actions/github-script@v4.1.0
@@ -60,11 +62,12 @@ jobs:
               console.log(error);
               core.setFailed("Couldnt find the release");
             }
+
       - name: Put Release Data to env
         run: |
           echo "RELEASE_URL=${{ steps.get_release_data.outputs.release_url }}" >> $GITHUB_ENV
           echo "RELEASE_ID=${{ steps.get_release_data.outputs.release_id }}" >> $GITHUB_ENV
-          
+
 #          echo "RELEASE_NOTES=${{ steps.get_release_data.outputs.release_notes }}" >> $GITHUB_ENV
 
       - name: Setup Java
@@ -80,36 +83,50 @@ jobs:
       - name: Get Flutter packages
         run: flutter pub get
 
-      - name: Build 🌳
-        run: flutter build apk --release --build-name "${{ env.APP_VERSION }}"
-        
-      - name: Rename and Upload Release Asset
+      - name: Setup Key Properties
+        run: (echo ${{ secrets.KEY_PROPERTIES }} | base64 --decode) > ./android/key.properties
+
+      - name: Build APK 🌳
+        run: flutter build apk --release --build-name "${{ env.APP_VERSION }}" --build-number "${{ github.run_number }}"
+
+      - name: Build App Bundle 🌳
+        run: flutter build appbundle --release --build-name "${{ env.APP_VERSION }}" --build-number "${{ github.run_number }}"
+
+      - name: Rename and Upload Release Assets
         id: upload_release
         uses: actions/github-script@v4.1.0
         env:
           APK_NAME: ${{ env.APK_NAME }}
+          APP_BUNDLE_NAME: ${{ env.APP_BUNDLE_NAME }}
           RELEASE_ID: ${{ env.RELEASE_ID }}
           BUILT_APK_PATH: ${{ env.APK_PATH }}app-release.apk
           RENAMED_APK_PATH: ${{ env.APK_PATH }}${{ env.APK_NAME }}
+          BUILT_APP_BUNDLE_PATH: ${{ env.APP_BUNDLE_PATH }}app-release.aab
+          RENAMED_APP_BUNDLE_PATH: ${{ env.APP_BUNDLE_PATH }}${{ env.APP_BUNDLE_NAME }}
+
         with:
           script: |
-            const { APK_NAME, RELEASE_ID, BUILT_APK_PATH, RENAMED_APK_PATH } = process.env;
+            const { APK_NAME, APP_BUNDLE_NAME, RELEASE_ID, BUILT_APK_PATH, RENAMED_APK_PATH, BUILT_APP_BUNDLE_PATH, RENAMED_APP_BUNDLE_PATH } = process.env;
             
             const fs = require('fs');
             
             await fs.promises.rename(BUILT_APK_PATH, RENAMED_APK_PATH)
-
-            const assetContentType = "application/octet-stream";
+            await fs.promises.rename(BUILT_APP_BUNDLE_PATH, RENAMED_APP_BUNDLE_PATH)
             
-            const contentLength = filePath => fs.statSync(filePath).size;
-            const headers = { 'content-type': assetContentType, 'content-length': contentLength(RENAMED_APK_PATH) };
-            
-            const uploadAssetResponse = await github.repos.uploadReleaseAsset({
+            const uploadApkResponse = await github.repos.uploadReleaseAsset({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: RELEASE_ID,
               name: APK_NAME,
               data: await fs.readFileSync(RENAMED_APK_PATH)
+            });
+            
+            const uploadAppBundleResponse = await github.repos.uploadReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: RELEASE_ID,
+              name: APP_BUNDLE_NAME,
+              data: await fs.readFileSync(RENAMED_APP_BUNDLE_PATH)
             });
 
       - name: Notify Telegram Chat
