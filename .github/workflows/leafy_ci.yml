@@ -51,11 +51,23 @@ jobs:
       - name: Analyze
         run: flutter analyze .
 
-      - name: Build 🌱
+      - name: Setup Key Properties
+        run: (echo ${{ secrets.KEY_PROPERTIES }} | base64 --decode) > ./android/key.properties
+
+      - name: Build APK 🌱
         run: flutter build apk --release --build-number "${{ github.run_number }}"
 
-      - name: Upload Artifacts
+      - name: Build App Bundle 🌱
+        run: flutter build appbundle --release --build-number "${{ github.run_number }}"
+
+      - name: Upload APK
         uses: actions/upload-artifact@v1
         with:
           name: leafy_launcher_${{ env.APP_VERSION }}_build${{ github.run_number }}.apk
           path: src/build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v1
+        with:
+          name: leafy_launcher_${{ env.APP_VERSION }}_build${{ github.run_number }}.aab
+          path: src/build/app/outputs/bundle/release/app-release.aab
