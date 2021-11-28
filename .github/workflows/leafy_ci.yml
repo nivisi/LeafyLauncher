@@ -45,6 +45,20 @@ jobs:
       - name: Setup Key Properties
         run: (echo ${{ secrets.KEY_PROPERTIES }} | base64 --decode) > ./android/key.properties
 
+      - name: Find where the devil hides!
+      - run: |
+          echo Step 1
+          pwd
+          ls
+          cd src/android
+          echo In Android
+          pwd
+          ls
+          cd app
+          echo In App
+          pwd
+          ls
+
       - name: Get packages
         run: flutter pub get
 
