@@ -46,7 +46,7 @@ jobs:
         run: (echo ${{ secrets.KEY_PROPERTIES }} | base64 --decode) > ./android/key.properties
 
       - name: Find where the devil hides!
-      - run: |
+        run: |
           echo Step 1
           pwd
           ls
