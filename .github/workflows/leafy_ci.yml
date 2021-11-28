@@ -50,7 +50,7 @@ jobs:
           echo Step 1
           pwd
           ls
-          cd src/android
+          cd android
           echo In Android
           pwd
           ls
