@@ -81,8 +81,11 @@ jobs:
       - name: Get Flutter packages
         run: flutter pub get
 
+      - name: Setup Key Store
+        run: (echo ${{ secrets.KEY_STORE }} | openssl base64 -d -A) > ./android/app/leafy.keystore
+
       - name: Setup Key Properties
-        run: (echo ${{ secrets.KEY_PROPERTIES }} | base64 --decode) > ./android/key.properties
+        run: (echo ${{ secrets.KEY_PROPERTIES }} | openssl base64 -d -A) > ./android/key.properties
 
       - name: Build APK 🌳
         run: flutter build apk --release --build-name "${{ env.APP_VERSION }}" --build-number "${{ github.run_number }}"
