@@ -29,9 +29,6 @@ jobs:
         if: (!github.event.pull_request)
         run: echo "APP_VERSION=dev" >> $GITHUB_ENV
 
-      - name: Echo Artifact Version
-        run: echo ${{ env.APP_VERSION }}
-
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
