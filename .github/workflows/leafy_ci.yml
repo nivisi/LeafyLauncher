@@ -3,6 +3,7 @@ name: Leafy CI 🌱
 on:
   push:
     branches: [ develop ]
+    paths: [ src/** ]
 
   pull_request:
 
