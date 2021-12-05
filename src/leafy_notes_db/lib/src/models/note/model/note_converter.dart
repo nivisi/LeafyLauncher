@@ -10,6 +10,8 @@ NoteModel noteModelFromDb(Note note) {
     firstLine: note.firstLine,
     data: note.data,
     folderId: note.folderId,
+    isArchived: note.isArchived,
+    isPinned: note.isPinned,
   );
 }
 
@@ -22,5 +24,7 @@ Note noteModelToDb(NoteModel note) {
     firstLine: note.firstLine,
     data: note.data,
     folderId: note.folderId,
+    isArchived: note.isArchived,
+    isPinned: note.isPinned,
   );
 }

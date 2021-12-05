@@ -7,6 +7,8 @@ class FolderModel extends Equatable {
     required this.lastEditedAt,
     required this.createdAt,
     required this.isDefault,
+    required this.isArchived,
+    required this.isPinned,
   });
 
   final String id;
@@ -14,6 +16,8 @@ class FolderModel extends Equatable {
   final DateTime lastEditedAt;
   final DateTime createdAt;
   final bool isDefault;
+  final bool isArchived;
+  final bool isPinned;
 
   FolderModel copyWith({
     String? id,
@@ -21,6 +25,8 @@ class FolderModel extends Equatable {
     DateTime? lastEditedAt,
     DateTime? createdAt,
     bool? isDefault,
+    bool? isArchived,
+    bool? isPinned,
   }) {
     return FolderModel(
       id: id ?? this.id,
@@ -28,6 +34,8 @@ class FolderModel extends Equatable {
       lastEditedAt: lastEditedAt ?? this.lastEditedAt,
       createdAt: createdAt ?? this.createdAt,
       isDefault: isDefault ?? this.isDefault,
+      isArchived: isArchived ?? this.isArchived,
+      isPinned: isDefault ?? this.isPinned,
     );
   }
 
@@ -38,5 +46,7 @@ class FolderModel extends Equatable {
         lastEditedAt,
         createdAt,
         isDefault,
+        isArchived,
+        isPinned,
       ];
 }

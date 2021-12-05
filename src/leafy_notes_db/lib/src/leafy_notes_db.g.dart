@@ -15,6 +15,8 @@ class Note extends DataClass implements Insertable<Note> {
   final DateTime createdAt;
   final DateTime lastEditedAt;
   final String folderId;
+  final bool isArchived;
+  final bool isPinned;
   Note(
       {required this.id,
       this.title,
@@ -22,7 +24,9 @@ class Note extends DataClass implements Insertable<Note> {
       this.data,
       required this.createdAt,
       required this.lastEditedAt,
-      required this.folderId});
+      required this.folderId,
+      required this.isArchived,
+      required this.isPinned});
   factory Note.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -41,6 +45,10 @@ class Note extends DataClass implements Insertable<Note> {
           .mapFromDatabaseResponse(data['${effectivePrefix}last_edited_at'])!,
       folderId: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}folder_id'])!,
+      isArchived: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_archived'])!,
+      isPinned: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_pinned'])!,
     );
   }
   @override
@@ -59,6 +67,8 @@ class Note extends DataClass implements Insertable<Note> {
     map['created_at'] = Variable<DateTime>(createdAt);
     map['last_edited_at'] = Variable<DateTime>(lastEditedAt);
     map['folder_id'] = Variable<String>(folderId);
+    map['is_archived'] = Variable<bool>(isArchived);
+    map['is_pinned'] = Variable<bool>(isPinned);
     return map;
   }
 
@@ -74,6 +84,8 @@ class Note extends DataClass implements Insertable<Note> {
       createdAt: Value(createdAt),
       lastEditedAt: Value(lastEditedAt),
       folderId: Value(folderId),
+      isArchived: Value(isArchived),
+      isPinned: Value(isPinned),
     );
   }
 
@@ -88,6 +100,8 @@ class Note extends DataClass implements Insertable<Note> {
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       lastEditedAt: serializer.fromJson<DateTime>(json['lastEditedAt']),
       folderId: serializer.fromJson<String>(json['folderId']),
+      isArchived: serializer.fromJson<bool>(json['isArchived']),
+      isPinned: serializer.fromJson<bool>(json['isPinned']),
     );
   }
   @override
@@ -101,6 +115,8 @@ class Note extends DataClass implements Insertable<Note> {
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'lastEditedAt': serializer.toJson<DateTime>(lastEditedAt),
       'folderId': serializer.toJson<String>(folderId),
+      'isArchived': serializer.toJson<bool>(isArchived),
+      'isPinned': serializer.toJson<bool>(isPinned),
     };
   }
 
@@ -111,7 +127,9 @@ class Note extends DataClass implements Insertable<Note> {
           String? data,
           DateTime? createdAt,
           DateTime? lastEditedAt,
-          String? folderId}) =>
+          String? folderId,
+          bool? isArchived,
+          bool? isPinned}) =>
       Note(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -120,6 +138,8 @@ class Note extends DataClass implements Insertable<Note> {
         createdAt: createdAt ?? this.createdAt,
         lastEditedAt: lastEditedAt ?? this.lastEditedAt,
         folderId: folderId ?? this.folderId,
+        isArchived: isArchived ?? this.isArchived,
+        isPinned: isPinned ?? this.isPinned,
       );
   @override
   String toString() {
@@ -130,14 +150,16 @@ class Note extends DataClass implements Insertable<Note> {
           ..write('data: $data, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastEditedAt: $lastEditedAt, ')
-          ..write('folderId: $folderId')
+          ..write('folderId: $folderId, ')
+          ..write('isArchived: $isArchived, ')
+          ..write('isPinned: $isPinned')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, title, firstLine, data, createdAt, lastEditedAt, folderId);
+  int get hashCode => Object.hash(id, title, firstLine, data, createdAt,
+      lastEditedAt, folderId, isArchived, isPinned);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -148,7 +170,9 @@ class Note extends DataClass implements Insertable<Note> {
           other.data == this.data &&
           other.createdAt == this.createdAt &&
           other.lastEditedAt == this.lastEditedAt &&
-          other.folderId == this.folderId);
+          other.folderId == this.folderId &&
+          other.isArchived == this.isArchived &&
+          other.isPinned == this.isPinned);
 }
 
 class NotesCompanion extends UpdateCompanion<Note> {
@@ -159,6 +183,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
   final Value<DateTime> createdAt;
   final Value<DateTime> lastEditedAt;
   final Value<String> folderId;
+  final Value<bool> isArchived;
+  final Value<bool> isPinned;
   const NotesCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -167,6 +193,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     this.createdAt = const Value.absent(),
     this.lastEditedAt = const Value.absent(),
     this.folderId = const Value.absent(),
+    this.isArchived = const Value.absent(),
+    this.isPinned = const Value.absent(),
   });
   NotesCompanion.insert({
     required String id,
@@ -176,6 +204,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     required DateTime createdAt,
     required DateTime lastEditedAt,
     required String folderId,
+    this.isArchived = const Value.absent(),
+    this.isPinned = const Value.absent(),
   })  : id = Value(id),
         createdAt = Value(createdAt),
         lastEditedAt = Value(lastEditedAt),
@@ -188,6 +218,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     Expression<DateTime>? createdAt,
     Expression<DateTime>? lastEditedAt,
     Expression<String>? folderId,
+    Expression<bool>? isArchived,
+    Expression<bool>? isPinned,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -197,6 +229,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
       if (createdAt != null) 'created_at': createdAt,
       if (lastEditedAt != null) 'last_edited_at': lastEditedAt,
       if (folderId != null) 'folder_id': folderId,
+      if (isArchived != null) 'is_archived': isArchived,
+      if (isPinned != null) 'is_pinned': isPinned,
     });
   }
 
@@ -207,7 +241,9 @@ class NotesCompanion extends UpdateCompanion<Note> {
       Value<String?>? data,
       Value<DateTime>? createdAt,
       Value<DateTime>? lastEditedAt,
-      Value<String>? folderId}) {
+      Value<String>? folderId,
+      Value<bool>? isArchived,
+      Value<bool>? isPinned}) {
     return NotesCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -216,6 +252,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
       createdAt: createdAt ?? this.createdAt,
       lastEditedAt: lastEditedAt ?? this.lastEditedAt,
       folderId: folderId ?? this.folderId,
+      isArchived: isArchived ?? this.isArchived,
+      isPinned: isPinned ?? this.isPinned,
     );
   }
 
@@ -243,6 +281,12 @@ class NotesCompanion extends UpdateCompanion<Note> {
     if (folderId.present) {
       map['folder_id'] = Variable<String>(folderId.value);
     }
+    if (isArchived.present) {
+      map['is_archived'] = Variable<bool>(isArchived.value);
+    }
+    if (isPinned.present) {
+      map['is_pinned'] = Variable<bool>(isPinned.value);
+    }
     return map;
   }
 
@@ -255,7 +299,9 @@ class NotesCompanion extends UpdateCompanion<Note> {
           ..write('data: $data, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastEditedAt: $lastEditedAt, ')
-          ..write('folderId: $folderId')
+          ..write('folderId: $folderId, ')
+          ..write('isArchived: $isArchived, ')
+          ..write('isPinned: $isPinned')
           ..write(')'))
         .toString();
   }
@@ -302,9 +348,32 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
       typeName: 'TEXT',
       requiredDuringInsert: true,
       $customConstraints: 'REFERENCES folders(id)');
+  final VerificationMeta _isArchivedMeta = const VerificationMeta('isArchived');
+  late final GeneratedColumn<bool?> isArchived = GeneratedColumn<bool?>(
+      'is_archived', aliasedName, false,
+      typeName: 'INTEGER',
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_archived IN (0, 1))',
+      defaultValue: const Constant(false));
+  final VerificationMeta _isPinnedMeta = const VerificationMeta('isPinned');
+  late final GeneratedColumn<bool?> isPinned = GeneratedColumn<bool?>(
+      'is_pinned', aliasedName, false,
+      typeName: 'INTEGER',
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_pinned IN (0, 1))',
+      defaultValue: const Constant(false));
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, title, firstLine, data, createdAt, lastEditedAt, folderId];
+  List<GeneratedColumn> get $columns => [
+        id,
+        title,
+        firstLine,
+        data,
+        createdAt,
+        lastEditedAt,
+        folderId,
+        isArchived,
+        isPinned
+      ];
   @override
   String get aliasedName => _alias ?? 'notes';
   @override
@@ -351,6 +420,16 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     } else if (isInserting) {
       context.missing(_folderIdMeta);
     }
+    if (data.containsKey('is_archived')) {
+      context.handle(
+          _isArchivedMeta,
+          isArchived.isAcceptableOrUnknown(
+              data['is_archived']!, _isArchivedMeta));
+    }
+    if (data.containsKey('is_pinned')) {
+      context.handle(_isPinnedMeta,
+          isPinned.isAcceptableOrUnknown(data['is_pinned']!, _isPinnedMeta));
+    }
     return context;
   }
 
@@ -374,12 +453,16 @@ class Folder extends DataClass implements Insertable<Folder> {
   final DateTime createdAt;
   final DateTime lastEditedAt;
   final bool isDefault;
+  final bool isArchived;
+  final bool isPinned;
   Folder(
       {required this.id,
       required this.title,
       required this.createdAt,
       required this.lastEditedAt,
-      required this.isDefault});
+      required this.isDefault,
+      required this.isArchived,
+      required this.isPinned});
   factory Folder.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -394,6 +477,10 @@ class Folder extends DataClass implements Insertable<Folder> {
           .mapFromDatabaseResponse(data['${effectivePrefix}last_edited_at'])!,
       isDefault: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}is_default'])!,
+      isArchived: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_archived'])!,
+      isPinned: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_pinned'])!,
     );
   }
   @override
@@ -404,6 +491,8 @@ class Folder extends DataClass implements Insertable<Folder> {
     map['created_at'] = Variable<DateTime>(createdAt);
     map['last_edited_at'] = Variable<DateTime>(lastEditedAt);
     map['is_default'] = Variable<bool>(isDefault);
+    map['is_archived'] = Variable<bool>(isArchived);
+    map['is_pinned'] = Variable<bool>(isPinned);
     return map;
   }
 
@@ -414,6 +503,8 @@ class Folder extends DataClass implements Insertable<Folder> {
       createdAt: Value(createdAt),
       lastEditedAt: Value(lastEditedAt),
       isDefault: Value(isDefault),
+      isArchived: Value(isArchived),
+      isPinned: Value(isPinned),
     );
   }
 
@@ -426,6 +517,8 @@ class Folder extends DataClass implements Insertable<Folder> {
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       lastEditedAt: serializer.fromJson<DateTime>(json['lastEditedAt']),
       isDefault: serializer.fromJson<bool>(json['isDefault']),
+      isArchived: serializer.fromJson<bool>(json['isArchived']),
+      isPinned: serializer.fromJson<bool>(json['isPinned']),
     );
   }
   @override
@@ -437,6 +530,8 @@ class Folder extends DataClass implements Insertable<Folder> {
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'lastEditedAt': serializer.toJson<DateTime>(lastEditedAt),
       'isDefault': serializer.toJson<bool>(isDefault),
+      'isArchived': serializer.toJson<bool>(isArchived),
+      'isPinned': serializer.toJson<bool>(isPinned),
     };
   }
 
@@ -445,13 +540,17 @@ class Folder extends DataClass implements Insertable<Folder> {
           String? title,
           DateTime? createdAt,
           DateTime? lastEditedAt,
-          bool? isDefault}) =>
+          bool? isDefault,
+          bool? isArchived,
+          bool? isPinned}) =>
       Folder(
         id: id ?? this.id,
         title: title ?? this.title,
         createdAt: createdAt ?? this.createdAt,
         lastEditedAt: lastEditedAt ?? this.lastEditedAt,
         isDefault: isDefault ?? this.isDefault,
+        isArchived: isArchived ?? this.isArchived,
+        isPinned: isPinned ?? this.isPinned,
       );
   @override
   String toString() {
@@ -460,14 +559,16 @@ class Folder extends DataClass implements Insertable<Folder> {
           ..write('title: $title, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastEditedAt: $lastEditedAt, ')
-          ..write('isDefault: $isDefault')
+          ..write('isDefault: $isDefault, ')
+          ..write('isArchived: $isArchived, ')
+          ..write('isPinned: $isPinned')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, title, createdAt, lastEditedAt, isDefault);
+  int get hashCode => Object.hash(
+      id, title, createdAt, lastEditedAt, isDefault, isArchived, isPinned);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -476,7 +577,9 @@ class Folder extends DataClass implements Insertable<Folder> {
           other.title == this.title &&
           other.createdAt == this.createdAt &&
           other.lastEditedAt == this.lastEditedAt &&
-          other.isDefault == this.isDefault);
+          other.isDefault == this.isDefault &&
+          other.isArchived == this.isArchived &&
+          other.isPinned == this.isPinned);
 }
 
 class FoldersCompanion extends UpdateCompanion<Folder> {
@@ -485,12 +588,16 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
   final Value<DateTime> createdAt;
   final Value<DateTime> lastEditedAt;
   final Value<bool> isDefault;
+  final Value<bool> isArchived;
+  final Value<bool> isPinned;
   const FoldersCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastEditedAt = const Value.absent(),
     this.isDefault = const Value.absent(),
+    this.isArchived = const Value.absent(),
+    this.isPinned = const Value.absent(),
   });
   FoldersCompanion.insert({
     required String id,
@@ -498,6 +605,8 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
     required DateTime createdAt,
     required DateTime lastEditedAt,
     this.isDefault = const Value.absent(),
+    this.isArchived = const Value.absent(),
+    this.isPinned = const Value.absent(),
   })  : id = Value(id),
         createdAt = Value(createdAt),
         lastEditedAt = Value(lastEditedAt);
@@ -507,6 +616,8 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
     Expression<DateTime>? createdAt,
     Expression<DateTime>? lastEditedAt,
     Expression<bool>? isDefault,
+    Expression<bool>? isArchived,
+    Expression<bool>? isPinned,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -514,6 +625,8 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
       if (createdAt != null) 'created_at': createdAt,
       if (lastEditedAt != null) 'last_edited_at': lastEditedAt,
       if (isDefault != null) 'is_default': isDefault,
+      if (isArchived != null) 'is_archived': isArchived,
+      if (isPinned != null) 'is_pinned': isPinned,
     });
   }
 
@@ -522,13 +635,17 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
       Value<String>? title,
       Value<DateTime>? createdAt,
       Value<DateTime>? lastEditedAt,
-      Value<bool>? isDefault}) {
+      Value<bool>? isDefault,
+      Value<bool>? isArchived,
+      Value<bool>? isPinned}) {
     return FoldersCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       createdAt: createdAt ?? this.createdAt,
       lastEditedAt: lastEditedAt ?? this.lastEditedAt,
       isDefault: isDefault ?? this.isDefault,
+      isArchived: isArchived ?? this.isArchived,
+      isPinned: isPinned ?? this.isPinned,
     );
   }
 
@@ -550,6 +667,12 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
     if (isDefault.present) {
       map['is_default'] = Variable<bool>(isDefault.value);
     }
+    if (isArchived.present) {
+      map['is_archived'] = Variable<bool>(isArchived.value);
+    }
+    if (isPinned.present) {
+      map['is_pinned'] = Variable<bool>(isPinned.value);
+    }
     return map;
   }
 
@@ -560,7 +683,9 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
           ..write('title: $title, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastEditedAt: $lastEditedAt, ')
-          ..write('isDefault: $isDefault')
+          ..write('isDefault: $isDefault, ')
+          ..write('isArchived: $isArchived, ')
+          ..write('isPinned: $isPinned')
           ..write(')'))
         .toString();
   }
@@ -597,10 +722,24 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
       typeName: 'INTEGER',
       requiredDuringInsert: false,
       defaultConstraints: 'CHECK (is_default IN (0, 1))',
-      defaultValue: Constant(false));
+      defaultValue: const Constant(false));
+  final VerificationMeta _isArchivedMeta = const VerificationMeta('isArchived');
+  late final GeneratedColumn<bool?> isArchived = GeneratedColumn<bool?>(
+      'is_archived', aliasedName, false,
+      typeName: 'INTEGER',
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_archived IN (0, 1))',
+      defaultValue: const Constant(false));
+  final VerificationMeta _isPinnedMeta = const VerificationMeta('isPinned');
+  late final GeneratedColumn<bool?> isPinned = GeneratedColumn<bool?>(
+      'is_pinned', aliasedName, false,
+      typeName: 'INTEGER',
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_pinned IN (0, 1))',
+      defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns =>
-      [id, title, createdAt, lastEditedAt, isDefault];
+      [id, title, createdAt, lastEditedAt, isDefault, isArchived, isPinned];
   @override
   String get aliasedName => _alias ?? 'folders';
   @override
@@ -636,6 +775,16 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
     if (data.containsKey('is_default')) {
       context.handle(_isDefaultMeta,
           isDefault.isAcceptableOrUnknown(data['is_default']!, _isDefaultMeta));
+    }
+    if (data.containsKey('is_archived')) {
+      context.handle(
+          _isArchivedMeta,
+          isArchived.isAcceptableOrUnknown(
+              data['is_archived']!, _isArchivedMeta));
+    }
+    if (data.containsKey('is_pinned')) {
+      context.handle(_isPinnedMeta,
+          isPinned.isAcceptableOrUnknown(data['is_pinned']!, _isPinnedMeta));
     }
     return context;
   }

@@ -2,6 +2,8 @@ import '../../../models.dart';
 import '../../../one_to_manys.dart';
 
 abstract class FolderRepository {
+  FolderModel get defaultFolder;
+
   Stream<List<FolderWithNotes>> watchAllFolderWithNotes();
 
   Future<FolderModel> getById(String id);

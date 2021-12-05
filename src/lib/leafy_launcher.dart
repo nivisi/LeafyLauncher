@@ -75,7 +75,7 @@ class LeafyLauncher {
   }
 
   static Future dbInitialization() async {
-    LeafyNotesLibrary.registerDependencies(Get);
+    LeafyNotesLibrary.initialize(Get);
   }
 
   static Future run() async {

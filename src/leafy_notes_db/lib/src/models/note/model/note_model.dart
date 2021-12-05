@@ -9,6 +9,8 @@ class NoteModel extends Equatable {
     required this.lastEditedAt,
     required this.createdAt,
     required this.folderId,
+    required this.isArchived,
+    required this.isPinned,
   });
 
   final String id;
@@ -18,6 +20,8 @@ class NoteModel extends Equatable {
   final DateTime lastEditedAt;
   final DateTime createdAt;
   final String folderId;
+  final bool isArchived;
+  final bool isPinned;
 
   NoteModel copyWith({
     String? id,
@@ -27,6 +31,8 @@ class NoteModel extends Equatable {
     DateTime? lastEditedAt,
     DateTime? createdAt,
     String? folderId,
+    bool? isArchived,
+    bool? isPinned,
   }) {
     return NoteModel(
       id: id ?? this.id,
@@ -36,6 +42,8 @@ class NoteModel extends Equatable {
       lastEditedAt: lastEditedAt ?? this.lastEditedAt,
       createdAt: createdAt ?? this.createdAt,
       folderId: folderId ?? this.folderId,
+      isArchived: isArchived ?? this.isArchived,
+      isPinned: isPinned ?? this.isPinned,
     );
   }
 
@@ -47,5 +55,7 @@ class NoteModel extends Equatable {
         data,
         lastEditedAt,
         createdAt,
+        isArchived,
+        isPinned,
       ];
 }

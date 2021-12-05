@@ -9,6 +9,8 @@ Folder folderModelToDb(FolderModel folder) {
     lastEditedAt: folder.lastEditedAt,
     createdAt: folder.createdAt,
     isDefault: folder.isDefault,
+    isArchived: folder.isArchived,
+    isPinned: folder.isPinned,
   );
 }
 
@@ -19,5 +21,7 @@ FolderModel folderModelFromDb(Folder folder) {
     lastEditedAt: folder.lastEditedAt,
     createdAt: folder.createdAt,
     isDefault: folder.isDefault,
+    isArchived: folder.isArchived,
+    isPinned: folder.isPinned,
   );
 }

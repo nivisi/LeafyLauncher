@@ -11,6 +11,8 @@ class Notes extends Table {
   DateTimeColumn get lastEditedAt => dateTime()();
   TextColumn get folderId =>
       text().customConstraint('REFERENCES folders(id)')();
+  BoolColumn get isArchived => boolean().withDefault(const Constant(false))();
+  BoolColumn get isPinned => boolean().withDefault(const Constant(false))();
 
   @override
   Set<Column>? get primaryKey => {id};

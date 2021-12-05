@@ -38,6 +38,8 @@ class NoteRepositoryImpl implements NoteRepository {
       lastEditedAt: DateTime.now().toUtc(),
       createdAt: model.createdAt,
       folderId: model.folderId,
+      isArchived: model.isArchived,
+      isPinned: model.isPinned,
     );
 
     final note = noteModelToDb(updated);

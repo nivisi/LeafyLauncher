@@ -55,6 +55,13 @@ class HomeNoteFoldersList
           return const Center(child: CircularProgressIndicator());
         }
 
+        if (snapshot.hasError) {
+          return Text(
+            snapshot.error!.toString(),
+            style: theme.bodyText2,
+          );
+        }
+
         if (!snapshot.hasData) {
           return Text(
             'Error!',

@@ -13,7 +13,7 @@ import '../../../../app_routes.dart';
 
 class HomeNoteFoldersController extends StatusControllerBase {
   late final FolderRepository _folderRepo = Get.find<FolderRepository>();
-  // late final NoteRepository _noteRepo = Get.find<NoteRepository>();
+  late final NoteRepository _noteRepo = Get.find<NoteRepository>();
 
   late final ScrollController scrollController;
 
@@ -24,6 +24,8 @@ class HomeNoteFoldersController extends StatusControllerBase {
     await super.load();
 
     scrollController = ScrollController();
+
+    await LeafyNotesLibrary.ensureInitialized;
 
     foldersStream = _folderRepo.watchAllFolderWithNotes();
   }
@@ -69,14 +71,12 @@ class HomeNoteFoldersController extends StatusControllerBase {
   }
 
   Future createNote() async {
-    // Add the default folder.
+    final note = await _noteRepo.create(_folderRepo.defaultFolder);
 
-    // final note = await _noteRepo.create(_foldersRepo.defaultFolder);
-
-    // AppRoutes.toNotes(_foldersRepo.defaultFolder.id);
-    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-    //   AppRoutes.toNote(_foldersRepo.defaultFolder.id, note.id);
-    // });
+    AppRoutes.toNotes(_folderRepo.defaultFolder.id);
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      AppRoutes.toNote(_folderRepo.defaultFolder.id, note.id);
+    });
   }
 
   Future onFolderRemoved(FolderModel model) async {

@@ -3,6 +3,7 @@ import 'package:leafy_notes_database/src/models/folder/model/folder_converter.da
 import 'package:leafy_notes_database/src/models/note/model/note_converter.dart';
 import 'package:leafy_notes_database/src/models/note/model/note_model.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../leafy_notes_db.dart';
 import '../../../one_to_many/folder_with_notes.dart';
@@ -19,6 +20,30 @@ class FolderDao extends DatabaseAccessor<LeafyNotesDatabase>
   FolderDao(this.db) : super(db);
 
   final LeafyNotesDatabase db;
+
+  FoldersCompanion _getDefaultFolder() {
+    return FoldersCompanion(
+      id: Value(const Uuid().v1()),
+      createdAt: Value(DateTime.now().toUtc()),
+      lastEditedAt: Value(DateTime.now().toUtc()),
+      isDefault: const Value(true),
+      title: const Value('Default'),
+    );
+  }
+
+  Future<Folder> createDefaultFolderIfNeeded() async {
+    final defaultFolder = await (select(folders)
+          ..where(
+            (t) => t.isDefault.equalsExp(const Constant(true)),
+          ))
+        .getSingleOrNull();
+
+    if (defaultFolder != null) {
+      return defaultFolder;
+    }
+
+    return insertFolder(_getDefaultFolder());
+  }
 
   Future<Folder> insertFolder(Insertable<Folder> folder) async {
     final rowId = await into(folders).insert(folder);

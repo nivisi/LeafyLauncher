@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catching_errors
+
 extension MapExtensions<TKey, TValue> on Map<TKey, TValue> {
   TValue? firstWhereKeyOrNull(bool Function(TKey item) condition) {
     if (keys.isNotEmpty) {
@@ -5,7 +7,7 @@ extension MapExtensions<TKey, TValue> on Map<TKey, TValue> {
         final key = keys.firstWhere(condition);
 
         return this[key];
-      } on Exception {
+      } on Error {
         return null;
       }
     }

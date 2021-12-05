@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catching_errors
+
 import 'package:leafy_notes_database/src/leafy_notes_db.dart';
 import 'package:leafy_notes_database/src/models/folder/model/folder_converter.dart';
 import 'package:leafy_notes_database/src/one_to_many/folder_with_notes.dart';
@@ -9,6 +11,12 @@ import 'folder_repository.dart';
 
 class FolderRepositoryImpl implements FolderRepository {
   final _dao = LeafyNotesDb.folderDao;
+
+  late FolderModel _defaultFolder;
+
+  @override
+  FolderModel get defaultFolder => _defaultFolder;
+  set defaultFolder(FolderModel folder) => _defaultFolder = folder;
 
   @override
   Future<void> insert(FolderModel model) async {
