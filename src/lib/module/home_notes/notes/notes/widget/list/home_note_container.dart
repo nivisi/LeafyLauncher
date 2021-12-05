@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:leafy_launcher/data/notes/domain/note_model.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 import 'package:leafy_launcher/shared_widget/section/leafy_text_section_item.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
+import 'package:leafy_notes_database/leafy_notes_database.dart';
 
-typedef OnNoteSelected = void Function(NoteModel note);
+import '../../home_notes_page.dart';
 
 class HomeNoteSectionItem extends ThemedWidget<HomeTheme> {
   const HomeNoteSectionItem({
@@ -26,10 +26,10 @@ class HomeNoteSectionItem extends ThemedWidget<HomeTheme> {
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return LeafyTextSectionItem<HomeTheme>(
-      title: note.normalizedTitle,
-      subtitle: note.lastEdited.day == DateTime.now().day
-          ? _todayFormat.format(note.lastEdited)
-          : _format.format(note.lastEdited),
+      title: note.title ?? 'hellloo!!!',
+      subtitle: note.lastEditedAt.day == DateTime.now().day
+          ? _todayFormat.format(note.lastEditedAt)
+          : _format.format(note.lastEditedAt),
       onTap: onTap == null ? null : () => onTap!(note),
       onLongPress: onLongPress == null ? null : () => onLongPress!(note),
     );

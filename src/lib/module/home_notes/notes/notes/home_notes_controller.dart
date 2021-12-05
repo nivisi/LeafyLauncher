@@ -1,53 +1,56 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:leafy_launcher/base/controller/status_controller_base.dart';
-import 'package:leafy_launcher/data/folders/domain/folder_model.dart';
-import 'package:leafy_launcher/data/folders/folders_repo.dart';
-import 'package:leafy_launcher/data/hive_extensions/hive_listenable_conditioned_box.dart';
-import 'package:leafy_launcher/data/hive_extensions/hive_listenable_value.dart';
-import 'package:leafy_launcher/data/notes/domain/note_model.dart';
-import 'package:leafy_launcher/data/notes/note_repo.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/utils/dialogs/input/input_dialog.dart';
+import 'package:leafy_notes_database/leafy_notes_database.dart';
 
 import '../../../../app_routes.dart';
 
 class HomeNotesController extends StatusControllerBase {
   HomeNotesController(this.folderId);
 
-  late final FoldersRepo _foldersRepo = Get.find<FoldersRepo>();
-  late final NotesRepo _notesRepo = Get.find<NotesRepo>();
+  late final FolderRepository _folderRepository = Get.find<FolderRepository>();
+  late final NoteRepository _noteRepository = Get.find<NoteRepository>();
 
   final String folderId;
 
-  late final HiveListenableValue<FolderModel> folderListenable;
-  late final HiveListenableConditionedList<NoteModel> notesListenable;
-
   late final ScrollController scrollController = ScrollController();
+
+  late final Stream<FolderWithNotes> notesStream;
+  late final Stream<FolderModel> folderStream;
+
+  late final StreamSubscription _folderSubscription;
+
+  FolderModel? _folder;
 
   @override
   Future load() async {
     await super.load();
 
-    await _foldersRepo.ensureInitialized;
+    notesStream = _noteRepository.watchAllNotesOfFolder(folderId);
+    folderStream = _folderRepository.watchFolder(folderId);
 
-    folderListenable = _foldersRepo.getListenableValue(folderId);
-    notesListenable = _notesRepo.getAllOfFolder(folderId);
+    _folderSubscription = folderStream.listen((folder) {
+      _folder = folder;
+    });
   }
 
   Future onFabPressed() async {
-    final folder = _foldersRepo.getById(folderListenable.value!.id);
+    final folder = _folder;
 
     if (folder == null) {
       return;
     }
 
     try {
-      final note = await _notesRepo.create(folder);
+      final note = await _noteRepository.create(folder);
       AppRoutes.toNote(folderId, note.id);
     } on Exception catch (e, s) {
       logger.e('Unable to create a note', e, s);
@@ -63,9 +66,9 @@ class HomeNotesController extends StatusControllerBase {
   }
 
   Future<void> onTitleDoubleTapped() async {
-    final folder = folderListenable.value;
+    final folder = _folder;
 
-    if (folder == null || folder.isDefaultOne) {
+    if (folder == null || folder.isDefault) {
       return;
     }
 
@@ -73,7 +76,7 @@ class HomeNotesController extends StatusControllerBase {
       title: L10nProvider.getText(L10n.leafyNotesRenameFolderDialogTitle),
       message: L10nProvider.getText(L10n.leafyNotesRenameFolderDialogMessage),
       positiveButtonTitle: L10nProvider.getText(L10n.actionSave),
-      startValue: folder.normalizedTitle,
+      startValue: folder.title,
     );
 
     if (result == null || result.isEmpty) {
@@ -85,7 +88,7 @@ class HomeNotesController extends StatusControllerBase {
       lastEditedAt: DateTime.now().toUtc(),
     );
 
-    _foldersRepo.add(editedFolder);
+    _folderRepository.update(editedFolder);
   }
 
   void onSearchPressed() {}
@@ -97,33 +100,26 @@ class HomeNotesController extends StatusControllerBase {
   }
 
   Future<void> onNoteRemoved(NoteModel note) async {
-    final folder = folderListenable.value;
+    final folder = _folder;
 
     if (folder == null) {
       return;
     }
 
-    folder.notes.remove(note.id);
-
     try {
-      await folder.save();
-    } on Exception catch (e, s) {
-      logger.e('Unable to save a folder', e, s);
-    }
-
-    try {
-      await _notesRepo.delete(note);
+      await _noteRepository.delete(note);
     } on Exception catch (e, s) {
       logger.e('Unable to remove a note', e, s);
     }
   }
 
-  void onNoteLongPressed(NoteModel note) {}
+  void onNoteLongPressed(NoteModel note) {
+    //
+  }
 
   @override
   void onClose() {
-    folderListenable.dispose();
-    notesListenable.dispose();
+    _folderSubscription.cancel();
 
     super.onClose();
   }

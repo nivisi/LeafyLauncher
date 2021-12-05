@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:leafy_launcher/data/notes/domain/note_model.dart';
 import 'package:leafy_launcher/module/home/utils/gesture_processer.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
-import 'package:leafy_launcher/resources/localization/l10n.dart';
-import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
+import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_page.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 import 'package:leafy_launcher/shared_widget/list/dismissible_delete_background.dart';
 import 'package:leafy_launcher/shared_widget/section/leafy_section.dart';
 import 'package:leafy_launcher/shared_widget/themed_get_widget.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
+import 'package:leafy_notes_database/leafy_notes_database.dart';
 
 import 'home_note_container.dart';
 
@@ -21,8 +20,8 @@ class _DismissibleItem extends ThemedWidget<HomeTheme> {
   });
 
   final NoteModel note;
-  final ValueChanged<NoteModel> onDismissed;
-  final ValueChanged<NoteModel> onTap;
+  final OnNoteSelected onDismissed;
+  final OnNoteSelected onTap;
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
@@ -47,16 +46,19 @@ class HomeNotesList extends ThemedGetWidget<HomeNotesController, HomeTheme> {
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
-    return ValueListenableBuilder<Iterable<NoteModel>>(
-      valueListenable: controller.notesListenable,
-      builder: (context, notes, _) {
-        if (notes.isEmpty) {
-          return Text(
-            L10nProvider.getText(L10n.leafyNotesNotesEmptyStateMessage),
-            style: theme.bodyText2.copyWith(color: theme.textInfoColor),
-            textAlign: TextAlign.center,
-          );
+    return StreamBuilder<FolderWithNotes>(
+      stream: controller.notesStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const SizedBox();
         }
+
+        if (!snapshot.hasData) {
+          return const SizedBox();
+        }
+
+        final notes = snapshot.data!.notes;
+
         return LeafySection<HomeTheme>(
           children: [
             for (final note in notes)

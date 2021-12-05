@@ -17,10 +17,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   fluttertoast: ^8.0.8
-  hive: ^2.0.4
-  hive_flutter: ^1.1.0
-  hive_generator: ^1.1.1
   intl: ^0.17.0
+
+  leafy_notes_database:
+    path:
+      leafy_notes_db
+
   lint: ^1.5.3
   logger: ^1.0.0
   path_provider: ^2.0.2
@@ -35,6 +37,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   get: ^4.3.8
+  moor_generator: ^4.6.0+1
 
 flutter:
   uses-material-design: true

@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/app_routes.dart';
 
 import 'package:leafy_launcher/base/controller/status_controller_base.dart';
-import 'package:leafy_launcher/data/folders/domain/folder_model.dart';
-import 'package:leafy_launcher/data/folders/folders_repo.dart';
-import 'package:leafy_launcher/data/hive_extensions/hive_listenable_conditioned_box.dart';
-import 'package:leafy_launcher/data/notes/note_repo.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/utils/dialogs/input/input_dialog.dart';
+import 'package:leafy_notes_database/leafy_notes_database.dart';
+
+import '../../../../app_routes.dart';
 
 class HomeNoteFoldersController extends StatusControllerBase {
-  late final FoldersRepo _foldersRepo = Get.find<FoldersRepo>();
-  late final NotesRepo _notesRepo = Get.find<NotesRepo>();
+  late final FolderRepository _folderRepo = Get.find<FolderRepository>();
+  // late final NoteRepository _noteRepo = Get.find<NoteRepository>();
 
   late final ScrollController scrollController;
 
-  late HiveListenableConditionedList<FolderModel> foldersListenable;
+  late Stream<List<FolderWithNotes>> foldersStream;
 
   @override
   Future load() async {
@@ -27,21 +25,7 @@ class HomeNoteFoldersController extends StatusControllerBase {
 
     scrollController = ScrollController();
 
-    await _foldersRepo.ensureInitialized;
-
-    foldersListenable = _foldersRepo.getConditionedListenableBox(
-      primarySort: FoldersRepo.sortByName,
-    );
-  }
-
-  Future onFabPressed() async {
-    try {
-      final folder = await _foldersRepo.create();
-
-      AppRoutes.toNotes(folder.id);
-    } on Exception catch (e, s) {
-      logger.e('Unable to create a folder', e, s);
-    }
+    foldersStream = _folderRepo.watchAllFolderWithNotes();
   }
 
   void onTitleTapped() {
@@ -71,23 +55,33 @@ class HomeNoteFoldersController extends StatusControllerBase {
       return;
     }
 
-    final folder = await _foldersRepo.create(result);
+    late final FolderModel folder;
+
+    try {
+      folder = await _folderRepo.create(withTitle: result);
+    } on Exception catch (e, s) {
+      logger.e('Unable to create new folder', e, s);
+
+      return;
+    }
 
     AppRoutes.toNotes(folder.id);
   }
 
   Future createNote() async {
-    final note = await _notesRepo.create(_foldersRepo.defaultFolder);
+    // Add the default folder.
 
-    AppRoutes.toNotes(_foldersRepo.defaultFolder.id);
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      AppRoutes.toNote(_foldersRepo.defaultFolder.id, note.id);
-    });
+    // final note = await _noteRepo.create(_foldersRepo.defaultFolder);
+
+    // AppRoutes.toNotes(_foldersRepo.defaultFolder.id);
+    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    //   AppRoutes.toNote(_foldersRepo.defaultFolder.id, note.id);
+    // });
   }
 
   Future onFolderRemoved(FolderModel model) async {
     try {
-      await _foldersRepo.delete(model);
+      await _folderRepo.delete(model);
     } on Exception catch (e, s) {
       logger.e('Unable to remove a folder', e, s);
     }
