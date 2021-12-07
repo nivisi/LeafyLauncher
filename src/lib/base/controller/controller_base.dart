@@ -20,10 +20,26 @@ abstract class ControllerBase extends GetxController with LogableMixin {
     logger.i('Initialized!');
   }
 
+  Future<bool> back() async {
+    final canClose = await this.canClose();
+
+    if (!canClose) {
+      return false;
+    }
+
+    Get.back();
+
+    return false;
+  }
+
   @override
   void onInit() {
     super.onInit();
 
     init();
+  }
+
+  Future<bool> canClose() async {
+    return true;
   }
 }

@@ -26,6 +26,7 @@ class HomeGestureDetector extends StatefulWidget {
     required this.onRightSwipe,
     required this.onTopSwipe,
     required this.onLongPress,
+    required this.onDoubleTap,
   }) : super(key: key);
 
   final Widget child;
@@ -37,6 +38,7 @@ class HomeGestureDetector extends StatefulWidget {
   final VoidCallback onRightSwipe;
   final VoidCallback onTopSwipe;
   final VoidCallback onLongPress;
+  final VoidCallback onDoubleTap;
 
   @override
   _HomeGestureDetectorState createState() => _HomeGestureDetectorState();
@@ -387,6 +389,7 @@ class _HomeGestureDetectorState extends State<HomeGestureDetector>
           onVerticalDragUpdate: _onVerticalUpdate,
           onVerticalDragEnd: _onVerticalDragEnd,
           onLongPress: widget.onLongPress,
+          onDoubleTap: widget.onDoubleTap,
         ),
         FadeTransition(
           opacity: _childController,
