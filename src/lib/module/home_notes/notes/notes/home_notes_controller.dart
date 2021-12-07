@@ -109,10 +109,6 @@ class HomeNotesController extends StatusControllerBase {
     }
   }
 
-  void onNoteLongPressed(NoteModel note) {
-    //
-  }
-
   @override
   void onClose() {
     _folderSubscription.cancel();
