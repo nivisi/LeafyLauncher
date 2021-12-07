@@ -65,6 +65,7 @@ class FolderDao extends DatabaseAccessor<LeafyNotesDatabase>
   Stream<List<FolderWithNotes>> watchAllFolderWithNotes() {
     return (select(folders)
           ..orderBy([
+            _foldersByIsDefault,
             _foldersByLastEditedAt,
             _foldersByTitle,
           ]))
