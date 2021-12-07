@@ -18,21 +18,39 @@ class NoteDao extends DatabaseAccessor<LeafyNotesDatabase> with _$NoteDaoMixin {
 
   final LeafyNotesDatabase db;
 
+  Future<void> _updateLastEditedAtOfNoteFolder(Insertable<Note> note) async {
+    final noteFolderIdColumn = note.toColumns(false)[notes.folderId.name]!;
+
+    if (noteFolderIdColumn is! Variable<String>) {
+      return;
+    }
+
+    await (update(folders)
+          ..where((folders) => folders.id.equals(noteFolderIdColumn.value)))
+        .write(FoldersCompanion(lastEditedAt: Value(DateTime.now().toUtc())));
+  }
+
   Future<Note> insertNote(Insertable<Note> note) async {
     final rowId = await into(notes).insert(note);
     final row = await customSelect(
       'SELECT * FROM ${notes.actualTableName} WHERE rowId = $rowId',
     ).getSingle();
 
+    await _updateLastEditedAtOfNoteFolder(note);
+
     return notes.mapFromRow(row);
   }
 
   Future<void> replaceNote(Insertable<Note> note) async {
     await update(notes).replace(note);
+
+    await _updateLastEditedAtOfNoteFolder(note);
   }
 
   Future<void> deleteNote(Insertable<Note> note) async {
     await delete(notes).delete(note);
+
+    await _updateLastEditedAtOfNoteFolder(note);
   }
 
   Stream<FolderWithNotes> watchAllNotesOfFolder(String folderId) {
