@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/resources/localization/l10n.dart';
+import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 import 'package:leafy_launcher/shared_widget/section/leafy_text_section_item.dart';
@@ -25,7 +27,9 @@ class HomeNoteFolderSectionItem extends ThemedWidget<HomeTheme> {
     final notes = folderWithNotes.notes;
 
     return LeafyTextSectionItem<HomeTheme>(
-      title: folder.title,
+      title: folder.isDefault
+          ? L10nProvider.getText(L10n.defaultFolderTitle)
+          : folder.title,
       leading: Icon(Icons.folder_outlined, color: theme.foregroundColor),
       onTap: onTap == null ? null : () => onTap!(folder),
       onLongPress: onLongPress == null ? null : () => onLongPress!(folder),

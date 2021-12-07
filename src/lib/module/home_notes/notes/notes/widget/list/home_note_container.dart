@@ -26,7 +26,7 @@ class HomeNoteSectionItem extends ThemedWidget<HomeTheme> {
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return LeafyTextSectionItem<HomeTheme>(
-      title: note.title ?? 'hellloo!!!',
+      title: note.title ?? note.firstLine ?? '',
       subtitle: note.lastEditedAt.day == DateTime.now().day
           ? _todayFormat.format(note.lastEditedAt)
           : _format.format(note.lastEditedAt),
