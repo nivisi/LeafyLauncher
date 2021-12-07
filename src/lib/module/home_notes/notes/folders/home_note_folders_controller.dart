@@ -38,10 +38,6 @@ class HomeNoteFoldersController extends StatusControllerBase {
     );
   }
 
-  void onSearchPressed() {}
-
-  void onMenuPressed() {}
-
   void onFolderSelected(FolderModel folder) {
     AppRoutes.toNotes(folder.id);
   }

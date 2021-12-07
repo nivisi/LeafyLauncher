@@ -91,10 +91,6 @@ class HomeNotesController extends StatusControllerBase {
     _folderRepository.update(editedFolder);
   }
 
-  void onSearchPressed() {}
-
-  void onMenuPressed() {}
-
   void onNoteSelected(NoteModel note) {
     AppRoutes.toNote(folderId, note.id);
   }

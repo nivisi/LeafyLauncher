@@ -64,14 +64,6 @@ class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
               },
             ),
             const Spacer(),
-            LeafyTextButton<HomeTheme>.circled(
-              onPressed: controller.onSearchPressed,
-              child: const Icon(Icons.search),
-            ),
-            LeafyTextButton<HomeTheme>.circled(
-              onPressed: controller.onMenuPressed,
-              child: const Icon(Icons.menu),
-            ),
           ],
         ),
       ),

@@ -5,7 +5,6 @@ import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
-import 'package:leafy_launcher/shared_widget/leafy_text_button.dart';
 import 'package:leafy_launcher/shared_widget/themed_get_widget.dart';
 
 import '../../home_note_folders_controller.dart';
@@ -40,14 +39,6 @@ class HomeNoteFoldersTitle
               style: theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
             ),
             const Spacer(),
-            LeafyTextButton<HomeTheme>.circled(
-              onPressed: controller.onSearchPressed,
-              child: const Icon(Icons.search),
-            ),
-            LeafyTextButton<HomeTheme>.circled(
-              onPressed: controller.onMenuPressed,
-              child: const Icon(Icons.menu),
-            ),
           ],
         ),
       ),
