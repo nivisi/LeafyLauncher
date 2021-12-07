@@ -1,0 +1,49 @@
+include: package:lint/analysis_options.yaml
+
+linter:
+  rules:
+    avoid_classes_with_only_static_methods: false
+    await_only_futures: true
+
+    # Temporary
+    public_member_api_docs: false
+
+    type_annotate_public_apis: false
+
+    # This looks more organized.
+    sort_constructors_first: true
+
+    # This looks more organized.
+    sort_pub_dependencies: true
+
+    # Single qoutes looks prettier and more compact.
+    prefer_single_quotes: true
+
+    # Sometimes it just doesn't make sense.
+    lines_longer_than_80_chars: true
+
+    # Make variables "var" only when really needed.
+    prefer_final_locals: true
+
+    # This doesn't make the code more readable.
+    # It forces us not to use
+    # final variable = 5;
+    # But to use
+    # final int variable = 5;
+    always_specify_types: false
+
+analyzer:
+  errors:
+    prefer_const_constructors: error
+    missing_return: error
+    missing_required_param: error
+    directives_ordering: error
+    unnecessary_new: error
+    unnecessary_this: error
+    unnecessary_const: error
+    todo: ignore
+    no_logic_in_create_state: ignore
+    invariant_booleans: ignore
+    avoid_classes_with_only_static_members: ignore
+  exclude:
+    [lib/**.g.dart]

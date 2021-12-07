@@ -2,12 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_page.dart';
+import 'package:leafy_launcher/module/home_notes/notes/note/home_note_page.dart';
+import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_page.dart';
 import 'package:leafy_launcher/module/intro/intro_binding.dart';
 import 'package:leafy_launcher/module/intro/intro_page.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_binding.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
+import 'package:leafy_notes_database/leafy_notes_database.dart';
 
 import 'app_routes.dart';
 import 'module/app_picker/app_picker_binding.dart';
@@ -15,6 +20,9 @@ import 'module/app_picker/app_picker_home_controller.dart';
 import 'module/app_picker/app_picker_page.dart';
 import 'module/home/home_binding.dart';
 import 'module/home/home_page.dart';
+import 'module/home_notes/notes/folders/home_note_folders_binding.dart';
+import 'module/home_notes/notes/note/home_note_binding.dart';
+import 'module/home_notes/notes/notes/home_notes_binding.dart';
 import 'module/home_settings/home_settings_binding.dart';
 import 'module/home_settings/home_settings_page.dart';
 import 'module/home_settings/widgets/home_settings_widgets_binding.dart';
@@ -49,10 +57,13 @@ class LeafyLauncher {
   /// Initialized must have dependecies.
   /// The app can start w/o them and they will be loaded soon.
   static Future initSecondaryDependencies() async {
+    dbInitialization();
+
     Get.lazyPut(() => const ToastService(), fenix: true);
     Get.lazyPut(() => const HomeButtonListener(), fenix: true);
     Get.lazyPut(() => const DeviceVibration(), fenix: true);
     Get.lazyPut(() => GoogleSearch(), fenix: true);
+    Get.lazyPut(() => ShareService(), fenix: true);
 
     await Get.putAsync(InstalledApplicationsService.init, permanent: true);
 
@@ -61,6 +72,10 @@ class LeafyLauncher {
       AppPickerHomeController(),
       permanent: true,
     );
+  }
+
+  static Future dbInitialization() async {
+    LeafyNotesLibrary.initialize(Get);
   }
 
   static Future run() async {
@@ -137,6 +152,24 @@ class LeafyLauncher {
             binding: TutorialBinding(),
             page: () => const TutorialPage(),
             transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: AppRoutes.folders,
+            binding: HomeNoteFoldersBinding(),
+            page: () => const HomeNoteFoldersPage(),
+            transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: AppRoutes.notes,
+            binding: HomeNotesBinding(),
+            page: () => const HomeNotesPage(),
+            transition: Transition.cupertino,
+          ),
+          GetPage(
+            name: AppRoutes.note,
+            binding: HomeNoteBinding(),
+            page: () => const HomeNotePage(),
+            transition: Transition.cupertino,
           ),
         ],
       ),

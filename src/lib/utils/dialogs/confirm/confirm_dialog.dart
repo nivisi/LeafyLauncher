@@ -45,8 +45,8 @@ class ConfirmDialog<TTheme extends LeafyTheme> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LeafyDialog<TTheme>(
-      title: title,
-      message: message,
+      title: Text(title),
+      message: Text(message),
       options: [
         LeafyDialogOption<bool>(
           title: confirmButtonTitle,

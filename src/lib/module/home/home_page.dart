@@ -77,6 +77,7 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
                       onRightSwipe: controller.onRightSwipe,
                       onTopSwipe: controller.onTopSwipe,
                       onLongPress: controller.openSettings,
+                      onDoubleTap: controller.onDoubleTap,
                       top: const HomeTopWidget(),
                       bottom: Icon(
                         Icons.apps,

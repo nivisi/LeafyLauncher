@@ -9,6 +9,7 @@ class FileSystem {
 
   late final Directory _appDocumentsDirectory;
   late final Directory _loggingDirectory;
+  late final Directory _leafyNotesDocumentsDirectory;
 
   Directory get appDocumentsDirectory => _appDocumentsDirectory;
 
@@ -19,15 +20,28 @@ class FileSystem {
     return _loggingDirectory;
   }
 
+  Directory get leafyNotesDocumentsDirectory {
+    if (!_leafyNotesDocumentsDirectory.existsSync()) {
+      _leafyNotesDocumentsDirectory.createSync();
+    }
+    return _leafyNotesDocumentsDirectory;
+  }
+
   void _initLoggingDirectory() {
-    final loggingDirectoryPath = '${_appDocumentsDirectory.path}/logging';
+    final loggingDirectoryPath = '${_appDocumentsDirectory.path}/Logging';
     _loggingDirectory = Directory(loggingDirectoryPath);
+  }
+
+  void _initLeafyNotesDirectory() {
+    final leafyNotesDirectoryPath = '${_appDocumentsDirectory.path}/LeafyNotes';
+    _leafyNotesDocumentsDirectory = Directory(leafyNotesDirectoryPath);
   }
 
   Future _init() async {
     _appDocumentsDirectory = await getApplicationDocumentsDirectory();
 
     _initLoggingDirectory();
+    _initLeafyNotesDirectory();
   }
 
   static Future<FileSystem> init() async {

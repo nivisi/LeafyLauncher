@@ -90,6 +90,7 @@ class L10n {
   static const String actionYes = 'actionYes';
   static const String actionNo = 'actionNo';
   static const String actionAboutApp = 'actionAboutApp';
+  static const String actionSave = 'actionSave';
   static const String choseAction = 'choseAction';
 
   static const String introHello = 'introHello';
@@ -128,4 +129,28 @@ class L10n {
   static const String disabled = 'disabled';
 
   static const String installedAppsRefetched = 'installedAppsRefetched';
+
+  static const String leafyNotesFoldersTitle = 'leafyNotesFoldersTitle';
+  static const String leafyNotesTitle = 'leafyNotesTitle';
+  static const String leafyNotesNewFolderDialogTitle =
+      'leafyNotesNewFolderDialogTitle';
+  static const String leafyNotesNewFolderDialogMessage =
+      'leafyNotesNewFolderDialogMessage';
+  static const String defaultFolderTitle = 'defaultFolderTitle';
+  static const String leafyNotesNoteTitlePlaceholder =
+      'leafyNotesNoteTitlePlaceholder';
+  static const String leafyNotesNoteBodyPlaceholder =
+      'leafyNotesNoteBodyPlaceholder';
+  static const String leafyNotesUntitledNote = 'leafyNotesUntitledNote';
+  static const String leafyNotesNoteSaved = 'leafyNotesNoteSaved';
+  static const String leafyNotesNotesEmptyStateMessage =
+      'leafyNotesNotesEmptyStateMessage';
+  static const String leafyNotesRenameFolderDialogTitle =
+      'leafyNotesRenameFolderDialogTitle';
+  static const String leafyNotesRenameFolderDialogMessage =
+      'leafyNotesRenameFolderDialogMessage';
+  static const String leafyNotesFolderTitlePlaceholder =
+      'leafyNotesFolderTitlePlaceholder';
+  static const String leafyNotesShareAsText = 'leafyNotesShareAsText';
+  static const String leafyNotesShareAsFile = 'leafyNotesShareAsFile';
 }

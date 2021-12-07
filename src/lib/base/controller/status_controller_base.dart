@@ -67,8 +67,8 @@ abstract class StatusControllerBase extends ControllerBase
       statusReady();
 
       logger.i('Initialized!');
-    } on Exception {
-      logger.e('Initialized with error');
+    } on Exception catch (e, s) {
+      logger.e('Initialized with error', e, s);
 
       statusError();
     } finally {
