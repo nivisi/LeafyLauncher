@@ -36,29 +36,33 @@ class NoteDao extends DatabaseAccessor<LeafyNotesDatabase> with _$NoteDaoMixin {
   }
 
   Stream<FolderWithNotes> watchAllNotesOfFolder(String folderId) {
-    return (select(folders)..where((t) => t.id.equals(folderId)))
-        .join([innerJoin(notes, notes.folderId.equalsExp(folders.id))])
+    return ((select(folders)..where((t) => t.id.equals(folderId))).join([
+      innerJoin(notes, notes.folderId.equalsExp(folders.id)),
+    ])
+          ..orderBy(
+            [_notesByLastEditedAt(notes)],
+          ))
         .watch()
         .map((rows) {
-          FolderModel? folderModel;
-          final List<NoteModel> noteList = <NoteModel>[];
+      FolderModel? folderModel;
+      final List<NoteModel> noteList = <NoteModel>[];
 
-          for (final row in rows) {
-            final folder = row.readTableOrNull(folders);
-            if (folder != null) {
-              folderModel = folderModelFromDb(folder);
-            }
-            final note = row.readTableOrNull(notes);
+      for (final row in rows) {
+        final folder = row.readTableOrNull(folders);
+        if (folder != null) {
+          folderModel = folderModelFromDb(folder);
+        }
+        final note = row.readTableOrNull(notes);
 
-            if (note != null) {
-              noteList.add(noteModelFromDb(note));
-            }
-          }
+        if (note != null) {
+          noteList.add(noteModelFromDb(note));
+        }
+      }
 
-          assert(folderModel != null);
+      assert(folderModel != null);
 
-          return FolderWithNotes(folder: folderModel!, notes: noteList);
-        });
+      return FolderWithNotes(folder: folderModel!, notes: noteList);
+    });
   }
 
   Future<Note> getById(String id) {

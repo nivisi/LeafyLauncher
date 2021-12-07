@@ -14,6 +14,6 @@ OrderingTerm _foldersByLastEditedAt($FoldersTable table) {
   );
 }
 
-OrderingTerm _foldersByTitle($FoldersTable table) {
-  return OrderingTerm(expression: table.title);
-}
+// OrderingTerm _foldersByTitle($FoldersTable table) {
+//   return OrderingTerm(expression: table.title);
+// }

@@ -67,7 +67,6 @@ class FolderDao extends DatabaseAccessor<LeafyNotesDatabase>
           ..orderBy([
             _foldersByIsDefault,
             _foldersByLastEditedAt,
-            _foldersByTitle,
           ]))
         .join([leftOuterJoin(notes, notes.folderId.equalsExp(folders.id))])
         .watch()
