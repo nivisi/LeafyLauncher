@@ -176,6 +176,7 @@ class _MenuOption<TTheme extends LeafyTheme> extends ThemedWidget<TTheme> {
             horizontal: 16,
             vertical: 8,
           ),
+          primary: theme.foregroundColor,
         ),
         onPressed: () {
           Navigator.of(context).pop();
