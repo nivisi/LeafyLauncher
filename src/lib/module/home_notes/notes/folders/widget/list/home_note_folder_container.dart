@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 import 'package:leafy_launcher/shared_widget/section/leafy_text_section_item.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
-import 'package:leafy_notes_database/leafy_notes_database.dart';
 
 typedef OnFolderSelected = void Function(FolderModel note);
 

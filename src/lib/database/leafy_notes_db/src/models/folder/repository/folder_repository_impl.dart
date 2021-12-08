@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_catching_errors
 
-import 'package:leafy_notes_database/src/leafy_notes_db.dart';
-import 'package:leafy_notes_database/src/models/folder/model/folder_converter.dart';
-import 'package:leafy_notes_database/src/one_to_many/folder_with_notes.dart';
+import 'package:leafy_launcher/database/leafy_notes_db/src/models/folder/model/folder_converter.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../leafy_notes_db.dart';
 import '../../../models.dart';
+import '../../../one_to_manys.dart';
 import 'folder_repository.dart';
 
 class FolderRepositoryImpl implements FolderRepository {

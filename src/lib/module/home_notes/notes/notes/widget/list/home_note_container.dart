@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 import 'package:leafy_launcher/shared_widget/section/leafy_text_section_item.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
-import 'package:leafy_notes_database/leafy_notes_database.dart';
 
 import '../../home_notes_page.dart';
 

@@ -12,9 +12,9 @@ import 'package:leafy_launcher/module/intro/tutorial/tutorial_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
-import 'package:leafy_notes_database/leafy_notes_database.dart';
 
 import 'app_routes.dart';
+import 'database/leafy_notes_db/leafy_notes_database.dart';
 import 'module/app_picker/app_picker_binding.dart';
 import 'module/app_picker/app_picker_home_controller.dart';
 import 'module/app_picker/app_picker_page.dart';

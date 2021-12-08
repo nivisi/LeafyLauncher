@@ -1,9 +1,8 @@
-import 'package:leafy_notes_database/src/leafy_notes_db.dart';
-import 'package:leafy_notes_database/src/models/note/repository/note_repository.dart';
-import 'package:leafy_notes_database/src/one_to_many/folder_with_notes.dart';
+import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../leafy_notes_db.dart';
 import '../../../models.dart';
 import '../model/note_converter.dart';
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/module/home/utils/gesture_processer.dart';
 import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_controller.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
@@ -7,7 +8,6 @@ import 'package:leafy_launcher/shared_widget/list/dismissible_delete_background.
 import 'package:leafy_launcher/shared_widget/section/leafy_section.dart';
 import 'package:leafy_launcher/shared_widget/themed_get_widget.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
-import 'package:leafy_notes_database/leafy_notes_database.dart';
 
 import 'home_note_folder_container.dart';
 

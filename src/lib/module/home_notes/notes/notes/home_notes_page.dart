@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:leafy_launcher/base/page/status_page_base.dart';
+import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
-import 'package:leafy_notes_database/leafy_notes_database.dart';
 
 import 'home_notes_controller.dart';
 import 'widget/list/home_notes_list.dart';
