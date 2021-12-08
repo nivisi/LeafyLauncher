@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_page.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
@@ -7,7 +8,6 @@ import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 import 'package:leafy_launcher/shared_widget/leafy_spacer.dart';
 import 'package:leafy_launcher/shared_widget/leafy_text_button.dart';
 import 'package:leafy_launcher/shared_widget/themed_get_widget.dart';
-import 'package:leafy_notes_database/leafy_notes_database.dart';
 
 class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
   const HomeNotesTitle({

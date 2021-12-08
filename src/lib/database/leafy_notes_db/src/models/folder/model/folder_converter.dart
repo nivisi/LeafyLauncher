@@ -1,6 +1,5 @@
-import 'package:leafy_notes_database/leafy_notes_database.dart';
-
 import '../../../leafy_notes_db.dart';
+import 'folder_model.dart';
 
 Folder folderModelToDb(FolderModel folder) {
   return Folder(

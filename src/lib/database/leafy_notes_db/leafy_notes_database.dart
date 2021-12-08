@@ -4,10 +4,10 @@ import 'dart:async';
 
 // ignore: depend_on_referenced_packages
 import 'package:get/get.dart';
-import 'package:leafy_notes_database/src/leafy_notes_db.dart';
-import 'package:leafy_notes_database/src/models/folder/model/folder_converter.dart';
 
+import 'src/leafy_notes_db.dart';
 import 'src/models.dart';
+import 'src/models/folder/model/folder_converter.dart';
 import 'src/models/folder/repository/folder_repository_impl.dart';
 import 'src/models/note/repository/note_repository_impl.dart';
 import 'src/repositories/repositories.dart';

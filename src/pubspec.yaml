@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 1.2.0
+version: 1.2.1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -12,19 +12,16 @@ dependencies:
   assorted_layout_widgets: ^5.2.1
   build_runner: ^2.1.4
   ensure_initialized: ^0.0.3
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
   fluttertoast: ^8.0.8
   intl: ^0.17.0
-
-  leafy_notes_database:
-    path:
-      leafy_notes_db
-
   lint: ^1.5.3
   logger: ^1.0.0
+  moor_flutter: ^4.0.0
   path_provider: ^2.0.2
   share: ^2.0.4
   shared_preferences: ^2.0.6
