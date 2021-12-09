@@ -95,10 +95,9 @@ class HomeNoteController extends StatusControllerBase {
     titleEditingController = TextEditingController()..text = title ?? '';
     bodyEditingController = TextEditingController()..text = data ?? '';
 
-    final isTitleEmpty = title?.isEmpty ?? true;
     final isDataEmpty = data?.isEmpty ?? true;
 
-    _shouldAutofocusBody = !isTitleEmpty && isDataEmpty;
+    _shouldAutofocusBody = isDataEmpty;
   }
 
   String _getFirstLine(String body) {
