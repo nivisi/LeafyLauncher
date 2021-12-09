@@ -8,7 +8,6 @@ import '../../../leafy_notes_db.dart';
 import '../../../models.dart';
 import '../../../one_to_many/folder_with_notes.dart';
 import '../../note/table/note_table.dart';
-import '../model/folder_model.dart';
 import '../table/folder_table.dart';
 
 part '../table/sorts.dart';

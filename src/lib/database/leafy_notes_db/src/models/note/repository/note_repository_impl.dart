@@ -3,7 +3,6 @@ import 'package:moor_flutter/moor_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../leafy_notes_db.dart';
-import '../../../models.dart';
 import '../model/note_converter.dart';
 
 class NoteRepositoryImpl implements NoteRepository {

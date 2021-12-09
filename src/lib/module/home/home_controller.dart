@@ -21,7 +21,7 @@ import '../../utils/preferences/shared_preferences.dart';
 import 'widget/corner_button/corner_button.dart';
 
 class HomeController extends StatusControllerBase
-    with SingleGetTickerProviderMixin {
+    with GetSingleTickerProviderStateMixin {
   static const String suggestionsBuilderKey = 'suggestionsBuilder';
   static const String leftCornerButtonBuilderKey = 'leftCornerButtonBuilder';
   static const String rightCornerButtonBuilderKey = 'rightCornerButtonBuilder';

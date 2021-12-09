@@ -8,7 +8,7 @@ import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'domain/slide_type.dart';
 
 class TutorialController extends ControllerBase
-    with SingleGetTickerProviderMixin {
+    with GetSingleTickerProviderStateMixin {
   static const String slideBuilder = 'slideBuiler';
   static const String bodyBuilderId = 'bodyBuilder'; // 💪
   static const String currentPageBuilderId = 'currentPageBuilder';

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:ensure_initialized/ensure_initialized.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'controller_base.dart';
