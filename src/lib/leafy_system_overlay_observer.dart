@@ -40,11 +40,11 @@ class LeafySystemOverlayObserver {
           return;
         }
 
-        await Future.delayed(const Duration(seconds: 2));
-
         if (!_isEnabled) {
           return;
         }
+
+        await Future.delayed(const Duration(seconds: 2));
 
         _hideTopOverlay();
       },
