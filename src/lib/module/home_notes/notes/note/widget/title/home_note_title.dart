@@ -42,7 +42,6 @@ class HomeNoteTitle extends ThemedGetWidget<HomeNoteController, HomeTheme> {
             child: TextField(
               style: theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
               controller: controller.titleEditingController,
-              autofocus: controller.shouldAutofocusTitle,
               textInputAction: TextInputAction.next,
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(

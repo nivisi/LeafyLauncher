@@ -34,10 +34,7 @@ class HomeNoteController extends StatusControllerBase {
   NoteModel get note => _note;
 
   bool _shouldAutofocusBody = false;
-  bool _shouldAutofocusTitle = false;
-
   bool get shouldAutofocusBody => _shouldAutofocusBody;
-  bool get shouldAutofocusTitle => _shouldAutofocusTitle;
 
   List<MenuItem> get shareMenuItems => [
         MenuAction(
@@ -98,11 +95,9 @@ class HomeNoteController extends StatusControllerBase {
     titleEditingController = TextEditingController()..text = title ?? '';
     bodyEditingController = TextEditingController()..text = data ?? '';
 
-    final isTitleEmpty = title?.isEmpty ?? true;
     final isDataEmpty = data?.isEmpty ?? true;
 
-    _shouldAutofocusTitle = isTitleEmpty;
-    _shouldAutofocusBody = !isTitleEmpty && isDataEmpty;
+    _shouldAutofocusBody = isDataEmpty;
   }
 
   String _getFirstLine(String body) {
