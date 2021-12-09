@@ -9,7 +9,7 @@ import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/utils/dialogs/input/input_dialog.dart';
 
 import '../../../../app_routes.dart';
-import '../../../../leafy_overlay_watcher.dart';
+import '../../../../leafy_system_overlay_observer.dart';
 
 class HomeNoteFoldersController extends StatusControllerBase {
   late final FolderRepository _folderRepo = Get.find<FolderRepository>();
@@ -23,7 +23,7 @@ class HomeNoteFoldersController extends StatusControllerBase {
   Future load() async {
     await super.load();
 
-    LeafyOverlayWatcher.disable();
+    LeafySystemOverlayObserver.disable();
 
     scrollController = ScrollController();
 
@@ -87,7 +87,7 @@ class HomeNoteFoldersController extends StatusControllerBase {
 
   @override
   void onClose() {
-    LeafyOverlayWatcher.enable();
+    LeafySystemOverlayObserver.enable();
     super.onClose();
   }
 }

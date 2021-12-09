@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-class LeafyOverlayWatcher {
+class LeafySystemOverlayObserver {
   static bool _isEnabled = false;
 
   static void _showTopOverlay() {
