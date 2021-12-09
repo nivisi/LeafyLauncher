@@ -17,9 +17,6 @@ class HomeNotesPage extends StatusPageBase<HomeNotesController, HomeTheme> {
   static const horizontalPadding = kDefaultPadding * 1.5;
 
   @override
-  bool get resizeToAvoidBottomInset => false;
-
-  @override
   Widget ready(BuildContext context, LeafyTheme theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
