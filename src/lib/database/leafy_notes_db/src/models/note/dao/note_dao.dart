@@ -2,11 +2,9 @@ import 'package:moor_flutter/moor_flutter.dart';
 
 import '../../../../leafy_notes_database.dart';
 import '../../../leafy_notes_db.dart';
-import '../../../one_to_many/folder_with_notes.dart';
 import '../../folder/model/folder_converter.dart';
 import '../../folder/table/folder_table.dart';
 import '../model/note_converter.dart';
-import '../model/note_model.dart';
 import '../table/note_table.dart';
 
 part '../table/sorts.dart';
