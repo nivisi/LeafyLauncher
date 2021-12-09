@@ -4,7 +4,8 @@ import 'package:leafy_launcher/app_routes.dart';
 import 'package:leafy_launcher/base/controller/controller_base.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
-class IntroController extends ControllerBase with SingleGetTickerProviderMixin {
+class IntroController extends ControllerBase
+    with GetSingleTickerProviderStateMixin {
   static const String questionBuilderKey = 'questionBuilder';
 
   bool _isHelloAndWelcome = true;

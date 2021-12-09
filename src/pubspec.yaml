@@ -10,7 +10,6 @@ environment:
 
 dependencies:
   assorted_layout_widgets: ^5.2.1
-  build_runner: ^2.1.4
   ensure_initialized: ^0.0.3
   equatable: ^2.0.3
   flutter:
@@ -18,6 +17,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   fluttertoast: ^8.0.8
+  get: ^4.5.1
   intl: ^0.17.0
   lint: ^1.5.3
   logger: ^1.0.0
@@ -28,12 +28,9 @@ dependencies:
   synchronized: ^3.0.0
   table_calendar: ^3.0.2
   uuid: ^3.0.5
-  webview_flutter: ^2.0.9
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  get: ^4.3.8
+  build_runner: ^2.1.4
   moor_generator: ^4.6.0+1
 
 flutter:

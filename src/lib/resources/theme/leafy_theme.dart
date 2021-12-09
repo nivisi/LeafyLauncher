@@ -57,11 +57,13 @@ class _LeafyThemeState<TTheme extends LeafyTheme>
     final themeCreator = _creatorMap[TTheme];
 
     return themeCreator!(
-      Builder(builder: (context) {
-        final theme = _getTheme(context);
+      Builder(
+        builder: (context) {
+          final theme = _getTheme(context);
 
-        return widget.builder(context, theme);
-      }),
+          return widget.builder(context, theme);
+        },
+      ),
     );
   }
 

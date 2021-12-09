@@ -106,33 +106,35 @@ class ContextMenuRoute<TTheme extends LeafyTheme> extends ModalRoute {
             top: _getY(),
             child: FadeTransition(
               opacity: animation,
-              child: LeafyThemeState<TTheme>(builder: (context, theme) {
-                return Container(
-                  width: width,
-                  height: actionsHeight + separatorsHeight,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(theme.defaultRadius),
-                    color: theme.secondaryBackgroundColor,
-                  ),
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      for (final item in menuItems)
-                        if (item is MenuAction)
-                          _MenuOption<TTheme>(
-                            action: item,
-                            width: width,
-                            height: height,
-                          )
-                        else
-                          _MenuSeparator<TTheme>(),
-                    ],
-                  ),
-                );
-              }),
+              child: LeafyThemeState<TTheme>(
+                builder: (context, theme) {
+                  return Container(
+                    width: width,
+                    height: actionsHeight + separatorsHeight,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(theme.defaultRadius),
+                      color: theme.secondaryBackgroundColor,
+                    ),
+                    padding: EdgeInsets.zero,
+                    margin: EdgeInsets.zero,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final item in menuItems)
+                          if (item is MenuAction)
+                            _MenuOption<TTheme>(
+                              action: item,
+                              width: width,
+                              height: height,
+                            )
+                          else
+                            _MenuSeparator<TTheme>(),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],
