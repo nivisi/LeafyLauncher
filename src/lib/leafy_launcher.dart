@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/leafy_overlay_watcher.dart';
 import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_page.dart';
 import 'package:leafy_launcher/module/home_notes/notes/note/home_note_page.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_page.dart';
@@ -81,6 +82,8 @@ class LeafyLauncher {
   static Future run() async {
     await initPrimaryDependencies();
     initSecondaryDependencies();
+
+    LeafyOverlayWatcher.configure();
 
     LeafyTheme.restoreThemeStyle();
 

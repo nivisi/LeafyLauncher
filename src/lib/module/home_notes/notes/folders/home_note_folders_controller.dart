@@ -9,6 +9,7 @@ import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/utils/dialogs/input/input_dialog.dart';
 
 import '../../../../app_routes.dart';
+import '../../../../leafy_overlay_watcher.dart';
 
 class HomeNoteFoldersController extends StatusControllerBase {
   late final FolderRepository _folderRepo = Get.find<FolderRepository>();
@@ -21,6 +22,8 @@ class HomeNoteFoldersController extends StatusControllerBase {
   @override
   Future load() async {
     await super.load();
+
+    LeafyOverlayWatcher.disable();
 
     scrollController = ScrollController();
 
@@ -80,5 +83,11 @@ class HomeNoteFoldersController extends StatusControllerBase {
     } on Exception catch (e, s) {
       logger.e('Unable to remove a folder', e, s);
     }
+  }
+
+  @override
+  void onClose() {
+    LeafyOverlayWatcher.enable();
+    super.onClose();
   }
 }
