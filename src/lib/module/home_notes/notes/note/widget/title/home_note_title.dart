@@ -63,7 +63,7 @@ class HomeNoteTitle extends ThemedGetWidget<HomeNoteController, HomeTheme> {
           const LeafySpacer.horizontal(),
           ContextMenuButton<HomeTheme>(
             items: controller.menuItems,
-            offset: const Offset(-8, -48),
+            offset: Offset(-8, (controller.menuItems.length - 1) * -48.0),
             child: Icon(Icons.more_vert, color: theme.foregroundColor),
           ),
         ],

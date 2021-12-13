@@ -39,6 +39,8 @@ class HomeNoteController extends StatusControllerBase {
   bool _shouldAutofocusBody = false;
   bool get shouldAutofocusBody => _shouldAutofocusBody;
 
+  bool _skipSavingOnClose = false;
+
   List<MenuItem> get menuItems => [
         MenuAction(
           action: shareAsText,
@@ -47,6 +49,14 @@ class HomeNoteController extends StatusControllerBase {
         MenuAction(
           action: shareAsFile,
           title: L10nProvider.getText(L10n.leafyNotesShareAsFile),
+        ),
+        MenuAction(
+          action: _saveIfNeeded,
+          title: L10nProvider.getText(L10n.leafyNotesSave),
+        ),
+        MenuAction(
+          action: _closeWithoutSaving,
+          title: L10nProvider.getText(L10n.leafyNotesCloseWithoutSaving),
         ),
       ];
 
@@ -119,6 +129,10 @@ class HomeNoteController extends StatusControllerBase {
   }
 
   Future<void> _saveIfNeeded() async {
+    if (_skipSavingOnClose) {
+      return;
+    }
+
     if (note.title == titleEditingController.text &&
         note.data == bodyEditingController.text) {
       return;
@@ -148,6 +162,12 @@ class HomeNoteController extends StatusControllerBase {
     } on Exception catch (e, s) {
       logger.e('Unable to delete a note', e, s);
     }
+  }
+
+  Future<void> _closeWithoutSaving() async {
+    _skipSavingOnClose = true;
+
+    Get.back();
   }
 
   @override
