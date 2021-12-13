@@ -79,12 +79,11 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
       throw Exception('Unable to parse a map');
     });
 
-    final parcedMap = parsed.toList()
-      ..sort(
-        (a, b) => a.name.compareTo(b.name),
-      );
+    final parsedMap = parsed.toList()
+      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()))
+      ..sort((a, b) => a.package.toLowerCase().compareTo(b.name.toLowerCase()));
 
-    _installedApps = parcedMap;
+    _installedApps = parsedMap;
   }
 
   void _initRefetchTimer() {
