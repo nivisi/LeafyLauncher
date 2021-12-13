@@ -7,6 +7,7 @@ import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
 import 'package:leafy_launcher/shared_widget/context_menu/context_menu_route.dart';
+import 'package:leafy_launcher/utils/app_goes_to_background_aware/app_goes_to_background_aware.dart';
 
 class HomeNoteController extends StatusControllerBase {
   HomeNoteController({
@@ -32,6 +33,8 @@ class HomeNoteController extends StatusControllerBase {
 
   late NoteModel _note;
   NoteModel get note => _note;
+
+  late final AppGoesToBackgroundListener _listener;
 
   bool _shouldAutofocusBody = false;
   bool get shouldAutofocusBody => _shouldAutofocusBody;
@@ -98,6 +101,8 @@ class HomeNoteController extends StatusControllerBase {
     final isDataEmpty = data?.isEmpty ?? true;
 
     _shouldAutofocusBody = isDataEmpty;
+
+    _listener = AppGoesToBackgroundListener(_saveIfNeeded);
   }
 
   String _getFirstLine(String body) {
@@ -119,18 +124,22 @@ class HomeNoteController extends StatusControllerBase {
       return;
     }
 
-    final body = bodyEditingController.text.trim();
-    final firstLine = _getFirstLine(body);
+    try {
+      final body = bodyEditingController.text.trim();
+      final firstLine = _getFirstLine(body);
 
-    final updatedNote = note.copyWith(
-      title: titleEditingController.text.trim(),
-      data: body,
-      firstLine: firstLine,
-    );
+      final updatedNote = note.copyWith(
+        title: titleEditingController.text.trim(),
+        data: body,
+        firstLine: firstLine,
+      );
 
-    await _noteRepository.update(updatedNote);
+      await _noteRepository.update(updatedNote);
 
-    _toastService.short(L10nProvider.getText(L10n.leafyNotesNoteSaved));
+      _toastService.short(L10nProvider.getText(L10n.leafyNotesNoteSaved));
+    } on Exception catch (e, s) {
+      logger.e('Unable to save a note', e, s);
+    }
   }
 
   Future<void> _delete() async {
@@ -143,6 +152,8 @@ class HomeNoteController extends StatusControllerBase {
 
   @override
   void onClose() {
+    _listener.dispose();
+
     if (titleEditingController.text.isEmpty &&
         bodyEditingController.text.isEmpty) {
       _delete();
