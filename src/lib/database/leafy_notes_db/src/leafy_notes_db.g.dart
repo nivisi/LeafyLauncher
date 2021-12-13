@@ -312,53 +312,62 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   final String? _alias;
   $NotesTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
   late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
       'id', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
       'title', aliasedName, true,
-      typeName: 'TEXT',
+      type: const StringType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
   final VerificationMeta _firstLineMeta = const VerificationMeta('firstLine');
+  @override
   late final GeneratedColumn<String?> firstLine = GeneratedColumn<String?>(
       'first_line', aliasedName, true,
-      typeName: 'TEXT',
+      type: const StringType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
   final VerificationMeta _dataMeta = const VerificationMeta('data');
+  @override
   late final GeneratedColumn<String?> data = GeneratedColumn<String?>(
       'data', aliasedName, true,
-      typeName: 'TEXT',
+      type: const StringType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
       'created_at', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _lastEditedAtMeta =
       const VerificationMeta('lastEditedAt');
+  @override
   late final GeneratedColumn<DateTime?> lastEditedAt =
       GeneratedColumn<DateTime?>('last_edited_at', aliasedName, false,
-          typeName: 'INTEGER', requiredDuringInsert: true);
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _folderIdMeta = const VerificationMeta('folderId');
+  @override
   late final GeneratedColumn<String?> folderId = GeneratedColumn<String?>(
       'folder_id', aliasedName, false,
-      typeName: 'TEXT',
+      type: const StringType(),
       requiredDuringInsert: true,
       $customConstraints: 'REFERENCES folders(id)');
   final VerificationMeta _isArchivedMeta = const VerificationMeta('isArchived');
+  @override
   late final GeneratedColumn<bool?> isArchived = GeneratedColumn<bool?>(
       'is_archived', aliasedName, false,
-      typeName: 'INTEGER',
+      type: const BoolType(),
       requiredDuringInsert: false,
       defaultConstraints: 'CHECK (is_archived IN (0, 1))',
       defaultValue: const Constant(false));
   final VerificationMeta _isPinnedMeta = const VerificationMeta('isPinned');
+  @override
   late final GeneratedColumn<bool?> isPinned = GeneratedColumn<bool?>(
       'is_pinned', aliasedName, false,
-      typeName: 'INTEGER',
+      type: const BoolType(),
       requiredDuringInsert: false,
       defaultConstraints: 'CHECK (is_pinned IN (0, 1))',
       defaultValue: const Constant(false));
@@ -696,44 +705,51 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
   final String? _alias;
   $FoldersTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
   late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
       'id', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
       'title', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      typeName: 'TEXT',
+      type: const StringType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
   late final GeneratedColumn<DateTime?> createdAt = GeneratedColumn<DateTime?>(
       'created_at', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _lastEditedAtMeta =
       const VerificationMeta('lastEditedAt');
+  @override
   late final GeneratedColumn<DateTime?> lastEditedAt =
       GeneratedColumn<DateTime?>('last_edited_at', aliasedName, false,
-          typeName: 'INTEGER', requiredDuringInsert: true);
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _isDefaultMeta = const VerificationMeta('isDefault');
+  @override
   late final GeneratedColumn<bool?> isDefault = GeneratedColumn<bool?>(
       'is_default', aliasedName, false,
-      typeName: 'INTEGER',
+      type: const BoolType(),
       requiredDuringInsert: false,
       defaultConstraints: 'CHECK (is_default IN (0, 1))',
       defaultValue: const Constant(false));
   final VerificationMeta _isArchivedMeta = const VerificationMeta('isArchived');
+  @override
   late final GeneratedColumn<bool?> isArchived = GeneratedColumn<bool?>(
       'is_archived', aliasedName, false,
-      typeName: 'INTEGER',
+      type: const BoolType(),
       requiredDuringInsert: false,
       defaultConstraints: 'CHECK (is_archived IN (0, 1))',
       defaultValue: const Constant(false));
   final VerificationMeta _isPinnedMeta = const VerificationMeta('isPinned');
+  @override
   late final GeneratedColumn<bool?> isPinned = GeneratedColumn<bool?>(
       'is_pinned', aliasedName, false,
-      typeName: 'INTEGER',
+      type: const BoolType(),
       requiredDuringInsert: false,
       defaultConstraints: 'CHECK (is_pinned IN (0, 1))',
       defaultValue: const Constant(false));
