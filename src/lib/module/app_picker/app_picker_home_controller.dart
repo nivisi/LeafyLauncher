@@ -58,7 +58,7 @@ class AppPickerHomeController extends AppPickerControllerBase {
     }
 
     final result = await ActionsDialog.show<HomeTheme, _LongPressActions>(
-      title: L10nProvider.getText(L10n.choseAction),
+      title: app.name,
       options: [
         LeafyDialogOption.positive(
           title: L10nProvider.getText(
