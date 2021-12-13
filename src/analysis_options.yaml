@@ -32,6 +32,9 @@ linter:
     # final int variable = 5;
     always_specify_types: false
 
+    # Will be fixed
+    always_use_package_imports: false
+
 analyzer:
   errors:
     prefer_const_constructors: error
