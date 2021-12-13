@@ -39,7 +39,7 @@ class HomeNoteController extends StatusControllerBase {
   bool _shouldAutofocusBody = false;
   bool get shouldAutofocusBody => _shouldAutofocusBody;
 
-  List<MenuItem> get shareMenuItems => [
+  List<MenuItem> get menuItems => [
         MenuAction(
           action: shareAsText,
           title: L10nProvider.getText(L10n.leafyNotesShareAsText),
