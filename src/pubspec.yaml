@@ -19,7 +19,7 @@ dependencies:
   fluttertoast: ^8.0.8
   get: ^4.5.1
   intl: ^0.17.0
-  lint: ^1.5.3
+  lint: ^1.8.1
   logger: ^1.0.0
   moor_flutter: ^4.0.0
   path_provider: ^2.0.2
