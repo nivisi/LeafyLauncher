@@ -133,17 +133,23 @@ class HomeNoteController extends StatusControllerBase {
     _toastService.short(L10nProvider.getText(L10n.leafyNotesNoteSaved));
   }
 
+  Future<void> _delete() async {
+    try {
+      await _noteRepository.delete(note);
+    } on Exception catch (e, s) {
+      logger.e('Unable to delete a note', e, s);
+    }
+  }
+
   @override
-  Future<bool> back() async {
+  void onClose() {
     if (titleEditingController.text.isEmpty &&
         bodyEditingController.text.isEmpty) {
-      await _noteRepository.delete(note);
-
-      return super.back();
+      _delete();
     }
 
-    await _saveIfNeeded();
+    _saveIfNeeded();
 
-    return super.back();
+    super.onClose();
   }
 }
