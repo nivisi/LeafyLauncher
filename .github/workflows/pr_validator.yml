@@ -22,7 +22,7 @@ jobs:
         with:
           script: |
             // See https://github.com/SByteDev/BranchNameGenerator
-            function generate(task, prefix, divider, version) {
+            function generateBranchName(task, prefix, divider, version) {
                if (task === undefined || task === "") {
                   return "";
                }
@@ -54,11 +54,11 @@ jobs:
                }
                return branch;
             };
-            
+
             const prTitle = context.payload.pull_request.title;
             const prDescription = context.payload.pull_request.body;
             const prBranch = context.payload.pull_request.head.ref
-            
+
             const prDescriptionToLower = prDescription.toLowerCase();
 
             var isIssueFound = false;
@@ -70,7 +70,7 @@ jobs:
                core.setFailed("The PR description must start with \"Resolves #{issue_number}\", where {issue_number} — is the number of the main linked issue.");
                return;
             }
-            
+
             console.log("Found a linked issue!");
 
             var firstMatch = matches[0];
@@ -79,17 +79,17 @@ jobs:
               core.setFailed("The PR description must start with \"Resolves #{issue_number}\", where {issue_number} — is the number of the main linked issue.");
               return;
             }
-            
+
             const issueId = firstMatch.replace('resolves #','').trim();
-            
+
             console.log("Getting data of \#" + issueId + " ...");
-            
+
             const issue = await github.rest.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issueId,
             });
-            
+
             if (!issue) {
               core.setFailed("Issue with such a number was not found.");
               return;
@@ -101,26 +101,26 @@ jobs:
               core.setFailed("\#" + issueId + " is a PR, but must be an issue.");
               return;
             }
-            
+
             console.log("Comparing titles ...");
 
             if (issue.data.title != prTitle) {
               core.setFailed("The title of the PR must be equal with the linked issue title.");
               return;
             }
-            
+
             console.log("Looking for branch prefix depending on issue's labels ...");
-            
+
             var branchPrefix;
-                    
+
             const labels = issue.data.labels
-                    
+
             if (!labels) {
               branchPrefix = ""
             } else {
               for (index in labels) {
                 const label = labels[index]
-              
+
                 if (label.name.includes("bug")) {
                   console.log("Found a bug label!");
 
@@ -130,7 +130,7 @@ jobs:
 
                   branchPrefix = "bug"
                 }
-                
+
                 if (label.name.includes("feature")) {
                   console.log("Found a feature label!");
 
@@ -142,10 +142,10 @@ jobs:
                 }
               }
             }
-            
+
             console.log("Validating branch name ...");
 
-            const expectedBranchName = generate(
+            const expectedBranchName = generateBranchName(
               issue.data.title,
               branchPrefix,
               "-",
@@ -156,5 +156,5 @@ jobs:
               core.setFailed("The PR git branch doesn't follow the required rules.\nExpected: " + expectedBranchName + "\nActual: " + prBranch);
               return;
             }
-            
+
             console.log("The PR is valid! 👍");
