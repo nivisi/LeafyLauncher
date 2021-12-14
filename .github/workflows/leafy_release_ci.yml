@@ -1,4 +1,4 @@
-name: Leafy Release CI 🌳
+name: 🌳 Release CI 
 
 on:
   release:
