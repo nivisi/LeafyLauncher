@@ -1,4 +1,4 @@
-name: Move Maintenance issues to Maintenance project
+name: 🔧 Move Maintenance issues to Maintenance project
 
 on:
   issues:
