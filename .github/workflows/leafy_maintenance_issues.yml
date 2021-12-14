@@ -4,15 +4,16 @@ on:
   issues:
     types:
       - labeled
+      
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  add_to_project:
-    if: github.event.label.name == 'maintenance'
+  AssignMaintenanceProject:
     runs-on: ubuntu-latest
     steps:
-      - uses: skeet70/default-project-board-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          issue: ${{ github.event.issue.number }}
-          project: Maintenance
+    - name: Assign to Maintenance Project
+      uses: srggrs/assign-one-project-github-action@1.2.1
+      if: github.event.label.name == 'maintenance'
+      with:
+        project: 'https://github.com/nivisi/LeafyLauncher/projects/8'
