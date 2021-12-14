@@ -143,3 +143,20 @@ jobs:
             At the moment I can't publish changelog here, but I'll find out how soon! Meanwhile you can check the notes for ${{ env.APP_VERSION }} here: ${{ env.RELEASE_URL }}
 
 #           ${{ env.RELEASE_NOTES }} Publish it when the error is fixed :(
+
+      - name: Create Bug Label
+        uses: actions/github-script@v5.0.0
+        env:
+          APP_VERSION: ${{ env.APP_VERSION }}
+
+        with:
+          script: |
+            const { APP_VERSION } = process.env;
+            
+            await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: "bug (found in " + APP_VERSION + ")",
+                color: "B60205",
+                description: "A bug that was found in " + APP_VERSION + "."
+            });
