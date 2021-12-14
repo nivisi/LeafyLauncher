@@ -4,16 +4,16 @@ on:
   issues:
     types:
       - labeled
-      
+
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   AssignMaintenanceProject:
     runs-on: ubuntu-latest
+    if: github.event.label.name == 'maintenance'
     steps:
     - name: Assign to Maintenance Project
       uses: srggrs/assign-one-project-github-action@1.2.1
-      if: github.event.label.name == 'maintenance'
       with:
         project: 'https://github.com/nivisi/LeafyLauncher/projects/8'
