@@ -3,7 +3,9 @@ name: 🌱 Leafy CI
 on:
   push:
     branches: [ develop ]
-    paths: [ src/** ]
+    paths: 
+      - src/**
+      - .github/workflows/leafy_ci.yml
 
   pull_request:
     paths: [ src/** ]
