@@ -153,4 +153,7 @@ class L10n {
       'leafyNotesFolderTitlePlaceholder';
   static const String leafyNotesShareAsText = 'leafyNotesShareAsText';
   static const String leafyNotesShareAsFile = 'leafyNotesShareAsFile';
+  static const String leafyNotesCloseWithoutSaving =
+      'leafyNotesCloseWithoutSaving';
+  static const String leafyNotesSave = 'leafyNotesSave';
 }
