@@ -144,7 +144,7 @@ jobs:
 
 #           ${{ env.RELEASE_NOTES }} Publish it when the error is fixed :(
 
-      - name: Create Bug Label
+      - name: Create New Bug Label
         uses: actions/github-script@v5.0.0
         env:
           APP_VERSION: ${{ env.APP_VERSION }}
