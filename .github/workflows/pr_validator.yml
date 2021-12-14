@@ -1,0 +1,160 @@
+name: 🔍 PR Validator
+
+on:
+   pull_request:
+     types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+   workflow_dispatch:
+
+jobs:
+  Validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo Credits
+        run: echo Credits to SByteDev''s branch validator. See https://github.com/SByteDev/BranchNameGenerator
+      - name: Validate
+        uses: actions/github-script@v5.0.0
+        with:
+          script: |
+            // See https://github.com/SByteDev/BranchNameGenerator
+            function generate(task, prefix, divider, version) {
+               if (task === undefined || task === "") {
+                  return "";
+               }
+               // Replace non-word characters with divider.
+               var branch = task.replace(/([\W])/g, divider);
+                 // Remove duplicated dividers.
+               if (divider == "-") {
+                  branch = branch.replace(/-+/g, divider);
+               } else {
+                  branch = branch.replace(/_+/g, divider);
+               }
+                 // Replace uppercase characters with lovercase characters.
+               branch = branch.toLowerCase();
+                 // Remove first divider.
+               if (branch[0] === divider) {
+                  branch = branch.substring(1, branch.length);
+               }
+               // Remove last divider.
+               if (branch[branch.length - 1] === divider) {
+                  branch = branch.substring(0, branch.length - 1);
+               }
+               if (prefix !== undefined && prefix !== "") {
+                  // Add tack type folder.
+                  branch = prefix + "/" + branch;
+               }
+               if (version !== undefined && version !== "") {
+                  // Add version folder.
+                  branch = version + "/" + branch;
+               }
+               return branch;
+            };
+            
+            const prTitle = context.payload.pull_request.title;
+            const prDescription = context.payload.pull_request.body;
+            const prBranch = context.payload.pull_request.head.ref
+            
+            const prDescriptionToLower = prDescription.toLowerCase();
+
+            var isIssueFound = false;
+
+            const regex = /(resolves) #(\d+)/g;
+            const matches = prDescriptionToLower.match(regex);
+
+            if (!matches) {
+               core.setFailed("The PR description must start with \"Resolves #{issue_number}\", where {issue_number} — is the number of the main linked issue.");
+               return;
+            }
+            
+            console.log("Found a linked issue!");
+
+            var firstMatch = matches[0];
+
+            if (!prDescriptionToLower.startsWith(firstMatch)) {
+              core.setFailed("The PR description must start with \"Resolves #{issue_number}\", where {issue_number} — is the number of the main linked issue.");
+              return;
+            }
+            
+            const issueId = firstMatch.replace('resolves #','').trim();
+            
+            console.log("Getting data of \#" + issueId + " ...");
+            
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueId,
+            });
+            
+            if (!issue) {
+              core.setFailed("Issue with such a number was not found.");
+              return;
+            }
+
+            console.log("Checking if \#" + issueId + " is not a PR ...");
+
+            if (issue.data.pull_request) {
+              core.setFailed("\#" + issueId + " is a PR, but must be an issue.");
+              return;
+            }
+            
+            console.log("Comparing titles ...");
+
+            if (issue.data.title != prTitle) {
+              core.setFailed("The title of the PR must be equal with the linked issue title.");
+              return;
+            }
+            
+            console.log("Looking for branch prefix depending on issue's labels ...");
+            
+            var branchPrefix;
+                    
+            const labels = issue.data.labels
+                    
+            if (!labels) {
+              branchPrefix = ""
+            } else {
+              for (index in labels) {
+                const label = labels[index]
+              
+                if (label.name.includes("bug")) {
+                  console.log("Found a bug label!");
+
+                  if (branchPrefix == "feature") {
+                    core.setFailed("The issue contains both bug and feature labels: that's not correct");
+                  }
+
+                  branchPrefix = "bug"
+                }
+                
+                if (label.name.includes("feature")) {
+                  console.log("Found a feature label!");
+
+                  if (branchPrefix == "bug") {
+                    core.setFailed("The issue contains both bug and feature labels: that's not correct");
+                  }
+
+                  branchPrefix = "feature"
+                }
+              }
+            }
+            
+            console.log("Validating branch name ...");
+
+            const expectedBranchName = generate(
+              issue.data.title,
+              branchPrefix,
+              "-",
+              ""
+            );
+
+            if (expectedBranchName != prBranch) {
+              core.setFailed("The PR git branch doesn't follow the required rules.\nExpected: " + expectedBranchName + "\nActual: " + prBranch);
+              return;
+            }
+            
+            console.log("The PR is valid! 👍");
