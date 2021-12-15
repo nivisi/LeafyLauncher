@@ -240,6 +240,33 @@ class MainActivity: FlutterActivity() {
         registerApplicationChannel(flutterEngine)
     }
 
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+
+        return super.onCreateView(name, context, attrs)
+    }
+
+    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View? {
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+        return super.onCreateView(parent, name, context, attrs)
+    }
+
     override fun onNewIntent(intent: Intent) {
         if (intent.action == Intent.ACTION_MAIN) {
             homeEventStreamHandler.dispatch()
