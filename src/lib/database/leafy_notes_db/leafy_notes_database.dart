@@ -16,7 +16,7 @@ export 'src/models.dart';
 export 'src/one_to_manys.dart';
 export 'src/repositories/repositories.dart';
 
-class LeafyNotesLibrary {
+class LeafyNotesDatabaseLibrary {
   static final Completer _completer = Completer();
 
   static Future get ensureInitialized => _completer.future;

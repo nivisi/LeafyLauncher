@@ -168,6 +168,12 @@ class MainActivity: FlutterActivity() {
                     context.startActivity(intent, options.toBundle())
                     result.success(null)
                 }
+                openLeafyNotes -> {
+                    val intent = Intent(context, NotesActivity::class.java)
+                    val options: ActivityOptions = getDefaultLaunchOptions()
+                    context.startActivity(intent, options.toBundle())
+                    result.success(null)
+                }
                 else -> result.notImplemented()
             }
         }
@@ -415,6 +421,7 @@ class MainActivity: FlutterActivity() {
         private const val openLauncherPreferences = "openLauncherPreferences"
         private const val deleteApp = "deleteApp"
         private const val viewInfo = "viewInfo"
+        private const val openLeafyNotes = "openLeafyNotes"
 
         private const val argumentPackageName = "packageName"
         private const val argumentTransition = "transition"

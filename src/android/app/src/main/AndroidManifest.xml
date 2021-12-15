@@ -28,11 +28,38 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
-            android:clearTaskOnLaunch="true"
             android:launchMode="singleTask"
             android:resumeWhilePausing="true"
             android:excludeFromRecents="true"
             android:stateNotNeeded="true"
+            tools:ignore="LockedOrientationActivity">
+
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"/>
+            <meta-data
+                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+                android:resource="@drawable/launch_background"/>
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER_APP" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.nivisi.leafy_launcher.NotesActivity"
+            android:theme="@style/LaunchTheme"
+            android:taskAffinity=".com.nivisi.leafy_launcher.NotesActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTask"
             tools:ignore="LockedOrientationActivity">
 
             <meta-data

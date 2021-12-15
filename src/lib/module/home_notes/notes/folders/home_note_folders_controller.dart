@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/applications/notes/leafy_notes_routes.dart';
 import 'package:leafy_launcher/base/controller/status_controller_base.dart';
 import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
@@ -8,7 +9,6 @@ import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/utils/dialogs/input/input_dialog.dart';
 
-import '../../../../app_routes.dart';
 import '../../../../leafy_system_overlay_observer.dart';
 
 class HomeNoteFoldersController extends StatusControllerBase {
@@ -27,7 +27,7 @@ class HomeNoteFoldersController extends StatusControllerBase {
 
     scrollController = ScrollController();
 
-    await LeafyNotesLibrary.ensureInitialized;
+    await LeafyNotesDatabaseLibrary.ensureInitialized;
 
     foldersStream = _folderRepo.watchAllFolderWithNotes();
   }
@@ -41,7 +41,7 @@ class HomeNoteFoldersController extends StatusControllerBase {
   }
 
   void onFolderSelected(FolderModel folder) {
-    AppRoutes.toNotes(folder.id);
+    LeafyNotesRoutes.toNotes(folder.id);
   }
 
   Future createFolder() async {
@@ -65,15 +65,15 @@ class HomeNoteFoldersController extends StatusControllerBase {
       return;
     }
 
-    AppRoutes.toNotes(folder.id);
+    LeafyNotesRoutes.toNotes(folder.id);
   }
 
   Future createNote() async {
     final note = await _noteRepo.create(_folderRepo.defaultFolder);
 
-    AppRoutes.toNotes(_folderRepo.defaultFolder.id);
+    LeafyNotesRoutes.toNotes(_folderRepo.defaultFolder.id);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      AppRoutes.toNote(_folderRepo.defaultFolder.id, note.id);
+      LeafyNotesRoutes.toNote(_folderRepo.defaultFolder.id, note.id);
     });
   }
 

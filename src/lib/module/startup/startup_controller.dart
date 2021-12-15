@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../app_routes.dart';
+import '../../applications/launcher/app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
 import '../../services/applications/installed_applications_service.dart';
 import '../../services/applications/user_applications_controller.dart';

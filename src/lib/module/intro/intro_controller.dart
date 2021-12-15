@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/app_routes.dart';
+import 'package:leafy_launcher/applications/launcher/app_routes.dart';
 import 'package:leafy_launcher/base/controller/controller_base.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 

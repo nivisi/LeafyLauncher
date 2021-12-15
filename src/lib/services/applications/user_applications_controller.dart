@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/services/applications/installed_application.dart';
 
-import '../../app_routes.dart';
+import '../../applications/launcher/app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
 import '../../resources/localization/l10n.dart';
 import '../../resources/theme/leafy_theme.dart';
