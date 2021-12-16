@@ -96,4 +96,6 @@ var _mapEn = {
   L10n.leafyNotesFolderTitlePlaceholder: 'Folder',
   L10n.leafyNotesShareAsText: 'Share',
   L10n.leafyNotesShareAsFile: 'Share (as file)',
+  L10n.leafyNotesCloseWithoutSaving: 'Close w/o saving',
+  L10n.leafyNotesSave: 'Save',
 };

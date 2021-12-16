@@ -8,7 +8,7 @@ import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/services/device_vibration/device_vibration.dart';
 import 'package:leafy_launcher/services/home_button_listener/home_button_listener.dart';
 
-import '../../app_routes.dart';
+import '../../applications/launcher/app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
 import '../../services/applications/installed_applications_service.dart';
 import '../../services/applications/user_applications_controller.dart';
@@ -21,7 +21,7 @@ import '../../utils/preferences/shared_preferences.dart';
 import 'widget/corner_button/corner_button.dart';
 
 class HomeController extends StatusControllerBase
-    with SingleGetTickerProviderMixin {
+    with GetSingleTickerProviderStateMixin {
   static const String suggestionsBuilderKey = 'suggestionsBuilder';
   static const String leftCornerButtonBuilderKey = 'leftCornerButtonBuilder';
   static const String rightCornerButtonBuilderKey = 'rightCornerButtonBuilder';
@@ -292,7 +292,7 @@ class HomeController extends StatusControllerBase
   }
 
   Future? onDoubleTap() {
-    return AppRoutes.toFolders();
+    return _platformMethodsService.openLeafyNotes();
   }
 
   Future cornerButtonPressed(CornerButtonType type) async {

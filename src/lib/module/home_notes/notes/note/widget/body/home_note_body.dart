@@ -19,6 +19,7 @@ class HomeNoteBody extends ThemedGetWidget<HomeNoteController, HomeTheme> {
         controller: controller.bodyEditingController,
         style: theme.bodyText3,
         autofocus: controller.shouldAutofocusBody,
+        textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
           border: InputBorder.none,
           focusedBorder: InputBorder.none,

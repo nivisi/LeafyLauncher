@@ -28,7 +28,7 @@ class HomeNoteFoldersTitle
         ),
         padding: const EdgeInsets.fromLTRB(
           HomeNoteFoldersPage.horizontalPadding,
-          kHomeVerticalPadding,
+          kHomeVerticalPadding - kStatusBarPadding,
           HomeNoteFoldersPage.horizontalPadding,
           kHomeVerticalPadding / 2.0,
         ),

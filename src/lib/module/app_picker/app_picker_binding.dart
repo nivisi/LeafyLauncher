@@ -24,9 +24,11 @@ class AppPickerBinding implements Bindings {
       selectOnFirstMatch = selectOnFirstMatchStr.toLowerCase() == 'true';
     }
 
-    Get.put<AppPickerController>(AppPickerController(
-      type: type,
-      selectOnFirstMatch: selectOnFirstMatch,
-    ));
+    Get.put<AppPickerController>(
+      AppPickerController(
+        type: type,
+        selectOnFirstMatch: selectOnFirstMatch,
+      ),
+    );
   }
 }

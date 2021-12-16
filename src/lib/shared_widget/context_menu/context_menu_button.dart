@@ -48,6 +48,9 @@ class ContextMenuButton<TTheme extends LeafyTheme>
       ),
       offset & overlayRenderBox.size,
     );
+
+    // TODO: Add an Alignment property and calculate this
+    // based on that property.
     await ContextMenuRoute.open<TTheme>(
       context,
       Offset(position.left, position.top - items.length * 48),

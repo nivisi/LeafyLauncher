@@ -17,9 +17,11 @@ class HomeNoteBinding implements Bindings {
       throw Exception('noteId is not found');
     }
 
-    Get.lazyPut<HomeNoteController>(() => HomeNoteController(
-          folderId: folderId,
-          noteId: noteId,
-        ));
+    Get.lazyPut<HomeNoteController>(
+      () => HomeNoteController(
+        folderId: folderId,
+        noteId: noteId,
+      ),
+    );
   }
 }

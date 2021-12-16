@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/applications/notes/leafy_notes_routes.dart';
 
 import 'package:leafy_launcher/base/controller/status_controller_base.dart';
 import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
@@ -10,8 +11,6 @@ import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/utils/dialogs/input/input_dialog.dart';
-
-import '../../../../app_routes.dart';
 
 class HomeNotesController extends StatusControllerBase {
   HomeNotesController(this.folderId);
@@ -51,7 +50,7 @@ class HomeNotesController extends StatusControllerBase {
 
     try {
       final note = await _noteRepository.create(folder);
-      AppRoutes.toNote(folderId, note.id);
+      LeafyNotesRoutes.toNote(folderId, note.id);
     } on Exception catch (e, s) {
       logger.e('Unable to create a note', e, s);
     }
@@ -92,7 +91,7 @@ class HomeNotesController extends StatusControllerBase {
   }
 
   void onNoteSelected(NoteModel note) {
-    AppRoutes.toNote(folderId, note.id);
+    LeafyNotesRoutes.toNote(folderId, note.id);
   }
 
   Future<void> onNoteRemoved(NoteModel note) async {

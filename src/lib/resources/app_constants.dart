@@ -9,6 +9,7 @@ const kDefaultPadding = 10.0;
 
 const kHomeHorizontalPadding = kDefaultPadding * 2.5;
 const kHomeVerticalPadding = kDefaultPadding * 4.0;
+const kStatusBarPadding = 20.0;
 const kHomeAppsSpacingMultipler = 2.0;
 const kHomeHorizontalSwipeIconSize = 55.0;
 const kHomeCornerButtonEdgeInsets = EdgeInsets.only(

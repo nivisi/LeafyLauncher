@@ -19,7 +19,6 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import io.flutter.Log
-import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -27,8 +26,7 @@ import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.io.Serializable
 
-
-class MainActivity: FlutterActivity() {
+class MainActivity: LeafyActivityBase() {
     private lateinit var _appMaps: List<Map<String, Serializable>>
 
     private var homeEventChannel: EventChannel? = null
@@ -39,6 +37,10 @@ class MainActivity: FlutterActivity() {
     private var deleteAppResult: MethodChannel.Result? = null
 
     private var systemCameraAppPackage: String? = null
+
+    override fun appName(): String {
+        return "launcher"
+    }
 
     override fun onResume() {
         super.onResume()
@@ -168,6 +170,12 @@ class MainActivity: FlutterActivity() {
                     context.startActivity(intent, options.toBundle())
                     result.success(null)
                 }
+                openLeafyNotes -> {
+                    val intent = Intent(context, NotesActivity::class.java)
+                    val options: ActivityOptions = getDefaultLaunchOptions()
+                    context.startActivity(intent, options.toBundle())
+                    result.success(null)
+                }
                 else -> result.notImplemented()
             }
         }
@@ -240,8 +248,8 @@ class MainActivity: FlutterActivity() {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
             window.setFlags(
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
 
@@ -254,8 +262,8 @@ class MainActivity: FlutterActivity() {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
             window.setFlags(
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
         return super.onCreateView(parent, name, context, attrs)
@@ -442,6 +450,7 @@ class MainActivity: FlutterActivity() {
         private const val openLauncherPreferences = "openLauncherPreferences"
         private const val deleteApp = "deleteApp"
         private const val viewInfo = "viewInfo"
+        private const val openLeafyNotes = "openLeafyNotes"
 
         private const val argumentPackageName = "packageName"
         private const val argumentTransition = "transition"

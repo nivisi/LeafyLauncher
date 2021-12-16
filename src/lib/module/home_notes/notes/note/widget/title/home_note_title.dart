@@ -22,7 +22,7 @@ class HomeNoteTitle extends ThemedGetWidget<HomeNoteController, HomeTheme> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         HomeNoteFoldersPage.horizontalPadding,
-        kHomeVerticalPadding,
+        kHomeVerticalPadding - kStatusBarPadding,
         HomeNoteFoldersPage.horizontalPadding,
         kHomeVerticalPadding / 2.0,
       ),
@@ -42,7 +42,6 @@ class HomeNoteTitle extends ThemedGetWidget<HomeNoteController, HomeTheme> {
             child: TextField(
               style: theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
               controller: controller.titleEditingController,
-              autofocus: controller.shouldAutofocusTitle,
               textInputAction: TextInputAction.next,
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -63,9 +62,9 @@ class HomeNoteTitle extends ThemedGetWidget<HomeNoteController, HomeTheme> {
           ),
           const LeafySpacer.horizontal(),
           ContextMenuButton<HomeTheme>(
-            items: controller.shareMenuItems,
-            offset: const Offset(-8, -48),
-            child: Icon(Icons.share, color: theme.foregroundColor),
+            items: controller.menuItems,
+            offset: Offset(-8, (controller.menuItems.length - 1) * -48.0),
+            child: Icon(Icons.more_vert, color: theme.foregroundColor),
           ),
         ],
       ),

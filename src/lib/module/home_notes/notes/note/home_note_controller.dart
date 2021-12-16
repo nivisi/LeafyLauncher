@@ -7,6 +7,7 @@ import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
 import 'package:leafy_launcher/shared_widget/context_menu/context_menu_route.dart';
+import 'package:leafy_launcher/utils/app_goes_to_background_aware/app_goes_to_background_aware.dart';
 
 class HomeNoteController extends StatusControllerBase {
   HomeNoteController({
@@ -33,13 +34,18 @@ class HomeNoteController extends StatusControllerBase {
   late NoteModel _note;
   NoteModel get note => _note;
 
+  late final AppGoesToBackgroundListener _listener;
+
   bool _shouldAutofocusBody = false;
-  bool _shouldAutofocusTitle = false;
-
   bool get shouldAutofocusBody => _shouldAutofocusBody;
-  bool get shouldAutofocusTitle => _shouldAutofocusTitle;
 
-  List<MenuItem> get shareMenuItems => [
+  bool _skipSavingOnClose = false;
+
+  List<MenuItem> get menuItems => [
+        MenuAction(
+          action: _saveIfNeeded,
+          title: L10nProvider.getText(L10n.leafyNotesSave),
+        ),
         MenuAction(
           action: shareAsText,
           title: L10nProvider.getText(L10n.leafyNotesShareAsText),
@@ -47,6 +53,10 @@ class HomeNoteController extends StatusControllerBase {
         MenuAction(
           action: shareAsFile,
           title: L10nProvider.getText(L10n.leafyNotesShareAsFile),
+        ),
+        MenuAction(
+          action: _closeWithoutSaving,
+          title: L10nProvider.getText(L10n.leafyNotesCloseWithoutSaving),
         ),
       ];
 
@@ -98,11 +108,11 @@ class HomeNoteController extends StatusControllerBase {
     titleEditingController = TextEditingController()..text = title ?? '';
     bodyEditingController = TextEditingController()..text = data ?? '';
 
-    final isTitleEmpty = title?.isEmpty ?? true;
     final isDataEmpty = data?.isEmpty ?? true;
 
-    _shouldAutofocusTitle = isTitleEmpty;
-    _shouldAutofocusBody = !isTitleEmpty && isDataEmpty;
+    _shouldAutofocusBody = isDataEmpty;
+
+    _listener = AppGoesToBackgroundListener(_saveIfNeeded);
   }
 
   String _getFirstLine(String body) {
@@ -119,36 +129,58 @@ class HomeNoteController extends StatusControllerBase {
   }
 
   Future<void> _saveIfNeeded() async {
+    if (_skipSavingOnClose) {
+      return;
+    }
+
     if (note.title == titleEditingController.text &&
         note.data == bodyEditingController.text) {
       return;
     }
 
-    final body = bodyEditingController.text.trim();
-    final firstLine = _getFirstLine(body);
+    try {
+      final body = bodyEditingController.text.trim();
+      final firstLine = _getFirstLine(body);
 
-    final updatedNote = note.copyWith(
-      title: titleEditingController.text.trim(),
-      data: body,
-      firstLine: firstLine,
-    );
+      final updatedNote = note.copyWith(
+        title: titleEditingController.text.trim(),
+        data: body,
+        firstLine: firstLine,
+      );
 
-    await _noteRepository.update(updatedNote);
+      await _noteRepository.update(updatedNote);
 
-    _toastService.short(L10nProvider.getText(L10n.leafyNotesNoteSaved));
+      _toastService.short(L10nProvider.getText(L10n.leafyNotesNoteSaved));
+    } on Exception catch (e, s) {
+      logger.e('Unable to save a note', e, s);
+    }
+  }
+
+  Future<void> _delete() async {
+    try {
+      await _noteRepository.delete(note);
+    } on Exception catch (e, s) {
+      logger.e('Unable to delete a note', e, s);
+    }
+  }
+
+  Future<void> _closeWithoutSaving() async {
+    _skipSavingOnClose = true;
+
+    Get.back();
   }
 
   @override
-  Future<bool> back() async {
+  void onClose() {
+    _listener.dispose();
+
     if (titleEditingController.text.isEmpty &&
         bodyEditingController.text.isEmpty) {
-      await _noteRepository.delete(note);
-
-      return super.back();
+      _delete();
     }
 
-    await _saveIfNeeded();
+    _saveIfNeeded();
 
-    return super.back();
+    super.onClose();
   }
 }

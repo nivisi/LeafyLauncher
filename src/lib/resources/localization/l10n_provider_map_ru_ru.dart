@@ -96,4 +96,6 @@ var _mapRu = {
   L10n.leafyNotesFolderTitlePlaceholder: 'Папка',
   L10n.leafyNotesShareAsText: 'Поделиться',
   L10n.leafyNotesShareAsFile: 'Поделиться (файлом)',
+  L10n.leafyNotesCloseWithoutSaving: 'Закрыть без сохранения',
+  L10n.leafyNotesSave: 'Сохранить',
 };
