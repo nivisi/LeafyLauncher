@@ -80,8 +80,13 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
     });
 
     final parsedMap = parsed.toList()
-      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()))
-      ..sort((a, b) => a.package.toLowerCase().compareTo(b.name.toLowerCase()));
+      ..sort((a, b) {
+        final nameSort = a.name.toLowerCase().compareTo(b.name.toLowerCase());
+        if (nameSort != 0) {
+          return nameSort;
+        }
+        return a.package.toLowerCase().compareTo(b.name.toLowerCase());
+      });
 
     _installedApps = parsedMap;
   }
