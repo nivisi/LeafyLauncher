@@ -43,16 +43,16 @@ class HomeNoteController extends StatusControllerBase {
 
   List<MenuItem> get menuItems => [
         MenuAction(
+          action: _saveIfNeeded,
+          title: L10nProvider.getText(L10n.leafyNotesSave),
+        ),
+        MenuAction(
           action: shareAsText,
           title: L10nProvider.getText(L10n.leafyNotesShareAsText),
         ),
         MenuAction(
           action: shareAsFile,
           title: L10nProvider.getText(L10n.leafyNotesShareAsFile),
-        ),
-        MenuAction(
-          action: _saveIfNeeded,
-          title: L10nProvider.getText(L10n.leafyNotesSave),
         ),
         MenuAction(
           action: _closeWithoutSaving,
