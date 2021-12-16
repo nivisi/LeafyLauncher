@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/base/page/page_base.dart';
 import 'package:leafy_launcher/base/page/status_page_base.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
@@ -14,6 +15,9 @@ class HomeNoteFoldersPage
   const HomeNoteFoldersPage();
 
   static const horizontalPadding = kDefaultPadding * 1.5;
+
+  @override
+  OnWillPopData? get onWillPopData => null;
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {

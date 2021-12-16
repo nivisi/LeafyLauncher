@@ -10,6 +10,7 @@ const _methodOpenMessagesApp = 'openMessagesApp';
 const _methodOpenClockApp = 'openClockApp';
 const _methodOpenLauncherPreferences = 'openLauncherPreferences';
 const _methodDeleteApp = 'deleteApp';
+const _methodOpenLeafyNotes = 'openLeafyNotes';
 
 class PlatformMethodsService with LogableMixin {
   Future openPhoneApp() async {
@@ -37,5 +38,9 @@ class PlatformMethodsService with LogableMixin {
       _methodDeleteApp,
       {'packageName': packageName},
     );
+  }
+
+  Future openLeafyNotes() {
+    return _channel.invokeMethod(_methodOpenLeafyNotes);
   }
 }
