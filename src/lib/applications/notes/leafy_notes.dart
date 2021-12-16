@@ -23,7 +23,7 @@ import '../../utils/preferences/shared_preferences.dart';
 import 'leafy_notes_routes.dart';
 
 class LeafyNotes {
-  /// Initialized must have dependecies.
+  /// Initializes must have dependecies.
   /// Without these the app cannot be started normally.
   static Future initPrimaryDependencies() async {
     await initSharedPreferences();
@@ -33,7 +33,7 @@ class LeafyNotes {
     Get.lazyPut(() => FileLogger(), fenix: true);
   }
 
-  /// Initialized must have dependecies.
+  /// Initializes secondary dependencies.
   /// The app can start w/o them and they will be loaded soon.
   static Future initSecondaryDependencies() async {
     dbInitialization();
