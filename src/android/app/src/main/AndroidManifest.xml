@@ -53,8 +53,9 @@
 
         <activity
             android:name="com.nivisi.leafy_launcher.NotesActivity"
+            android:label="@string/leafyNotesTitle"
             android:theme="@style/LaunchTheme"
-            android:taskAffinity=".com.nivisi.leafy_launcher.NotesActivity"
+            android:taskAffinity=".com.nivisi.leafy_launcher.LeafyNotesActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
@@ -72,11 +73,11 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER_APP" />
             </intent-filter>
 
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <meta-data
