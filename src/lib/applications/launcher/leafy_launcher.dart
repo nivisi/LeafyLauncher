@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
-import 'package:leafy_launcher/leafy_system_overlay_observer.dart';
 import 'package:leafy_launcher/module/intro/intro_binding.dart';
 import 'package:leafy_launcher/module/intro/intro_page.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_binding.dart';
@@ -76,8 +75,6 @@ class LeafyLauncher {
   static Future run() async {
     await initPrimaryDependencies();
     initSecondaryDependencies();
-
-    LeafySystemOverlayObserver.configure();
 
     LeafyTheme.restoreThemeStyle();
 
