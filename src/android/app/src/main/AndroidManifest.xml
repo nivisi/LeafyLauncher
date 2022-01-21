@@ -85,7 +85,7 @@
             android:value="2" />
 
         <receiver
-            android:name="AppChangeReceiver"
+            android:name=".broadcast_receivers.AppChangeReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
