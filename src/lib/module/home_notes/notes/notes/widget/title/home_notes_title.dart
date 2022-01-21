@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_page.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
@@ -18,7 +19,6 @@ class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
   Widget body(BuildContext context, LeafyTheme theme) {
     return GestureDetector(
       onTap: controller.onTitleTapped,
-      onDoubleTap: controller.onTitleDoubleTapped,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -57,9 +57,13 @@ class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
 
                 final folder = snapshot.data!;
 
-                return Text(
-                  folder.title,
-                  style: theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                return GestureDetector(
+                  onDoubleTap: controller.onTitleDoubleTapped,
+                  child: Text(
+                    folder.title,
+                    style:
+                        theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                  ),
                 );
               },
             ),
