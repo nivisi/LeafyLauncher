@@ -19,6 +19,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.nivisi.leafy_launcher.broadcast_receivers.AppChangeReceiver
+import com.nivisi.leafy_launcher.broadcast_receivers.DeviceLocaleChangedBroadcastReceiver
 import io.flutter.Log
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -34,10 +35,16 @@ class MainActivity: LeafyActivityBase() {
     private var homeEventStreamHandler: StreamHandler = StreamHandler()
     private var appsChangedEventChannel: EventChannel? = null
     private var appsChangedEventStreamHandler: StreamHandlerParams<Map<String, Serializable>> = StreamHandlerParams()
+    private var deviceLocaleChangedEventChannel: EventChannel? = null
+    private var deviceLocaleChangedEventStreamHandler: StreamHandlerParams<String> = StreamHandlerParams()
 
     private var deleteAppResult: MethodChannel.Result? = null
 
     private var systemCameraAppPackage: String? = null
+
+    private var appChangeReceiver: AppChangeReceiver = AppChangeReceiver()
+    private var deviceLocaleChangedBroadcastReceiver: DeviceLocaleChangedBroadcastReceiver?
+        = DeviceLocaleChangedBroadcastReceiver()
 
     override fun appName(): String {
         return "launcher"
@@ -47,6 +54,24 @@ class MainActivity: LeafyActivityBase() {
         super.onResume()
 
         overridePendingTransition(R.anim.app_launch_fade_in_long, R.anim.app_launch_fade_out_long)
+
+        registerAppChangedReceived()
+        registerDeviceLocaleChangedBroadcastReceiver()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        unregisterAppChangedReceived()
+        unregisterDeviceLocaleChangedBroadcastReceiver()
+    }
+
+    private fun unregisterAppChangedReceived() {
+        unregisterReceiver(appChangeReceiver)
+    }
+
+    private fun unregisterDeviceLocaleChangedBroadcastReceiver() {
+        unregisterReceiver(deviceLocaleChangedBroadcastReceiver)
     }
 
     private fun registerAppChangedReceived() {
@@ -55,7 +80,14 @@ class MainActivity: LeafyActivityBase() {
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
         intentFilter.addDataScheme("package")
 
-        registerReceiver(AppChangeReceiver(), intentFilter)
+        registerReceiver(appChangeReceiver, intentFilter)
+    }
+
+    private fun registerDeviceLocaleChangedBroadcastReceiver() {
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(Intent.ACTION_LOCALE_CHANGED)
+
+        registerReceiver(deviceLocaleChangedBroadcastReceiver, intentFilter)
     }
 
     private fun registerHomeEventChannel(flutterEngine: FlutterEngine) {
@@ -71,7 +103,14 @@ class MainActivity: LeafyActivityBase() {
         )
         appsChangedEventChannel!!.setStreamHandler(appsChangedEventStreamHandler)
 
-        registerAppChangedReceived()
+    }
+
+    private fun registerDeviceLocaleChangedEventChannel(flutterEngine: FlutterEngine) {
+        deviceLocaleChangedEventChannel = EventChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            deviceLocaleChangedChannel
+        )
+        deviceLocaleChangedEventChannel!!.setStreamHandler(deviceLocaleChangedEventStreamHandler)
     }
 
     private fun openCameraApp(result: MethodChannel.Result) {
@@ -238,6 +277,7 @@ class MainActivity: LeafyActivityBase() {
 
         registerHomeEventChannel(flutterEngine)
         registerAppsChangedEventChannel(flutterEngine)
+        registerDeviceLocaleChangedEventChannel(flutterEngine)
 
         registerCommonChannel(flutterEngine)
         registerApplicationChannel(flutterEngine)
@@ -421,13 +461,17 @@ class MainActivity: LeafyActivityBase() {
         startActivity(intent)
     }
 
-    public fun dispatchAppChangedEvent(packageName: String, isRemoved: Boolean) {
+    fun dispatchAppChangedEvent(packageName: String, isRemoved: Boolean) {
         appsChangedEventStreamHandler.dispatch(
             mapOf(
                 "package" to packageName,
                 "isRemoved" to isRemoved
             )
         )
+    }
+
+    fun dispatchDeviceLocaleChangedEvent(locale: String) {
+        deviceLocaleChangedEventStreamHandler.dispatch(locale)
     }
 
     companion object {
@@ -437,6 +481,7 @@ class MainActivity: LeafyActivityBase() {
         private const val applicationChannel = "com.nivisi.leafy_launcher/applicationChannel"
         private const val homePressedChannel = "com.nivisi.leafy_launcher/homePressedChannel"
         private const val appsChangedChannel = "com.nivisi.leafy_launcher/appsChangedChannel"
+        private const val deviceLocaleChangedChannel = "com.nivisi.leafy_launcher/deviceLocaleChangedChannel"
 
         private const val initApps = "initApps"
         private const val getApps = "getApps"
