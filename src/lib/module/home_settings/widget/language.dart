@@ -13,12 +13,18 @@ class _Language extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
           style: theme.bodyText3.copyWith(color: theme.textInfoColor),
         ),
         const LeafySpacer(),
-        TouchableTextButton(
-          text: Get.locale!.toLanguageTag(),
-          style: theme.bodyText2,
-          color: theme.foregroundColor,
-          pressedColor: theme.foregroundPressedColor,
-          onTap: controller.changeLocale,
+        GetBuilder<UserApplicationsController>(
+          id: UserApplicationsController.kLanguageBuilder,
+          init: controller,
+          builder: (context) {
+            return TouchableTextButton(
+              text: controller.getLanguageTitle(),
+              style: theme.bodyText2,
+              color: theme.foregroundColor,
+              pressedColor: theme.foregroundPressedColor,
+              onTap: controller.changeLocale,
+            );
+          },
         ),
       ],
     );

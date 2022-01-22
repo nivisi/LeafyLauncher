@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +27,9 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
   late final TextEditingController textEditingController;
   late final FocusNode textFocusNode;
   late final ScrollController scrollController;
+
+  late final StreamSubscription _installedServiceSubscription;
+  late final StreamSubscription _onAppsChangedSubscription;
 
   @protected
   late List<Application> appsProtected;
@@ -54,6 +59,18 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
     textFocusNode = FocusNode();
 
     appsProtected = installedApplicationsService.installedApps.toList();
+
+    _installedServiceSubscription =
+        installedApplicationsService.whenInitialized.listen(
+      (_) {
+        onTypedText();
+      },
+    );
+
+    _onAppsChangedSubscription =
+        installedApplicationsService.onAppsChanged.listen((app) {
+      onTypedText();
+    });
 
     return super.load();
   }
@@ -103,6 +120,8 @@ abstract class AppPickerControllerBase extends StatusControllerBase {
   @override
   void onClose() {
     textEditingController.dispose();
+    _installedServiceSubscription.cancel();
+    _onAppsChangedSubscription.cancel();
 
     super.onClose();
   }

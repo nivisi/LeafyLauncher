@@ -3,17 +3,18 @@ import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
-import 'package:leafy_launcher/services/applications/installed_application.dart';
 
 import '../../applications/launcher/app_routes.dart';
 import '../../base/controller/status_controller_base.dart';
 import '../../resources/localization/l10n.dart';
+import '../../resources/localization/l10n_provider.dart';
+import '../../resources/settings/leafy_settings.dart';
 import '../../resources/theme/leafy_theme.dart';
 import '../../utils/enum/user_selected_app_type.dart';
 import '../../utils/preferences/shared_preferences.dart';
 import '../platform_methods/platform_methods_service.dart';
 import 'application.dart';
+import 'installed_application.dart';
 import 'installed_applications_service.dart';
 
 // ignore: avoid_private_typedef_functions
@@ -22,6 +23,7 @@ typedef _AppSetter = void Function(Application? app);
 class UserApplicationsController extends StatusControllerBase {
   static const String kVibrationPreferencesBuilderKey =
       'vibrationPreferencesBuilderKey';
+  static const String kLanguageBuilder = 'languageBuilderKey';
 
   static const String appFirstKey = 'firstApp';
   static const String appSecondKey = 'secondApp';
@@ -40,6 +42,7 @@ class UserApplicationsController extends StatusControllerBase {
   late final PlatformMethodsService _platformMethodsService;
 
   late final StreamSubscription _onAppRemovedSubscription;
+  late final StreamSubscription _onDeviceLocaleChangedSubscription;
 
   final Rxn<Application> _firstApp = Rxn<Application>();
   final Rxn<Application> _secondApp = Rxn<Application>();
@@ -141,6 +144,15 @@ class UserApplicationsController extends StatusControllerBase {
   Future load() async {
     _vibrationPreferences = LeafySettings.vibrationPreferences;
 
+    await _restoreApps();
+
+    _onAppRemovedSubscription =
+        _installedApplications.onAppRemovedEvent.listen(_onAppRemoved);
+
+    _installedApplications.whenInitialized.listen((_) => _restoreAndRebuild());
+  }
+
+  Future<void> _restoreApps() async {
     await _restore(_firstAppSetter, appFirstKey);
     await _restore(_secondAppSetter, appSecondKey);
     await _restore(_thirdAppSetter, appThirdKey);
@@ -157,9 +169,12 @@ class UserApplicationsController extends StatusControllerBase {
       final icon = await _installedApplications.getAppIcon(swipeRightApp!);
       _rightAppIcon = icon;
     }
+  }
 
-    _onAppRemovedSubscription =
-        _installedApplications.onAppRemovedEvent.listen(_onAppRemoved);
+  Future<void> _restoreAndRebuild() async {
+    await _restoreApps().catchError((_) {});
+
+    _updateAppBuilders();
   }
 
   void _clearAppIfNeeded(Application application) {
@@ -235,6 +250,17 @@ class UserApplicationsController extends StatusControllerBase {
     await sharedPreferences.setString(key, application.package);
   }
 
+  void _updateAppBuilders() {
+    update([
+      _firstBuilderId,
+      _secondBuilderId,
+      _thirdBuilderId,
+      _fourthBuilderId,
+      _leftBuilderId,
+      _rightBuilderId,
+    ]);
+  }
+
   Future setApp(Application app, UserSelectedAppType type) async {
     await _setApp(app, type);
 
@@ -302,9 +328,21 @@ class UserApplicationsController extends StatusControllerBase {
   }
 
   void changeLocale() {
-    final locale = L10n.isRu ? L10n.enLocale : L10n.ruLocale;
+    if (L10n.isRu) {
+      L10n.setLocale(L10n.enLocale);
+      return;
+    }
 
-    L10n.setLocale(locale);
+    if (L10n.isEn) {
+      L10n.setAsSystem();
+      return;
+    }
+
+    if (L10n.isAsInSystem) {
+      L10n.setLocale(L10n.ruLocale);
+      update([kLanguageBuilder]);
+      return;
+    }
   }
 
   void toggleVibrationPreferences() {
@@ -342,10 +380,27 @@ class UserApplicationsController extends StatusControllerBase {
     Get.toNamed(AppRoutes.settingsWidgets);
   }
 
+  String getLanguageTitle() {
+    if (L10n.isRu) {
+      return L10nProvider.getText(L10n.russianLanguage);
+    }
+
+    if (L10n.isEn) {
+      return L10nProvider.getText(L10n.englishLanguage);
+    }
+
+    if (L10n.isAsInSystem) {
+      return L10nProvider.getText(L10n.languageAsInSystem);
+    }
+
+    throw Exception('Something went wrong');
+  }
+
   @override
   void onClose() {
     super.onClose();
 
     _onAppRemovedSubscription.cancel();
+    _onDeviceLocaleChangedSubscription.cancel();
   }
 }

@@ -98,4 +98,7 @@ var _mapEn = {
   L10n.leafyNotesShareAsFile: 'Share (as file)',
   L10n.leafyNotesCloseWithoutSaving: 'Close w/o saving',
   L10n.leafyNotesSave: 'Save',
+  L10n.russianLanguage: 'Russian',
+  L10n.englishLanguage: 'English',
+  L10n.languageAsInSystem: 'System'
 };
