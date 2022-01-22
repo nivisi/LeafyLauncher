@@ -34,7 +34,7 @@ class LeafyNotes {
 
     Get.lazyPut(() => FileLogger(), fenix: true);
     Get.put(DeviceLocaleChangedListener(), permanent: true);
-    Get.put(DatehangedListener(), permanent: true);
+    Get.put(DateChangedListener(), permanent: true);
   }
 
   /// Initializes secondary dependencies.

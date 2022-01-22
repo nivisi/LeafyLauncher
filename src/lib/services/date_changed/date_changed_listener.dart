@@ -12,7 +12,7 @@ class DateChangedListener {
   }
 
   final _controller = StreamController<void>.broadcast();
-  Stream<void> get onDateLocaleChanged => _controller.stream;
+  Stream<void> get onDateChanged => _controller.stream;
 
   late StreamSubscription _subscription;
 

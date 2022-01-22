@@ -61,7 +61,7 @@ class LeafyLauncher {
     Get.lazyPut(() => GoogleSearch(), fenix: true);
     Get.lazyPut(() => ShareService(), fenix: true);
     Get.put(DeviceLocaleChangedListener(), permanent: true);
-    Get.put(DatehangedListener(), permanent: true);
+    Get.put(DateChangedListener(), permanent: true);
 
     await Get.putAsync(InstalledApplicationsService.init, permanent: true);
 
