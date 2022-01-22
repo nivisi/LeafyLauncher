@@ -18,6 +18,8 @@ class HomeCalendar extends StatefulWidget {
 }
 
 class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
+  static const _duration = Duration(milliseconds: 500);
+  static const _curve = Curves.fastOutSlowIn;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
@@ -30,7 +32,8 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
     return Column(
       children: [
         TableCalendar(
-          pageAnimationDuration: kDefaultAnimationDuration,
+          pageAnimationDuration: _duration,
+          pageAnimationCurve: _curve,
           onCalendarCreated: (pageController) =>
               _pageController = pageController,
           headerStyle: HeaderStyle(
@@ -126,14 +129,14 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
                     final dPage = details.primaryVelocity! > .0 ? -1 : 1;
                     _pageController.animateToPage(
                       (_startPage! + dPage).toInt(),
-                      curve: Curves.easeOut,
-                      duration: kDefaultAnimationDuration,
+                      duration: _duration,
+                      curve: _curve,
                     );
                   } else {
                     _pageController.animateTo(
                       _pageController.position.pixels,
-                      curve: Curves.easeIn,
-                      duration: kDefaultAnimationDuration,
+                      duration: _duration,
+                      curve: _curve,
                     );
                   }
                 },
