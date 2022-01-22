@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +7,7 @@ import 'package:leafy_launcher/module/home/widget/home_calendar/home_calendar_ce
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
+import 'package:leafy_launcher/services/date_changed/date_changed_listener.dart';
 import 'package:leafy_launcher/shared_widget/themed_state.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -27,6 +30,24 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
 
   double? _startPage = .0;
 
+  DateTime _today = DateTime.now();
+
+  late StreamSubscription _onDateChangedSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _onDateChangedSubscription =
+        Get.find<DateChangedListener>().onDateChanged.listen(_onDateChanged);
+  }
+
+  void _onDateChanged(_) {
+    setState(() {
+      _today = DateTime.now();
+    });
+  }
+
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return Column(
@@ -34,6 +55,7 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
         TableCalendar(
           pageAnimationDuration: _duration,
           pageAnimationCurve: _curve,
+          currentDay: _today,
           onCalendarCreated: (pageController) =>
               _pageController = pageController,
           headerStyle: HeaderStyle(
@@ -152,5 +174,11 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _onDateChangedSubscription.cancel();
+    super.dispose();
   }
 }
