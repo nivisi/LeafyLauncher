@@ -8,6 +8,7 @@ import 'package:leafy_launcher/module/intro/intro_page.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_binding.dart';
 import 'package:leafy_launcher/module/intro/tutorial/tutorial_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/device_locale/device_locale_changed_listener.dart';
 import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
 
@@ -58,6 +59,7 @@ class LeafyLauncher {
     Get.lazyPut(() => const DeviceVibration(), fenix: true);
     Get.lazyPut(() => GoogleSearch(), fenix: true);
     Get.lazyPut(() => ShareService(), fenix: true);
+    Get.put(DeviceLocaleChangedListener(), permanent: true);
 
     await Get.putAsync(InstalledApplicationsService.init, permanent: true);
 
@@ -80,7 +82,7 @@ class LeafyLauncher {
 
     await LeafySettings.restore();
 
-    L10n.restoreLocale();
+    L10n.restore();
 
     Paint.enableDithering = true;
 

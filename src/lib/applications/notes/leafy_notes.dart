@@ -6,6 +6,7 @@ import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders
 import 'package:leafy_launcher/module/home_notes/notes/note/home_note_page.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/device_locale/device_locale_changed_listener.dart';
 import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
 
@@ -31,6 +32,7 @@ class LeafyNotes {
     await Get.putAsync(FileSystem.init, permanent: true);
 
     Get.lazyPut(() => FileLogger(), fenix: true);
+    Get.put(DeviceLocaleChangedListener(), permanent: true);
   }
 
   /// Initializes secondary dependencies.
@@ -55,7 +57,7 @@ class LeafyNotes {
 
     await LeafySettings.restore();
 
-    L10n.restoreLocale();
+    L10n.restore();
 
     Paint.enableDithering = true;
 

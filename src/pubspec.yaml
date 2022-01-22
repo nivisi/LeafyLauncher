@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   assorted_layout_widgets: ^5.2.1
-  ensure_initialized: ^0.0.3
+  ensure_initialized: ^0.1.0
   equatable: ^2.0.3
   flutter:
     sdk: flutter
