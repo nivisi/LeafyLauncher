@@ -10,12 +10,17 @@ import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/utils/dialogs/input/input_dialog.dart';
 
 class HomeNoteFoldersController extends StatusControllerBase {
+  static const fabBuidler = 'fabBuilder';
+
   late final FolderRepository _folderRepo = Get.find<FolderRepository>();
   late final NoteRepository _noteRepo = Get.find<NoteRepository>();
 
   late final ScrollController scrollController;
 
   late Stream<List<FolderWithNotes>> foldersStream;
+
+  bool _isFabOpened = false;
+  bool get isFabOpened => _isFabOpened;
 
   @override
   Future load() async {
@@ -79,5 +84,35 @@ class HomeNoteFoldersController extends StatusControllerBase {
     } on Exception catch (e, s) {
       logger.e('Unable to remove a folder', e, s);
     }
+  }
+
+  // This all is a workaround. Will be refactored in
+  // https://github.com/nivisi/LeafyLauncher/issues/107
+
+  @override
+  Future<bool> canClose() async {
+    if (_isFabOpened) {
+      closeFab();
+      return false;
+    }
+
+    return super.canClose();
+  }
+
+  @override
+  Future<bool> back() async {
+    final canClose = await this.canClose();
+
+    return canClose;
+  }
+
+  void closeFab() {
+    _isFabOpened = false;
+    update([fabBuidler]);
+  }
+
+  void onFabPressed() {
+    _isFabOpened = !_isFabOpened;
+    update([fabBuidler]);
   }
 }
