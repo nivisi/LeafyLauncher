@@ -6,6 +6,7 @@ import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders
 import 'package:leafy_launcher/module/home_notes/notes/note/home_note_page.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/date_changed/date_changed_listener.dart';
 import 'package:leafy_launcher/services/device_locale/device_locale_changed_listener.dart';
 import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
@@ -33,6 +34,7 @@ class LeafyNotes {
 
     Get.lazyPut(() => FileLogger(), fenix: true);
     Get.put(DeviceLocaleChangedListener(), permanent: true);
+    Get.put(DatehangedListener(), permanent: true);
   }
 
   /// Initializes secondary dependencies.
