@@ -35,8 +35,6 @@ class MainActivity: LeafyActivityBase() {
     private var appsChangedEventStreamHandler: StreamHandlerParams<Map<String, Serializable>> = StreamHandlerParams()
     private var deviceLocaleChangedEventChannel: EventChannel? = null
     private var deviceLocaleChangedEventStreamHandler: StreamHandlerParams<String> = StreamHandlerParams()
-    private var dateChangedEventChannel: EventChannel? = null
-    private var dateChangedEventStreamHandler: StreamHandler = StreamHandler()
 
     private var deleteAppResult: MethodChannel.Result? = null
 
@@ -64,13 +62,7 @@ class MainActivity: LeafyActivityBase() {
             appsChangedChannel
         )
         appsChangedEventChannel!!.setStreamHandler(appsChangedEventStreamHandler)
-    }
 
-    private fun registerDateChangedEventChannel(flutterEngine: FlutterEngine) {
-        dateChangedEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger,
-            dateChangedChannel
-        )
-        dateChangedEventChannel!!.setStreamHandler(dateChangedEventStreamHandler)
     }
 
     private fun registerDeviceLocaleChangedEventChannel(flutterEngine: FlutterEngine) {
@@ -246,7 +238,6 @@ class MainActivity: LeafyActivityBase() {
         registerHomeEventChannel(flutterEngine)
         registerAppsChangedEventChannel(flutterEngine)
         registerDeviceLocaleChangedEventChannel(flutterEngine)
-        registerDateChangedEventChannel(flutterEngine)
 
         registerCommonChannel(flutterEngine)
         registerApplicationChannel(flutterEngine)
@@ -443,10 +434,6 @@ class MainActivity: LeafyActivityBase() {
         deviceLocaleChangedEventStreamHandler.dispatch(locale)
     }
 
-    fun dispatchDateChangedEvent() {
-        dateChangedEventStreamHandler.dispatch()
-    }
-
     companion object {
         lateinit var self: MainActivity
 
@@ -455,7 +442,6 @@ class MainActivity: LeafyActivityBase() {
         private const val homePressedChannel = "com.nivisi.leafy_launcher/homePressedChannel"
         private const val appsChangedChannel = "com.nivisi.leafy_launcher/appsChangedChannel"
         private const val deviceLocaleChangedChannel = "com.nivisi.leafy_launcher/deviceLocaleChangedChannel"
-        private const val dateChangedChannel = "com.nivisi.leafy_launcher/dateChangedChannel"
 
         private const val initApps = "initApps"
         private const val getApps = "getApps"
