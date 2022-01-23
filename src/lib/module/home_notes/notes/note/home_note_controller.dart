@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/base/controller/status_controller_base.dart';
 import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
+import 'package:leafy_launcher/services/file_system/file_system.dart';
 import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
 import 'package:leafy_launcher/shared_widget/context_menu/context_menu_route.dart';
@@ -24,6 +27,7 @@ class HomeNoteController extends StatusControllerBase {
   late final NoteRepository _noteRepository = Get.find<NoteRepository>();
   late final ToastService _toastService = Get.find<ToastService>();
   late final ShareService _shareService = Get.find<ShareService>();
+  late final FileSystem _fileSystem = Get.find<FileSystem>();
 
   late final TextEditingController titleEditingController;
   late final TextEditingController bodyEditingController;
@@ -98,7 +102,42 @@ class HomeNoteController extends StatusControllerBase {
   }
 
   Future shareAsFile() async {
-    //
+    final toWrite = await saveAndGetShareableText();
+
+    if (toWrite == null) {
+      return;
+    }
+
+    final title = note.title;
+    final firstLine = note.firstLine;
+
+    late String fileName;
+
+    if (title != null && title.isNotEmpty) {
+      fileName = title;
+    } else {
+      if (firstLine != null && firstLine.isNotEmpty) {
+        fileName = firstLine;
+      } else {
+        return;
+      }
+    }
+
+    final dir = Directory(
+      '${_fileSystem.leafyNotesDocumentsDirectory.path}/${note.id}',
+    );
+
+    if (dir.existsSync()) {
+      dir.deleteSync(recursive: true);
+    }
+
+    dir.createSync();
+
+    final file = File('${dir.path}/$fileName.txt')..createSync();
+
+    await file.writeAsString(toWrite);
+
+    return _shareService.shareFile(file);
   }
 
   @override
@@ -148,13 +187,13 @@ class HomeNoteController extends StatusControllerBase {
       final body = bodyEditingController.text.trim();
       final firstLine = _getFirstLine(body);
 
-      final updatedNote = note.copyWith(
+      _note = note.copyWith(
         title: titleEditingController.text.trim(),
         data: body,
         firstLine: firstLine,
       );
 
-      await _noteRepository.update(updatedNote);
+      await _noteRepository.update(_note);
 
       _toastService.short(L10nProvider.getText(L10n.leafyNotesNoteSaved));
     } on Exception catch (e, s) {
