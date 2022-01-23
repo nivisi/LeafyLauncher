@@ -1,31 +1,33 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
-
-const _dateChangedChannel = EventChannel(
-  'com.nivisi.leafy_launcher/dateChangedChannel',
-);
-
 class DateChangedListener {
   DateChangedListener() {
     init();
   }
 
+  late Timer _timer;
+
+  DateTime _lastKnownDate = DateTime.now();
+
   final _controller = StreamController<void>.broadcast();
   Stream<void> get onDateChanged => _controller.stream;
 
-  late StreamSubscription _subscription;
-
   void init() {
-    _subscription =
-        _dateChangedChannel.receiveBroadcastStream().listen(_onDateChanged);
-  }
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        final now = DateTime.now();
 
-  void _onDateChanged(_) {
-    _controller.add(null);
+        if (_lastKnownDate.day != now.day) {
+          _controller.add(null);
+        }
+
+        _lastKnownDate = now;
+      },
+    );
   }
 
   void dispose() {
-    _subscription.cancel();
+    _timer.cancel();
   }
 }
