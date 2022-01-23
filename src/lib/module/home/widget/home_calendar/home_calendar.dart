@@ -105,9 +105,14 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
               );
             },
             selectedBuilder: (_, day, __) {
+              // Enable normal builders
+              // when there will be something to do on taps
               return HomeCalendarCell(
                 day: day,
-                type: HomeCalendarCellType.selected,
+                // type: HomeCalendarCellType.selected,
+                type: isSameDay(_selectedDay, _today)
+                    ? HomeCalendarCellType.today
+                    : HomeCalendarCellType.none,
               );
             },
             outsideBuilder: (_, day, __) {

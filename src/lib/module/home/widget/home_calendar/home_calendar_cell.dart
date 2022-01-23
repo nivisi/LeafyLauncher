@@ -8,6 +8,8 @@ enum HomeCalendarCellType {
   today,
   thisMonth,
   otherMoth,
+  // Remove this when there will be something to do on taps
+  none,
 }
 
 class HomeCalendarCell extends ThemedWidget<HomeTheme> {
@@ -23,6 +25,8 @@ class HomeCalendarCell extends ThemedWidget<HomeTheme> {
   Color _getTextColor(LeafyTheme theme) {
     switch (type) {
       case HomeCalendarCellType.selected:
+        return theme.foregroundColor;
+      case HomeCalendarCellType.none:
         return theme.foregroundColor;
       case HomeCalendarCellType.today:
         return theme.foregroundColor;
@@ -42,6 +46,8 @@ class HomeCalendarCell extends ThemedWidget<HomeTheme> {
       case HomeCalendarCellType.thisMonth:
         return Colors.transparent;
       case HomeCalendarCellType.otherMoth:
+        return Colors.transparent;
+      case HomeCalendarCellType.none:
         return Colors.transparent;
     }
   }
