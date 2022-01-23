@@ -81,8 +81,14 @@ class HomeNoteController extends StatusControllerBase {
     }
   }
 
+  Future<String?> saveAndGetShareableText() async {
+    await _saveIfNeeded();
+
+    return getShareableText();
+  }
+
   Future shareAsText() async {
-    final toShare = getShareableText();
+    final toShare = await saveAndGetShareableText();
 
     if (toShare == null) {
       return;
