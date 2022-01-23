@@ -40,6 +40,6 @@ class NotesActivity: LeafyActivityBase() {
     }
 
     companion object {
-        lateinit var self: NotesActivity
+        var self: NotesActivity? = null
     }
 }

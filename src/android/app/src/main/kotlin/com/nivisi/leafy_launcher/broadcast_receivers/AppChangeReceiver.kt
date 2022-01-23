@@ -12,6 +12,6 @@ class AppChangeReceiver : BroadcastReceiver() {
 
         val isRemoved = intent.action == Intent.ACTION_PACKAGE_REMOVED
 
-        MainActivity.self.dispatchAppChangedEvent(packageName, isRemoved)
+        MainActivity.self?.dispatchAppChangedEvent(packageName, isRemoved)
     }
 }
