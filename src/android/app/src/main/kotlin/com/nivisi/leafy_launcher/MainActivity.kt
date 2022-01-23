@@ -65,14 +65,6 @@ class MainActivity: LeafyActivityBase() {
 
     }
 
-    private fun registerDeviceLocaleChangedEventChannel(flutterEngine: FlutterEngine) {
-        deviceLocaleChangedEventChannel = EventChannel(
-            flutterEngine.dartExecutor.binaryMessenger,
-            deviceLocaleChangedChannel
-        )
-        deviceLocaleChangedEventChannel!!.setStreamHandler(deviceLocaleChangedEventStreamHandler)
-    }
-
     private fun openCameraApp(result: MethodChannel.Result) {
         if (systemCameraAppPackage == null) {
             val intent = Intent("android.media.action.IMAGE_CAPTURE")
@@ -237,7 +229,6 @@ class MainActivity: LeafyActivityBase() {
 
         registerHomeEventChannel(flutterEngine)
         registerAppsChangedEventChannel(flutterEngine)
-        registerDeviceLocaleChangedEventChannel(flutterEngine)
 
         registerCommonChannel(flutterEngine)
         registerApplicationChannel(flutterEngine)
@@ -430,18 +421,13 @@ class MainActivity: LeafyActivityBase() {
         )
     }
 
-    fun dispatchDeviceLocaleChangedEvent(locale: String) {
-        deviceLocaleChangedEventStreamHandler.dispatch(locale)
-    }
-
     companion object {
-        lateinit var self: MainActivity
+        var self: MainActivity? = null
 
         private const val commonChannel = "com.nivisi.leafy_launcher/common"
         private const val applicationChannel = "com.nivisi.leafy_launcher/applicationChannel"
         private const val homePressedChannel = "com.nivisi.leafy_launcher/homePressedChannel"
         private const val appsChangedChannel = "com.nivisi.leafy_launcher/appsChangedChannel"
-        private const val deviceLocaleChangedChannel = "com.nivisi.leafy_launcher/deviceLocaleChangedChannel"
 
         private const val initApps = "initApps"
         private const val getApps = "getApps"
