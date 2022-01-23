@@ -118,7 +118,7 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
             outsideBuilder: (_, day, __) {
               return HomeCalendarCell(
                 day: day,
-                type: HomeCalendarCellType.otherMoth,
+                type: HomeCalendarCellType.otherMonth,
               );
             },
             headerTitleBuilder: (_, day) {
