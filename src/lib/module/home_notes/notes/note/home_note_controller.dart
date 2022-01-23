@@ -95,6 +95,10 @@ class HomeNoteController extends StatusControllerBase {
     final toShare = await saveAndGetShareableText();
 
     if (toShare == null) {
+      _toastService.short(
+        L10nProvider.getText(L10n.leafyNotesUnableToShareEmptyNote),
+      );
+
       return;
     }
 
@@ -105,6 +109,10 @@ class HomeNoteController extends StatusControllerBase {
     final toWrite = await saveAndGetShareableText();
 
     if (toWrite == null) {
+      _toastService.short(
+        L10nProvider.getText(L10n.leafyNotesUnableToShareEmptyNote),
+      );
+
       return;
     }
 
@@ -119,6 +127,10 @@ class HomeNoteController extends StatusControllerBase {
       if (firstLine != null && firstLine.isNotEmpty) {
         fileName = firstLine;
       } else {
+        _toastService.short(
+          L10nProvider.getText(L10n.leafyNotesUnableToShareEmptyNote),
+        );
+
         return;
       }
     }

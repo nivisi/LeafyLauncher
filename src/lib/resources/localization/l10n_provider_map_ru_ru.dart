@@ -98,6 +98,7 @@ var _mapRu = {
   L10n.leafyNotesShareAsFile: 'Поделиться (файлом)',
   L10n.leafyNotesCloseWithoutSaving: 'Закрыть без сохранения',
   L10n.leafyNotesSave: 'Сохранить',
+  L10n.leafyNotesUnableToShareEmptyNote: 'Заметка пуста',
   L10n.russianLanguage: 'Русский (Russian)',
   L10n.englishLanguage: 'Английский (English)',
   L10n.languageAsInSystem: 'Как в системе',

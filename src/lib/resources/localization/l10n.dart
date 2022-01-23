@@ -240,6 +240,8 @@ class L10n {
   static const String leafyNotesCloseWithoutSaving =
       'leafyNotesCloseWithoutSaving';
   static const String leafyNotesSave = 'leafyNotesSave';
+  static const String leafyNotesUnableToShareEmptyNote =
+      'leafyNotesUnableToShareEmptyNote';
 
   static const String russianLanguage = 'russianLanguage';
   static const String englishLanguage = 'englishLanguage';
