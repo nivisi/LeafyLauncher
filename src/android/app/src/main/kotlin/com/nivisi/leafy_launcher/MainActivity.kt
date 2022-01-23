@@ -18,8 +18,6 @@ import android.util.Base64
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import com.nivisi.leafy_launcher.broadcast_receivers.AppChangeReceiver
-import com.nivisi.leafy_launcher.broadcast_receivers.DeviceLocaleChangedBroadcastReceiver
 import io.flutter.Log
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -42,10 +40,6 @@ class MainActivity: LeafyActivityBase() {
 
     private var systemCameraAppPackage: String? = null
 
-    private var appChangeReceiver: AppChangeReceiver = AppChangeReceiver()
-    private var deviceLocaleChangedBroadcastReceiver: DeviceLocaleChangedBroadcastReceiver?
-        = DeviceLocaleChangedBroadcastReceiver()
-
     override fun appName(): String {
         return "launcher"
     }
@@ -54,40 +48,6 @@ class MainActivity: LeafyActivityBase() {
         super.onResume()
 
         overridePendingTransition(R.anim.app_launch_fade_in_long, R.anim.app_launch_fade_out_long)
-
-        registerAppChangedReceived()
-        registerDeviceLocaleChangedBroadcastReceiver()
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        unregisterAppChangedReceived()
-        unregisterDeviceLocaleChangedBroadcastReceiver()
-    }
-
-    private fun unregisterAppChangedReceived() {
-        unregisterReceiver(appChangeReceiver)
-    }
-
-    private fun unregisterDeviceLocaleChangedBroadcastReceiver() {
-        unregisterReceiver(deviceLocaleChangedBroadcastReceiver)
-    }
-
-    private fun registerAppChangedReceived() {
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED)
-        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
-        intentFilter.addDataScheme("package")
-
-        registerReceiver(appChangeReceiver, intentFilter)
-    }
-
-    private fun registerDeviceLocaleChangedBroadcastReceiver() {
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(Intent.ACTION_LOCALE_CHANGED)
-
-        registerReceiver(deviceLocaleChangedBroadcastReceiver, intentFilter)
     }
 
     private fun registerHomeEventChannel(flutterEngine: FlutterEngine) {
