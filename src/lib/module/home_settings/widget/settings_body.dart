@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/module/home_settings/widget/leafy_version.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 import '../../../resources/app_constants.dart';
@@ -73,6 +74,8 @@ class SettingsBody
             style: theme.bodyText2,
             onTap: controller.openWidgets,
           ),
+          const LeafySpacer.section(),
+          const LeafyVersion(),
         ],
       ),
     );
