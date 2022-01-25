@@ -16,7 +16,7 @@ class NotesActivity: LeafyActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val title: String = resources.getString(R.string.leafyNotesTitle)
+        val title: String = resources.getString(R.string.leafy_notes_title)
 
         setTaskDescription(ActivityManager.TaskDescription(title))
     }
@@ -24,7 +24,7 @@ class NotesActivity: LeafyActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
 
-        val title: String = resources.getString(R.string.leafyNotesTitle)
+        val title: String = resources.getString(R.string.leafy_notes_title)
 
         setTaskDescription(ActivityManager.TaskDescription(title))
     }

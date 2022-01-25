@@ -15,7 +15,7 @@
     </queries>
 
     <application
-        android:label="Leafy Launcher Beta"
+        android:label="@string/app_name"
         android:icon="@mipmap/leafy_icon"
         android:allowBackup="true"
         android:fullBackupOnly="true">
@@ -53,7 +53,7 @@
 
         <activity
             android:name="com.nivisi.leafy_launcher.NotesActivity"
-            android:label="@string/leafyNotesTitle"
+            android:label="@string/leafy_notes_title"
             android:theme="@style/LaunchTheme"
             android:taskAffinity=".com.nivisi.leafy_launcher.LeafyNotesActivity"
             android:screenOrientation="portrait"

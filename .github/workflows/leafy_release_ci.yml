@@ -22,7 +22,7 @@ jobs:
           echo "APK_NAME=leafy${{ github.ref_name }}.apk" >> $GITHUB_ENV
           echo "APP_BUNDLE_NAME=leafy${{ github.ref_name }}.aab" >> $GITHUB_ENV
           echo "APK_PATH=/home/runner/work/LeafyLauncher/LeafyLauncher/src/build/app/outputs/flutter-apk/" >> $GITHUB_ENV
-          echo "APP_BUNDLE_PATH=/home/runner/work/LeafyLauncher/LeafyLauncher/src/build/app/outputs/bundle/release/" >> $GITHUB_ENV
+          echo "APP_BUNDLE_PATH=/home/runner/work/LeafyLauncher/LeafyLauncher/src/build/app/outputs/bundle/prodDebug/" >> $GITHUB_ENV
 
       - name: Get Release Data
         id: get_release_data
@@ -89,10 +89,10 @@ jobs:
         run: (echo ${{ secrets.KEY_PROPERTIES }} | openssl base64 -d -A) > ./android/key.properties
 
       - name: Build APK 🌳
-        run: flutter build apk --release --build-name "${{ env.APP_VERSION }}" --build-number "${{ github.run_number }}"
+        run: flutter build apk --release --build-name "${{ env.APP_VERSION }}" --build-number "${{ github.run_number }}" --flavor prod -t lib/main_prod.dart
 
       - name: Build App Bundle 🌳
-        run: flutter build appbundle --release --build-name "${{ env.APP_VERSION }}" --build-number "${{ github.run_number }}"
+        run: flutter build appbundle --release --build-name "${{ env.APP_VERSION }}" --build-number "${{ github.run_number }}" --flavor prod -t lib/main_prod.dart
 
       - name: Rename and Upload Release Assets
         id: upload_release
@@ -101,9 +101,9 @@ jobs:
           APK_NAME: ${{ env.APK_NAME }}
           APP_BUNDLE_NAME: ${{ env.APP_BUNDLE_NAME }}
           RELEASE_ID: ${{ env.RELEASE_ID }}
-          BUILT_APK_PATH: ${{ env.APK_PATH }}app-release.apk
+          BUILT_APK_PATH: ${{ env.APK_PATH }}app-prod-release.apk
           RENAMED_APK_PATH: ${{ env.APK_PATH }}${{ env.APK_NAME }}
-          BUILT_APP_BUNDLE_PATH: ${{ env.APP_BUNDLE_PATH }}app-release.aab
+          BUILT_APP_BUNDLE_PATH: ${{ env.APP_BUNDLE_PATH }}app-prod-release.aab
           RENAMED_APP_BUNDLE_PATH: ${{ env.APP_BUNDLE_PATH }}${{ env.APP_BUNDLE_NAME }}
 
         with:
@@ -139,8 +139,6 @@ jobs:
           document: ${{ env.APK_PATH }}${{ env.APK_NAME }}
           message: |
             Leafy ${{ env.APP_VERSION }} is here 🍃
-            
-            At the moment I can't publish changelog here, but I'll find out how soon! Meanwhile you can check the notes for ${{ env.APP_VERSION }} here: ${{ env.RELEASE_URL }}
 
 #           ${{ env.RELEASE_NOTES }} Publish it when the error is fixed :(
 

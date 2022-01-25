@@ -95,6 +95,7 @@ abstract class LeafyTheme extends InheritedWidget {
     required this.bodyText3,
     required this.bodyText4,
     required this.bodyText5,
+    required this.bodyText6,
     required this.defaultRadius,
   }) : super(key: key, child: child);
 
@@ -120,6 +121,7 @@ abstract class LeafyTheme extends InheritedWidget {
   final TextStyle bodyText3;
   final TextStyle bodyText4;
   final TextStyle bodyText5;
+  final TextStyle bodyText6;
 
   final Radius defaultRadius;
 

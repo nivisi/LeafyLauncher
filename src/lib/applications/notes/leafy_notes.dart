@@ -6,10 +6,12 @@ import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders
 import 'package:leafy_launcher/module/home_notes/notes/note/home_note_page.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_page.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/services/app_environment/app_environment.dart';
 import 'package:leafy_launcher/services/date_changed/date_changed_listener.dart';
 import 'package:leafy_launcher/services/device_locale/device_locale_changed_listener.dart';
 import 'package:leafy_launcher/services/share/share_service.dart';
 import 'package:leafy_launcher/services/toast/toast_service.dart';
+import 'package:leafy_launcher/utils/app_flavour/app_flavour.dart';
 
 import '../../database/leafy_notes_db/leafy_notes_database.dart';
 import '../../module/home_notes/notes/folders/home_note_folders_binding.dart';
@@ -27,10 +29,11 @@ import 'leafy_notes_routes.dart';
 class LeafyNotes {
   /// Initializes must have dependecies.
   /// Without these the app cannot be started normally.
-  static Future initPrimaryDependencies() async {
+  static Future initPrimaryDependencies(AppFlavour flavour) async {
     await initSharedPreferences();
 
     await Get.putAsync(FileSystem.init, permanent: true);
+    await Get.putAsync(AppEnvironment(flavour).init, permanent: true);
 
     Get.lazyPut(() => FileLogger(), fenix: true);
     Get.put(DeviceLocaleChangedListener(), permanent: true);
@@ -51,8 +54,8 @@ class LeafyNotes {
     LeafyNotesDatabaseLibrary.initialize(Get);
   }
 
-  static Future run() async {
-    await initPrimaryDependencies();
+  static Future run(AppFlavour flavour) async {
+    await initPrimaryDependencies(flavour);
     initSecondaryDependencies();
 
     LeafyTheme.restoreThemeStyle();
