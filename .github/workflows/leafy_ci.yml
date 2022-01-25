@@ -60,10 +60,10 @@ jobs:
         run: flutter analyze .
 
       - name: Build APK 🌱
-        run: flutter build apk --release --build-number "${{ github.run_number }}"
+        run: flutter build apk --release --build-number "${{ github.run_number }}" --flavor dev -t lib/main_dev.dart
 
       - name: Upload APK
         uses: actions/upload-artifact@v1
         with:
-          name: leafy_launcher_${{ env.APP_VERSION }}_build${{ github.run_number }}.apk
-          path: src/build/app/outputs/flutter-apk/app-release.apk
+          name: leafy_launcher_${{ env.APP_VERSION }}.build_${{ github.run_number }}.dev.apk
+          path: src/build/app/outputs/flutter-apk/app-dev-release.apk
