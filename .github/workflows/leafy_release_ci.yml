@@ -22,7 +22,7 @@ jobs:
           echo "APK_NAME=leafy${{ github.ref_name }}.apk" >> $GITHUB_ENV
           echo "APP_BUNDLE_NAME=leafy${{ github.ref_name }}.aab" >> $GITHUB_ENV
           echo "APK_PATH=/home/runner/work/LeafyLauncher/LeafyLauncher/src/build/app/outputs/flutter-apk/" >> $GITHUB_ENV
-          echo "APP_BUNDLE_PATH=/home/runner/work/LeafyLauncher/LeafyLauncher/src/build/app/outputs/bundle/prodDebug/" >> $GITHUB_ENV
+          echo "APP_BUNDLE_PATH=/home/runner/work/LeafyLauncher/LeafyLauncher/src/build/app/outputs/bundle/prodRelease/" >> $GITHUB_ENV
 
       - name: Get Release Data
         id: get_release_data
