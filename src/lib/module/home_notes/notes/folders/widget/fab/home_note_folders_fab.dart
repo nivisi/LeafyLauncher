@@ -8,7 +8,7 @@ import 'package:leafy_launcher/shared_widget/themed_widget.dart';
 
 import '../../home_note_folders_controller.dart';
 
-class HomeNoteFoldersFab extends ThemedWidget {
+class HomeNoteFoldersFab extends ThemedWidget<HomeTheme> {
   const HomeNoteFoldersFab({Key? key}) : super(key: key);
 
   static const _fabSize = 56.0;
