@@ -6,7 +6,6 @@ import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/services/applications/installed_application.dart';
-import 'package:leafy_launcher/services/applications/installed_applications_service.dart';
 import 'package:leafy_launcher/services/device_vibration/device_vibration.dart';
 import 'package:leafy_launcher/utils/dialogs/confirm/actions_dialog.dart';
 import 'package:leafy_launcher/utils/dialogs/leafy_dialog.dart';
@@ -19,7 +18,6 @@ class AppPickerHomeController extends AppPickerControllerBase {
 
   final StreamController _backButtonController = StreamController.broadcast();
 
-  late final InstalledApplicationsService _installedApplicationsService;
   late final DeviceVibration _deviceVibration;
 
   Stream get onAppSelectedEvent => _backButtonController.stream;
@@ -28,12 +26,7 @@ class AppPickerHomeController extends AppPickerControllerBase {
   Future resolveDependencies() async {
     await super.resolveDependencies();
 
-    _installedApplicationsService = Get.find<InstalledApplicationsService>();
     _deviceVibration = Get.find<DeviceVibration>();
-
-    _installedApplicationsService.onAppsChanged.listen((app) {
-      onTypedText();
-    });
   }
 
   @override
@@ -91,11 +84,11 @@ class AppPickerHomeController extends AppPickerControllerBase {
 
     switch (result) {
       case _LongPressActions.delete:
-        await _installedApplicationsService.deleteApp(app);
+        await installedApplicationsService.deleteApp(app);
 
         break;
       case _LongPressActions.view:
-        _installedApplicationsService.viewInfo(app);
+        installedApplicationsService.viewInfo(app);
 
         break;
       default:

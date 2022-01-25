@@ -67,6 +67,10 @@ class HomeTheme extends LeafyTheme {
             fontSize: kBodyText5FontSize,
             color: _kLightForegroundColor,
           ),
+          bodyText6: const TextStyle(
+            fontSize: kBodyText6FontSize,
+            color: _kLightForegroundColor,
+          ),
           defaultRadius: _defaultRadius,
         );
 
@@ -102,6 +106,10 @@ class HomeTheme extends LeafyTheme {
           ),
           bodyText5: const TextStyle(
             fontSize: kBodyText5FontSize,
+            color: _kDarkForegroundColor,
+          ),
+          bodyText6: const TextStyle(
+            fontSize: kBodyText6FontSize,
             color: _kDarkForegroundColor,
           ),
           defaultRadius: _defaultRadius,

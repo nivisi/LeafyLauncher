@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +7,7 @@ import 'package:leafy_launcher/module/home/widget/home_calendar/home_calendar_ce
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
+import 'package:leafy_launcher/services/date_changed/date_changed_listener.dart';
 import 'package:leafy_launcher/shared_widget/themed_state.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -18,6 +21,8 @@ class HomeCalendar extends StatefulWidget {
 }
 
 class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
+  static const _duration = Duration(milliseconds: 500);
+  static const _curve = Curves.fastOutSlowIn;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
@@ -25,12 +30,32 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
 
   double? _startPage = .0;
 
+  DateTime _today = DateTime.now();
+
+  late StreamSubscription _onDateChangedSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _onDateChangedSubscription =
+        Get.find<DateChangedListener>().onDateChanged.listen(_onDateChanged);
+  }
+
+  void _onDateChanged(_) {
+    setState(() {
+      _today = DateTime.now();
+    });
+  }
+
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return Column(
       children: [
         TableCalendar(
-          pageAnimationDuration: kDefaultAnimationDuration,
+          pageAnimationDuration: _duration,
+          pageAnimationCurve: _curve,
+          currentDay: _today,
           onCalendarCreated: (pageController) =>
               _pageController = pageController,
           headerStyle: HeaderStyle(
@@ -80,15 +105,20 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
               );
             },
             selectedBuilder: (_, day, __) {
+              // Enable normal builders
+              // when there will be something to do on taps
               return HomeCalendarCell(
                 day: day,
-                type: HomeCalendarCellType.selected,
+                // type: HomeCalendarCellType.selected,
+                type: isSameDay(_selectedDay, _today)
+                    ? HomeCalendarCellType.today
+                    : HomeCalendarCellType.none,
               );
             },
             outsideBuilder: (_, day, __) {
               return HomeCalendarCell(
                 day: day,
-                type: HomeCalendarCellType.otherMoth,
+                type: HomeCalendarCellType.otherMonth,
               );
             },
             headerTitleBuilder: (_, day) {
@@ -126,14 +156,14 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
                     final dPage = details.primaryVelocity! > .0 ? -1 : 1;
                     _pageController.animateToPage(
                       (_startPage! + dPage).toInt(),
-                      curve: Curves.easeOut,
-                      duration: kDefaultAnimationDuration,
+                      duration: _duration,
+                      curve: _curve,
                     );
                   } else {
                     _pageController.animateTo(
                       _pageController.position.pixels,
-                      curve: Curves.easeIn,
-                      duration: kDefaultAnimationDuration,
+                      duration: _duration,
+                      curve: _curve,
                     );
                   }
                 },
@@ -149,5 +179,11 @@ class _HomeCalendarState extends ThemedState<HomeCalendar, HomeTheme> {
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _onDateChangedSubscription.cancel();
+    super.dispose();
   }
 }

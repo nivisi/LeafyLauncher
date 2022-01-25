@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:get/get.dart';
+import 'package:leafy_launcher/services/device_locale/device_locale_changed_listener.dart';
 
 import '../../utils/preferences/shared_preferences.dart';
 
@@ -8,19 +9,52 @@ class L10n {
   const L10n._();
 
   static late Locale _locale;
+  static late bool _isAsInSystem;
+
   static Locale get locale => _locale;
 
-  static bool get isRu => _locale.languageCode == 'ru';
-  static bool get isEn => _locale.languageCode == 'en';
+  static bool get isRu => !_isAsInSystem && _locale.languageCode == 'ru';
+  static bool get isEn => !_isAsInSystem && _locale.languageCode == 'en';
+  static bool get isAsInSystem => _isAsInSystem;
 
   static const Locale ruLocale = Locale('ru', 'RU');
   static const Locale enLocale = Locale('en', 'US');
 
-  static void restoreLocale() {
+  static const Locale fallbackLocale = enLocale;
+
+  static void _setAndStoreAsIsSystem(bool value) {
+    sharedPreferences.setBool(kLocaleAsInSystem, value);
+    _isAsInSystem = value;
+  }
+
+  static void _setAndStoreLocale(Locale locale) {
+    _locale = locale;
+    sharedPreferences.setString(
+      kLocaleKey,
+      '${locale.languageCode}|${locale.countryCode}',
+    );
+  }
+
+  static void _updateSetAndStoreLocale(Locale locale) {
+    Get.updateLocale(locale);
+    _setAndStoreLocale(locale);
+  }
+
+  static bool isLocaleSupported(Locale? locale) {
+    return locale != null && (locale == ruLocale || locale == enLocale);
+  }
+
+  static void _restoreLocale() {
     final locale = sharedPreferences.getString(kLocaleKey);
 
     if (locale == null) {
-      _locale = Get.deviceLocale ?? enLocale;
+      _locale = Get.deviceLocale ?? fallbackLocale;
+
+      if (!isLocaleSupported(_locale)) {
+        _locale = enLocale;
+      }
+
+      _setAndStoreLocale(_locale);
 
       return;
     }
@@ -31,17 +65,67 @@ class L10n {
       languageCode: data[0],
       countryCode: data[1].isEmpty ? null : data[1],
     );
+
+    if (!isLocaleSupported(_locale)) {
+      _locale = enLocale;
+    }
+
+    _setAndStoreLocale(_locale);
+  }
+
+  static void _restoreAsInSystem() {
+    final asInSystem = sharedPreferences.getBool(kLocaleAsInSystem);
+
+    if (asInSystem == null) {
+      _setAndStoreAsIsSystem(true);
+
+      return;
+    }
+
+    _isAsInSystem = asInSystem;
   }
 
   static void setLocale(Locale locale) {
-    Get.updateLocale(locale);
+    _setAndStoreAsIsSystem(false);
 
-    _locale = locale;
+    _updateSetAndStoreLocale(locale);
+  }
 
-    sharedPreferences.setString(
-      kLocaleKey,
-      '${locale.languageCode}|${locale.countryCode}',
-    );
+  static void setAsSystem() {
+    _setAndStoreAsIsSystem(true);
+
+    final deviceLocale = Get.deviceLocale;
+
+    if (deviceLocale == null || !isLocaleSupported(deviceLocale)) {
+      _updateSetAndStoreLocale(fallbackLocale);
+
+      return;
+    }
+
+    _updateSetAndStoreLocale(deviceLocale);
+  }
+
+  static void onDeviceLocaleChanged(Locale locale) {
+    if (!_isAsInSystem) {
+      return;
+    }
+
+    if (!isLocaleSupported(locale)) {
+      _updateSetAndStoreLocale(fallbackLocale);
+
+      return;
+    }
+
+    _updateSetAndStoreLocale(locale);
+  }
+
+  static void restore() {
+    _restoreAsInSystem();
+    _restoreLocale();
+
+    Get.find<DeviceLocaleChangedListener>()
+        .onDeviceLocaleChanged
+        .listen(onDeviceLocaleChanged);
   }
 
   static const String appName = 'appName';
@@ -156,4 +240,10 @@ class L10n {
   static const String leafyNotesCloseWithoutSaving =
       'leafyNotesCloseWithoutSaving';
   static const String leafyNotesSave = 'leafyNotesSave';
+  static const String leafyNotesUnableToShareEmptyNote =
+      'leafyNotesUnableToShareEmptyNote';
+
+  static const String russianLanguage = 'russianLanguage';
+  static const String englishLanguage = 'englishLanguage';
+  static const String languageAsInSystem = 'languageAsInSystem';
 }

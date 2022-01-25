@@ -33,7 +33,7 @@ class ControllerError {
 }
 
 abstract class StatusControllerBase extends ControllerBase
-    with EnsureInitialized {
+    with EnsureInitializedMixin {
   static const statusGetKey = 'status';
 
   final Rx<ControllerStatus> _status = ControllerStatus.loading.obs;

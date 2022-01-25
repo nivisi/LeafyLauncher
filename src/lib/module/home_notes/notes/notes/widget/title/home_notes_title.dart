@@ -18,7 +18,6 @@ class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
   Widget body(BuildContext context, LeafyTheme theme) {
     return GestureDetector(
       onTap: controller.onTitleTapped,
-      onDoubleTap: controller.onTitleDoubleTapped,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -57,9 +56,13 @@ class HomeNotesTitle extends ThemedGetWidget<HomeNotesController, HomeTheme> {
 
                 final folder = snapshot.data!;
 
-                return Text(
-                  folder.title,
-                  style: theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                return GestureDetector(
+                  onDoubleTap: controller.onTitleDoubleTapped,
+                  child: Text(
+                    folder.title,
+                    style:
+                        theme.bodyText1.copyWith(fontWeight: FontWeight.w500),
+                  ),
                 );
               },
             ),

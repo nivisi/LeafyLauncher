@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 import 'package:leafy_launcher/services/applications/exceptions/app_is_not_in_the_list_exception.dart';
+import 'package:leafy_launcher/services/device_locale/device_locale_changed_listener.dart';
 
 import '../../utils/enum/app_launch_transition.dart';
 import '../../utils/log/logable_mixin.dart';
@@ -33,12 +34,13 @@ const _methodGetApps = 'getApps';
 const _methodLaunch = 'launch';
 const _methodGetAppIcon = 'getAppIcon';
 
-class InstalledApplicationsService with LogableMixin, EnsureInitialized {
+class InstalledApplicationsService with LogableMixin, EnsureInitializedMixin {
   InstalledApplicationsService._();
 
   static InstalledApplicationsService? _instance;
 
   static late final DeviceVibration _deviceVibration;
+  static late final DeviceLocaleChangedListener _deviceLocaleChangedListener;
 
   final StreamController<Application> _onAppRemoved =
       StreamController.broadcast();
@@ -110,6 +112,7 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
     logger.i('Initializing installed applications ...');
 
     _deviceVibration = Get.find<DeviceVibration>();
+    _deviceLocaleChangedListener = Get.find<DeviceLocaleChangedListener>();
 
     await _fetchApps();
 
@@ -120,6 +123,13 @@ class InstalledApplicationsService with LogableMixin, EnsureInitialized {
     initializedSuccessfully();
 
     _appsChangedChannel.receiveBroadcastStream().listen(_onAppChanged);
+    _deviceLocaleChangedListener.onDeviceLocaleChanged.listen((_) async {
+      try {
+        await reinitialize(refetchApps);
+      } on Exception catch (e, s) {
+        logger.e('Unable to refetch apps on locale changed', e, s);
+      }
+    });
   }
 
   Future<void> _onAppChanged(dynamic arg) async {

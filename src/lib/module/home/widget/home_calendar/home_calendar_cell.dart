@@ -7,7 +7,9 @@ enum HomeCalendarCellType {
   selected,
   today,
   thisMonth,
-  otherMoth,
+  otherMonth,
+  // Remove this when there will be something to do on taps
+  none,
 }
 
 class HomeCalendarCell extends ThemedWidget<HomeTheme> {
@@ -24,11 +26,13 @@ class HomeCalendarCell extends ThemedWidget<HomeTheme> {
     switch (type) {
       case HomeCalendarCellType.selected:
         return theme.foregroundColor;
+      case HomeCalendarCellType.none:
+        return theme.foregroundColor;
       case HomeCalendarCellType.today:
         return theme.foregroundColor;
       case HomeCalendarCellType.thisMonth:
         return theme.foregroundColor;
-      case HomeCalendarCellType.otherMoth:
+      case HomeCalendarCellType.otherMonth:
         return theme.foregroundColor.withOpacity(.5);
     }
   }
@@ -41,7 +45,9 @@ class HomeCalendarCell extends ThemedWidget<HomeTheme> {
         return theme.textInfoColor.withOpacity(.5);
       case HomeCalendarCellType.thisMonth:
         return Colors.transparent;
-      case HomeCalendarCellType.otherMoth:
+      case HomeCalendarCellType.otherMonth:
+        return Colors.transparent;
+      case HomeCalendarCellType.none:
         return Colors.transparent;
     }
   }

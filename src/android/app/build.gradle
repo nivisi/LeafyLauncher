@@ -40,6 +40,10 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
         applicationId "com.nivisi.leafy_launcher"
         minSdkVersion 24
@@ -47,6 +51,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
+
     signingConfigs {
         release {
             keyAlias keyProperties['keyAlias']
@@ -60,6 +65,24 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    flavorDimensions "flavor-type"
+
+    productFlavors {
+        dev {
+            dimension "flavor-type"
+            applicationIdSuffix ".dev"
+            versionNameSuffix ".dev"
+            resValue "string", "app_name", "Leafy Launcher Beta Dev"
+            resValue "string", "leafy_notes_title", "Leafy Notes Dev"
+        }
+        prod {
+            dimension "flavor-type"
+            resValue "string", "app_name", "Leafy Launcher Beta"
+            resValue "string", "leafy_notes_title", "Leafy Notes"
             signingConfig signingConfigs.release
         }
     }

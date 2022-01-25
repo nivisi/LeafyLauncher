@@ -33,6 +33,8 @@ class MainActivity: LeafyActivityBase() {
     private var homeEventStreamHandler: StreamHandler = StreamHandler()
     private var appsChangedEventChannel: EventChannel? = null
     private var appsChangedEventStreamHandler: StreamHandlerParams<Map<String, Serializable>> = StreamHandlerParams()
+    private var deviceLocaleChangedEventChannel: EventChannel? = null
+    private var deviceLocaleChangedEventStreamHandler: StreamHandlerParams<String> = StreamHandlerParams()
 
     private var deleteAppResult: MethodChannel.Result? = null
 
@@ -48,15 +50,6 @@ class MainActivity: LeafyActivityBase() {
         overridePendingTransition(R.anim.app_launch_fade_in_long, R.anim.app_launch_fade_out_long)
     }
 
-    private fun registerAppChangedReceived() {
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED)
-        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
-        intentFilter.addDataScheme("package")
-
-        registerReceiver(AppChangeReceiver(), intentFilter)
-    }
-
     private fun registerHomeEventChannel(flutterEngine: FlutterEngine) {
         homeEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger,
             homePressedChannel
@@ -70,7 +63,6 @@ class MainActivity: LeafyActivityBase() {
         )
         appsChangedEventChannel!!.setStreamHandler(appsChangedEventStreamHandler)
 
-        registerAppChangedReceived()
     }
 
     private fun openCameraApp(result: MethodChannel.Result) {
@@ -420,7 +412,7 @@ class MainActivity: LeafyActivityBase() {
         startActivity(intent)
     }
 
-    public fun dispatchAppChangedEvent(packageName: String, isRemoved: Boolean) {
+    fun dispatchAppChangedEvent(packageName: String, isRemoved: Boolean) {
         appsChangedEventStreamHandler.dispatch(
             mapOf(
                 "package" to packageName,
@@ -430,7 +422,7 @@ class MainActivity: LeafyActivityBase() {
     }
 
     companion object {
-        lateinit var self: MainActivity
+        var self: MainActivity? = null
 
         private const val commonChannel = "com.nivisi.leafy_launcher/common"
         private const val applicationChannel = "com.nivisi.leafy_launcher/applicationChannel"

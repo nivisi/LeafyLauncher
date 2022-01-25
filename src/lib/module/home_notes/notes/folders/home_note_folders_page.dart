@@ -17,7 +17,7 @@ class HomeNoteFoldersPage
   static const horizontalPadding = kDefaultPadding * 1.5;
 
   @override
-  OnWillPopData? get onWillPopData => null;
+  OnWillPopData get onWillPopData => OnWillPopData(controller.back);
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
@@ -44,9 +44,6 @@ class HomeNoteFoldersPage
 
   @override
   Widget fab(BuildContext context, LeafyTheme theme) {
-    return HomeNoteFoldersFab(
-      onCreateFolderTap: controller.createFolder,
-      onCreateNoteTap: controller.createNote,
-    );
+    return const HomeNoteFoldersFab();
   }
 }
