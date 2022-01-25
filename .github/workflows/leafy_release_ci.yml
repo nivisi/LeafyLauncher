@@ -1,4 +1,4 @@
-name: 🌳 Release CI 
+name: 🌳 Release CI
 
 on:
   release:
@@ -33,7 +33,7 @@ jobs:
         with:
           script: |
             const { APP_VERSION } = process.env;
-            
+
             console.log("Looking for a release " + APP_VERSION + "...");
 
             try { 
@@ -47,7 +47,7 @@ jobs:
                 core.setFailed("Couldnt find the release");
                 return;
               }
-              
+
               console.log("The release " + APP_VERSION + " was found!");
               console.log("Release URL: " + release.data.url);
               console.log("Release Notes: " + release.data.body);
@@ -109,12 +109,12 @@ jobs:
         with:
           script: |
             const { APK_NAME, APP_BUNDLE_NAME, RELEASE_ID, BUILT_APK_PATH, RENAMED_APK_PATH, BUILT_APP_BUNDLE_PATH, RENAMED_APP_BUNDLE_PATH } = process.env;
-            
+
             const fs = require('fs');
-            
+
             await fs.promises.rename(BUILT_APK_PATH, RENAMED_APK_PATH)
             await fs.promises.rename(BUILT_APP_BUNDLE_PATH, RENAMED_APP_BUNDLE_PATH)
-            
+
             const uploadApkResponse = await github.repos.uploadReleaseAsset({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -122,7 +122,7 @@ jobs:
               name: APK_NAME,
               data: await fs.readFileSync(RENAMED_APK_PATH)
             });
-            
+
             const uploadAppBundleResponse = await github.repos.uploadReleaseAsset({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -150,7 +150,7 @@ jobs:
         with:
           script: |
             const { APP_VERSION } = process.env;
-            
+
             await github.rest.issues.createLabel({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
