@@ -30,7 +30,8 @@
 .pub-cache/
 .pub/
 /build/
-/.vscode/
+.vscode/*
+!.vscode/launch.json
 
 # Web related
 lib/generated_plugin_registrant.dart
