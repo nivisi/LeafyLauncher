@@ -22,6 +22,7 @@ dependencies:
   lint: ^1.8.1
   logger: ^1.0.0
   moor_flutter: ^4.0.0
+  package_info_plus: ^1.3.0
   path_provider: ^2.0.2
   share: ^2.0.4
   shared_preferences: ^2.0.6
