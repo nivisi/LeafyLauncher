@@ -63,6 +63,24 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    flavorDimensions "flavor-type"
+
+    productFlavors {
+        dev {
+            dimension "flavor-type"
+            applicationIdSuffix ".dev"
+            versionNameSuffix ".dev"
+            resValue "string", "app_name", "Leafy Launcher Beta Dev"
+            resValue "string", "leafy_notes_title", "Leafy Notes Dev"
+        }
+        prod {
+            dimension "flavor-type"
+            resValue "string", "app_name", "Leafy Launcher Beta"
+            resValue "string", "leafy_notes_title", "Leafy Notes"
+            signingConfig signingConfigs.release
+        }
+    }
 }
 
 flutter {
