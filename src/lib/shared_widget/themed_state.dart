@@ -9,8 +9,16 @@ abstract class ThemedState<TWidget extends StatefulWidget,
   Widget build(BuildContext context) {
     final theme = context.dependOnInheritedWidgetOfExactType<TTheme>();
 
+    assert(theme != null);
+
     if (theme == null) {
-      return const Text('THEME NOT FOUND!');
+      return const ColoredBox(
+        color: Colors.red,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text('THEME NOT FOUND!'),
+        ),
+      );
     }
 
     return body(context, theme);
