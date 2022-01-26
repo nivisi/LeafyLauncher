@@ -1,4 +1,4 @@
-part of 'settings_body.dart';
+part of '../settings_body.dart';
 
 class _Language extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
   const _Language({Key? key}) : super(key: key);

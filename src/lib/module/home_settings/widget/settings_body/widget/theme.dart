@@ -1,4 +1,4 @@
-part of 'settings_body.dart';
+part of '../settings_body.dart';
 
 class _Theme extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
   const _Theme({Key? key}) : super(key: key);

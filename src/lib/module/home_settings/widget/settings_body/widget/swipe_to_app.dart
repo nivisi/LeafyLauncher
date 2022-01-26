@@ -1,4 +1,4 @@
-part of 'settings_body.dart';
+part of '../settings_body.dart';
 
 class _SwipeToApp
     extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
