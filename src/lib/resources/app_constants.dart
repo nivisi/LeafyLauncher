@@ -29,3 +29,4 @@ const kPhoneAppIcon = Icons.phone;
 const kMessagesAppIcon = Icons.message;
 
 const kDefaultAnimationCurve = Curves.fastOutSlowIn;
+const kDefaultBorderRadius = BorderRadius.all(Radius.circular(10.0));

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
-import 'package:leafy_launcher/shared_widget/section/leafy_text_section_item.dart';
+import 'package:leafy_launcher/shared_widget/section/src/items/leafy_section_text_item.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
 
 import '../../home_notes_page.dart';
@@ -25,7 +25,7 @@ class HomeNoteSectionItem extends ThemedWidget<HomeTheme> {
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
-    return LeafyTextSectionItem<HomeTheme>(
+    return LeafySectionTextItem<HomeTheme>(
       title: note.title ?? note.firstLine ?? '',
       subtitle: note.lastEditedAt.day == DateTime.now().day
           ? _todayFormat.format(note.lastEditedAt)

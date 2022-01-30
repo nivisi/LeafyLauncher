@@ -133,19 +133,36 @@ class L10n {
   static const String settingsTitle = 'settingsTitle';
   static const String settingsToLeftApp = 'settingsToLeftApp';
   static const String settingsToRightApp = 'settingsToRightApp';
+  static const String settingsAppNotSelected = 'settingsAppNotSelected';
   static const String settingsTheme = 'settingsTheme';
   static const String settingsAbout = 'settingsAbout';
   static const String settingsLanguage = 'settingsLanguage';
-  static const String settingsSelectDefaultLauncher =
-      'settingsSelectDefaultLauncher';
-  static const String settingsWidgetsTitle = 'settingsWidgetsTitle';
+  static const String settingsDefaultLauncherHeader =
+      'settingsDefaultLauncherHeader';
+  static const String settingsDefaultLauncherChange =
+      'settingsDefaultLauncherChange';
+  static const String settingsDefaultLauncherFooter =
+      'settingsDefaultLauncherFooter';
   static const String settingsHomeWidgets = 'settingsHomeWidgets';
+  static const String settingsHomeWidgetsConfigure =
+      'settingsHomeWidgetsConfigure';
   static const String settingsTimeProgressWidget = 'settingsDayProgressWidget';
-  static const String settingsDoTutorial = 'settingsDoTutorial';
   static const String settingsIsEnabled = 'settingsIsEnabled';
   static const String settingsYes = 'settingsYes';
   static const String settingsNo = 'settingsNo';
   static const String settingsType = 'settingsType';
+  static const String settingsHorizontalSwipeAppsHeader =
+      'settingsHorizontalSwipeAppsHeader';
+  static const String settingsHorizontalSwipeAppsFooter =
+      'settingsHorizontalSwipeAppsFooter';
+  static const String settingsCommonSettingsHeader =
+      'settingsCommonSettingsHeader';
+  static const String settingsWidgetsHeader = 'settingsWidgetsHeader';
+  static const String settingsWidgetsFooter = 'settingsWidgetsFooter';
+  static const String settingsDoTutorialHeader = 'settingsDoTutorialHeader';
+  static const String settingsDoTutorial = 'settingsDoTutorial';
+  static const String settingsDoTutorialFooter = 'settingsDoTutorialFooter';
+
   static const String appPickerLaunchApp = 'appPickerLaunchApp';
   static const String appPickerTo = 'appPickerTo';
   static const String appPickerSelect = 'appPickerSelect';

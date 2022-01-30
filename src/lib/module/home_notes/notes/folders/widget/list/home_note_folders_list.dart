@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart';
 import 'package:leafy_launcher/module/home/utils/gesture_processer.dart';
 import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_controller.dart';
+import 'package:leafy_launcher/module/home_notes/notes/folders/home_note_folders_page.dart';
+import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 import 'package:leafy_launcher/shared_widget/list/dismissible_delete_background.dart';
-import 'package:leafy_launcher/shared_widget/section/leafy_section.dart';
+import 'package:leafy_launcher/shared_widget/section/leafy_section_lib.dart';
+import 'package:leafy_launcher/shared_widget/section/src/list/leafy_section_list.dart';
 import 'package:leafy_launcher/shared_widget/themed_get_widget.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
 
@@ -79,21 +82,33 @@ class HomeNoteFoldersList
           );
         }
 
-        return LeafySection<HomeTheme>(
-          leadingAlwaysTakesSpace: true,
-          children: [
-            for (final folderWithNotes in foldersWithNotes)
-              folderWithNotes.folder.isDefault
-                  ? HomeNoteFolderSectionItem(
-                      key: ValueKey(folderWithNotes.folder.id),
-                      folderWithNotes: folderWithNotes,
-                      onTap: controller.onFolderSelected,
-                    )
-                  : _DismissibleItem(
-                      folderWithNotes: folderWithNotes,
-                      onDismissed: controller.onFolderRemoved,
-                      onTap: controller.onFolderSelected,
-                    )
+        return LeafySectionList<HomeTheme>(
+          scrollController: controller.scrollController,
+          sectionBorderRadius: kDefaultBorderRadius,
+          backgroundColor: theme.secondaryBackgroundColor,
+          itemVerticalPadding: kDefaultPadding,
+          itemHorizontalPadding: kDefaultPadding,
+          padding: const EdgeInsets.symmetric(
+            horizontal: HomeNoteFoldersPage.horizontalPadding,
+            vertical: kDefaultPadding * 2.0,
+          ),
+          sections: [
+            LeafySection<HomeTheme>(
+              children: [
+                for (final folderWithNotes in foldersWithNotes)
+                  folderWithNotes.folder.isDefault
+                      ? HomeNoteFolderSectionItem(
+                          key: ValueKey(folderWithNotes.folder.id),
+                          folderWithNotes: folderWithNotes,
+                          onTap: controller.onFolderSelected,
+                        )
+                      : _DismissibleItem(
+                          folderWithNotes: folderWithNotes,
+                          onDismissed: controller.onFolderRemoved,
+                          onTap: controller.onFolderSelected,
+                        )
+              ],
+            ),
           ],
         );
       },

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:leafy_launcher/shared_widget/leafy_spacer.dart';
+import 'package:leafy_launcher/shared_widget/section/src/theme/leafy_section_theme.dart';
 
-import 'leafy_section.dart';
-
-class LeafyCustomSectionItem extends StatelessWidget {
-  const LeafyCustomSectionItem({
+class LeafySectionCustomItem extends StatelessWidget {
+  const LeafySectionCustomItem({
     Key? key,
     required this.title,
     this.subtitle,
@@ -23,32 +22,30 @@ class LeafyCustomSectionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme =
-        context.dependOnInheritedWidgetOfExactType<LeafySectionTheme>()!;
+    final theme = context.leafySectionTheme!;
 
     return InkWell(
       onTap: onTap,
       onLongPress: onLongPress,
+      splashColor: Colors.transparent,
       child: Container(
-        margin: const EdgeInsets.fromLTRB(
-          LeafySection.itemLeftPadding,
-          LeafySection.itemVerticalPadding,
-          LeafySection.itemLeftPadding,
-          LeafySection.itemVerticalPadding,
+        margin: EdgeInsets.symmetric(
+          horizontal: theme.itemHorizontalPadding,
+          vertical: theme.itemVerticalPadding,
         ),
         child: Row(
           children: [
             if (leading != null)
               Container(
-                margin: const EdgeInsets.only(
-                  right: LeafySection.itemLeftPadding,
+                margin: EdgeInsets.only(
+                  right: theme.itemHorizontalPadding,
                 ),
                 width: theme.leadingWidth,
                 child: leading,
               )
-            else if (theme.leadingAlwaysTakesSpace)
+            else
               SizedBox(
-                width: theme.leadingWidth,
+                width: theme.leadingAlwaysTakesSpace ? theme.leadingWidth : .0,
               ),
             Expanded(
               child: Column(

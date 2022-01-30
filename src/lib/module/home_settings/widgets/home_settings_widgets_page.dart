@@ -34,7 +34,7 @@ class HomeSettingsWidgetsPage
       ),
       children: [
         Text(
-          L10nProvider.getText(L10n.settingsWidgetsTitle),
+          L10nProvider.getText(L10n.settingsWidgetsHeader),
           style: theme.bodyText1,
         ),
         const LeafySpacer(multipler: 6.0),

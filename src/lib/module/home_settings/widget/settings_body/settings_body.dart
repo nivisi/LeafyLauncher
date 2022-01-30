@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leafy_launcher/module/home_settings/home_settings_page.dart';
-import 'package:leafy_launcher/module/home_settings/widget/settings_body/widget/leafy_version.dart';
+import 'package:leafy_launcher/module/home_settings/home_settings_controller.dart';
+import 'package:leafy_launcher/module/home_settings/widget/settings_body/home_widgets/home_widgets.dart';
+import 'package:leafy_launcher/module/home_settings/widget/settings_body/swipe_apps/swipe_to_left_app.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
+import 'package:leafy_launcher/shared_widget/section/src/items/leafy_section_text_item.dart';
+import 'package:leafy_launcher/shared_widget/section/src/items/values/leafy_section_text_value.dart';
+import 'package:leafy_launcher/shared_widget/section/src/list/leafy_section_list.dart';
+import 'package:leafy_launcher/shared_widget/section/src/section/leafy_section.dart';
 
-import '../../../../resources/app_constants.dart';
 import '../../../../resources/localization/l10n.dart';
 import '../../../../resources/localization/l10n_provider.dart';
 import '../../../../resources/theme/home_theme.dart';
 import '../../../../resources/theme/leafy_theme.dart';
 import '../../../../services/applications/user_applications_controller.dart';
-import '../../../../shared_widget/leafy_spacer.dart';
 import '../../../../shared_widget/themed_get_widget.dart';
-import '../../../../shared_widget/touchable_text_button.dart';
 import '../../../../utils/enum/leafy_theme_style.dart';
-import '../../../../utils/enum/user_selected_app_type.dart';
-import '../../../home/widget/user_app_button.dart';
+import 'select_default_launcher/select_default_launcher.dart';
+import 'swipe_apps/swipe_to_right_app.dart';
+import 'take_tutorial/take_tutorial.dart';
 
-part 'widget/swipe_to_app.dart';
-part 'widget/theme.dart';
-part 'widget/language.dart';
-part 'widget/vibration_preference.dart';
+part 'common/language.dart';
+part 'common/theme.dart';
+part 'common/vibration.dart';
 
 class SettingsBody
     extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
@@ -28,49 +30,50 @@ class SettingsBody
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
-    return ListView(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.only(
-        top: kDefaultPadding * 6.0,
-        left: HomeSettingsPage.horizontalPadding,
-        bottom: kDefaultPadding * 4.0,
-      ),
-      children: [
-        const _SwipeToApp(type: UserSelectedAppType.left),
-        const LeafySpacer.section(),
-        const _SwipeToApp(type: UserSelectedAppType.right),
-        const LeafySpacer.section(),
-        const _Theme(),
-        const LeafySpacer.section(),
-        const _Language(),
-        const LeafySpacer.section(),
-        const _VibrationPreferences(),
-        const LeafySpacer(multipler: 8.0),
-        TouchableTextButton(
-          text: L10nProvider.getText(L10n.settingsSelectDefaultLauncher),
-          color: theme.foregroundColor,
-          pressedColor: theme.foregroundPressedColor,
-          style: theme.bodyText2,
-          onTap: controller.openLauncherPreferences,
+    return LeafySectionList<HomeTheme>(
+      scrollController: Get.find<HomeSettingsController>().scrollController,
+      sections: [
+        LeafySection<HomeTheme>(
+          header: L10nProvider.getText(L10n.settingsHorizontalSwipeAppsHeader),
+          footer: L10nProvider.getText(L10n.settingsHorizontalSwipeAppsFooter),
+          children: const [
+            SwipeToLeftApp(),
+            SwipeToRightApp(),
+          ],
         ),
-        const LeafySpacer(multipler: 2.0),
-        TouchableTextButton(
-          text: L10nProvider.getText(L10n.settingsDoTutorial),
-          color: theme.foregroundColor,
-          pressedColor: theme.foregroundPressedColor,
-          style: theme.bodyText2,
-          onTap: controller.openTutorial,
+        LeafySection<HomeTheme>(
+          header: L10nProvider.getText(L10n.settingsCommonSettingsHeader),
+          children: const [
+            _Language(),
+            _Theme(),
+            _Vibration(),
+          ],
         ),
-        const LeafySpacer.section(),
-        TouchableTextButton(
-          text: L10nProvider.getText(L10n.settingsHomeWidgets),
-          color: theme.foregroundColor,
-          pressedColor: theme.foregroundPressedColor,
-          style: theme.bodyText2,
-          onTap: controller.openWidgets,
+        LeafySection<HomeTheme>(
+          header: L10nProvider.getText(L10n.settingsWidgetsHeader),
+          footer: L10nProvider.getText(L10n.settingsWidgetsFooter),
+          children: const [
+            HomeWidgets(),
+          ],
         ),
-        const LeafySpacer.section(),
-        const LeafyVersion(),
+        LeafySection<HomeTheme>(
+          header: L10nProvider.getText(L10n.settingsDoTutorialHeader),
+          footer: L10nProvider.getText(L10n.settingsDoTutorialFooter),
+          children: const [
+            TakeTutorial(),
+          ],
+        ),
+        LeafySection<HomeTheme>(
+          header: L10nProvider.getText(L10n.settingsDefaultLauncherHeader),
+          footer: L10nProvider.getText(L10n.settingsDefaultLauncherFooter),
+          children: const [
+            SelectDefaultLauncher(),
+          ],
+        ),
+        LeafySection<HomeTheme>(
+          footer: Get.find<HomeSettingsController>().leafyVersion,
+          children: const [],
+        ),
       ],
     );
   }

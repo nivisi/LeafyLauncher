@@ -12,20 +12,17 @@ class HomeSettingsPage
     extends StatusPageBase<HomeSettingsController, HomeTheme> {
   const HomeSettingsPage();
 
-  static const horizontalPadding = kDefaultPadding * 1.5;
+  static const horizontalPadding = kDefaultPadding * 2.0;
 
   @override
   bool get resizeToAvoidBottomInset => false;
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
-    return Stack(
+    return Column(
       children: const [
-        Padding(
-          padding: EdgeInsets.only(top: 30.0),
-          child: SettingsBody(),
-        ),
         SettingsTitle(),
+        Expanded(child: SettingsBody()),
       ],
     );
   }

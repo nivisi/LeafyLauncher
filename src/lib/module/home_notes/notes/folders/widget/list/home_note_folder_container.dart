@@ -4,7 +4,7 @@ import 'package:leafy_launcher/resources/localization/l10n.dart';
 import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
-import 'package:leafy_launcher/shared_widget/section/leafy_text_section_item.dart';
+import 'package:leafy_launcher/shared_widget/section/src/items/leafy_section_text_item.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
 
 typedef OnFolderSelected = void Function(FolderModel note);
@@ -26,7 +26,7 @@ class HomeNoteFolderSectionItem extends ThemedWidget<HomeTheme> {
     final folder = folderWithNotes.folder;
     final notes = folderWithNotes.notes;
 
-    return LeafyTextSectionItem<HomeTheme>(
+    return LeafySectionTextItem<HomeTheme>(
       title: folder.isDefault
           ? L10nProvider.getText(L10n.defaultFolderTitle)
           : folder.title,
