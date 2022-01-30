@@ -50,7 +50,7 @@ class SettingsBody
           ],
         ),
         LeafySection<HomeTheme>(
-          header: L10nProvider.getText(L10n.settingsWidgetsHeader),
+          header: L10nProvider.getText(L10n.settingsWidgetsTitle),
           footer: L10nProvider.getText(L10n.settingsWidgetsFooter),
           children: const [
             HomeWidgets(),

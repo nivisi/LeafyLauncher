@@ -28,7 +28,7 @@ var _mapEn = {
   L10n.settingsHorizontalSwipeAppsFooter:
       'These apps can be opened on horizontal swipes on the home screen',
   L10n.settingsCommonSettingsHeader: 'Common Settings',
-  L10n.settingsWidgetsHeader: 'Widgets',
+  L10n.settingsWidgetsTitle: 'Widgets',
   L10n.settingsHomeWidgetsConfigure: 'Configure',
   L10n.settingsWidgetsFooter:
       'Here you can configure widgets displayed on the home screen',
@@ -83,12 +83,15 @@ var _mapEn = {
   L10n.tutorialSettingsTitle: 'Open Settings',
   L10n.tutorialSettingsInfo:
       '''Long press anywhere on the home screen to open settings''',
-  L10n.dayProgress: 'Day',
-  L10n.weekProgress: 'Week',
-  L10n.yearProgress: 'Year',
+  L10n.timeProgressDay: 'Day',
+  L10n.timeProgressWeek: 'Week',
+  L10n.timeProgressYear: 'Year',
   L10n.settingsHomeWidgets: 'Home widgets',
   L10n.settingsTimeProgressWidget: 'Time progress',
-  L10n.settingsIsEnabled: 'Enabled',
+  L10n.settingsTimeProgressType: 'Type',
+  L10n.settingsTimeProgressIsEnabled: 'Is Enabled',
+  L10n.settingsTimeProgressEnabled: 'On',
+  L10n.settingsTimeProgressDisabled: 'Off',
   L10n.settingsYes: 'On',
   L10n.settingsNo: 'Off',
   L10n.settingsType: 'Type',

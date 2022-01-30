@@ -147,6 +147,13 @@ class L10n {
   static const String settingsHomeWidgetsConfigure =
       'settingsHomeWidgetsConfigure';
   static const String settingsTimeProgressWidget = 'settingsDayProgressWidget';
+  static const String settingsTimeProgressType = 'settingsTimeProgressType';
+  static const String settingsTimeProgressIsEnabled =
+      'settingsTimeProgressIsEnabled';
+  static const String settingsTimeProgressDisabled =
+      'settingsTimeProgressDisabled';
+  static const String settingsTimeProgressEnabled =
+      'settingsTimeProgressEnabled';
   static const String settingsIsEnabled = 'settingsIsEnabled';
   static const String settingsYes = 'settingsYes';
   static const String settingsNo = 'settingsNo';
@@ -157,7 +164,7 @@ class L10n {
       'settingsHorizontalSwipeAppsFooter';
   static const String settingsCommonSettingsHeader =
       'settingsCommonSettingsHeader';
-  static const String settingsWidgetsHeader = 'settingsWidgetsHeader';
+  static const String settingsWidgetsTitle = 'settingsWidgetsTitle';
   static const String settingsWidgetsFooter = 'settingsWidgetsFooter';
   static const String settingsDoTutorialHeader = 'settingsDoTutorialHeader';
   static const String settingsDoTutorial = 'settingsDoTutorial';
@@ -223,9 +230,9 @@ class L10n {
   static const String tutorialSettingsTitle = 'tutorialSettingsTitle';
   static const String tutorialSettingsInfo = 'tutorialSettingsInfo';
 
-  static const String dayProgress = 'dayProgress';
-  static const String weekProgress = 'weekProgress';
-  static const String yearProgress = 'yearProgress';
+  static const String timeProgressDay = 'timeProgressDay';
+  static const String timeProgressWeek = 'timeProgressWeek';
+  static const String timeProgressYear = 'timeProgressYear';
   static const String enabled = 'enabled';
   static const String disabled = 'disabled';
 
