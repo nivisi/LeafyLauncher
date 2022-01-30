@@ -20,21 +20,9 @@ class HomeNotesPage extends StatusPageBase<HomeNotesController, HomeTheme> {
   Widget ready(BuildContext context, LeafyTheme theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const HomeNotesTitle(),
-        Expanded(
-          child: SingleChildScrollView(
-            controller: controller.scrollController,
-            padding: const EdgeInsets.symmetric(
-              horizontal: horizontalPadding,
-              vertical: kDefaultPadding * 2.0,
-            ),
-            physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
-            ),
-            child: const HomeNotesList(),
-          ),
-        ),
+      children: const [
+        HomeNotesTitle(),
+        Expanded(child: HomeNotesList()),
       ],
     );
   }

@@ -16,6 +16,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^1.0.3
   fluttertoast: ^8.0.8
   get: ^4.5.1
   intl: ^0.17.0
@@ -36,3 +37,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/icons/

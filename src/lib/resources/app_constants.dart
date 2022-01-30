@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const kButtonPressForwardAnimationDuration = Duration(milliseconds: 15);
 const kButtonPressReverseAnimationDuration = Duration(milliseconds: 100);
 const kDefaultAnimationDuration = Duration(milliseconds: 250);
+const kDefaultRouteTransitionDuration = Duration(milliseconds: 100);
 const kAppRefetchDuration = Duration(minutes: 10);
 
 const kDefaultPadding = 10.0;
@@ -29,3 +30,4 @@ const kPhoneAppIcon = Icons.phone;
 const kMessagesAppIcon = Icons.message;
 
 const kDefaultAnimationCurve = Curves.fastOutSlowIn;
+const kDefaultBorderRadius = BorderRadius.all(Radius.circular(10.0));

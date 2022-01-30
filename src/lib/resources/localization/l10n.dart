@@ -133,19 +133,43 @@ class L10n {
   static const String settingsTitle = 'settingsTitle';
   static const String settingsToLeftApp = 'settingsToLeftApp';
   static const String settingsToRightApp = 'settingsToRightApp';
+  static const String settingsAppNotSelected = 'settingsAppNotSelected';
   static const String settingsTheme = 'settingsTheme';
   static const String settingsAbout = 'settingsAbout';
   static const String settingsLanguage = 'settingsLanguage';
-  static const String settingsSelectDefaultLauncher =
-      'settingsSelectDefaultLauncher';
-  static const String settingsWidgetsTitle = 'settingsWidgetsTitle';
+  static const String settingsDefaultLauncherHeader =
+      'settingsDefaultLauncherHeader';
+  static const String settingsDefaultLauncherChange =
+      'settingsDefaultLauncherChange';
+  static const String settingsDefaultLauncherFooter =
+      'settingsDefaultLauncherFooter';
   static const String settingsHomeWidgets = 'settingsHomeWidgets';
+  static const String settingsHomeWidgetsConfigure =
+      'settingsHomeWidgetsConfigure';
   static const String settingsTimeProgressWidget = 'settingsDayProgressWidget';
-  static const String settingsDoTutorial = 'settingsDoTutorial';
+  static const String settingsTimeProgressType = 'settingsTimeProgressType';
+  static const String settingsTimeProgressIsEnabled =
+      'settingsTimeProgressIsEnabled';
+  static const String settingsTimeProgressDisabled =
+      'settingsTimeProgressDisabled';
+  static const String settingsTimeProgressEnabled =
+      'settingsTimeProgressEnabled';
   static const String settingsIsEnabled = 'settingsIsEnabled';
   static const String settingsYes = 'settingsYes';
   static const String settingsNo = 'settingsNo';
   static const String settingsType = 'settingsType';
+  static const String settingsHorizontalSwipeAppsHeader =
+      'settingsHorizontalSwipeAppsHeader';
+  static const String settingsHorizontalSwipeAppsFooter =
+      'settingsHorizontalSwipeAppsFooter';
+  static const String settingsCommonSettingsHeader =
+      'settingsCommonSettingsHeader';
+  static const String settingsWidgetsTitle = 'settingsWidgetsTitle';
+  static const String settingsWidgetsFooter = 'settingsWidgetsFooter';
+  static const String settingsDoTutorialHeader = 'settingsDoTutorialHeader';
+  static const String settingsDoTutorial = 'settingsDoTutorial';
+  static const String settingsDoTutorialFooter = 'settingsDoTutorialFooter';
+
   static const String appPickerLaunchApp = 'appPickerLaunchApp';
   static const String appPickerTo = 'appPickerTo';
   static const String appPickerSelect = 'appPickerSelect';
@@ -206,9 +230,9 @@ class L10n {
   static const String tutorialSettingsTitle = 'tutorialSettingsTitle';
   static const String tutorialSettingsInfo = 'tutorialSettingsInfo';
 
-  static const String dayProgress = 'dayProgress';
-  static const String weekProgress = 'weekProgress';
-  static const String yearProgress = 'yearProgress';
+  static const String timeProgressDay = 'timeProgressDay';
+  static const String timeProgressWeek = 'timeProgressWeek';
+  static const String timeProgressYear = 'timeProgressYear';
   static const String enabled = 'enabled';
   static const String disabled = 'disabled';
 

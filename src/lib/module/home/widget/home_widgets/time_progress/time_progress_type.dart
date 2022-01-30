@@ -41,13 +41,13 @@ String localizeTimeProgressType(TimeProgressType preferences) {
 
   switch (preferences) {
     case TimeProgressType.day:
-      l10nKey = L10n.dayProgress;
+      l10nKey = L10n.timeProgressDay;
       break;
     case TimeProgressType.week:
-      l10nKey = L10n.weekProgress;
+      l10nKey = L10n.timeProgressWeek;
       break;
     case TimeProgressType.year:
-      l10nKey = L10n.yearProgress;
+      l10nKey = L10n.timeProgressYear;
       break;
     default:
       throw Exception('Unknown TimeProgressTypeType');

@@ -23,21 +23,9 @@ class HomeNoteFoldersPage
   Widget ready(BuildContext context, LeafyTheme theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const HomeNoteFoldersTitle(),
-        Expanded(
-          child: SingleChildScrollView(
-            controller: controller.scrollController,
-            padding: const EdgeInsets.symmetric(
-              horizontal: horizontalPadding,
-              vertical: kDefaultPadding * 2.0,
-            ),
-            physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
-            ),
-            child: const HomeNoteFoldersList(),
-          ),
-        ),
+      children: const [
+        HomeNoteFoldersTitle(),
+        Expanded(child: HomeNoteFoldersList()),
       ],
     );
   }

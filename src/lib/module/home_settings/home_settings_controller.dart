@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/services/app_environment/app_environment.dart';
 
 import '../../base/controller/status_controller_base.dart';
@@ -12,7 +14,8 @@ class HomeSettingsController extends StatusControllerBase {
   Application? get left => _userApplicationsController.swipeLeftApp;
   Application? get right => _userApplicationsController.swipeRightApp;
 
-  // String get leafyVersion => '1.0.0';
+  late final ScrollController scrollController;
+
   late final String leafyVersion;
 
   @override
@@ -25,10 +28,22 @@ class HomeSettingsController extends StatusControllerBase {
   Future load() async {
     await super.load();
 
+    scrollController = ScrollController();
+
     final name = _appEnvironment.name;
     final version = _appEnvironment.version;
     final build = _appEnvironment.build;
 
     leafyVersion = '$name $version ($build)';
+  }
+
+  void onTitleTapped() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        .0,
+        duration: kDefaultAnimationDuration,
+        curve: kDefaultAnimationCurve,
+      );
+    }
   }
 }

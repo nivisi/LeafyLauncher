@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
-import 'package:leafy_launcher/shared_widget/section/leafy_custom_section_item.dart';
 import 'package:leafy_launcher/shared_widget/themed_widget.dart';
 
-class LeafyTextSectionItem<TTheme extends LeafyTheme>
+import 'leafy_section_custom_item.dart';
+
+class LeafySectionTextItem<TTheme extends LeafyTheme>
     extends ThemedWidget<TTheme> {
-  const LeafyTextSectionItem({
+  const LeafySectionTextItem({
     Key? key,
     required this.title,
     this.subtitle,
@@ -24,7 +25,7 @@ class LeafyTextSectionItem<TTheme extends LeafyTheme>
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
-    return LeafyCustomSectionItem(
+    return LeafySectionCustomItem(
       title: Text(
         title,
         style: theme.bodyText5,
