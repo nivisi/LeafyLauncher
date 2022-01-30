@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/resources/app_constants.dart';
 
 import '../../database/leafy_notes_db/leafy_notes_database.dart';
 import '../../module/app_picker/app_picker_binding.dart';
@@ -146,7 +147,8 @@ class LeafyLauncher {
             name: AppRoutes.settingsWidgets,
             binding: HomeSettingsWidgetsBinding(),
             page: () => const HomeSettingsWidgetsPage(),
-            transition: Transition.fadeIn,
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
           ),
           GetPage(
             name: AppRoutes.tutorial,
