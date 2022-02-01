@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.app.SearchManager
 import android.content.*
 import android.content.pm.ApplicationInfo
+import android.content.pm.LauncherApps
 import android.content.pm.ResolveInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -18,6 +19,7 @@ import android.util.Base64
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.nivisi.leafy_launcher.installed_packages.LauncherAppsCallback
 import io.flutter.Log
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -33,8 +35,6 @@ class MainActivity: LeafyActivityBase() {
     private var homeEventStreamHandler: StreamHandler = StreamHandler()
     private var appsChangedEventChannel: EventChannel? = null
     private var appsChangedEventStreamHandler: StreamHandlerParams<Map<String, Serializable>> = StreamHandlerParams()
-    private var deviceLocaleChangedEventChannel: EventChannel? = null
-    private var deviceLocaleChangedEventStreamHandler: StreamHandlerParams<String> = StreamHandlerParams()
 
     private var deleteAppResult: MethodChannel.Result? = null
 
@@ -232,6 +232,23 @@ class MainActivity: LeafyActivityBase() {
 
         registerCommonChannel(flutterEngine)
         registerApplicationChannel(flutterEngine)
+
+        subscribeToInstalledAppsChanges()
+    }
+
+    private fun subscribeToInstalledAppsChanges() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Android < 8.0 (Oreo) still good to go with the receiver.
+            // https://developer.android.com/guide/components/broadcast-exceptions
+
+            val launcherAppsService = this.getSystemService(Context.LAUNCHER_APPS_SERVICE) ?: return
+
+            if (launcherAppsService !is LauncherApps) {
+                return
+            }
+
+            launcherAppsService.registerCallback(LauncherAppsCallback())
+        }
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
