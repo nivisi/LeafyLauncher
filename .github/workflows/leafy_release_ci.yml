@@ -82,6 +82,9 @@ jobs:
       - name: Get Flutter packages
         run: flutter pub get
 
+      - name: Grab list of OSS Components
+        run: flutter pub run flutter_oss_licenses:generate.dart
+
       - name: Setup Key Store
         run: (echo ${{ secrets.KEY_STORE }} | openssl base64 -d -A) > ./android/app/leafy.keystore
 
