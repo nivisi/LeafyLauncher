@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
+import 'package:leafy_launcher/services/oss_licenses/oss_licenses_service.dart';
 
 import '../../database/leafy_notes_db/leafy_notes_database.dart';
 import '../../module/app_picker/app_picker_binding.dart';
@@ -59,6 +60,7 @@ class LeafyLauncher {
   static Future initSecondaryDependencies() async {
     dbInitialization();
 
+    Get.put(OssLicensesService().init(), permanent: true);
     Get.lazyPut(() => const ToastService(), fenix: true);
     Get.lazyPut(() => const HomeButtonListener(), fenix: true);
     Get.lazyPut(() => const DeviceVibration(), fenix: true);
