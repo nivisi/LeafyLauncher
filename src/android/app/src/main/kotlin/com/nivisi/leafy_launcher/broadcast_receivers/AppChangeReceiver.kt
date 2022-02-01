@@ -10,8 +10,18 @@ class AppChangeReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val packageName = intent?.data?.encodedSchemeSpecificPart ?: return
 
-        val isRemoved = intent.action == Intent.ACTION_PACKAGE_REMOVED
+        handle(intent.action, packageName, false)
+    }
 
-        MainActivity.self?.dispatchAppChangedEvent(packageName, isRemoved)
+    companion object {
+        fun handle(
+            action: String?,
+            packageName: String,
+            replacing: Boolean
+        ) {
+            val isRemoved = action == Intent.ACTION_PACKAGE_REMOVED
+
+            MainActivity.self?.dispatchAppChangedEvent(packageName, isRemoved)
+        }
     }
 }

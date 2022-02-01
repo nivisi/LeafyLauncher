@@ -154,15 +154,24 @@ class InstalledApplicationsService with LogableMixin, EnsureInitializedMixin {
 
     if (isRemoved) {
       try {
-        final app = _installedApps.firstWhere((e) => e.package == package);
-        _installedApps.remove(app);
-        _onAppRemoved.add(app);
-        _onAppsChanged.add(null);
+        final app = _installedApps.firstWhereOrNull(
+          (e) => e.package == package,
+        );
+
+        if (app != null) {
+          _installedApps.remove(app);
+          _onAppRemoved.add(app);
+          _onAppsChanged.add(null);
+        } else {
+          logger.w(
+            'AppRemoved callback fired, but the app was not in installed apps',
+          );
+        }
+
+        return;
       } on Exception catch (e, s) {
         logger.e('Unable to remove the app', e, s);
       }
-
-      return;
     }
 
     await _fetchApps();
