@@ -30,6 +30,7 @@ dependencies:
   shared_preferences: ^2.0.6
   synchronized: ^3.0.0
   table_calendar: ^3.0.2
+  url_launcher: ^6.0.18
   uuid: ^3.0.5
 
 dev_dependencies:

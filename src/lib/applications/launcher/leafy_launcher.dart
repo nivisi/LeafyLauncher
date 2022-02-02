@@ -2,6 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/module/home_settings/about/home_settings_about_binding.dart';
+import 'package:leafy_launcher/module/home_settings/about/home_settings_about_page.dart';
+import 'package:leafy_launcher/module/home_settings/oss/home_settings_oss_binding.dart';
+import 'package:leafy_launcher/module/home_settings/oss/home_settings_oss_page.dart';
+import 'package:leafy_launcher/module/home_settings/oss_license/home_settings_oss_license_binding.dart';
+import 'package:leafy_launcher/module/home_settings/oss_license/home_settings_oss_license_page.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/services/oss_licenses/oss_licenses_service.dart';
 
@@ -157,6 +163,27 @@ class LeafyLauncher {
             binding: TutorialBinding(),
             page: () => const TutorialPage(),
             transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: AppRoutes.settingsAbout,
+            binding: HomeSettingsAboutBinding(),
+            page: () => const HomeSettingsAboutPage(),
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
+          ),
+          GetPage(
+            name: AppRoutes.settingsOss,
+            binding: HomeSettingsOssBinding(),
+            page: () => const HomeSettingsOssPage(),
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
+          ),
+          GetPage(
+            name: AppRoutes.settingsOssLicense,
+            binding: HomeSettingsOssLicenseBinding(),
+            page: () => const HomeSettingsOssLicensePage(),
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
           ),
         ],
       ),

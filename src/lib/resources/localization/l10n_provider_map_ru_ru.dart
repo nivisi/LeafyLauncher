@@ -32,6 +32,20 @@ var _mapRu = {
   L10n.settingsHomeWidgetsConfigure: 'Настроить',
   L10n.settingsWidgetsFooter:
       'Здесь можно настроить виджеты, отображаемые на домашнем экране',
+  L10n.settingsAboutTitle: 'О Leafy',
+  L10n.settingsAboutInfo:
+      '''Leafy Launcher — приложение с открытым исходным кодом, созданное с помощью Flutter. Его главная миссия — быть минималистичным, удобным и практичным. Leafy фокусируется на улучшение продуктивности пользователей, убирая все ненужные цвета, действия и отвлечения.\n\nВ Leafy не было, нет и никогда не будет рекламы или платных услуг: оно всегда будет бесплатным.\n\nLeafy не собирает и не отправляет никому никакую статистику, будь то список приложений вашего устройства или то, как вы пользуетесь приложением. Но мы собираем логи о внутренней работе приложения, чтобы было легче исправлять ошибки. Логи хранятся на вашем устройстве. Мы сможем получить к ним доступ, только если вы отправите их нам.\n\nЛюбой желающий разработчик может принять участие в разработке. Посетите GitHub страницу проекта и сообщите о проблеме или озвучьте свои идеи. Если же хотите кодировать — вам всегда будут рады. Сообщите в одной из задач, что вы хотели бы взять ее на себя, и вперед!''',
+  L10n.settingsAboutOpenGithub: 'Открыть GitHub',
+  L10n.settingsAboutOpenGmail: 'Связаться по почте',
+  L10n.settingsAboutOpenTelegram: 'Присоединиться к Telegram чату',
+  L10n.settingsAboutOssHeader: 'Сторонние Библиотеки',
+  L10n.settingsAboutOss: 'Просмотреть',
+  L10n.settingsAboutOssFooter:
+      '''Leafy Launcher было бы невозможно создать без сторонних библиотек с открытым исходным кодом. В этом разделе можно просмотреть все библиотеки, которые используется в Leafy.''',
+  L10n.settingsAboutOssTitle: 'Сторонние Библиотеки',
+  L10n.settingsAboutOssLicenseDescriptionHeader: 'Описание',
+  L10n.settingsAboutOssLicenseHomepageHeader: 'Домашняя страница',
+  L10n.settingsAboutOssLicenseLicenseHeader: 'Лицензия',
   L10n.themeStyleLight: 'Светлая',
   L10n.themeStyleDark: 'Темная',
   L10n.homeLoadingApplications: 'Загружаем приложения ...',
@@ -53,6 +67,7 @@ var _mapRu = {
   L10n.actionNo: 'Нет',
   L10n.actionAboutApp: 'О приложении',
   L10n.actionSave: 'Сохранить',
+  L10n.actionOpen: 'Открыть',
   L10n.choseAction: 'Выберите действие',
   L10n.introHello: 'Привет',
   L10n.introWelcome: 'Добро пожаловать в Leafy Launcher',

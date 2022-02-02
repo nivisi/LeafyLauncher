@@ -4,10 +4,8 @@ import 'package:leafy_launcher/module/home_settings/home_settings_controller.dar
 import 'package:leafy_launcher/module/home_settings/widget/settings_body/home_widgets/home_widgets.dart';
 import 'package:leafy_launcher/module/home_settings/widget/settings_body/swipe_apps/swipe_to_left_app.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
-import 'package:leafy_launcher/shared_widget/section/src/items/leafy_section_text_item.dart';
-import 'package:leafy_launcher/shared_widget/section/src/items/values/leafy_section_text_value.dart';
+import 'package:leafy_launcher/shared_widget/section/leafy_section_lib.dart';
 import 'package:leafy_launcher/shared_widget/section/src/list/leafy_section_list.dart';
-import 'package:leafy_launcher/shared_widget/section/src/section/leafy_section.dart';
 
 import '../../../../resources/localization/l10n.dart';
 import '../../../../resources/localization/l10n_provider.dart';
@@ -23,6 +21,7 @@ import 'take_tutorial/take_tutorial.dart';
 part 'common/language.dart';
 part 'common/theme.dart';
 part 'common/vibration.dart';
+part 'about/about.dart';
 
 class SettingsBody
     extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
@@ -70,9 +69,11 @@ class SettingsBody
             SelectDefaultLauncher(),
           ],
         ),
-        LeafySection<HomeTheme>(
-          footer: Get.find<HomeSettingsController>().leafyVersion,
-          children: const [],
+        const LeafySection<HomeTheme>(
+          // footer: Get.find<HomeSettingsController>().leafyVersion,
+          children: [
+            _About(),
+          ],
         ),
       ],
     );
