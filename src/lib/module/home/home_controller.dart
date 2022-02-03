@@ -37,6 +37,7 @@ class HomeController extends StatusControllerBase
   late final DeviceVibration _deviceVibration;
 
   bool _isCalendarDisplayed = false;
+  bool _isCalendarVisible = false;
 
   late final FocusNode searchFocusNode;
 
@@ -65,6 +66,7 @@ class HomeController extends StatusControllerBase
   TimeProgressType get timeProgressType => _timeProgressType;
 
   bool get isCalendarDisplayed => _isCalendarDisplayed;
+  bool get isCalendarVisible => _isCalendarVisible;
 
   @override
   Future resolveDependencies() async {
@@ -87,6 +89,7 @@ class HomeController extends StatusControllerBase
     _restoreRightCornerButton();
     _restoreIsTimeProgressVisible();
     _restoreIsTimeProgressType();
+    _restoreIsCalendarVisible();
 
     _homeButtonPressedSubscription = _homeButtonListener.addCallback(
       _navigateHome,
@@ -237,6 +240,36 @@ class HomeController extends StatusControllerBase
     }
   }
 
+  void _restoreIsCalendarVisible() {
+    const fallback = true;
+
+    try {
+      var isCalendarVisible = sharedPreferences.getBool(
+        kIsCalendarVisible,
+      );
+
+      if (isCalendarVisible == null) {
+        isCalendarVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsCalendarVisible,
+          isCalendarVisible,
+        );
+      }
+
+      _isCalendarVisible = isCalendarVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsCalendarVisible', e, s);
+
+      _isCalendarVisible = fallback;
+
+      sharedPreferences.setBool(
+        kIsCalendarVisible,
+        isCalendarVisible,
+      );
+    }
+  }
+
   Future onLeftSwipe() async {
     if (_userApplicationsController.swipeLeftApp != null) {
       _installedApplicationsService.launch(
@@ -347,6 +380,21 @@ class HomeController extends StatusControllerBase
     );
 
     update([timeProgressBuilderKey]);
+  }
+
+  void setIsCalendarVisible({bool value = true}) {
+    if (_isCalendarVisible == value) {
+      return;
+    }
+
+    _isCalendarVisible = value;
+
+    sharedPreferences.setBool(
+      kIsCalendarVisible,
+      isCalendarVisible,
+    );
+
+    update([calendarBuilderKey]);
   }
 
   void nextTimeProgressType() {
