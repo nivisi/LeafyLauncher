@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leafy_launcher/module/home_settings/home_settings_controller.dart';
+import 'package:leafy_launcher/module/home_settings/widgets/body/calendar/calendar_enabled_state.dart';
 import 'package:leafy_launcher/module/home_settings/widgets/body/time_progress/time_progress_enabled_state.dart';
 import 'package:leafy_launcher/module/home_settings/widgets/body/time_progress/time_progress_type_state.dart';
 import 'package:leafy_launcher/shared_widget/section/leafy_section_lib.dart';
@@ -30,10 +31,9 @@ class SettingsWidgetsBody
           ],
         ),
         LeafySection<HomeTheme>(
-          header: L10nProvider.getText(L10n.settingsTimeProgressWidget),
+          header: L10nProvider.getText(L10n.settingsCalendarWidget),
           children: const [
-            TimeProgressEnabledState(),
-            TimeProgressTypeState(),
+            CalendarEnabledState(),
           ],
         ),
       ],
