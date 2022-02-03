@@ -150,10 +150,8 @@ class L10n {
   static const String settingsTimeProgressType = 'settingsTimeProgressType';
   static const String settingsTimeProgressIsEnabled =
       'settingsTimeProgressIsEnabled';
-  static const String settingsTimeProgressDisabled =
-      'settingsTimeProgressDisabled';
-  static const String settingsTimeProgressEnabled =
-      'settingsTimeProgressEnabled';
+  static const String settingsDisabled = 'settingsDisabled';
+  static const String settingsEnabled = 'settingsEnabled';
   static const String settingsIsEnabled = 'settingsIsEnabled';
   static const String settingsYes = 'settingsYes';
   static const String settingsNo = 'settingsNo';
