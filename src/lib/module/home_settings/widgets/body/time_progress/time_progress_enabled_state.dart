@@ -17,7 +17,7 @@ class TimeProgressEnabledState
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return LeafySectionTextItem<HomeTheme>(
-      title: L10nProvider.getText(L10n.settingsTimeProgressIsEnabled),
+      title: L10nProvider.getText(L10n.settingsSectionIsEnabled),
       onTap: controller.updateIsTimeProgressVisible,
       value: GetBuilder<HomeController>(
         id: HomeController.timeProgressBuilderKey,

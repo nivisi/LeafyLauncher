@@ -16,7 +16,8 @@ class LeafySectionEnabledStateItem extends ThemedWidget<HomeTheme> {
 
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
-    final textKey = isEnabled ? L10n.settingsEnabled : L10n.settingsDisabled;
+    final textKey =
+        isEnabled ? L10n.settingsSectionEnabled : L10n.settingsSectionDisabled;
 
     return LeafySectionTextValue<HomeTheme>(
       value: L10nProvider.getText(textKey),

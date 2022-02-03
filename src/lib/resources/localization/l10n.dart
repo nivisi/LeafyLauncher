@@ -148,11 +148,9 @@ class L10n {
       'settingsHomeWidgetsConfigure';
   static const String settingsTimeProgressWidget = 'settingsDayProgressWidget';
   static const String settingsTimeProgressType = 'settingsTimeProgressType';
-  static const String settingsTimeProgressIsEnabled =
-      'settingsTimeProgressIsEnabled';
-  static const String settingsDisabled = 'settingsDisabled';
-  static const String settingsEnabled = 'settingsEnabled';
-  static const String settingsIsEnabled = 'settingsIsEnabled';
+  static const String settingsSectionIsEnabled = 'settingsSectionIsEnabled';
+  static const String settingsSectionDisabled = 'settingsSectionDisabled';
+  static const String settingsSectionEnabled = 'settingsSectionEnabled';
   static const String settingsYes = 'settingsYes';
   static const String settingsNo = 'settingsNo';
   static const String settingsType = 'settingsType';
