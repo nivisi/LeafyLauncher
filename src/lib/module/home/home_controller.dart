@@ -28,6 +28,7 @@ class HomeController extends StatusControllerBase
   static const String timeProgressBuilderKey = 'timeProgressBuilderKey';
   static const String timeProgressTypeBuilderKey = 'timeProgressTypeBuilderKey';
   static const String calendarBuilderKey = 'calendarBuilderKey';
+  static const String calendarPageBuilderKey = 'calendarPageBuilderKey';
 
   late final UserApplicationsController _userApplicationsController;
   late final InstalledApplicationsService _installedApplicationsService;
@@ -100,7 +101,7 @@ class HomeController extends StatusControllerBase
 
       if (isCalendarDisplayed) {
         _isCalendarDisplayed = false;
-        update([calendarBuilderKey]);
+        update([calendarPageBuilderKey]);
       }
     });
   }
@@ -110,7 +111,7 @@ class HomeController extends StatusControllerBase
 
     if (isCalendarDisplayed) {
       _isCalendarDisplayed = false;
-      update([calendarBuilderKey]);
+      update([calendarPageBuilderKey]);
     } else {
       Get.until((route) => route.settings.name == AppRoutes.home);
     }
@@ -440,12 +441,12 @@ class HomeController extends StatusControllerBase
 
     _isCalendarDisplayed = true;
 
-    update([calendarBuilderKey]);
+    update([calendarPageBuilderKey]);
   }
 
   void closeCalendar() {
     _isCalendarDisplayed = false;
 
-    update([calendarBuilderKey]);
+    update([calendarPageBuilderKey]);
   }
 }
