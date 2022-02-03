@@ -4,6 +4,7 @@ import 'package:leafy_launcher/module/home/home_controller.dart';
 import 'package:leafy_launcher/module/home/widget/home_widgets/time_progress/time_progress.dart';
 import 'package:leafy_launcher/module/home_settings/home_settings_controller.dart';
 import 'package:leafy_launcher/module/home_settings/widgets/home_settings_widgets_controller.dart';
+import 'package:leafy_launcher/module/home_settings/widgets/widget/leafy_section_enabled_state_item.dart';
 import 'package:leafy_launcher/shared_widget/section/leafy_section_lib.dart';
 import 'package:leafy_launcher/shared_widget/section/src/list/leafy_section_list.dart';
 

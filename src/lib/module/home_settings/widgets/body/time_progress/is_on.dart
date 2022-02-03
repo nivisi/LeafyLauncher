@@ -11,12 +11,8 @@ class _IsOn extends ThemedGetWidget<HomeSettingsWidgetsController, HomeTheme> {
       value: GetBuilder<HomeController>(
         id: HomeController.timeProgressBuilderKey,
         builder: (controller) {
-          final textKey = controller.isTimeProgressVisible
-              ? L10n.settingsTimeProgressEnabled
-              : L10n.settingsTimeProgressDisabled;
-
-          return LeafySectionTextValue<HomeTheme>(
-            value: L10nProvider.getText(textKey),
+          return LeafySectionEnabledStateItem(
+            isEnabled: controller.isTimeProgressVisible,
           );
         },
       ),
