@@ -40,12 +40,21 @@ class _HomeDateState extends ThemedState<HomeDate, HomeTheme> {
 
   @override
   Widget body(BuildContext context, HomeTheme theme) {
-    return TouchableTextButton(
-      color: theme.foregroundColor,
-      pressedColor: theme.foregroundPressedColor,
-      text: _format.format(_time),
-      style: theme.bodyText4,
-      onTap: Get.find<HomeController>().openCalendar,
+    return GetBuilder<HomeController>(
+      id: HomeController.calendarBuilderKey,
+      init: Get.find<HomeController>(),
+      builder: (controller) {
+        return Visibility(
+          visible: controller.isCalendarVisible,
+          child: TouchableTextButton(
+            color: theme.foregroundColor,
+            pressedColor: theme.foregroundPressedColor,
+            text: _format.format(_time),
+            style: theme.bodyText4,
+            onTap: Get.find<HomeController>().openCalendar,
+          ),
+        );
+      },
     );
   }
 

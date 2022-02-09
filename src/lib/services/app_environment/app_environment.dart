@@ -20,6 +20,10 @@ class AppEnvironment {
   String get name => _name;
   String get package => _package;
 
+  String get github => 'https://github.com/nivisi/LeafyLauncher';
+  String get email => 'leafylauncher@gmail.com';
+  String get telegramChat => 'https://t.me/+MJJJZbkBNpdhMzdi';
+
   Future<AppEnvironment> init() async {
     final packageInfo = await PackageInfo.fromPlatform();
 

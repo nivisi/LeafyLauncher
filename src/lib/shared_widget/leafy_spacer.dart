@@ -14,7 +14,7 @@ class LeafySpacer extends StatelessWidget {
     this.type = LeafySpacerType.vertical,
   }) : super(key: key);
 
-  const LeafySpacer.section({Key? key}) : this(key: key, multipler: 4.0);
+  const LeafySpacer.section({Key? key}) : this(key: key, multipler: 5.0);
 
   const LeafySpacer.horizontal({Key? key, double multipler = 1.0})
       : this(

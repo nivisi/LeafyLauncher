@@ -28,6 +28,8 @@ class HomeController extends StatusControllerBase
   static const String timeProgressBuilderKey = 'timeProgressBuilderKey';
   static const String timeProgressTypeBuilderKey = 'timeProgressTypeBuilderKey';
   static const String calendarBuilderKey = 'calendarBuilderKey';
+  static const String calendarPageBuilderKey = 'calendarPageBuilderKey';
+  static const String clockBuilderKey = 'clockBuilderKey';
 
   late final UserApplicationsController _userApplicationsController;
   late final InstalledApplicationsService _installedApplicationsService;
@@ -37,6 +39,10 @@ class HomeController extends StatusControllerBase
   late final DeviceVibration _deviceVibration;
 
   bool _isCalendarDisplayed = false;
+  bool _isCalendarVisible = false;
+  bool _isClockVisible = false;
+  bool _isLeftCornerButtonVisible = false;
+  bool _isRightCornerButtonVisible = false;
 
   late final FocusNode searchFocusNode;
 
@@ -65,6 +71,10 @@ class HomeController extends StatusControllerBase
   TimeProgressType get timeProgressType => _timeProgressType;
 
   bool get isCalendarDisplayed => _isCalendarDisplayed;
+  bool get isCalendarVisible => _isCalendarVisible;
+  bool get isClockVisible => _isClockVisible;
+  bool get isLeftCornerButtonVisible => _isLeftCornerButtonVisible;
+  bool get isRightCornerButtonVisible => _isRightCornerButtonVisible;
 
   @override
   Future resolveDependencies() async {
@@ -87,6 +97,8 @@ class HomeController extends StatusControllerBase
     _restoreRightCornerButton();
     _restoreIsTimeProgressVisible();
     _restoreIsTimeProgressType();
+    _restoreIsCalendarVisible();
+    _restoreIsClockVisible();
 
     _homeButtonPressedSubscription = _homeButtonListener.addCallback(
       _navigateHome,
@@ -97,7 +109,7 @@ class HomeController extends StatusControllerBase
 
       if (isCalendarDisplayed) {
         _isCalendarDisplayed = false;
-        update([calendarBuilderKey]);
+        update([calendarPageBuilderKey]);
       }
     });
   }
@@ -107,13 +119,43 @@ class HomeController extends StatusControllerBase
 
     if (isCalendarDisplayed) {
       _isCalendarDisplayed = false;
-      update([calendarBuilderKey]);
+      update([calendarPageBuilderKey]);
     } else {
       Get.until((route) => route.settings.name == AppRoutes.home);
     }
   }
 
-  void _restoreLeftCornerButton() {
+  void _restoreLeftCornerButtonVisibility() {
+    const fallback = true;
+
+    try {
+      var isLeftCornerButtonVisible = sharedPreferences.getBool(
+        kIsLeftCornerButtonVisible,
+      );
+
+      if (isLeftCornerButtonVisible == null) {
+        isLeftCornerButtonVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsLeftCornerButtonVisible,
+          isLeftCornerButtonVisible,
+        );
+      }
+
+      _isLeftCornerButtonVisible = isLeftCornerButtonVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsTimeProgressVisible', e, s);
+
+      _isLeftCornerButtonVisible = fallback;
+
+      sharedPreferences.setBool(
+        kIsLeftCornerButtonVisible,
+        isLeftCornerButtonVisible,
+      );
+    }
+  }
+
+  void _restoreLeftCornerButtonType() {
     final leftCornerButtonTypeStr = sharedPreferences.getString(
       kLeftCornerButtonType,
     );
@@ -146,7 +188,12 @@ class HomeController extends StatusControllerBase
     }
   }
 
-  void _restoreRightCornerButton() {
+  void _restoreLeftCornerButton() {
+    _restoreLeftCornerButtonType();
+    _restoreLeftCornerButtonVisibility();
+  }
+
+  void _restoreRightCornerButtonType() {
     final rightCornerButtonTypeStr = sharedPreferences.getString(
       kRightCornerButtonType,
     );
@@ -177,6 +224,41 @@ class HomeController extends StatusControllerBase
         );
       }
     }
+  }
+
+  void _restoreRightCornerButtonVisibility() {
+    const fallback = true;
+
+    try {
+      var isRightCornerButtonVisible = sharedPreferences.getBool(
+        kIsRightCornerButtonVisible,
+      );
+
+      if (isRightCornerButtonVisible == null) {
+        isRightCornerButtonVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsRightCornerButtonVisible,
+          isRightCornerButtonVisible,
+        );
+      }
+
+      _isRightCornerButtonVisible = isRightCornerButtonVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsTimeProgressVisible', e, s);
+
+      _isRightCornerButtonVisible = fallback;
+
+      sharedPreferences.setBool(
+        kIsRightCornerButtonVisible,
+        isRightCornerButtonVisible,
+      );
+    }
+  }
+
+  void _restoreRightCornerButton() {
+    _restoreRightCornerButtonType();
+    _restoreRightCornerButtonVisibility();
   }
 
   void _restoreIsTimeProgressVisible() {
@@ -233,6 +315,66 @@ class HomeController extends StatusControllerBase
       sharedPreferences.setString(
         kTimeProgressType,
         timeProgressTypeToString(fallback),
+      );
+    }
+  }
+
+  void _restoreIsCalendarVisible() {
+    const fallback = true;
+
+    try {
+      var isCalendarVisible = sharedPreferences.getBool(
+        kIsCalendarVisible,
+      );
+
+      if (isCalendarVisible == null) {
+        isCalendarVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsCalendarVisible,
+          isCalendarVisible,
+        );
+      }
+
+      _isCalendarVisible = isCalendarVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsCalendarVisible', e, s);
+
+      _isCalendarVisible = fallback;
+
+      sharedPreferences.setBool(
+        kIsCalendarVisible,
+        isCalendarVisible,
+      );
+    }
+  }
+
+  void _restoreIsClockVisible() {
+    const fallback = true;
+
+    try {
+      var isClockVisible = sharedPreferences.getBool(
+        kIsClockVisible,
+      );
+
+      if (isClockVisible == null) {
+        isClockVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsClockVisible,
+          isClockVisible,
+        );
+      }
+
+      _isClockVisible = isClockVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsCalendarVisible', e, s);
+
+      _isClockVisible = fallback;
+
+      sharedPreferences.setBool(
+        kIsClockVisible,
+        isClockVisible,
       );
     }
   }
@@ -349,6 +491,66 @@ class HomeController extends StatusControllerBase
     update([timeProgressBuilderKey]);
   }
 
+  void setIsCalendarVisible({bool value = true}) {
+    if (_isCalendarVisible == value) {
+      return;
+    }
+
+    _isCalendarVisible = value;
+
+    sharedPreferences.setBool(
+      kIsCalendarVisible,
+      isCalendarVisible,
+    );
+
+    update([calendarBuilderKey]);
+  }
+
+  void setIsClockVisible({bool value = true}) {
+    if (_isClockVisible == value) {
+      return;
+    }
+
+    _isClockVisible = value;
+
+    sharedPreferences.setBool(
+      kIsClockVisible,
+      isClockVisible,
+    );
+
+    update([clockBuilderKey]);
+  }
+
+  void setIsLeftCornerAppVisible({bool value = true}) {
+    if (_isLeftCornerButtonVisible == value) {
+      return;
+    }
+
+    _isLeftCornerButtonVisible = value;
+
+    sharedPreferences.setBool(
+      kIsLeftCornerButtonVisible,
+      isLeftCornerButtonVisible,
+    );
+
+    update([leftCornerButtonBuilderKey]);
+  }
+
+  void setIsRightCornerAppVisible({bool value = true}) {
+    if (_isRightCornerButtonVisible == value) {
+      return;
+    }
+
+    _isRightCornerButtonVisible = value;
+
+    sharedPreferences.setBool(
+      kIsRightCornerButtonVisible,
+      isRightCornerButtonVisible,
+    );
+
+    update([rightCornerButtonBuilderKey]);
+  }
+
   void nextTimeProgressType() {
     late TimeProgressType newType;
 
@@ -392,12 +594,12 @@ class HomeController extends StatusControllerBase
 
     _isCalendarDisplayed = true;
 
-    update([calendarBuilderKey]);
+    update([calendarPageBuilderKey]);
   }
 
   void closeCalendar() {
     _isCalendarDisplayed = false;
 
-    update([calendarBuilderKey]);
+    update([calendarPageBuilderKey]);
   }
 }

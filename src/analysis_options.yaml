@@ -7,7 +7,6 @@ linter:
 
     # Temporary
     public_member_api_docs: false
-
     type_annotate_public_apis: false
 
     # This looks more organized.
@@ -19,7 +18,6 @@ linter:
     # Single qoutes looks prettier and more compact.
     prefer_single_quotes: true
 
-    # Sometimes it just doesn't make sense.
     lines_longer_than_80_chars: true
 
     # Make variables "var" only when really needed.
@@ -37,16 +35,16 @@ linter:
 
 analyzer:
   errors:
-    prefer_const_constructors: error
+    prefer_const_constructors: warning
     missing_return: error
     missing_required_param: error
-    directives_ordering: error
-    unnecessary_new: error
-    unnecessary_this: error
-    unnecessary_const: error
+    directives_ordering: warning
+    unnecessary_new: warning
+    unnecessary_this: warning
+    unnecessary_const: warning
     todo: ignore
     no_logic_in_create_state: ignore
-    invariant_booleans: ignore
+    invariant_booleans: warning
     avoid_classes_with_only_static_members: ignore
   exclude:
-    [lib/**.g.dart]
+    [lib/**.g.dart, lib/oss_licenses.dart]

@@ -83,6 +83,8 @@ class HomeNoteController extends StatusControllerBase {
     if (isDataEmpty) {
       return note.title;
     }
+
+    throw Exception('Should never happen');
   }
 
   Future<String?> saveAndGetShareableText() async {

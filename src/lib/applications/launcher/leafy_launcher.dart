@@ -2,6 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:leafy_launcher/module/home_settings/about/home_settings_about_binding.dart';
+import 'package:leafy_launcher/module/home_settings/about/home_settings_about_page.dart';
+import 'package:leafy_launcher/module/home_settings/oss/home_settings_oss_binding.dart';
+import 'package:leafy_launcher/module/home_settings/oss/home_settings_oss_page.dart';
+import 'package:leafy_launcher/module/home_settings/oss_license/home_settings_oss_license_binding.dart';
+import 'package:leafy_launcher/module/home_settings/oss_license/home_settings_oss_license_page.dart';
+import 'package:leafy_launcher/resources/app_constants.dart';
+import 'package:leafy_launcher/services/oss_licenses/oss_licenses_service.dart';
 
 import '../../database/leafy_notes_db/leafy_notes_database.dart';
 import '../../module/app_picker/app_picker_binding.dart';
@@ -58,6 +66,7 @@ class LeafyLauncher {
   static Future initSecondaryDependencies() async {
     dbInitialization();
 
+    Get.put(OssLicensesService().init(), permanent: true);
     Get.lazyPut(() => const ToastService(), fenix: true);
     Get.lazyPut(() => const HomeButtonListener(), fenix: true);
     Get.lazyPut(() => const DeviceVibration(), fenix: true);
@@ -140,19 +149,42 @@ class LeafyLauncher {
             name: AppRoutes.settings,
             binding: HomeSettingsBinding(),
             page: () => const HomeSettingsPage(),
-            transition: Transition.fadeIn,
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
           ),
           GetPage(
             name: AppRoutes.settingsWidgets,
             binding: HomeSettingsWidgetsBinding(),
             page: () => const HomeSettingsWidgetsPage(),
-            transition: Transition.fadeIn,
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
           ),
           GetPage(
             name: AppRoutes.tutorial,
             binding: TutorialBinding(),
             page: () => const TutorialPage(),
             transition: Transition.fadeIn,
+          ),
+          GetPage(
+            name: AppRoutes.settingsAbout,
+            binding: HomeSettingsAboutBinding(),
+            page: () => const HomeSettingsAboutPage(),
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
+          ),
+          GetPage(
+            name: AppRoutes.settingsOss,
+            binding: HomeSettingsOssBinding(),
+            page: () => const HomeSettingsOssPage(),
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
+          ),
+          GetPage(
+            name: AppRoutes.settingsOssLicense,
+            binding: HomeSettingsOssLicenseBinding(),
+            page: () => const HomeSettingsOssLicensePage(),
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
           ),
         ],
       ),

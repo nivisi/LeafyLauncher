@@ -128,9 +128,7 @@ class _CornerButtonState extends ThemedState<CornerButton, HomeTheme>
                 widget.type,
               );
             },
-            onLongPressed: () {
-              _startSelecting();
-            },
+            onLongPressed: _startSelecting,
           ),
         ),
       ],

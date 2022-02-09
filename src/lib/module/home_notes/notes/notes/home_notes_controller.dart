@@ -57,11 +57,13 @@ class HomeNotesController extends StatusControllerBase {
   }
 
   void onTitleTapped() {
-    scrollController.animateTo(
-      .0,
-      duration: kDefaultAnimationDuration,
-      curve: Curves.fastOutSlowIn,
-    );
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        .0,
+        duration: kDefaultAnimationDuration,
+        curve: Curves.fastOutSlowIn,
+      );
+    }
   }
 
   Future<void> onTitleDoubleTapped() async {

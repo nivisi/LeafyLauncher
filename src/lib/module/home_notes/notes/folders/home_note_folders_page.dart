@@ -14,7 +14,7 @@ class HomeNoteFoldersPage
     extends StatusPageBase<HomeNoteFoldersController, HomeTheme> {
   const HomeNoteFoldersPage();
 
-  static const horizontalPadding = kDefaultPadding * 1.5;
+  static const horizontalPadding = kDefaultPadding;
 
   @override
   OnWillPopData get onWillPopData => OnWillPopData(controller.back);
@@ -23,21 +23,9 @@ class HomeNoteFoldersPage
   Widget ready(BuildContext context, LeafyTheme theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const HomeNoteFoldersTitle(),
-        Expanded(
-          child: SingleChildScrollView(
-            controller: controller.scrollController,
-            padding: const EdgeInsets.symmetric(
-              horizontal: horizontalPadding,
-              vertical: kDefaultPadding * 2.0,
-            ),
-            physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
-            ),
-            child: const HomeNoteFoldersList(),
-          ),
-        ),
+      children: const [
+        HomeNoteFoldersTitle(),
+        Expanded(child: HomeNoteFoldersList()),
       ],
     );
   }
