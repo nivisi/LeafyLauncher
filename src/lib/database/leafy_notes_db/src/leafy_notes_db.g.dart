@@ -308,9 +308,10 @@ class NotesCompanion extends UpdateCompanion<Note> {
 }
 
 class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $NotesTable(this._db, [this._alias]);
+  $NotesTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
@@ -446,13 +447,13 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Note map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return Note.fromData(data, _db,
+    return Note.fromData(data, attachedDatabase,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
   $NotesTable createAlias(String alias) {
-    return $NotesTable(_db, alias);
+    return $NotesTable(attachedDatabase, alias);
   }
 }
 
@@ -701,9 +702,10 @@ class FoldersCompanion extends UpdateCompanion<Folder> {
 }
 
 class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FoldersTable(this._db, [this._alias]);
+  $FoldersTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
@@ -809,13 +811,13 @@ class $FoldersTable extends Folders with TableInfo<$FoldersTable, Folder> {
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Folder map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return Folder.fromData(data, _db,
+    return Folder.fromData(data, attachedDatabase,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
   $FoldersTable createAlias(String alias) {
-    return $FoldersTable(_db, alias);
+    return $FoldersTable(attachedDatabase, alias);
   }
 }
 
