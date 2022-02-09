@@ -29,6 +29,12 @@ class HomeSettingsWidgetsController extends StatusControllerBase {
     _homeController.setIsTimeProgressVisible(value: newValue);
   }
 
+  void updateIsCalendarVisible() {
+    final newValue = !_homeController.isCalendarVisible;
+
+    _homeController.setIsCalendarVisible(value: newValue);
+  }
+
   void onTitleTapped() {
     if (scrollController.hasClients) {
       scrollController.animateTo(
