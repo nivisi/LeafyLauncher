@@ -11,6 +11,8 @@ const kIsTimeProgressVisible = 'isTimeProgressVisible';
 const kTimeProgressType = 'kTimeProgressType';
 const kIsCalendarVisible = 'isCalendarVisible';
 const kIsClockVisible = 'isClockVisible';
+const kIsLeftCornerButtonVisible = 'kIsLeftCornerButtonVisible';
+const kIsRightCornerButtonVisible = 'kIsRightCornerButtonVisible';
 
 late final SharedPreferences sharedPreferences;
 

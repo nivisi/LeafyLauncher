@@ -41,6 +41,8 @@ class HomeController extends StatusControllerBase
   bool _isCalendarDisplayed = false;
   bool _isCalendarVisible = false;
   bool _isClockVisible = false;
+  bool _isLeftCornerButtonVisible = false;
+  bool _isRightCornerButtonVisible = false;
 
   late final FocusNode searchFocusNode;
 
@@ -71,6 +73,8 @@ class HomeController extends StatusControllerBase
   bool get isCalendarDisplayed => _isCalendarDisplayed;
   bool get isCalendarVisible => _isCalendarVisible;
   bool get isClockVisible => _isClockVisible;
+  bool get isLeftCornerButtonVisible => _isLeftCornerButtonVisible;
+  bool get isRightCornerButtonVisible => _isRightCornerButtonVisible;
 
   @override
   Future resolveDependencies() async {
@@ -121,7 +125,37 @@ class HomeController extends StatusControllerBase
     }
   }
 
-  void _restoreLeftCornerButton() {
+  void _restoreLeftCornerButtonVisibility() {
+    const fallback = true;
+
+    try {
+      var isLeftCornerButtonVisible = sharedPreferences.getBool(
+        kIsLeftCornerButtonVisible,
+      );
+
+      if (isLeftCornerButtonVisible == null) {
+        isLeftCornerButtonVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsLeftCornerButtonVisible,
+          isLeftCornerButtonVisible,
+        );
+      }
+
+      _isLeftCornerButtonVisible = isLeftCornerButtonVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsTimeProgressVisible', e, s);
+
+      _isLeftCornerButtonVisible = fallback;
+
+      sharedPreferences.setBool(
+        kIsLeftCornerButtonVisible,
+        isLeftCornerButtonVisible,
+      );
+    }
+  }
+
+  void _restoreLeftCornerButtonType() {
     final leftCornerButtonTypeStr = sharedPreferences.getString(
       kLeftCornerButtonType,
     );
@@ -154,7 +188,12 @@ class HomeController extends StatusControllerBase
     }
   }
 
-  void _restoreRightCornerButton() {
+  void _restoreLeftCornerButton() {
+    _restoreLeftCornerButtonType();
+    _restoreLeftCornerButtonVisibility();
+  }
+
+  void _restoreRightCornerButtonType() {
     final rightCornerButtonTypeStr = sharedPreferences.getString(
       kRightCornerButtonType,
     );
@@ -185,6 +224,41 @@ class HomeController extends StatusControllerBase
         );
       }
     }
+  }
+
+  void _restoreRightCornerButtonVisibility() {
+    const fallback = true;
+
+    try {
+      var isRightCornerButtonVisible = sharedPreferences.getBool(
+        kIsRightCornerButtonVisible,
+      );
+
+      if (isRightCornerButtonVisible == null) {
+        isRightCornerButtonVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsRightCornerButtonVisible,
+          isRightCornerButtonVisible,
+        );
+      }
+
+      _isRightCornerButtonVisible = isRightCornerButtonVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsTimeProgressVisible', e, s);
+
+      _isRightCornerButtonVisible = fallback;
+
+      sharedPreferences.setBool(
+        kIsRightCornerButtonVisible,
+        isRightCornerButtonVisible,
+      );
+    }
+  }
+
+  void _restoreRightCornerButton() {
+    _restoreRightCornerButtonType();
+    _restoreRightCornerButtonVisibility();
   }
 
   void _restoreIsTimeProgressVisible() {
@@ -445,6 +519,36 @@ class HomeController extends StatusControllerBase
     );
 
     update([clockBuilderKey]);
+  }
+
+  void setIsLeftCornerAppVisible({bool value = true}) {
+    if (_isLeftCornerButtonVisible == value) {
+      return;
+    }
+
+    _isLeftCornerButtonVisible = value;
+
+    sharedPreferences.setBool(
+      kIsLeftCornerButtonVisible,
+      isLeftCornerButtonVisible,
+    );
+
+    update([leftCornerButtonBuilderKey]);
+  }
+
+  void setIsRightCornerAppVisible({bool value = true}) {
+    if (_isRightCornerButtonVisible == value) {
+      return;
+    }
+
+    _isRightCornerButtonVisible = value;
+
+    sharedPreferences.setBool(
+      kIsRightCornerButtonVisible,
+      isRightCornerButtonVisible,
+    );
+
+    update([rightCornerButtonBuilderKey]);
   }
 
   void nextTimeProgressType() {
