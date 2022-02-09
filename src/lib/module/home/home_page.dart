@@ -36,7 +36,7 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {
     return GetBuilder<HomeController>(
-      id: HomeController.calendarBuilderKey,
+      id: HomeController.calendarPageBuilderKey,
       init: controller,
       builder: (controller) {
         return Stack(

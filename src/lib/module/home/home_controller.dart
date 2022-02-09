@@ -28,6 +28,7 @@ class HomeController extends StatusControllerBase
   static const String timeProgressBuilderKey = 'timeProgressBuilderKey';
   static const String timeProgressTypeBuilderKey = 'timeProgressTypeBuilderKey';
   static const String calendarBuilderKey = 'calendarBuilderKey';
+  static const String calendarPageBuilderKey = 'calendarPageBuilderKey';
 
   late final UserApplicationsController _userApplicationsController;
   late final InstalledApplicationsService _installedApplicationsService;
@@ -37,6 +38,7 @@ class HomeController extends StatusControllerBase
   late final DeviceVibration _deviceVibration;
 
   bool _isCalendarDisplayed = false;
+  bool _isCalendarVisible = false;
 
   late final FocusNode searchFocusNode;
 
@@ -65,6 +67,7 @@ class HomeController extends StatusControllerBase
   TimeProgressType get timeProgressType => _timeProgressType;
 
   bool get isCalendarDisplayed => _isCalendarDisplayed;
+  bool get isCalendarVisible => _isCalendarVisible;
 
   @override
   Future resolveDependencies() async {
@@ -87,6 +90,7 @@ class HomeController extends StatusControllerBase
     _restoreRightCornerButton();
     _restoreIsTimeProgressVisible();
     _restoreIsTimeProgressType();
+    _restoreIsCalendarVisible();
 
     _homeButtonPressedSubscription = _homeButtonListener.addCallback(
       _navigateHome,
@@ -97,7 +101,7 @@ class HomeController extends StatusControllerBase
 
       if (isCalendarDisplayed) {
         _isCalendarDisplayed = false;
-        update([calendarBuilderKey]);
+        update([calendarPageBuilderKey]);
       }
     });
   }
@@ -107,7 +111,7 @@ class HomeController extends StatusControllerBase
 
     if (isCalendarDisplayed) {
       _isCalendarDisplayed = false;
-      update([calendarBuilderKey]);
+      update([calendarPageBuilderKey]);
     } else {
       Get.until((route) => route.settings.name == AppRoutes.home);
     }
@@ -237,6 +241,36 @@ class HomeController extends StatusControllerBase
     }
   }
 
+  void _restoreIsCalendarVisible() {
+    const fallback = true;
+
+    try {
+      var isCalendarVisible = sharedPreferences.getBool(
+        kIsCalendarVisible,
+      );
+
+      if (isCalendarVisible == null) {
+        isCalendarVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsCalendarVisible,
+          isCalendarVisible,
+        );
+      }
+
+      _isCalendarVisible = isCalendarVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsCalendarVisible', e, s);
+
+      _isCalendarVisible = fallback;
+
+      sharedPreferences.setBool(
+        kIsCalendarVisible,
+        isCalendarVisible,
+      );
+    }
+  }
+
   Future onLeftSwipe() async {
     if (_userApplicationsController.swipeLeftApp != null) {
       _installedApplicationsService.launch(
@@ -349,6 +383,21 @@ class HomeController extends StatusControllerBase
     update([timeProgressBuilderKey]);
   }
 
+  void setIsCalendarVisible({bool value = true}) {
+    if (_isCalendarVisible == value) {
+      return;
+    }
+
+    _isCalendarVisible = value;
+
+    sharedPreferences.setBool(
+      kIsCalendarVisible,
+      isCalendarVisible,
+    );
+
+    update([calendarBuilderKey]);
+  }
+
   void nextTimeProgressType() {
     late TimeProgressType newType;
 
@@ -392,12 +441,12 @@ class HomeController extends StatusControllerBase
 
     _isCalendarDisplayed = true;
 
-    update([calendarBuilderKey]);
+    update([calendarPageBuilderKey]);
   }
 
   void closeCalendar() {
     _isCalendarDisplayed = false;
 
-    update([calendarBuilderKey]);
+    update([calendarPageBuilderKey]);
   }
 }

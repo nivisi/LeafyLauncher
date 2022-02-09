@@ -9,6 +9,7 @@ const kVibrationPreferences = 'vibrationPreferences';
 const kIsFirstLaunch = 'isFirstLaunch';
 const kIsTimeProgressVisible = 'isTimeProgressVisible';
 const kTimeProgressType = 'kTimeProgressType';
+const kIsCalendarVisible = 'isCalendarVisible';
 
 late final SharedPreferences sharedPreferences;
 
