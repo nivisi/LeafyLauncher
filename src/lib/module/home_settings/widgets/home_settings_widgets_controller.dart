@@ -41,6 +41,18 @@ class HomeSettingsWidgetsController extends StatusControllerBase {
     _homeController.setIsClockVisible(value: newValue);
   }
 
+  void updateIsLeftCornerAppVisible() {
+    final newValue = !_homeController.isLeftCornerButtonVisible;
+
+    _homeController.setIsLeftCornerAppVisible(value: newValue);
+  }
+
+  void updateIsRightCornerAppVisible() {
+    final newValue = !_homeController.isRightCornerButtonVisible;
+
+    _homeController.setIsRightCornerAppVisible(value: newValue);
+  }
+
   void onTitleTapped() {
     if (scrollController.hasClients) {
       scrollController.animateTo(

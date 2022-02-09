@@ -174,9 +174,12 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
                           init: controller,
                           id: HomeController.leftCornerButtonBuilderKey,
                           builder: (_) {
-                            return CornerButton(
-                              type: controller.leftCornerButtonType,
-                              position: CornerButtonPosition.left,
+                            return Visibility(
+                              visible: controller.isLeftCornerButtonVisible,
+                              child: CornerButton(
+                                type: controller.leftCornerButtonType,
+                                position: CornerButtonPosition.left,
+                              ),
                             );
                           },
                         ),
@@ -184,9 +187,12 @@ class HomePage extends StatusPageBase<HomeController, HomeTheme> {
                           init: controller,
                           id: HomeController.rightCornerButtonBuilderKey,
                           builder: (_) {
-                            return CornerButton(
-                              type: controller.rightCornerButtonType,
-                              position: CornerButtonPosition.right,
+                            return Visibility(
+                              visible: controller.isRightCornerButtonVisible,
+                              child: CornerButton(
+                                type: controller.rightCornerButtonType,
+                                position: CornerButtonPosition.right,
+                              ),
                             );
                           },
                         ),

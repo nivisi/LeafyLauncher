@@ -150,9 +150,13 @@ class L10n {
   static const String settingsTimeProgressType = 'settingsTimeProgressType';
   static const String settingsCalendarWidget = 'settingsCalendarWidget';
   static const String settingsClockWidget = 'settingsClockWidget';
+  static const String settingsLeftCornerApp = 'settingsLeftCornerApp';
+  static const String settingsRightCornerApp = 'settingsRightCornerApp';
   static const String settingsSectionIsEnabled = 'settingsSectionIsEnabled';
   static const String settingsSectionDisabled = 'settingsSectionDisabled';
   static const String settingsSectionEnabled = 'settingsSectionEnabled';
+  static const String settingsCornerAppType = 'settingsCornerAppType';
+
   static const String settingsYes = 'settingsYes';
   static const String settingsNo = 'settingsNo';
   static const String settingsType = 'settingsType';
