@@ -13,6 +13,7 @@ import '../../../../resources/theme/home_theme.dart';
 import '../../../../resources/theme/leafy_theme.dart';
 import '../../../../services/applications/user_applications_controller.dart';
 import '../../../../shared_widget/themed_get_widget.dart';
+import 'clock/clock_enabled_state.dart';
 
 class SettingsWidgetsBody
     extends ThemedGetWidget<UserApplicationsController, HomeTheme> {
@@ -34,6 +35,12 @@ class SettingsWidgetsBody
           header: L10nProvider.getText(L10n.settingsCalendarWidget),
           children: const [
             CalendarEnabledState(),
+          ],
+        ),
+        LeafySection<HomeTheme>(
+          header: L10nProvider.getText(L10n.settingsClockWidget),
+          children: const [
+            ClockEnabledState(),
           ],
         ),
       ],

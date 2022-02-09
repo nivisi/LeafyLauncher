@@ -105,6 +105,7 @@ var _mapEn = {
   L10n.settingsTimeProgressWidget: 'Time progress',
   L10n.settingsTimeProgressType: 'Type',
   L10n.settingsCalendarWidget: 'Calendar',
+  L10n.settingsClockWidget: 'Clock',
   L10n.settingsSectionIsEnabled: 'Is Enabled',
   L10n.settingsSectionEnabled: 'On',
   L10n.settingsSectionDisabled: 'Off',
