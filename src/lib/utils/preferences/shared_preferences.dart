@@ -10,6 +10,7 @@ const kIsFirstLaunch = 'isFirstLaunch';
 const kIsTimeProgressVisible = 'isTimeProgressVisible';
 const kTimeProgressType = 'kTimeProgressType';
 const kIsCalendarVisible = 'isCalendarVisible';
+const kIsClockVisible = 'isClockVisible';
 
 late final SharedPreferences sharedPreferences;
 

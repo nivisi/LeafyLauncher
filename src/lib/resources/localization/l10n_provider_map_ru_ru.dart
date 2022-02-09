@@ -105,6 +105,7 @@ var _mapRu = {
   L10n.settingsTimeProgressWidget: 'Прогресс времени',
   L10n.settingsTimeProgressType: 'Тип',
   L10n.settingsCalendarWidget: 'Календарь',
+  L10n.settingsClockWidget: 'Часы',
   L10n.settingsSectionIsEnabled: 'Включен',
   L10n.settingsSectionEnabled: 'Вкл',
   L10n.settingsSectionDisabled: 'Выкл',

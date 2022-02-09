@@ -29,6 +29,7 @@ class HomeController extends StatusControllerBase
   static const String timeProgressTypeBuilderKey = 'timeProgressTypeBuilderKey';
   static const String calendarBuilderKey = 'calendarBuilderKey';
   static const String calendarPageBuilderKey = 'calendarPageBuilderKey';
+  static const String clockBuilderKey = 'clockBuilderKey';
 
   late final UserApplicationsController _userApplicationsController;
   late final InstalledApplicationsService _installedApplicationsService;
@@ -39,6 +40,7 @@ class HomeController extends StatusControllerBase
 
   bool _isCalendarDisplayed = false;
   bool _isCalendarVisible = false;
+  bool _isClockVisible = false;
 
   late final FocusNode searchFocusNode;
 
@@ -68,6 +70,7 @@ class HomeController extends StatusControllerBase
 
   bool get isCalendarDisplayed => _isCalendarDisplayed;
   bool get isCalendarVisible => _isCalendarVisible;
+  bool get isClockVisible => _isClockVisible;
 
   @override
   Future resolveDependencies() async {
@@ -91,6 +94,7 @@ class HomeController extends StatusControllerBase
     _restoreIsTimeProgressVisible();
     _restoreIsTimeProgressType();
     _restoreIsCalendarVisible();
+    _restoreIsClockVisible();
 
     _homeButtonPressedSubscription = _homeButtonListener.addCallback(
       _navigateHome,
@@ -271,6 +275,36 @@ class HomeController extends StatusControllerBase
     }
   }
 
+  void _restoreIsClockVisible() {
+    const fallback = true;
+
+    try {
+      var isClockVisible = sharedPreferences.getBool(
+        kIsClockVisible,
+      );
+
+      if (isClockVisible == null) {
+        isClockVisible = fallback;
+
+        sharedPreferences.setBool(
+          kIsClockVisible,
+          isClockVisible,
+        );
+      }
+
+      _isClockVisible = isClockVisible;
+    } on Exception catch (e, s) {
+      logger.e('Unable to restore IsCalendarVisible', e, s);
+
+      _isClockVisible = fallback;
+
+      sharedPreferences.setBool(
+        kIsClockVisible,
+        isClockVisible,
+      );
+    }
+  }
+
   Future onLeftSwipe() async {
     if (_userApplicationsController.swipeLeftApp != null) {
       _installedApplicationsService.launch(
@@ -396,6 +430,21 @@ class HomeController extends StatusControllerBase
     );
 
     update([calendarBuilderKey]);
+  }
+
+  void setIsClockVisible({bool value = true}) {
+    if (_isClockVisible == value) {
+      return;
+    }
+
+    _isClockVisible = value;
+
+    sharedPreferences.setBool(
+      kIsClockVisible,
+      isClockVisible,
+    );
+
+    update([clockBuilderKey]);
   }
 
   void nextTimeProgressType() {

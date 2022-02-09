@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:leafy_launcher/module/home/home_controller.dart';
 import 'package:leafy_launcher/resources/settings/leafy_settings.dart';
 
 import '../../../../resources/theme/home_theme.dart';
@@ -56,12 +57,20 @@ class _HomeClockState extends ThemedState<HomeClock, HomeTheme> {
 
   @override
   Widget body(BuildContext context, HomeTheme theme) {
-    return TouchableTextButton(
-      onTap: _onPressed,
-      color: theme.foregroundColor,
-      pressedColor: theme.foregroundPressedColor,
-      text: _format.format(_time),
-      style: theme.bodyText4,
+    return GetBuilder<HomeController>(
+      id: HomeController.clockBuilderKey,
+      builder: (controller) {
+        return Visibility(
+          visible: controller.isClockVisible,
+          child: TouchableTextButton(
+            onTap: _onPressed,
+            color: theme.foregroundColor,
+            pressedColor: theme.foregroundPressedColor,
+            text: _format.format(_time),
+            style: theme.bodyText4,
+          ),
+        );
+      },
     );
   }
 
