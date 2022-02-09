@@ -7,6 +7,8 @@ import 'utils/app_flavour/app_flavour.dart';
 
 const _appChannel = MethodChannel('com.nivisi.leafy_launcher/app');
 
+void main() => mainCommon(AppFlavour.dev);
+
 Future mainCommon(AppFlavour flavour) async {
   WidgetsFlutterBinding.ensureInitialized();
 

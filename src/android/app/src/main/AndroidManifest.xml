@@ -33,7 +33,8 @@
             android:resumeWhilePausing="true"
             android:excludeFromRecents="true"
             android:stateNotNeeded="true"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true">
 
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
@@ -62,7 +63,8 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTask"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true">
 
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
@@ -73,7 +75,6 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
             <meta-data

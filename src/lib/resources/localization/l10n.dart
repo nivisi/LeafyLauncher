@@ -166,6 +166,21 @@ class L10n {
   static const String settingsDoTutorialHeader = 'settingsDoTutorialHeader';
   static const String settingsDoTutorial = 'settingsDoTutorial';
   static const String settingsDoTutorialFooter = 'settingsDoTutorialFooter';
+  static const String settingsAboutTitle = 'settingsAboutTitle';
+  static const String settingsAboutInfo = 'settingsAboutInfo';
+  static const String settingsAboutOpenGithub = 'settingsAboutOpenGithub';
+  static const String settingsAboutOpenGmail = 'settingsAboutOpenGmail';
+  static const String settingsAboutOpenTelegram = 'settingsAboutOpenTelegram';
+  static const String settingsAboutOssHeader = 'settingsAboutOssHeader';
+  static const String settingsAboutOss = 'settingsAboutOss';
+  static const String settingsAboutOssFooter = 'settingsAboutOssFooter';
+  static const String settingsAboutOssTitle = 'settingsAboutOssTitle';
+  static const String settingsAboutOssLicenseDescriptionHeader =
+      'settingsAboutOssLicenseDescriptionHeader';
+  static const String settingsAboutOssLicenseHomepageHeader =
+      'settingsAboutOssLicenseHomepageHeader';
+  static const String settingsAboutOssLicenseLicenseHeader =
+      'settingsAboutOssLicenseLicenseHeader';
 
   static const String appPickerLaunchApp = 'appPickerLaunchApp';
   static const String appPickerTo = 'appPickerTo';
@@ -196,6 +211,7 @@ class L10n {
   static const String actionNo = 'actionNo';
   static const String actionAboutApp = 'actionAboutApp';
   static const String actionSave = 'actionSave';
+  static const String actionOpen = 'actionOpen';
   static const String choseAction = 'choseAction';
 
   static const String introHello = 'introHello';
@@ -250,6 +266,8 @@ class L10n {
   static const String leafyNotesNoteSaved = 'leafyNotesNoteSaved';
   static const String leafyNotesNotesEmptyStateMessage =
       'leafyNotesNotesEmptyStateMessage';
+  static const String leafyNotesNotesEmptyStateMessageEmoji =
+      'leafyNotesNotesEmptyStateMessageEmoji';
   static const String leafyNotesRenameFolderDialogTitle =
       'leafyNotesRenameFolderDialogTitle';
   static const String leafyNotesRenameFolderDialogMessage =

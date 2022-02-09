@@ -49,4 +49,4 @@ analyzer:
     invariant_booleans: ignore
     avoid_classes_with_only_static_members: ignore
   exclude:
-    [lib/**.g.dart]
+    [lib/**.g.dart, lib/oss_licenses.dart]

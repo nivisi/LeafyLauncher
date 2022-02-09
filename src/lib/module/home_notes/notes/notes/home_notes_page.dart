@@ -14,7 +14,7 @@ typedef OnNoteSelected = void Function(NoteModel note);
 class HomeNotesPage extends StatusPageBase<HomeNotesController, HomeTheme> {
   const HomeNotesPage();
 
-  static const horizontalPadding = kDefaultPadding * 1.5;
+  static const horizontalPadding = kDefaultPadding;
 
   @override
   Widget ready(BuildContext context, LeafyTheme theme) {

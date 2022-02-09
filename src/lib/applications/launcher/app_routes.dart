@@ -12,6 +12,9 @@ class AppRoutes {
 
   static const settings = '/settings';
   static const settingsWidgets = '/settings/widgets';
+  static const settingsAbout = '/settings/about';
+  static const settingsOss = '/settings/about/oss';
+  static const settingsOssLicense = '/settings/about/oss/:name';
   static const tutorial = '/tutorial';
 
   static Future<void>? toHome({bool off = false}) {
@@ -39,5 +42,11 @@ class AppRoutes {
     );
 
     return res as Application?;
+  }
+
+  static Future<void>? toOssLicense({required String name}) {
+    final route = settingsOssLicense.replaceAll(':name', name);
+
+    return Get.toNamed(route);
   }
 }
