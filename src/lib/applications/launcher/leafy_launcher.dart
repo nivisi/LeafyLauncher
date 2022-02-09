@@ -149,7 +149,8 @@ class LeafyLauncher {
             name: AppRoutes.settings,
             binding: HomeSettingsBinding(),
             page: () => const HomeSettingsPage(),
-            transition: Transition.fadeIn,
+            transition: Transition.cupertino,
+            transitionDuration: kDefaultAnimationDuration,
           ),
           GetPage(
             name: AppRoutes.settingsWidgets,
