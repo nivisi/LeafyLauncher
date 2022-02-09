@@ -14,7 +14,7 @@ class HomeNoteFoldersPage
     extends StatusPageBase<HomeNoteFoldersController, HomeTheme> {
   const HomeNoteFoldersPage();
 
-  static const horizontalPadding = kDefaultPadding * 1.5;
+  static const horizontalPadding = kDefaultPadding;
 
   @override
   OnWillPopData get onWillPopData => OnWillPopData(controller.back);

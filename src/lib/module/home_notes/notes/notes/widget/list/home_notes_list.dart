@@ -3,6 +3,7 @@ import 'package:leafy_launcher/database/leafy_notes_db/leafy_notes_database.dart
 import 'package:leafy_launcher/module/home/utils/gesture_processer.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_controller.dart';
 import 'package:leafy_launcher/module/home_notes/notes/notes/home_notes_page.dart';
+import 'package:leafy_launcher/module/home_notes/notes/notes/widget/list/home_notes_empty_widget.dart';
 import 'package:leafy_launcher/resources/app_constants.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
@@ -52,14 +53,18 @@ class HomeNotesList extends ThemedGetWidget<HomeNotesController, HomeTheme> {
       stream: controller.notesStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const SizedBox();
+          return const HomeNotesEmptyWidget();
         }
 
         if (!snapshot.hasData) {
-          return const SizedBox();
+          return const HomeNotesEmptyWidget();
         }
 
         final notes = snapshot.data!.notes;
+
+        if (notes.isEmpty) {
+          return const HomeNotesEmptyWidget();
+        }
 
         return LeafySectionList<HomeTheme>(
           scrollController: controller.scrollController,

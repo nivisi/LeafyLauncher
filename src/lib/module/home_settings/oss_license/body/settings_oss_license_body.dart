@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:leafy_launcher/resources/assets/leafy_icons.dart';
 import 'package:leafy_launcher/shared_widget/section/leafy_section_lib.dart';
 import 'package:leafy_launcher/shared_widget/section/src/list/leafy_section_list.dart';
 
@@ -33,6 +35,10 @@ class SettingsOssLicenseBody
             children: [
               LeafySectionTextItem<HomeTheme>(
                 title: L10nProvider.getText(L10n.actionOpen),
+                leading: SvgPicture.asset(
+                  LeafyIcons.web,
+                  color: theme.foregroundColor,
+                ),
                 onTap: controller.openHomepage,
               )
             ],

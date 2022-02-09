@@ -269,6 +269,8 @@ class L10n {
   static const String leafyNotesNoteSaved = 'leafyNotesNoteSaved';
   static const String leafyNotesNotesEmptyStateMessage =
       'leafyNotesNotesEmptyStateMessage';
+  static const String leafyNotesNotesEmptyStateMessageEmoji =
+      'leafyNotesNotesEmptyStateMessageEmoji';
   static const String leafyNotesRenameFolderDialogTitle =
       'leafyNotesRenameFolderDialogTitle';
   static const String leafyNotesRenameFolderDialogMessage =

@@ -34,11 +34,13 @@ class HomeNoteFoldersController extends StatusControllerBase {
   }
 
   void onTitleTapped() {
-    scrollController.animateTo(
-      .0,
-      duration: kDefaultAnimationDuration,
-      curve: Curves.fastOutSlowIn,
-    );
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        .0,
+        duration: kDefaultAnimationDuration,
+        curve: Curves.fastOutSlowIn,
+      );
+    }
   }
 
   void onFolderSelected(FolderModel folder) {

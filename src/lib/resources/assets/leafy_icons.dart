@@ -5,4 +5,5 @@ class LeafyIcons {
   static const github = '$_path/github.svg';
   static const gmail = '$_path/gmail.svg';
   static const telegram = '$_path/telegram.svg';
+  static const web = '$_path/web.svg';
 }
