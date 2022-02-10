@@ -2,7 +2,7 @@
 
 # Leafy Launcher ![app version][app-version-img]
 
-A new Android Launcher built with Flutter.
+An Android Launcher built with Flutter.
 
 [![Leafy CI 🌱][ci-badge-url]][ci-url] [![Leafy Release 🌳][release-ci-badge-url]][release-ci-url] 
 
