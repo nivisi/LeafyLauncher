@@ -137,5 +137,6 @@ var _mapRu = {
   L10n.leafyNotesUnableToShareEmptyNote: 'Заметка пуста',
   L10n.russianLanguage: 'Русский (Russian)',
   L10n.englishLanguage: 'Английский (English)',
+  L10n.frenchLanguage: 'француз (French)',
   L10n.languageAsInSystem: 'Как в системе',
 };
