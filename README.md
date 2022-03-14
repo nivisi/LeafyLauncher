@@ -6,6 +6,12 @@ An Android Launcher built with Flutter.
 
 [![Leafy CI 🌱][ci-badge-url]][ci-url] [![Leafy Release 🌳][release-ci-badge-url]][release-ci-url] [![CodeFactor][code-factor--badge-url]][code-factor-app-url] 
 
+---
+
+❗️ _More info to come soon..._
+
+---
+
 ## Contact us
 
 - [Join the Telegram chat](https://t.me/leafy_launcher);
