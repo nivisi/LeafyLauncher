@@ -139,5 +139,6 @@ var _mapEn = {
   L10n.leafyNotesUnableToShareEmptyNote: 'Note is empty',
   L10n.russianLanguage: 'Russian',
   L10n.englishLanguage: 'English',
+  L10n.frenchLanguage: 'French',
   L10n.languageAsInSystem: 'System'
 };
