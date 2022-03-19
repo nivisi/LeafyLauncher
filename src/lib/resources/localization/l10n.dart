@@ -43,7 +43,8 @@ class L10n {
   }
 
   static bool isLocaleSupported(Locale? locale) {
-    return locale != null && (locale == ruLocale || locale == enLocale);
+    return locale != null &&
+        (locale == ruLocale || locale == enLocale || locale == frLocale);
   }
 
   static void _restoreLocale() {
