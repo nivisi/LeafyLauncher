@@ -8,7 +8,7 @@ var _mapFr = {
   L10n.appPickerSelect: 'Sélectionner',
   L10n.appPickerApp: 'App',
   L10n.appPickerNothingFound: "Rien n'a été trouvé :(",
-  L10n.homeSelectApp: 'Sélectionner une app',
+  L10n.homeSelectApp: 'Choisir une App',
   L10n.settingsTitle: 'Paramètres',
   L10n.settingsAbout: 'À Propos',
   L10n.settingsTheme: 'Thème',
