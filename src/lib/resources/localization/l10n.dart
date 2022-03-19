@@ -178,6 +178,7 @@ class L10n {
   static const String settingsAboutOpenGithub = 'settingsAboutOpenGithub';
   static const String settingsAboutOpenGmail = 'settingsAboutOpenGmail';
   static const String settingsAboutOpenTelegram = 'settingsAboutOpenTelegram';
+  static const String settingsAboutOssOpenWebsite = 'settingsAboutOpenWebsite';
   static const String settingsAboutOssHeader = 'settingsAboutOssHeader';
   static const String settingsAboutOss = 'settingsAboutOss';
   static const String settingsAboutOssFooter = 'settingsAboutOssFooter';

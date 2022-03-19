@@ -46,6 +46,7 @@ var _mapRu = {
   L10n.settingsAboutOssLicenseDescriptionHeader: 'Описание',
   L10n.settingsAboutOssLicenseHomepageHeader: 'Домашняя страница',
   L10n.settingsAboutOssLicenseLicenseHeader: 'Лицензия',
+  L10n.settingsAboutOssOpenWebsite: 'Открыть',
   L10n.themeStyleLight: 'Светлая',
   L10n.themeStyleDark: 'Темная',
   L10n.homeLoadingApplications: 'Загружаем приложения ...',

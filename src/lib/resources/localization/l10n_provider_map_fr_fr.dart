@@ -33,6 +33,21 @@ var _mapFr = {
   L10n.settingsHomeWidgetsConfigure: 'Configurer',
   L10n.settingsWidgetsFooter:
       "Vous pouvez ici configurer les widgets affichés sur l'écran d'accueil",
+  L10n.settingsAboutInfo:
+      """Leafy Launcher - est une application créée avec Flutter dont le code est ouvert. Sa mission principale est d'être minimaliste, inspirant et simple. Leafy se concentre sur l'amélioration de la productivité des utilisateurs en supprimant les couleurs, les actions et les distractions redondantes.\n\nLeafy ne contient pas et ne contiendra jamais de publicités ou d'achats: gratuit, pour toujours.\n\nLeafy ne collecte ni ne partage aucune statistique ou donnée telle que applications installées sur votre appareil ou comment vous les utilisez. Bien que nous enregistrions le comportement interne de Leafy pour nous aider à enquêter sur d'éventuelles erreurs. Ces journaux sont stockés sur votre appareil. Nous ne pouvons y accéder que si vous nous les envoyez.\n\nTout développeur désireux d'aider au développement peut participer. Visitez la page GitHub du projet et signaler un bogue ou une idée. Si vous voulez coder, vous êtes plus que bienvenu. Faites-le nous savoir sur notre tracker de bogues sur GitHub!""",
+  L10n.settingsAboutTitle: 'À Propos de Leafy',
+  L10n.settingsAboutOpenGithub: 'Naviguer dans le code source',
+  L10n.settingsAboutOpenGmail: 'Nous contacter par courriel',
+  L10n.settingsAboutOpenTelegram: 'Chatter via Telegram',
+  L10n.settingsAboutOssHeader: 'Librairie Open Source',
+  L10n.settingsAboutOss: "Jetez un coup d'oeil",
+  L10n.settingsAboutOssFooter:
+      '''Il aurait été impossible de créer Leafy Launcher sans bibliothèques tierces. Dans cette section, vous pouvez consulter toutes les bibliothèques utilisées par Leafy.''',
+  L10n.settingsAboutOssLicenseDescriptionHeader: 'Description',
+  L10n.settingsAboutOssLicenseHomepageHeader: "Page d'accueil",
+  L10n.settingsAboutOssLicenseLicenseHeader: 'Licence',
+  L10n.settingsAboutOssTitle: "Bibliothèques du système d'exploitation",
+  L10n.settingsAboutOssOpenWebsite: 'Ouvrir le site web',
   L10n.themeStyleLight: 'Clair',
   L10n.themeStyleDark: 'Obscur',
   L10n.homeLoadingApplications: 'Chargement des applications ...',

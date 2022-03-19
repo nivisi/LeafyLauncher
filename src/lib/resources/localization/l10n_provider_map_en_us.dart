@@ -38,6 +38,7 @@ var _mapEn = {
   L10n.settingsAboutOpenGithub: 'Browse source code',
   L10n.settingsAboutOpenGmail: 'Contact via email',
   L10n.settingsAboutOpenTelegram: 'Telegram chat',
+  L10n.settingsAboutOssOpenWebsite: 'Open',
   L10n.settingsAboutOssHeader: 'Open Source Libraries',
   L10n.settingsAboutOss: 'Take a look',
   L10n.settingsAboutOssFooter:
