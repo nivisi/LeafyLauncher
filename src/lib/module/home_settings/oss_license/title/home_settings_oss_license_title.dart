@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:leafy_launcher/resources/localization/l10n.dart';
-import 'package:leafy_launcher/resources/localization/l10n_provider.dart';
 import 'package:leafy_launcher/resources/theme/home_theme.dart';
 import 'package:leafy_launcher/resources/theme/leafy_theme.dart';
 import 'package:leafy_launcher/shared_widget/page/page_header.dart';
@@ -15,7 +13,7 @@ class SettingsOssLicenseTitle
   @override
   Widget body(BuildContext context, LeafyTheme theme) {
     return PageHeader(
-      title: L10nProvider.getText(L10n.settingsTitle),
+      title: controller.title,
       onTapped: controller.onTitleTapped,
     );
   }
