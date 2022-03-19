@@ -79,6 +79,7 @@ class LeafyNotes {
         supportedLocales: const [
           L10n.ruLocale,
           L10n.enLocale,
+          L10n.frLocale,
         ],
         locale: L10n.locale,
         fallbackLocale: L10n.enLocale,

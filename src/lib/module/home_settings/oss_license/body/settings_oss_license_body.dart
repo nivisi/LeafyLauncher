@@ -34,7 +34,7 @@ class SettingsOssLicenseBody
             ),
             children: [
               LeafySectionTextItem<HomeTheme>(
-                title: L10nProvider.getText(L10n.actionOpen),
+                title: L10nProvider.getText(L10n.settingsAboutOssOpenWebsite),
                 leading: SvgPicture.asset(
                   LeafyIcons.web,
                   color: theme.foregroundColor,

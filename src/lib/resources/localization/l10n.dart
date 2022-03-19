@@ -15,10 +15,12 @@ class L10n {
 
   static bool get isRu => !_isAsInSystem && _locale.languageCode == 'ru';
   static bool get isEn => !_isAsInSystem && _locale.languageCode == 'en';
+  static bool get isFr => !_isAsInSystem && _locale.languageCode == 'fr';
   static bool get isAsInSystem => _isAsInSystem;
 
   static const Locale ruLocale = Locale('ru', 'RU');
   static const Locale enLocale = Locale('en', 'US');
+  static const Locale frLocale = Locale('fr', 'FR');
 
   static const Locale fallbackLocale = enLocale;
 
@@ -41,7 +43,8 @@ class L10n {
   }
 
   static bool isLocaleSupported(Locale? locale) {
-    return locale != null && (locale == ruLocale || locale == enLocale);
+    return locale != null &&
+        (locale == ruLocale || locale == enLocale || locale == frLocale);
   }
 
   static void _restoreLocale() {
@@ -176,6 +179,7 @@ class L10n {
   static const String settingsAboutOpenGithub = 'settingsAboutOpenGithub';
   static const String settingsAboutOpenGmail = 'settingsAboutOpenGmail';
   static const String settingsAboutOpenTelegram = 'settingsAboutOpenTelegram';
+  static const String settingsAboutOssOpenWebsite = 'settingsAboutOpenWebsite';
   static const String settingsAboutOssHeader = 'settingsAboutOssHeader';
   static const String settingsAboutOss = 'settingsAboutOss';
   static const String settingsAboutOssFooter = 'settingsAboutOssFooter';
@@ -289,5 +293,6 @@ class L10n {
 
   static const String russianLanguage = 'russianLanguage';
   static const String englishLanguage = 'englishLanguage';
+  static const String frenchLanguage = 'frenchLanguage';
   static const String languageAsInSystem = 'languageAsInSystem';
 }

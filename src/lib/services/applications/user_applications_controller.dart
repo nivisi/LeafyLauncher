@@ -334,6 +334,11 @@ class UserApplicationsController extends StatusControllerBase {
     }
 
     if (L10n.isEn) {
+      L10n.setLocale(L10n.frLocale);
+      return;
+    }
+
+    if (L10n.isFr) {
       L10n.setAsSystem();
       return;
     }
@@ -387,6 +392,10 @@ class UserApplicationsController extends StatusControllerBase {
 
     if (L10n.isEn) {
       return L10nProvider.getText(L10n.englishLanguage);
+    }
+
+    if (L10n.isFr) {
+      return L10nProvider.getText(L10n.frenchLanguage);
     }
 
     if (L10n.isAsInSystem) {
