@@ -14,8 +14,8 @@ An Android Launcher built with Flutter.
 
 ## Contact us
 
-- [Join the Telegram chat](https://t.me/leafy_launcher);
-- [Send us an email](mailto:leafylauncher@gmail.com).
+- Join the Telegram chat, [@leafy_launcher](https://t.me/leafy_launcher);
+- Send us an email to [leafylauncher@gmail.com](mailto:leafylauncher@gmail.com).
 
 
 ## Contribution Guidelines
