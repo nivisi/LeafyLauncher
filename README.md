@@ -1,4 +1,4 @@
-# Leafy Launcher ![app version][app-version-img]
+# Leafy Launcher 🌱 ![app version][app-version-img]
 
 An Android Launcher built with Flutter.
 
