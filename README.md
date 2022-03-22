@@ -1,5 +1,3 @@
-<img src="./imgs/banner.svg">
-
 # Leafy Launcher ![app version][app-version-img]
 
 An Android Launcher built with Flutter.
@@ -8,7 +6,7 @@ An Android Launcher built with Flutter.
 
 ---
 
-❗️ _More info to come soon..._
+❗️ _More info & screenshots to come soon..._
 
 ---
 
