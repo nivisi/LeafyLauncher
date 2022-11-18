@@ -6,7 +6,9 @@ An Android Launcher built with Flutter.
 
 ---
 
-❗️ _More info & screenshots to come soon..._
+> **Note**
+> 
+> More info & screenshots to come soon...
 
 ---
 
