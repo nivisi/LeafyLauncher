@@ -1,0 +1,24 @@
+name: leafy_localization
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.17.3 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  i18n_extension: ^5.0.0
+  leafy_resources:
+    path: ../leafy_resources
+  leafy_data:
+    path: ../leafy_data
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter: null

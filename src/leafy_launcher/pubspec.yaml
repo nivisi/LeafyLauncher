@@ -1,0 +1,67 @@
+name: leafy_launcher
+description: A new Flutter project.
+
+publish_to: "none"
+
+version: 1.3.0
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  assorted_layout_widgets: ^5.2.1
+  auto_route: ^5.0.0
+  controllable_flutter: ^0.0.5+1
+  ensure_initialized: ^0.1.0
+  equatable: ^2.0.3
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_oss_licenses: ^1.1.1
+  flutter_svg: ^1.0.3
+  fluttertoast: ^8.0.8
+  freezed_annotation: ^2.0.3
+  get_it: ^7.2.0
+  injectable: ^1.5.3
+  intl: ^0.17.0
+  json_annotation:
+  json_serializable:
+  leafy_data:
+    path: ../leafy_data
+  leafy_domain:
+    path: ../leafy_domain
+  leafy_localization:
+    path: ../leafy_localization
+  leafy_ui_kit:
+    path: ../leafy_ui_kit
+  lint: ^1.8.1
+  logger: ^1.0.0
+  moor_flutter: ^4.0.0
+  package_info_plus: ^1.3.0
+  path_provider: ^2.0.2
+  provider: ^6.0.2
+  share: ^2.0.4
+  shared_preferences: ^2.0.6
+  synchronized: ^3.0.0
+  table_calendar: ^3.0.2
+  url_launcher: ^6.0.18
+  uuid: ^3.0.5
+
+# dependency_overrides:
+#   analyzer: ^3.0.0
+
+dev_dependencies:
+  auto_route_generator: ^5.0.0
+  build_runner: ^2.3.2
+  controllable_generator: ^0.0.8
+  freezed: ^2.0.3
+  injectable_generator: ^1.5.3
+  moor_generator: ^4.6.0+1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/config/
+    - assets/icons/
