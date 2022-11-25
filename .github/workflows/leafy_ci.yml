@@ -88,4 +88,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: leafy_launcher_${{ env.APP_VERSION }}.build_${{ github.run_number }}.dev.apk
-          path: src/build/app/outputs/flutter-apk/app-dev-release.apk
+          path: src/leafy_launcher/build/app/outputs/flutter-apk/app-dev-release.apk
