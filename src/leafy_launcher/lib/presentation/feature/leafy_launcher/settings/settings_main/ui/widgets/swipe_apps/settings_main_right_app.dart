@@ -27,6 +27,8 @@ class SettingsMainRightApp extends StatelessWidget {
       onTap: () {
         context.router.push(
           AppPickerRouteNew(
+            title: LeafyL10n.settingsToLeftApp,
+            autofocus: true,
             onAppSelected: (app) {
               context.router.pop();
               controller.raiseEvent.rightApplicationSelected(app);

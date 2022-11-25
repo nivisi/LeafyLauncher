@@ -12,9 +12,13 @@ class AppPickerPageNew extends StatelessWidget {
   const AppPickerPageNew({
     Key? key,
     required this.onAppSelected,
+    this.autofocus = false,
+    this.title,
   }) : super(key: key);
 
+  final String? title;
   final ValueChanged<ApplicationModelBase> onAppSelected;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,8 @@ class AppPickerPageNew extends StatelessWidget {
       child: Scaffold(
         backgroundColor: context.leafyTheme.palette.backgroundColor,
         body: AppPickerNew(
-          title: LeafyL10n.appPickerLaunchApp,
+          title: title ?? LeafyL10n.appPickerLaunchApp,
+          autofocus: autofocus,
         ),
       ),
     );

@@ -16,6 +16,7 @@ import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/widget/b
 import 'package:leafy_launcher/presentation/navigation/router.gr.dart';
 import 'package:leafy_launcher/presentation/services/ui/device_vibration_service_ui.dart';
 import 'package:leafy_launcher/presentation/services/ui/home_button_listener_ui.dart';
+import 'package:leafy_localization/leafy_localization.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
 const _kCurve = Curves.fastOutSlowIn;
@@ -173,6 +174,8 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
     if (leftApp == null || leftApp is NoApplicationModel) {
       context.router.push(
         AppPickerRouteNew(
+          autofocus: true,
+          title: LeafyL10n.settingsToLeftApp,
           onAppSelected: (application) {
             homeController.raiseEvent.leftApplicationSelected(application);
             context.router.pop();
@@ -182,8 +185,6 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
     } else {
       homeController.raiseEvent.launchLeftApplication(leftApp);
     }
-
-    _hidePicker();
   }
 
   Future _onRightSwipe() async {
@@ -197,6 +198,8 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
     if (rightApp == null || rightApp is NoApplicationModel) {
       context.router.push(
         AppPickerRouteNew(
+          title: LeafyL10n.settingsToRightApp,
+          autofocus: true,
           onAppSelected: (application) {
             homeController.raiseEvent.rightApplicationSelected(application);
             context.router.pop();
