@@ -19,20 +19,11 @@ class LeafyLauncher {
   ) async {
     await configureDependencies(flavour, contactLinksConfig);
 
-    // await initPrimaryDependencies(flavour);
-    // initSecondaryDependencies();
-
-    // LeafyTheme.restoreThemeStyle();
-
-    // await LeafySettings.restore();
-
-    // L10n.restore();
-
     Paint.enableDithering = true;
 
     runApp(
       MaterialApp.router(
-        title: 'Leafy Launcher',
+        title: 'Leafy Launcher${flavour == AppFlavour.dev ? ' Dev' : ''}',
         routerDelegate: AutoRouterDelegate(_appRouter),
         routeInformationParser: _appRouter.defaultRouteParser(),
         theme: ThemeData(
