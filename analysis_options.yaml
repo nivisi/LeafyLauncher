@@ -2,7 +2,7 @@ include: package:lint/analysis_options.yaml
 
 # ❌ IMPORTANT
 # This is needed for code factor to check errors accordingly to our linters.
-# So, if making changes to our app linters, please update it in the root as well
+# So, if making changes to our app linters, please update it in src/leafy_launcher
 
 linter:
   rules:
