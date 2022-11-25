@@ -80,14 +80,14 @@ jobs:
           flutter-version: "3.3.9"
 
       - name: Setup Data Project
-        working-directory: ../leafy_data
         run: |
+          cd ../leafy_data
           flutter pub get
           flutter pub run build_runner build
 
       - name: Setup Domain Project
-        working-directory: ../leafy_domain
         run: |
+          cd ../leafy_domain
           flutter pub get
           flutter pub run build_runner build
 

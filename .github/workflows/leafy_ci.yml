@@ -72,11 +72,11 @@ jobs:
           flutter pub get
           flutter pub run build_runner build
 
-      - name: Check formatting
-        run: flutter format --set-exit-if-changed .
+#       - name: Check formatting
+#         run: flutter format --set-exit-if-changed .
 
-      - name: Analyze
-        run: flutter analyze .
+#       - name: Analyze
+#         run: flutter analyze .
 
       - name: Grab list of OSS Components
         run: flutter pub run flutter_oss_licenses:generate.dart
