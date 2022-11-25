@@ -28,7 +28,6 @@ jobs:
           access_token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Debugging...
-        working-directory: ./../leafy_data
         run: |
           pwd
 
