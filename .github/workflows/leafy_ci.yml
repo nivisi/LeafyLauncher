@@ -63,7 +63,7 @@ jobs:
 
       - name: Setup Domain Project
         run: |
-          cd ../leafy_data
+          cd ../leafy_domain
           flutter pub get
           flutter pub run build_runner build
 
