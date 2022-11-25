@@ -16,9 +16,9 @@ jobs:
   AnalyzeAndBuild:
     runs-on: ubuntu-latest
 
-    # defaults:
-    #   run:
-    #     working-directory: ./src/leafy_launcher
+    defaults:
+      run:
+        working-directory: ./src/leafy_launcher
 
     steps:
       - name: Cancel previous runs
@@ -26,11 +26,6 @@ jobs:
         with:
           all_but_latest: true
           access_token: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Debugging...
-        run: |
-          ls
-          pwd
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -61,15 +56,14 @@ jobs:
         run: (echo ${{ secrets.KEY_PROPERTIES }} | openssl base64 -d -A) > ./android/key.properties
 
       - name: Setup Data Project
-        working-directory: ../leafy_data
         run: |
-          pwd
+          cd ../leafy_data
           flutter pub get
           flutter pub run build_runner build
 
       - name: Setup Domain Project
-        working-directory: ../leafy_domain
         run: |
+          cd ../leafy_domain
           flutter pub get
           flutter pub run build_runner build
 
@@ -94,4 +88,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: leafy_launcher_${{ env.APP_VERSION }}.build_${{ github.run_number }}.dev.apk
-          path: src/build/app/outputs/flutter-apk/app-dev-release.apk
+          path: src/leafy_launcher/build/app/outputs/flutter-apk/app-dev-release.apk
