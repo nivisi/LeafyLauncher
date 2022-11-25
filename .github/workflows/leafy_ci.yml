@@ -16,9 +16,9 @@ jobs:
   AnalyzeAndBuild:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./src/leafy_launcher
+    # defaults:
+    #   run:
+    #     working-directory: ./src/leafy_launcher
 
     steps:
       - name: Cancel previous runs
