@@ -2,19 +2,18 @@ name: 🌱 CI
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
     paths:
       - src/**
       - .github/workflows/leafy_ci.yml
 
   pull_request:
-    paths: [ src/** ]
+    paths: [src/**]
 
   workflow_dispatch:
 
 jobs:
   AnalyzeAndBuild:
-
     runs-on: ubuntu-latest
 
     defaults:
@@ -26,7 +25,7 @@ jobs:
         uses: styfle/cancel-workflow-action@0.10.0
         with:
           all_but_latest: true
-          access_token: '${{ secrets.GITHUB_TOKEN }}'
+          access_token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,13 +41,13 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
+          java-version: "12.x"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          channel: 'stable'
-          flutter-version: '2.10.0'
+          channel: "stable"
+          flutter-version: "3.3.9"
 
       - name: Setup Key Store
         run: (echo ${{ secrets.KEY_STORE }} | openssl base64 -d -A) > ./android/app/leafy.keystore
@@ -58,6 +57,9 @@ jobs:
 
       - name: Get packages
         run: flutter pub get
+
+      - name: Generate code
+        run: flutter pub run build_runner build
 
       - name: Check formatting
         run: flutter format --set-exit-if-changed .
