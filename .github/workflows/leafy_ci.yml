@@ -18,7 +18,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src
+        working-directory: ./src/leafy_launcher
 
     steps:
       - name: Cancel previous runs
@@ -29,11 +29,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Debugging...
-        run: |
-          ls
-          pwd
 
       - name: Define PR Artifact Version
         if: github.event.pull_request
@@ -61,15 +56,14 @@ jobs:
         run: (echo ${{ secrets.KEY_PROPERTIES }} | openssl base64 -d -A) > ./android/key.properties
 
       - name: Setup Data Project
-        working-directory: ../leafy_data
         run: |
-          pwd
+          cd ../leafy_data
           flutter pub get
           flutter pub run build_runner build
 
       - name: Setup Domain Project
-        working-directory: ../leafy_domain
         run: |
+          cd ../leafy_data
           flutter pub get
           flutter pub run build_runner build
 
