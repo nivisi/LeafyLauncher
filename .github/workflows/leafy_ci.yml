@@ -29,6 +29,7 @@ jobs:
 
       - name: Debugging...
         run: |
+          ls
           pwd
 
       - name: Checkout
