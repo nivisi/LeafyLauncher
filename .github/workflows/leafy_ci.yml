@@ -27,6 +27,11 @@ jobs:
           all_but_latest: true
           access_token: "${{ secrets.GITHUB_TOKEN }}"
 
+      - name: Debugging...
+        working-directory: ../leafy_data
+        run: |
+          pwd
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -58,6 +63,7 @@ jobs:
       - name: Setup Data Project
         working-directory: ../leafy_data
         run: |
+          pwd
           flutter pub get
           flutter pub run build_runner build
 
