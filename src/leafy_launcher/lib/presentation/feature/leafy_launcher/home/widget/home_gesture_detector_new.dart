@@ -175,12 +175,15 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
         AppPickerRouteNew(
           onAppSelected: (application) {
             homeController.raiseEvent.leftApplicationSelected(application);
+            context.router.pop();
           },
         ),
       );
     } else {
       homeController.raiseEvent.launchLeftApplication(leftApp);
     }
+
+    _hidePicker();
   }
 
   Future _onRightSwipe() async {
@@ -196,6 +199,7 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
         AppPickerRouteNew(
           onAppSelected: (application) {
             homeController.raiseEvent.rightApplicationSelected(application);
+            context.router.pop();
           },
         ),
       );
