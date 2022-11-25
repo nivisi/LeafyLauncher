@@ -18,7 +18,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: src/leafy_launcher
+        working-directory: ./src/leafy_launcher
 
     steps:
       - name: Cancel previous runs
