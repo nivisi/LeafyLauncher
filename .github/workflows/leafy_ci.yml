@@ -55,11 +55,22 @@ jobs:
       - name: Setup Key Properties
         run: (echo ${{ secrets.KEY_PROPERTIES }} | openssl base64 -d -A) > ./android/key.properties
 
-      - name: Get packages
-        run: flutter pub get
+      - name: Setup Data Project
+        working-directory: ../leafy_data
+        run: |
+          flutter pub get
+          flutter pub run build_runner build
 
-      - name: Generate code
-        run: flutter pub run build_runner build
+      - name: Setup Domain Project
+        working-directory: ../leafy_domain
+        run: |
+          flutter pub get
+          flutter pub run build_runner build
+
+      - name: Setup Core Project
+        run: |
+          flutter pub get
+          flutter pub run build_runner build
 
       - name: Check formatting
         run: flutter format --set-exit-if-changed .
