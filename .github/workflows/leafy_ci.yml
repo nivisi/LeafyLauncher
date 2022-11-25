@@ -27,13 +27,13 @@ jobs:
           all_but_latest: true
           access_token: "${{ secrets.GITHUB_TOKEN }}"
 
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Debugging...
         run: |
           ls
           pwd
-
-      - name: Checkout
-        uses: actions/checkout@v2
 
       - name: Define PR Artifact Version
         if: github.event.pull_request
