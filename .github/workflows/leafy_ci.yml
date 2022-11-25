@@ -72,11 +72,11 @@ jobs:
           flutter pub get
           flutter pub run build_runner build
 
-      - name: Check formatting
-        run: flutter format --set-exit-if-changed .
+#       - name: Check formatting
+#         run: flutter format --set-exit-if-changed .
 
-      - name: Analyze
-        run: flutter analyze .
+#       - name: Analyze
+#         run: flutter analyze .
 
       - name: Grab list of OSS Components
         run: flutter pub run flutter_oss_licenses:generate.dart
@@ -88,4 +88,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: leafy_launcher_${{ env.APP_VERSION }}.build_${{ github.run_number }}.dev.apk
-          path: src/leafy_launcher/build/app/outputs/flutter-apk/app-dev-release.apk
+          path: /build/app/outputs/flutter-apk/app-dev-release.apk
