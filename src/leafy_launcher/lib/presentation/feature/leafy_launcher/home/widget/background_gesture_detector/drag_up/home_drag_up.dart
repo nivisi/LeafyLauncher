@@ -6,16 +6,21 @@ class HomeDragUp extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.isBottomListPresented,
+    required this.dismiss,
   }) : super(key: key);
 
   final AnimationController controller;
   final ValueNotifier<bool> isBottomListPresented;
+  final Future Function() dismiss;
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
       valueListenable: isBottomListPresented,
-      child: HomeAppPickerNew(animationController: controller),
+      child: HomeAppPickerNew(
+        animationController: controller,
+        dismiss: dismiss,
+      ),
       builder: (context, value, child) {
         return IgnorePointer(
           ignoring: !value,

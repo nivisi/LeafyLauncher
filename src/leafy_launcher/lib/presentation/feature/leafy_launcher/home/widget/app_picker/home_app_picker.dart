@@ -13,6 +13,7 @@ class HomeAppPickerNew extends StatefulWidget {
     Key? key,
     required AnimationController animationController,
     this.slidesScrollController,
+    required this.dismiss,
   })  : _animationController = animationController,
         super(key: key);
 
@@ -20,6 +21,7 @@ class HomeAppPickerNew extends StatefulWidget {
 
   final AnimationController _animationController;
   final ScrollController? slidesScrollController;
+  final Future Function() dismiss;
 
   @override
   State<HomeAppPickerNew> createState() => _HomeAppPickerNewState();
@@ -63,8 +65,12 @@ class _HomeAppPickerNewState extends State<HomeAppPickerNew> {
       create: (_) => _controller = injector<AppPickerControllerNew>()
         ..create(
           allApps: allApps,
-          onAppSelected: (app) => context.homeApplicationsController.raiseEvent
-              .launchApplication(app),
+          onAppSelected: (app) {
+            widget.dismiss();
+
+            context.homeApplicationsController.raiseEvent
+                .launchApplication(app);
+          },
           autofocus: false,
         ),
       lazy: false,

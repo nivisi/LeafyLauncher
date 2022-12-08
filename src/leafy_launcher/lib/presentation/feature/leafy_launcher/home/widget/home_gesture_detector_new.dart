@@ -491,6 +491,7 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
           HomeDragUp(
             controller: _bottomController,
             isBottomListPresented: _isBottomListPresented,
+            dismiss: _hidePicker,
           ),
         ],
       ),
