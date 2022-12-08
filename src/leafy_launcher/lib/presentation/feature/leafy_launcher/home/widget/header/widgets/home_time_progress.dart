@@ -126,10 +126,6 @@ class _HomeTimeProgressState extends State<HomeTimeProgress> {
 
     final isVisible = _type == null || _type != TimeProgressType.disabled;
 
-    if (!isVisible) {
-      return const SizedBox();
-    }
-
     return XListener(
       streamable: context.homeWidgetsController,
       listener: (context, effect) {
@@ -144,43 +140,46 @@ class _HomeTimeProgressState extends State<HomeTimeProgress> {
             assert(false, 'Unknown effect');
         }
       },
-      child: GestureDetector(
-        onTap: _nextState,
-        child: ColoredBox(
-          color: Colors.transparent,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '${_type?.l10n}: $_percentage%',
-                style: theme.textStyles.bodyText4,
-              ),
-              const LeafySpacer(),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 5,
-                alignment: Alignment.centerLeft,
-                color: theme.palette.foregroundColor.withOpacity(.5),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return AnimatedContainer(
-                      curve: Curves.fastOutSlowIn,
-                      duration: kDefaultAnimationDuration,
-                      decoration: BoxDecoration(
-                        color: theme.palette.foregroundColor,
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(10.0),
-                          bottomRight: Radius.circular(10.0),
-                        ),
-                      ),
-                      width: constraints.maxWidth * _percentage / 100.0,
-                      height: 5,
-                    );
-                  },
+      child: Visibility(
+        visible: isVisible,
+        child: GestureDetector(
+          onTap: _nextState,
+          child: ColoredBox(
+            color: Colors.transparent,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '${_type?.l10n}: $_percentage%',
+                  style: theme.textStyles.bodyText4,
                 ),
-              ),
-            ],
+                const LeafySpacer(),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 5,
+                  alignment: Alignment.centerLeft,
+                  color: theme.palette.foregroundColor.withOpacity(.5),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return AnimatedContainer(
+                        curve: Curves.fastOutSlowIn,
+                        duration: kDefaultAnimationDuration,
+                        decoration: BoxDecoration(
+                          color: theme.palette.foregroundColor,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(10.0),
+                            bottomRight: Radius.circular(10.0),
+                          ),
+                        ),
+                        width: constraints.maxWidth * _percentage / 100.0,
+                        height: 5,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
