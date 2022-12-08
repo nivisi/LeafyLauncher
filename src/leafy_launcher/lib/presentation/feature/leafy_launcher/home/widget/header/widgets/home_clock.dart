@@ -2,10 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:leafy_domain/leafy_domain.dart';
-import 'package:leafy_launcher/injection/injector.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/controller/home_widgets/home_widgets_controller.dart';
-import 'package:leafy_launcher/presentation/services/ui/device_vibration_service_ui.dart';
 import 'package:leafy_launcher/presentation/widgets/vibration/device_vibration.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
@@ -18,9 +15,6 @@ class HomeClock extends StatefulWidget {
 
 class _HomeClockState extends State<HomeClock> {
   final DateFormat _format = DateFormat.Hm();
-
-  late final DeviceVibrationServiceUi _deviceVibration = injector();
-  late final LeafyPreferencesService _leafyPreferencesService = injector();
 
   late final Timer _timer;
   late DateTime _time;

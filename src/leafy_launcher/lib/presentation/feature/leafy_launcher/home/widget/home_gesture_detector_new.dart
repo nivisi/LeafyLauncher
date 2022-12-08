@@ -14,7 +14,6 @@ import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/widget/b
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/widget/background_gesture_detector/horizontal_apps/home_horizontal_right_app.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/widget/background_gesture_detector/pull_from_top/home_pull_from_top.dart';
 import 'package:leafy_launcher/presentation/navigation/router.gr.dart';
-import 'package:leafy_launcher/presentation/services/ui/device_vibration_service_ui.dart';
 import 'package:leafy_launcher/presentation/services/ui/home_button_listener_ui.dart';
 import 'package:leafy_launcher/presentation/widgets/vibration/device_vibration.dart';
 import 'package:leafy_localization/leafy_localization.dart';
@@ -47,7 +46,6 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
   static const _horizontalMinFlingVelocity = 1500.0;
   static const _verticalMinFlingVelocity = 1500.0;
 
-  late final DeviceVibrationServiceUi _deviceVibration = injector();
   late final HomeButtonListenerUi _homeButtonListener = injector();
   late final LeafyPreferencesService _leafyPreferencesService = injector();
 

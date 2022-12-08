@@ -3,10 +3,7 @@ import 'dart:async';
 import 'package:controllable_flutter/controllable_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:leafy_data/leafy_data.dart';
-import 'package:leafy_domain/leafy_domain.dart';
-import 'package:leafy_launcher/injection/injector.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/controller/home_widgets/home_widgets_controller.dart';
-import 'package:leafy_launcher/presentation/services/ui/device_vibration_service_ui.dart';
 import 'package:leafy_launcher/presentation/widgets/vibration/device_vibration.dart';
 import 'package:leafy_localization/leafy_localization.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
@@ -20,9 +17,6 @@ class HomeTimeProgress extends StatefulWidget {
 }
 
 class _HomeTimeProgressState extends State<HomeTimeProgress> {
-  late final LeafyPreferencesService _leafyPreferencesService = injector();
-  late final DeviceVibrationServiceUi _deviceVibration = injector();
-
   late int _timelineLength;
 
   late final Timer _timer;
