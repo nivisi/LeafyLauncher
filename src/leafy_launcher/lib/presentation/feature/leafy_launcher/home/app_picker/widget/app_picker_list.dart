@@ -58,7 +58,7 @@ class _AppPickerListState extends State<AppPickerList> {
           controller: _scrollController,
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(kHomeHorizontalPadding),
-          separatorBuilder: (_, __) => const LeafySpacer(),
+          separatorBuilder: (_, __) => const LeafySpacer(multipler: 2.0),
           itemBuilder: (context, index) {
             final app = apps.elementAt(index);
             return AppPickerApplicationButton(application: app);
