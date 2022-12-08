@@ -16,8 +16,12 @@ class ToggleNextTimeProgressTypePreferenceUseCase {
   Future<void> call() async {
     final current = await _getHomeTimeProgressTypeUseCase();
 
+    final next = TimeProgressType.values.nextAfter(current);
+
+    if (next == TimeProgressType.disabled) {}
+
     return _setHomeTimeProgressTypeUseCase(
-      TimeProgressType.values.nextAfter(current),
+      next == TimeProgressType.disabled ? TimeProgressType.values.first : next,
     );
   }
 }
