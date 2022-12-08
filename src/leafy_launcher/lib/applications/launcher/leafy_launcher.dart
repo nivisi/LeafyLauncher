@@ -5,6 +5,7 @@ import 'package:leafy_launcher/injection/injector.dart';
 import 'package:leafy_launcher/presentation/configs/contact_links_config.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/all_applications/controller/all_apps_controller.dart';
 import 'package:leafy_launcher/presentation/navigation/router.gr.dart';
+import 'package:leafy_launcher/presentation/widgets/vibration/device_vibration.dart';
 import 'package:leafy_localization/leafy_localization.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
@@ -34,11 +35,13 @@ class LeafyLauncher {
             return const SizedBox();
           }
 
-          return LeafyLocalizedApp(
-            child: XProvider(
-              create: (_) => injector<AllAppsController>(),
-              child: LeafyThemeNew.homeDark(
-                child: child,
+          return DeviceVibration(
+            child: LeafyLocalizedApp(
+              child: XProvider(
+                create: (_) => injector<AllAppsController>(),
+                child: LeafyThemeNew.homeDark(
+                  child: child,
+                ),
               ),
             ),
           );

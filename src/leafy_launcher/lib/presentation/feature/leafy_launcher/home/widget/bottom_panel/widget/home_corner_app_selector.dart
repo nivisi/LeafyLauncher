@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:leafy_data/leafy_data.dart';
-import 'package:leafy_domain/leafy_domain.dart';
 import 'package:leafy_launcher/injection/injector.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/widget/bottom_panel/widget/home_corner_app.dart';
 import 'package:leafy_launcher/presentation/services/ui/device_vibration_service_ui.dart';
+import 'package:leafy_launcher/presentation/widgets/vibration/device_vibration.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 import 'package:provider/provider.dart';
 
@@ -37,12 +37,6 @@ class _HomeCornerAppSelectorState extends State<HomeCornerAppSelector> {
       _isPresented = true;
       _onSelected = onSelected;
       _others = CornerApp.values.where((e) => e != selectedApp).toList();
-    });
-
-    injector<LeafyPreferencesService>().get().then((value) {
-      if (value.isVibrateAlways) {
-        deviceVibration.weak();
-      }
     });
   }
 
@@ -85,13 +79,8 @@ class _HomeCornerAppSelectorState extends State<HomeCornerAppSelector> {
                               position: _position,
                               apps: _others,
                               onSelected: (app) {
-                                injector<LeafyPreferencesService>()
-                                    .get()
-                                    .then((value) {
-                                  if (value.isVibrateAlways) {
-                                    deviceVibration.weak();
-                                  }
-                                });
+                                DeviceVibration.of(context).vibrateIfEnabled();
+
                                 _dismiss();
                                 _onSelected(app);
                               },

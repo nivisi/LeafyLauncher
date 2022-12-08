@@ -16,6 +16,7 @@ import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/widget/b
 import 'package:leafy_launcher/presentation/navigation/router.gr.dart';
 import 'package:leafy_launcher/presentation/services/ui/device_vibration_service_ui.dart';
 import 'package:leafy_launcher/presentation/services/ui/home_button_listener_ui.dart';
+import 'package:leafy_launcher/presentation/widgets/vibration/device_vibration.dart';
 import 'package:leafy_localization/leafy_localization.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
@@ -158,17 +159,12 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
   }
 
   Future _onTopSwipe() async {
-    if ((await preferences).isVibrateAlways) {
-      _deviceVibration.weak();
-    }
+    // TODO: Show search
+    return DeviceVibration.of(context).vibrateIfIsAlways();
   }
 
-  Future _onLeftSwipe() async {
-    final preferences = await this.preferences;
-
-    if (!preferences.isVibrateNever) {
-      _deviceVibration.weak();
-    }
+  void _onLeftSwipe() {
+    DeviceVibration.of(context).vibrateIfIsAlways();
 
     final homeController = context.homeApplicationsController;
     final leftApp = homeController.state.leftApp;
@@ -189,12 +185,8 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
     }
   }
 
-  Future _onRightSwipe() async {
-    final preferences = await this.preferences;
-
-    if (!preferences.isVibrateNever) {
-      _deviceVibration.weak();
-    }
+  void _onRightSwipe() {
+    DeviceVibration.of(context).vibrateIfEnabled();
 
     final homeController = context.homeApplicationsController;
     final rightApp = homeController.state.rightApp;
@@ -222,9 +214,7 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
       curve: _kCurve,
     );
 
-    if ((await preferences).isVibrateAlways) {
-      _deviceVibration.weak();
-    }
+    DeviceVibration.of(context).vibrateIfIsAlways();
   }
 
   Future<void> _processChangesNew(
@@ -265,9 +255,7 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
     }
 
     if (val >= swipeControllerThreshold && getter() < .99) {
-      if ((await preferences).isVibrateAlways) {
-        _deviceVibration.weak();
-      }
+      DeviceVibration.of(context).vibrateIfIsAlways();
     }
 
     setter(val);
@@ -303,9 +291,7 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
     }
 
     if (val >= swipeControllerThreshold && controller.value < .99) {
-      if ((await preferences).isVibrateAlways) {
-        _deviceVibration.weak();
-      }
+      DeviceVibration.of(context).vibrateIfIsAlways();
     }
 
     controller.value = val;
