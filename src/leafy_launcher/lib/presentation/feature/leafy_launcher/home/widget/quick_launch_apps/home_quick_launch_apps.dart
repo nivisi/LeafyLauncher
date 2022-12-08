@@ -23,7 +23,7 @@ class HomeQuickLaunchApps extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: kHomeHorizontalPadding,
-              vertical: kDefaultPadding / 2.0,
+              vertical: kDefaultPadding / 1.5,
             ),
             child: HomeQuickLaunchAppButton(
               application: apps.elementAt(index),

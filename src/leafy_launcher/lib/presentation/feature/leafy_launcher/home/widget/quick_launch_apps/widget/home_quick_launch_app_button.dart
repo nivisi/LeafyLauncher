@@ -47,7 +47,7 @@ class HomeQuickLaunchAppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.leafyTheme;
-    final textStyle = theme.textStyles.bodyText2;
+    final textStyle = theme.textStyles.bodyText1;
 
     if (application is InstalledApplicationModel) {
       return LeafyTouchableTextButton(
