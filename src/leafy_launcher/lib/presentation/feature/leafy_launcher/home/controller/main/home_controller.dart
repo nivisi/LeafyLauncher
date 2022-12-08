@@ -14,18 +14,17 @@ part 'home_state.dart';
 @XControllable<HomeEvent>()
 class HomeController extends XController<HomeState>
     with _$HomeController, LogableMixin, ControllableSubscriptions {
-  HomeController(this._getStreamablePreferencesUseCase);
+  HomeController(
+    this._getStreamablePreferencesUseCase,
+    this._openGoogleSearchUseCase,
+  );
 
   final GetStreamablePreferencesUseCase _getStreamablePreferencesUseCase;
+  final OpenGoogleSearchUseCase _openGoogleSearchUseCase;
 
   @override
   HomeState createInitialState() {
     return createHomeState();
-  }
-
-  @override
-  void onBackButtonPressed() {
-    fireEffect(HomeSideEffect.backButtonPressed);
   }
 
   @override
@@ -38,5 +37,15 @@ class HomeController extends XController<HomeState>
         fireEffect(event.locale.toFlutterLocale());
       }),
     );
+  }
+
+  @override
+  void onBackButtonPressed() {
+    fireEffect(HomeSideEffect.backButtonPressed);
+  }
+
+  @override
+  Future<void> onOpenGoogleSearch() {
+    return _openGoogleSearchUseCase();
   }
 }

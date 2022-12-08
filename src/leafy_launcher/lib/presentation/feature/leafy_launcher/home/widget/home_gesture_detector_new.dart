@@ -159,7 +159,7 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
   }
 
   Future _onTopSwipe() async {
-    // TODO: Show search
+    context.homeController.raiseEvent.openGoogleSearch();
     return DeviceVibration.of(context).vibrateIfIsAlways();
   }
 

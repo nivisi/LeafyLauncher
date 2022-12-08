@@ -12,6 +12,7 @@ const _methodOpenClockApp = 'openClockApp';
 const _methodOpenLauncherPreferences = 'openLauncherPreferences';
 const _methodDeleteApp = 'deleteApp';
 const _methodOpenLeafyNotes = 'openLeafyNotes';
+const _methodOpenGoogleSearch = 'launchSearch';
 
 @LazySingleton(as: PlatformMethodsServiceNew)
 class PlatformMethodsServiceImpl
@@ -52,5 +53,10 @@ class PlatformMethodsServiceImpl
   @override
   Future<void> openLeafyNotes() {
     return _channel.invokeMethod(_methodOpenLeafyNotes);
+  }
+
+  @override
+  Future<void> openGoogleSearch() {
+    return _channel.invokeMethod(_methodOpenGoogleSearch);
   }
 }

@@ -5,4 +5,5 @@ abstract class PlatformMethodsServiceNew {
   Future<void> openClockApp();
   Future<void> openLauncherPreferences();
   Future<void> openLeafyNotes();
+  Future<void> openGoogleSearch();
 }
