@@ -17,8 +17,17 @@ class HomeQuickLaunchAppButton extends StatelessWidget {
   final int index;
 
   void _selectApplication(BuildContext context) {
+    final titles = {
+      0: LeafyL10n.userSelectedAppTypeFirst,
+      1: LeafyL10n.userSelectedAppTypeSecond,
+      2: LeafyL10n.userSelectedAppTypeThird,
+      3: LeafyL10n.userSelectedAppTypeFourth,
+    };
+
     context.router.push(
       AppPickerRouteNew(
+        autofocus: true,
+        title: titles[index] ?? LeafyL10n.application,
         onAppSelected: (application) {
           context.homeApplicationsController.raiseEvent.quickLaunchAppSelected(
             application: application,
