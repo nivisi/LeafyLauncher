@@ -12,7 +12,7 @@ const _methodOpenClockApp = 'openClockApp';
 const _methodOpenLauncherPreferences = 'openLauncherPreferences';
 const _methodDeleteApp = 'deleteApp';
 const _methodOpenLeafyNotes = 'openLeafyNotes';
-const _methodOpenGoogleSearch = 'launchSearch';
+const _methodOpenGoogleSearch = 'launchGoogleSearchInput';
 
 @LazySingleton(as: PlatformMethodsServiceNew)
 class PlatformMethodsServiceImpl
