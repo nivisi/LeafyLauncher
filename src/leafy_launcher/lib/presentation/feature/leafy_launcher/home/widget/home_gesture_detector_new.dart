@@ -164,7 +164,9 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
   }
 
   Future _onLeftSwipe() async {
-    if ((await preferences).isVibrateAlways) {
+    final preferences = await this.preferences;
+
+    if (!preferences.isVibrateNever) {
       _deviceVibration.weak();
     }
 
@@ -188,7 +190,9 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
   }
 
   Future _onRightSwipe() async {
-    if ((await preferences).isVibrateAlways) {
+    final preferences = await this.preferences;
+
+    if (!preferences.isVibrateNever) {
       _deviceVibration.weak();
     }
 
@@ -327,7 +331,6 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
 
     final change = direction.isRight ? details.delta.dx : -details.delta.dx;
 
-    // _processChanges(controller, oppositeController, change);
     _processChangesNew(
       controller,
       oppositeController,
@@ -510,8 +513,6 @@ class _HomeGestureDetectorNewState extends State<HomeGestureDetectorNew>
 
   @override
   void dispose() {
-    // _onBackButtonPressedSubscription.cancel();
-    // _onAppPickedSubscription.cancel();
     _onHomeButtonPressedSubscription.cancel();
 
     _leftController.dispose();
