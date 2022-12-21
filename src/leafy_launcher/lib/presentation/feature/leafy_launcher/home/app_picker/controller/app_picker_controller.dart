@@ -1,5 +1,4 @@
 import 'package:controllable_flutter/controllable_flutter.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:leafy_data/leafy_data.dart';
 import 'package:leafy_domain/leafy_domain.dart';
@@ -38,16 +37,12 @@ class AppPickerController extends XController<AppPickerState>
   void create({
     required List<ApplicationModelBase> allApps,
     required bool autofocus,
-    ValueChanged<ApplicationModelBase>? onAppSelected,
-    ValueChanged<ApplicationModelBase>? onAppLongPressed,
   }) {
     Future.microtask(() {
       emitWith(
         allApps: allApps,
         filteredApps: allApps,
         autofocus: autofocus,
-        onAppSelected: onAppSelected,
-        onAppLongPressed: onAppLongPressed,
       );
     });
 
@@ -70,6 +65,10 @@ class AppPickerController extends XController<AppPickerState>
       query: query,
       filteredApps: filtered,
     );
+
+    if (filtered.length == 1) {
+      fireEffect(AppPickerSingleAppLeftEffect(filtered.first));
+    }
   }
 
   @override
@@ -81,11 +80,6 @@ class AppPickerController extends XController<AppPickerState>
   void onClosed() {
     emitWith(filteredApps: state.allApps);
     fireEffect(AppPickerEffect.closed);
-  }
-
-  @override
-  void onAppSelected(ApplicationModelBase app) {
-    state.onAppSelected?.call(app);
   }
 
   @override

@@ -34,7 +34,6 @@ class AppPickerPageNew extends StatelessWidget {
       create: (_) => injector<AppPickerController>()
         ..create(
           allApps: allApps,
-          onAppSelected: onAppSelected,
           autofocus: true,
         ),
       child: Scaffold(
@@ -42,6 +41,7 @@ class AppPickerPageNew extends StatelessWidget {
         body: AppPicker(
           title: title ?? LeafyL10n.appPickerLaunchApp,
           autofocus: autofocus,
+          onAppSelected: onAppSelected,
         ),
       ),
     );

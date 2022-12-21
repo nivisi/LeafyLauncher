@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:leafy_data/leafy_data.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/app_picker.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller.dart';
 import 'package:leafy_localization/leafy_localization.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
@@ -60,7 +61,7 @@ class AppPickerApplicationButton extends StatelessWidget {
         }
       },
       onTap: () {
-        controller.raiseEvent.appSelected(application);
+        AppPickerScope.of(context).onAppSelected?.call(application);
       },
     );
   }

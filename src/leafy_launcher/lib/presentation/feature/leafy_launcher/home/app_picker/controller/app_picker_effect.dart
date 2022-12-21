@@ -5,3 +5,9 @@ enum AppPickerEffect {
   closed,
   focusTextField,
 }
+
+class AppPickerSingleAppLeftEffect {
+  const AppPickerSingleAppLeftEffect(this.app);
+
+  final ApplicationModelBase app;
+}

@@ -1,15 +1,11 @@
 import 'package:controllable_flutter/controllable_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/app_picker.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
 class AppPickerTextField extends StatefulWidget {
-  const AppPickerTextField({
-    Key? key,
-    required this.focusNode,
-  }) : super(key: key);
-
-  final FocusNode focusNode;
+  const AppPickerTextField({Key? key}) : super(key: key);
 
   @override
   State<AppPickerTextField> createState() => _AppPickerTextFieldState();
@@ -30,17 +26,19 @@ class _AppPickerTextFieldState extends State<AppPickerTextField> {
     final textStyles = theme.textStyles;
     final palette = theme.palette;
 
+    final focusNode = AppPickerScope.of(context).textFieldFocusNode;
+
     return XListener(
       streamable: context.appPickerController,
       listener: (context, effect) {
         switch (effect) {
           case AppPickerEffect.opened:
-            widget.focusNode.requestFocus();
+            focusNode.requestFocus();
             break;
           case AppPickerEffect.closed:
             _controller.clear();
-            if (widget.focusNode.hasFocus) {
-              widget.focusNode.unfocus();
+            if (focusNode.hasFocus) {
+              focusNode.unfocus();
             }
             break;
           default:
@@ -48,7 +46,7 @@ class _AppPickerTextFieldState extends State<AppPickerTextField> {
         }
       },
       child: TextField(
-        focusNode: widget.focusNode,
+        focusNode: AppPickerScope.of(context).textFieldFocusNode,
         autofocus: context.appPickerController.state.autofocus,
         controller: _controller,
         style: textStyles.bodyText1.copyWith(color: palette.leafyColor),
