@@ -4,8 +4,8 @@ import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_pick
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/widget/app_picker_title.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
-class AppPickerNew extends StatefulWidget {
-  const AppPickerNew({
+class AppPicker extends StatefulWidget {
+  const AppPicker({
     Key? key,
     required this.title,
     this.autofocus = false,
@@ -15,21 +15,21 @@ class AppPickerNew extends StatefulWidget {
   final bool autofocus;
 
   @override
-  State<AppPickerNew> createState() => _AppPickerNewState();
+  State<AppPicker> createState() => _AppPickerState();
 }
 
-class _AppPickerNewState extends State<AppPickerNew> {
+class _AppPickerState extends State<AppPicker> {
   final textFieldFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (widget.autofocus) {
+    if (widget.autofocus) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         textFieldFocusNode.requestFocus();
-      }
-    });
+      });
+    }
   }
 
   @override

@@ -2,8 +2,8 @@ import 'package:controllable_flutter/controllable_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:leafy_launcher/injection/injector.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/all_applications/controller/all_apps_controller.dart';
-import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/app_picker_view.dart';
-import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller_new.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/app_picker.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/controller/applications/home_applications_controller.dart';
 import 'package:leafy_localization/leafy_localization.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
@@ -30,7 +30,7 @@ class HomeAppPickerNew extends StatefulWidget {
 class _HomeAppPickerNewState extends State<HomeAppPickerNew> {
   static const _keyboardOpenTrigger = .8;
   bool _isKeyboardPresented = false;
-  late final AppPickerControllerNew _controller;
+  late final AppPickerController _controller;
 
   @override
   void initState() {
@@ -62,7 +62,7 @@ class _HomeAppPickerNewState extends State<HomeAppPickerNew> {
     }
 
     return XProvider(
-      create: (_) => _controller = injector<AppPickerControllerNew>()
+      create: (_) => _controller = injector<AppPickerController>()
         ..create(
           allApps: allApps,
           onAppSelected: (app) {
@@ -96,7 +96,7 @@ class _HomeAppPickerNewState extends State<HomeAppPickerNew> {
               ),
             );
           },
-          child: AppPickerNew(title: LeafyL10n.appPickerLaunchApp),
+          child: AppPicker(title: LeafyL10n.appPickerLaunchApp),
         ),
       ),
     );

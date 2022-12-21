@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:leafy_data/leafy_data.dart';
-import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller_new.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller.dart';
 import 'package:leafy_localization/leafy_localization.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
@@ -19,7 +19,7 @@ class AppPickerApplicationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.appPickerControllerNew;
+    final controller = context.appPickerController;
     final theme = context.leafyTheme;
     final application = this.application;
 

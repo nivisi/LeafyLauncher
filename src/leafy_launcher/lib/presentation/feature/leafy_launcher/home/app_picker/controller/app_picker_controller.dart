@@ -4,16 +4,16 @@ import 'package:injectable/injectable.dart';
 import 'package:leafy_data/leafy_data.dart';
 import 'package:leafy_domain/leafy_domain.dart';
 
-part 'app_picker_controller_new.x.dart';
+part 'app_picker_controller.x.dart';
 part 'app_picker_effect.dart';
 part 'app_picker_event.dart';
 part 'app_picker_state.dart';
 
 @injectable
 @XControllable<AppPickerEvent>()
-class AppPickerControllerNew extends XController<AppPickerState>
-    with _$AppPickerControllerNew, ControllableSubscriptions {
-  AppPickerControllerNew(
+class AppPickerController extends XController<AppPickerState>
+    with _$AppPickerController, ControllableSubscriptions {
+  AppPickerController(
     this._watchAllInstalledAppsUseCase,
     this._filterAppsUseCase,
     this._uninstallAppUseCase,

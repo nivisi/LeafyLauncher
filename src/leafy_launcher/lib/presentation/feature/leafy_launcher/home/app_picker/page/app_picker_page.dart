@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:leafy_data/leafy_data.dart';
 import 'package:leafy_launcher/injection/injector.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/all_applications/controller/all_apps_controller.dart';
-import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/app_picker_view.dart';
-import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller_new.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/app_picker.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller.dart';
 import 'package:leafy_localization/leafy_localization.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
@@ -31,7 +31,7 @@ class AppPickerPageNew extends StatelessWidget {
     }
 
     return XProvider(
-      create: (_) => injector<AppPickerControllerNew>()
+      create: (_) => injector<AppPickerController>()
         ..create(
           allApps: allApps,
           onAppSelected: onAppSelected,
@@ -39,7 +39,7 @@ class AppPickerPageNew extends StatelessWidget {
         ),
       child: Scaffold(
         backgroundColor: context.leafyTheme.palette.backgroundColor,
-        body: AppPickerNew(
+        body: AppPicker(
           title: title ?? LeafyL10n.appPickerLaunchApp,
           autofocus: autofocus,
         ),

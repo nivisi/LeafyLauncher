@@ -1,6 +1,6 @@
 import 'package:controllable_flutter/controllable_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller_new.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/widget/app_picker_application_button.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
@@ -21,7 +21,7 @@ class _AppPickerListState extends State<AppPickerList> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.appPickerControllerNew;
+    final controller = context.appPickerController;
     final apps = controller.state.watch.filteredApps;
 
     return XListener(

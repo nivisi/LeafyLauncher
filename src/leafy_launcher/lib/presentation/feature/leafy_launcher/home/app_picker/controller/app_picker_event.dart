@@ -1,4 +1,4 @@
-part of 'app_picker_controller_new.dart';
+part of 'app_picker_controller.dart';
 
 abstract class AppPickerEvent extends XEvent {
   void search(String query);
