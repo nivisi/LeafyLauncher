@@ -1,8 +1,9 @@
+import 'package:controllable_flutter/controllable_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:leafy_data/leafy_data.dart';
-import 'package:leafy_launcher/injection/injector.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/controller/main/home_controller.dart';
+import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/controller/main/home_side_effect.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/widget/bottom_panel/widget/home_corner_app.dart';
-import 'package:leafy_launcher/presentation/services/ui/device_vibration_service_ui.dart';
 import 'package:leafy_launcher/presentation/widgets/vibration/device_vibration.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +26,6 @@ class _HomeCornerAppSelectorState extends State<HomeCornerAppSelector> {
   late CornerAppPosition _position;
   late ValueChanged<CornerApp> _onSelected;
 
-  final deviceVibration = injector<DeviceVibrationServiceUi>();
-
   void _onSelectLauncher(
     CornerAppPosition position,
     CornerApp selectedApp,
@@ -48,51 +47,60 @@ class _HomeCornerAppSelectorState extends State<HomeCornerAppSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (_) => HomeCornerAppSelectorProvider._(_onSelectLauncher),
-      builder: (context, _) {
-        final size = MediaQuery.of(context).size;
-        return Stack(
-          children: [
-            widget.child,
-            IgnorePointer(
-              ignoring: !_isPresented,
-              child: AnimatedSwitcher(
-                duration: kDefaultAnimationDuration,
-                switchInCurve: Curves.fastOutSlowIn,
-                switchOutCurve: Curves.fastOutSlowIn,
-                child: !_isPresented
-                    ? const SizedBox()
-                    : GestureDetector(
-                        onTap: _dismiss,
-                        child: Stack(
-                          children: [
-                            SizedBox(
-                              width: size.width,
-                              height: size.height,
-                              child: ColoredBox(
-                                color: Colors.black.withOpacity(.75),
-                                child: const SizedBox(),
-                              ),
-                            ),
-                            _CornerAppSelector(
-                              position: _position,
-                              apps: _others,
-                              onSelected: (app) {
-                                DeviceVibration.of(context).vibrateIfEnabled();
-
-                                _dismiss();
-                                _onSelected(app);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-              ),
-            ),
-          ],
-        );
+    return XListener(
+      streamable: context.homeController,
+      listener: (context, effect) {
+        if (effect == HomeSideEffect.backButtonPressed && _isPresented) {
+          _dismiss();
+        }
       },
+      child: Provider(
+        create: (_) => HomeCornerAppSelectorProvider._(_onSelectLauncher),
+        builder: (context, _) {
+          final size = MediaQuery.of(context).size;
+          return Stack(
+            children: [
+              widget.child,
+              IgnorePointer(
+                ignoring: !_isPresented,
+                child: AnimatedSwitcher(
+                  duration: kDefaultAnimationDuration,
+                  switchInCurve: Curves.fastOutSlowIn,
+                  switchOutCurve: Curves.fastOutSlowIn,
+                  child: !_isPresented
+                      ? const SizedBox()
+                      : GestureDetector(
+                          onTap: _dismiss,
+                          child: Stack(
+                            children: [
+                              SizedBox(
+                                width: size.width,
+                                height: size.height,
+                                child: ColoredBox(
+                                  color: Colors.black.withOpacity(.75),
+                                  child: const SizedBox(),
+                                ),
+                              ),
+                              _CornerAppSelector(
+                                position: _position,
+                                apps: _others,
+                                onSelected: (app) {
+                                  DeviceVibration.of(context)
+                                      .vibrateIfEnabled();
+
+                                  _dismiss();
+                                  _onSelected(app);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
