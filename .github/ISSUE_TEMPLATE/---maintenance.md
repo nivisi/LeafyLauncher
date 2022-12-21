@@ -7,10 +7,10 @@ assignees: ''
 
 ---
 
-Thanks for your contribution! ✌️
+<!-- Thanks for your contribution! ✌️
 
 **Before you start...**
 Please checkout the [issues contribution guidelines](https://github.com/nivisi/LeafyLauncher/wiki/Contribution-Guidelines#issues).
 
 - Keep the title as short as possible, yet informative;
-- Describe what part of the codebase can be improved and provide a solution.
+- Describe what part of the codebase can be improved and provide a solution. -->
