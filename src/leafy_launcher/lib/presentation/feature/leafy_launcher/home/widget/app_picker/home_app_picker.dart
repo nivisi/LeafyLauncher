@@ -6,6 +6,7 @@ import 'package:leafy_launcher/presentation/feature/leafy_launcher/all_applicati
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/app_picker.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/app_picker/controller/app_picker_controller.dart';
 import 'package:leafy_launcher/presentation/feature/leafy_launcher/home/controller/applications/home_applications_controller.dart';
+import 'package:leafy_launcher/presentation/widgets/vibration/device_vibration.dart';
 import 'package:leafy_localization/leafy_localization.dart';
 import 'package:leafy_ui_kit/leafy_ui_kit.dart';
 
@@ -53,6 +54,8 @@ class _HomeAppPickerNewState extends State<HomeAppPickerNew> {
   }
 
   Future<void> launchAppAndDismissPicker(ApplicationModelBase app) {
+    DeviceVibration.of(context).vibrateIfEnabled();
+
     widget.dismiss();
 
     return context.homeApplicationsController.raiseEvent.launchApplication(app);
