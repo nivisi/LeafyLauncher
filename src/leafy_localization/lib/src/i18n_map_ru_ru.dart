@@ -71,6 +71,7 @@ var mapRu = {
   _actionAboutApp: 'О приложении',
   _actionSave: 'Сохранить',
   _actionOpen: 'Открыть',
+  _actionChange: 'Изменить',
   _choseAction: 'Выберите действие',
   _introHello: 'Привет',
   _introWelcome: 'Добро пожаловать в Leafy Launcher',

@@ -70,6 +70,7 @@ var mapFr = {
   _actionNo: 'Non',
   _actionAboutApp: 'À Propos de cette application',
   _actionSave: 'Sauvegarder',
+  _actionChange: 'Changer',
   _choseAction: "Choisir l'action",
   _introHello: 'Bonjour',
   _introWelcome: 'Bienvenue sur Leafy Launcher',

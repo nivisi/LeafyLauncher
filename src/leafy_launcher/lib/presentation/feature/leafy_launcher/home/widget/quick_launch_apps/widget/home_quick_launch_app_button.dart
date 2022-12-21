@@ -16,7 +16,7 @@ class HomeQuickLaunchAppButton extends StatelessWidget {
   final ApplicationModelBase application;
   final int index;
 
-  void _selectApplication(BuildContext context) {
+  Future<void> _selectApplication(BuildContext context) {
     final titles = {
       0: LeafyL10n.userSelectedAppTypeFirst,
       1: LeafyL10n.userSelectedAppTypeSecond,
@@ -24,7 +24,7 @@ class HomeQuickLaunchAppButton extends StatelessWidget {
       3: LeafyL10n.userSelectedAppTypeFourth,
     };
 
-    context.router.push(
+    return context.router.push(
       AppPickerRouteNew(
         autofocus: true,
         title: titles[index] ?? LeafyL10n.application,
@@ -44,6 +44,34 @@ class HomeQuickLaunchAppButton extends StatelessWidget {
         .launchApplication(application);
   }
 
+  Future<void> _onLongPressed(BuildContext context) async {
+    FocusScope.of(context).unfocus();
+
+    final aboutAppOption = Option(
+      title: LeafyL10n.actionAboutApp,
+      value: _LongPressOptions.aboutApp,
+    );
+
+    final changeAppOption = Option(
+      title: LeafyL10n.actionChange,
+      value: _LongPressOptions.changeApp,
+    );
+
+    final selectedOption = await OptionsPicker.show(
+      context,
+      title: application.name,
+      options: [aboutAppOption, changeAppOption],
+    );
+
+    if (selectedOption == _LongPressOptions.aboutApp) {
+      return context.homeApplicationsController.raiseEvent
+          .openAboutApp(application);
+    } else if (selectedOption == _LongPressOptions.changeApp) {
+      // ignore: use_build_context_synchronously
+      return _selectApplication(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = context.leafyTheme;
@@ -56,7 +84,7 @@ class HomeQuickLaunchAppButton extends StatelessWidget {
         pressedColor: theme.palette.foregroundPressedColor,
         style: textStyle,
         onTap: () => _onTappedOnSelectedApp(context),
-        onLongPress: () => _selectApplication(context),
+        onLongPress: () => _onLongPressed(context),
       );
     }
 
@@ -84,4 +112,9 @@ class HomeQuickLaunchAppButton extends StatelessWidget {
 
     return const SizedBox();
   }
+}
+
+enum _LongPressOptions {
+  aboutApp,
+  changeApp,
 }

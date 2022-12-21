@@ -10,4 +10,5 @@ abstract class HomeApplicationsEvent {
   Future<void> rightApplicationSelected(ApplicationModelBase application);
   Future<void> launchLeftApplication(ApplicationModelBase application);
   Future<void> launchRightApplication(ApplicationModelBase application);
+  Future<void> openAboutApp(ApplicationModelBase application);
 }

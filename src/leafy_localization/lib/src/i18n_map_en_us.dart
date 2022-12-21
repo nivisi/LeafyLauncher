@@ -71,6 +71,7 @@ var mapEn = {
   _actionAboutApp: 'About app',
   _actionSave: 'Save',
   _actionOpen: 'Open',
+  _actionChange: 'Change',
   _choseAction: 'Chose action',
   _introHello: 'Hello',
   _introWelcome: 'Welcome to Leafy Launcher',

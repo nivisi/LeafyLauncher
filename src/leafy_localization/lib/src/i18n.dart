@@ -130,6 +130,7 @@ class LeafyL10n {
   static String get actionAboutApp => _actionAboutApp._i18n;
   static String get actionSave => _actionSave._i18n;
   static String get actionOpen => _actionOpen._i18n;
+  static String get actionChange => _actionChange._i18n;
   static String get choseAction => _choseAction._i18n;
 
   static String get introHello => _introHello._i18n;
@@ -294,6 +295,7 @@ extension Localization on String {
     _actionAboutApp: _joinByKey(_actionAboutApp),
     _actionSave: _joinByKey(_actionSave),
     _actionOpen: _joinByKey(_actionOpen),
+    _actionChange: _joinByKey(_actionChange),
     _choseAction: _joinByKey(_choseAction),
     _introHello: _joinByKey(_introHello),
     _introWelcome: _joinByKey(_introWelcome),

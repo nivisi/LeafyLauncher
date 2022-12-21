@@ -24,6 +24,7 @@ class HomeApplicationsController extends XController<HomeApplicationsState>
     this._storeLeftApplicationUseCase,
     this._storeRightApplicationUseCase,
     this._getAppIconDataUseCase,
+    this._openAboutAppUseCase,
   );
 
   final LaunchApplicationUseCase _launchApplicationUseCase;
@@ -34,6 +35,7 @@ class HomeApplicationsController extends XController<HomeApplicationsState>
   final StoreLeftApplicationUseCase _storeLeftApplicationUseCase;
   final StoreRightApplicationUseCase _storeRightApplicationUseCase;
   final GetAppIconDataUseCase _getAppIconDataUseCase;
+  final OpenAboutAppUseCase _openAboutAppUseCase;
 
   @override
   HomeApplicationsState createInitialState() {
@@ -178,5 +180,16 @@ class HomeApplicationsController extends XController<HomeApplicationsState>
   @override
   Future<void> onLaunchRightApplication(ApplicationModelBase application) {
     return _launchApplicationUseCase(application, AppLaunchTransition.right);
+  }
+
+  @override
+  Future<void> onOpenAboutApp(ApplicationModelBase application) {
+    if (application is InstalledApplicationModel) {
+      return _openAboutAppUseCase(application);
+    }
+
+    assert(false, 'Tried to launch about app with a not installed app');
+
+    return Future.value();
   }
 }

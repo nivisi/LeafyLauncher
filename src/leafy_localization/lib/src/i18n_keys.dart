@@ -86,6 +86,7 @@ const String _actionNo = 'actionNo';
 const String _actionAboutApp = 'actionAboutApp';
 const String _actionSave = 'actionSave';
 const String _actionOpen = 'actionOpen';
+const String _actionChange = 'actionChange';
 const String _choseAction = 'choseAction';
 
 const String _introHello = 'introHello';
