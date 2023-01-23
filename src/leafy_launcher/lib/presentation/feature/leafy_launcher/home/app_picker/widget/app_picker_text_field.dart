@@ -33,7 +33,9 @@ class _AppPickerTextFieldState extends State<AppPickerTextField> {
       listener: (context, effect) {
         switch (effect) {
           case AppPickerEffect.opened:
-            focusNode.requestFocus();
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              focusNode.requestFocus();
+            });
             break;
           case AppPickerEffect.closed:
             _controller.clear();
