@@ -53,7 +53,9 @@ class _AppPickerListState extends State<AppPickerList> {
         child: ListView.separated(
           itemCount: apps.length,
           controller: _scrollController,
-          physics: const BouncingScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
           padding: const EdgeInsets.all(kHomeHorizontalPadding),
           separatorBuilder: (_, __) => const LeafySpacer(multipler: 2.0),
           itemBuilder: (context, index) {
