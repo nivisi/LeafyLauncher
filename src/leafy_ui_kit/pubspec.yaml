@@ -1,0 +1,25 @@
+name: leafy_ui_kit
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: none
+# homepage: null
+
+environment:
+  sdk: ">=2.17.3 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  auto_route:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^1.1.1+1
+  leafy_resources:
+    path: ../leafy_resources
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  json_serializable:
+  flutter_test:
+    sdk: flutter
+
+flutter: null

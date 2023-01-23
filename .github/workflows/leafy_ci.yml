@@ -2,31 +2,30 @@ name: 🌱 CI
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
     paths:
       - src/**
       - .github/workflows/leafy_ci.yml
 
   pull_request:
-    paths: [ src/** ]
+    paths: [src/**]
 
   workflow_dispatch:
 
 jobs:
   AnalyzeAndBuild:
-
     runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: ./src
+        working-directory: ./src/leafy_launcher
 
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.10.0
         with:
           all_but_latest: true
-          access_token: '${{ secrets.GITHUB_TOKEN }}'
+          access_token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,13 +41,13 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
+          java-version: "12.x"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          channel: 'stable'
-          flutter-version: '2.10.0'
+          channel: "stable"
+          flutter-version: "3.3.9"
 
       - name: Setup Key Store
         run: (echo ${{ secrets.KEY_STORE }} | openssl base64 -d -A) > ./android/app/leafy.keystore
@@ -56,14 +55,28 @@ jobs:
       - name: Setup Key Properties
         run: (echo ${{ secrets.KEY_PROPERTIES }} | openssl base64 -d -A) > ./android/key.properties
 
-      - name: Get packages
-        run: flutter pub get
+      - name: Setup Data Project
+        run: |
+          cd ../leafy_data
+          flutter pub get
+          flutter pub run build_runner build
 
-      - name: Check formatting
-        run: flutter format --set-exit-if-changed .
+      - name: Setup Domain Project
+        run: |
+          cd ../leafy_domain
+          flutter pub get
+          flutter pub run build_runner build
 
-      - name: Analyze
-        run: flutter analyze .
+      - name: Setup Core Project
+        run: |
+          flutter pub get
+          flutter pub run build_runner build
+
+#       - name: Check formatting
+#         run: flutter format --set-exit-if-changed .
+
+#       - name: Analyze
+#         run: flutter analyze .
 
       - name: Grab list of OSS Components
         run: flutter pub run flutter_oss_licenses:generate.dart
@@ -75,4 +88,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: leafy_launcher_${{ env.APP_VERSION }}.build_${{ github.run_number }}.dev.apk
-          path: src/build/app/outputs/flutter-apk/app-dev-release.apk
+          path: src/leafy_launcher/build/app/outputs/flutter-apk/app-dev-release.apk

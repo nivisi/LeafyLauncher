@@ -1,0 +1,17 @@
+name: leafy_domain
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+publish_to: none
+environment:
+  sdk: ">=2.16.2 <3.0.0"
+
+dependencies:
+  get_it: ^7.2.0
+  injectable: ^1.5.3
+  leafy_data:
+    path: ../leafy_data
+dev_dependencies:
+  build_runner: ^2.3.2
+  injectable_generator: ^1.5.3
+  lints: ^1.0.0
+  test: ^1.16.0

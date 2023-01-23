@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./src
+        working-directory: ./src/leafy_launcher
 
     steps:
       - name: Checkout
@@ -66,21 +66,35 @@ jobs:
           echo "RELEASE_URL=${{ steps.get_release_data.outputs.release_url }}" >> $GITHUB_ENV
           echo "RELEASE_ID=${{ steps.get_release_data.outputs.release_id }}" >> $GITHUB_ENV
 
-#          echo "RELEASE_NOTES=${{ steps.get_release_data.outputs.release_notes }}" >> $GITHUB_ENV
+      #          echo "RELEASE_NOTES=${{ steps.get_release_data.outputs.release_notes }}" >> $GITHUB_ENV
 
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
+          java-version: "12.x"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          channel: 'stable'
-          flutter-version: '2.10.0'
+          channel: "stable"
+          flutter-version: "3.3.9"
 
-      - name: Get Flutter packages
-        run: flutter pub get
+      - name: Setup Data Project
+        run: |
+          cd ../leafy_data
+          flutter pub get
+          flutter pub run build_runner build
+
+      - name: Setup Domain Project
+        run: |
+          cd ../leafy_domain
+          flutter pub get
+          flutter pub run build_runner build
+
+      - name: Setup Core Project
+        run: |
+          flutter pub get
+          flutter pub run build_runner build
 
       - name: Grab list of OSS Components
         run: flutter pub run flutter_oss_licenses:generate.dart
@@ -143,7 +157,7 @@ jobs:
           message: |
             Leafy ${{ env.APP_VERSION }} is here 🍃
 
-#           ${{ env.RELEASE_NOTES }} Publish it when the error is fixed :(
+      #           ${{ env.RELEASE_NOTES }} Publish it when the error is fixed :(
 
       - name: Create New Bug Label
         uses: actions/github-script@v5.0.0

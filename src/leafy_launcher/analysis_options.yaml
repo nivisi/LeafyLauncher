@@ -1,0 +1,54 @@
+include: package:lint/analysis_options.yaml
+
+# ❌ IMPORTANT
+# This is needed for code factor to check errors accordingly to our linters.
+# So, if making changes to our app linters, please update it in the root as well
+
+linter:
+  rules:
+    avoid_classes_with_only_static_methods: false
+    await_only_futures: true
+
+    # Temporary
+    public_member_api_docs: false
+    type_annotate_public_apis: false
+
+    # This looks more organized.
+    sort_constructors_first: true
+
+    # This looks more organized.
+    sort_pub_dependencies: true
+
+    # Single qoutes looks prettier and more compact.
+    prefer_single_quotes: true
+
+    lines_longer_than_80_chars: true
+
+    # Make variables "var" only when really needed.
+    prefer_final_locals: true
+
+    # This doesn't make the code more readable.
+    # It forces us not to use
+    # final variable = 5;
+    # But to use
+    # final int variable = 5;
+    always_specify_types: false
+
+    # Will be fixed
+    always_use_package_imports: false
+
+analyzer:
+  errors:
+    prefer_const_constructors: warning
+    missing_return: error
+    missing_required_param: error
+    directives_ordering: warning
+    unnecessary_new: warning
+    unnecessary_this: warning
+    unnecessary_const: warning
+    todo: ignore
+    no_logic_in_create_state: ignore
+    invariant_booleans: warning
+    avoid_classes_with_only_static_members: ignore
+  exclude:
+    [lib/**.g.dart, lib/**.x.dart, lib/**.config.dart, lib/oss_licenses.dart]
