@@ -8,10 +8,10 @@ assignees: ''
 
 ---
 
-Thanks for your contribution! ✌️
+<!-- Thanks for your contribution! ✌️
 
 **Before you start...**
 Please checkout the [issues contribution guidelines](https://github.com/nivisi/LeafyLauncher/wiki/Contribution-Guidelines#issues).
 
 - Keep the title as short as possible, yet informative;
-- Describe the purpose of this ticket in details in the issue description.
+- Describe the purpose of this ticket in details in the issue description. -->
